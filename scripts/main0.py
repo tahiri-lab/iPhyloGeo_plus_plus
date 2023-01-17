@@ -3,8 +3,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog
 import pathlib
 from howtouse import Ui_sec
-#from cltree import Ui_ct
-import toytree
+from cltree import Ui_ct
+#import toytree
 import random
 import toyplot.pdf
 
