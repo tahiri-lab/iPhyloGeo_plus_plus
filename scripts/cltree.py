@@ -39,7 +39,7 @@ class Ui_ct(object):
         _translate = QtCore.QCoreApplication.translate
         ct.setWindowTitle(_translate("ct", "Climate Tree"))
         
-        self.tb.setHtml(_translate("tb", '../scripts/climatic_trees.pdf'))
+        self.tb.setHtml(_translate("tb", '../test/climatic_trees.pdf'))
         self.toolBar.setWindowTitle(_translate("ct", "toolBar"))
         self.actionPrint.setText(_translate("ct", "Print"))
 
