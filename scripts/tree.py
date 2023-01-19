@@ -11,9 +11,6 @@ import random
 import toyplot.pdf
 
 
-
-
-
 """
 Class description
 """
@@ -200,5 +197,5 @@ def create_tree(file_name, names):
     draw_trees(trees)
 
 #-------------------------------------------------------------------------------
-#print('tree')
+
 create_tree(file_name, names)
