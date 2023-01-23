@@ -57,7 +57,7 @@ Assuming Python 3.8 or higher is installed on the machine, the script should run
 5. Install the required libraries using `python3 -m pip install -r requirements.txt`.
 6. Launch aPhyloGeo using `python3 main.py`.
 
-//You can also launch the package using the `make` command from your terminal when you are in the `root`. This command will use the `Makefile` to run the script. If you use the command `make clean`, it will erase the `output.csv` file previously created with the first command.
+<!--You can also launch the package using the `make` command from your terminal when you are in the `root`. This command will use the `Makefile` to run the script. If you use the command `make clean`, it will erase the `output.csv` file previously created with the first command.-->
 
 
 # Contact
