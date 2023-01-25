@@ -2,7 +2,7 @@
 import os
 import PyPDF2
 from PyQt5 import QtCore, QtGui, QtWidgets
-import tree1
+import tree
 import toytree
 import random
 import toyplot.pdf
