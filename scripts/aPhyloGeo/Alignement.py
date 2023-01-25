@@ -21,30 +21,30 @@ class AlignSequences:
         Constructor if the alignment object.
         Makes all the necessary actions upon creation; no need to call any methods on the object.
         All parts of the process are available as variables.
-        
+
         args:
             self.sequences (Dictionary) Read data from the fasta file          
                 key = Sequence ID
                 value = Seq()
-            
+
             self.centroidKey (String) Specimen ID of the centroid sequence
-            
+
             self.centroidSeq (Seq()) The centroid sequence
-            
+
             self.aligned (Dictionary) Sequences after pairwise alignement
                 key = Sequence ID (String) the specimen's ID
                 value = Sequence (Seq()) the specimen's DNA sequence
-            
+
             self.heuristicMSA (Dictionary) Sequences after star style alignement
                 key = Sequence ID (String) the specimen's ID
                 value = Sequence (Seq()) the specimen's DNA sequence
-            
+
             self.windowed (Dictionary of Dictionary) Sequences after being windowed
                 key = Window ID (String) as "startPosition_endPosition"
                 value = (Dictionary)
                     key = Sequence ID (String) the specimen's ID
                     value = Sequence (Seq()) the specimen's DNA sequence
-       
+
             ##todo
             self.msa (AlignIO()) 
         """
@@ -62,10 +62,10 @@ class AlignSequences:
     def openFastaFile(self,file):
         '''
         Reads the .fasta file. Extract sequence ID and sequences.
-        
+
         Args:
             file (String) the file name of a .fasta file
-            
+
         Return:
             sequences (dictionnary)
                 see self.sequences
@@ -79,10 +79,10 @@ class AlignSequences:
     def getSequenceCentroid(self):
         """
         Method that picks the centroid sequence in a dictionary of sequences
-        
+
         variables:
             list (list) Needed variable format for using Multiprocessor
-            
+
         return: a list of:
             resultKey (String)
             resultSum (int)
@@ -125,13 +125,13 @@ class AlignSequences:
     def ScoreSingle(self, args):
         """
         Method the gets only the score of a couple of sequence regarding the pairwise alignement
-        
+
         Args: a list:
             seqA    (Seq()) Sequence A; considered the refenrence
             seqAID  (String) Specimen A's ID
             seqB    (Seq()) Sequence B
             seqBID  (String) Speciment B's ID
-            
+
         return:
             seqAID  see above
             seqBID  see above
@@ -154,12 +154,12 @@ class AlignSequences:
         Method that aligns multiple DNA sequences.
         The first speciment of the dataset is used as the main pivot.
         This method uses parrallel computing.
-        
+
         Variables:
             seqs (Dictionary) see self.sequences
             list (list) Needed variable format for using Multiprocessor
             result (list) output of all the processes
-            
+
         Return:
             resultList (Dictionary) see self.aligned
     
@@ -195,7 +195,7 @@ class AlignSequences:
     def alignSingle(self,args):
         """
         Method that aligns two DNA sequences using the pairwise2 algorithm.
-        
+
         Args: 
             args (list)
                 scID    (String) The centroid sequence ID to compare to
@@ -219,39 +219,39 @@ class AlignSequences:
         """
         Method that combs through all the pairwise alignments couples and makes it so that every sequenced is alaigned with every other sequences.
         If a "-" is found in the seqA of a pair, but not another, it is inserted into every other ones.
-        
+
         ex.:
             pair1:          pair2:
             
             seqA1: TACTAC   seqA2: TAC-TAC
             seqB1: TACTAC   seqB2: TACTTAC
-            
+
             becomes:
             seqA1: TAC-TAC   seqA2: TAC-TAC
             seqB1: TAC-TAC   seqB2: TACTTAC
-            
+
             and outputs:
             seqA : TAC-TAC   #now combines SeqA1 and SeqA2
             seqB1: TAC-TAC   
             seqB2: TACTTAC
-            
+
             then, we compare the aligned set with the next pair:
-            
+
             SeqA : TAC-TAC  seqA3: TACTA-C
             seqB1: TAC-TAC  seqB3: TACTAAC
             seqB2: TACTTAC
-            
+
             wich makes:
             SeqA : TAC-TA-C  seqA3: TAC-TA-C
             seqB1: TAC-TA-C  seqB3: TAC-TAAC
             seqB2: TACTTA-C
-            
+
             and outputs:
             SeqA : TAC-TA-C     #now combines SeqA1, SeqA2 and SeqA3     
             seqB1: TAC-TA-C  
             seqB2: TACTTA-C
             seqB3: TAC-TAAC
-            
+
             over and over again
                 
         Return: 
@@ -288,7 +288,7 @@ class AlignSequences:
     def merge(self, result, k1, k2):
         """
         Method that loops through each position of two strings ans compares the Chars.
- 
+
         Arguments:
             result (dict) the dictionnary of objects to compare; 
                 contains only object that have already been aligned + a new pair to align
@@ -345,6 +345,7 @@ class AlignSequences:
     def insertDash(self, dict, pos, keyList):
         """
         Method that inserts a "-" at [pos] in a string at every Key in a dict
+
         Arguments:
             dict    (dict)  contains many objects as:
                 key = (string)
@@ -385,16 +386,20 @@ class AlignSequences:
     def slidingWindow(self):
         """
         Method that slices all the sequences in a dictionary to a specific window (substring)
+
         ex.:
             step_size=3
             window_size=5
+
             123 : CGGCTCAGCT  -->   123_3_7 : GCTCA
             456 : TAGCTTCAGT  -->   456_3_7 : GCTTC
+
         Args:
             alignedSequences (Dictionary)
                 Key (String) is the ID of the specimen
                 Data (Seq(String)) is the specimen's DNS sequence
             others* (var) see param.yaml
+
         Return:
             resultDict (Dictionary)
                 Key is originalKey_i_j
@@ -442,6 +447,7 @@ class AlignSequences:
         """
         Debuging method that creates files from a dictonnary of sequences.
         File is put in the debug file of the cwd
+
         arguments
             dict        (dict)      the objects to write in the file 
                 key = (string)
@@ -466,7 +472,7 @@ class AlignSequences:
         """
         Method that create a dictionnary of Multiple Sequence Alignment(MSA) objects from bioPython.
         Each entry in the dictionnary is a MSA object of a single sliding window
-       
+
         return
             msaSet (dict)
                 key (String) the window name
@@ -480,3 +486,4 @@ class AlignSequences:
                 data += str(">" + seq + "\n" + window[seq] + "\n")
             msaSet[windowSet] = AlignIO.read(StringIO(data), "fasta")
         return msaSet
+
