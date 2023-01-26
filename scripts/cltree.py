@@ -2,9 +2,6 @@
 import os
 import PyPDF2
 from PyQt5 import QtCore, QtGui, QtWidgets
-#import aPhyloGeo/aPhyloGeo # new
-#from aPhyloGeo import aPhyloGeo
-import tree
 import toytree
 import random
 import toyplot.pdf
