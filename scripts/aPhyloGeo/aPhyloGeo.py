@@ -4,12 +4,11 @@ import yaml
 import shutil
 import Bio as Bio 
 import csv
-import Params as p
 from Bio.Phylo.TreeConstruction import DistanceCalculator
 from Bio.Phylo.TreeConstruction import DistanceTreeConstructor
 from Bio.Phylo.Consensus import *
-from MultiProcessor import Multi
-from Alignement import AlignSequences
+from aPhyloGeo.MultiProcessor import Multi
+from aPhyloGeo.Alignement import AlignSequences
 from Bio.Phylo.TreeConstruction import DistanceTreeConstructor
 from Bio.Phylo.TreeConstruction import _DistanceMatrix
 from csv import writer
@@ -17,7 +16,7 @@ from yaml.loader import SafeLoader
 
 
 # We open the params.yaml file and put it in the params variable
-with open('./../params.yaml') as f:
+with open('aPhyloGeo/params.yaml') as f:
     params = yaml.load(f, Loader=SafeLoader)
 
 
@@ -32,6 +31,9 @@ specimen = params["specimen"]
 names = params["names"]
 bootstrapList = []
 data = []
+bootstrapAmount = params['bootstrap_amount']
+referenceGeneDir = params['reference_gene_dir']
+makeDebugFiles =  params['makeDebugFiles']
 
 
 def openCSV(file):
@@ -169,7 +171,7 @@ def drawTreesmake(trees):
 
     for i in range(len(mtree)):
         randColor = "#%03x" % random.randint(0, 0xFFF)
-        axes[i].text(0,mtree.ntips,p.names[i+1],style={'fill':randColor,
+        axes[i].text(0,mtree.ntips,names[i+1],style={'fill':randColor,
                     'font-size':'10px', 'font-weight':'bold'});
 
     toyplot.pdf.render(canvas,'../viz/climactic_trees.pdf')
@@ -198,11 +200,11 @@ def climaticPipeline():
         trees (the climatic tree dictionnary)
     '''
     trees = {}
-    df = openCSV(p.file_name)
-    for i in range(1, len(p.names)):
-        dm = getDissimilaritiesMatrix(df, p.names[0], p.names[i])
-        trees[p.names[i]] = createTree(dm)
-    leastSquare(trees[p.names[1]],trees[p.names[2]])
+    df = openCSV(fileName)
+    for i in range(1, len(names)):
+        dm = getDissimilaritiesMatrix(df, names[0], names[i])
+        trees[names[i]] = createTree(dm)
+    leastSquare(trees[names[1]],trees[names[2]])
     return trees
     
 
@@ -223,7 +225,7 @@ def createBoostrap(msaSet):
         list.append([msaSet, constructor, key])
 
     #multiprocessing
-    print("Creating bootstrap variations with multiplyer of:",p.bootstrapAmount)
+    print("Creating bootstrap variations with multiplyer of:",bootstrapAmount)
     result = Multi(list,bootSingle).processingSmallData()
 
     #reshaping the output into a readble dictionary
@@ -237,7 +239,7 @@ def bootSingle(args):
     msaSet = args[0]
     constructor = args[1]
     key = args[2]
-    result = bootstrap_consensus(msaSet[key], p.bootstrapAmount, constructor, 
+    result = bootstrap_consensus(msaSet[key], bootstrapAmount, constructor, 
                                  majority_consensus)
     return [result,key]
 
@@ -305,12 +307,12 @@ def getData(leavesName, ls, index, climaticList, geneticList):
         climaticList (the list of climatic trees)
         geneticList : (the list of genetic trees)
     '''
-    with open('datasets/5seq/geo.csv', 'r') as file:
+    with open(fileName, 'r') as file:
         csvreader = csv.reader(file)
         for leave in leavesName:
             for row in csvreader:
                 if(row[0] == leave):
-                    return [p.reference_gene_filename, climaticList[index], 
+                    return [referenceGeneFile, climaticList[index], 
                             leave, geneticList[0], 
                             str(bootstrapList[0]), str(round(ls, 2))]
 
@@ -382,7 +384,7 @@ def geneticPipeline(climaticTrees):
     ####### JUST TO MAKE THE DEBUG FILES ####### 
     if os.path.exists("./debug"):
         shutil.rmtree("./debug")
-    if p.makeDebugFiles:
+    if makeDebugFiles:
         os.mkdir("./debug")
     ####### JUST TO MAKE THE DEBUG FILES ####### 
 

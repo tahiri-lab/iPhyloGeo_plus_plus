@@ -8,8 +8,7 @@ from Bio import SeqIO
 from Bio import pairwise2
 from Bio.Seq import Seq
 from Bio import AlignIO
-from MultiProcessor import Multi
-import Params as p
+from aPhyloGeo.MultiProcessor import Multi
 
 class AlignSequences:
     """
