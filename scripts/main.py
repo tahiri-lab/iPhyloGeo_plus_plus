@@ -69,7 +69,12 @@ class Ui_Main_Window(object):
         self.clear = QtWidgets.QPushButton(self.tab, clicked = lambda: self.clear_it())
         self.clear.setGeometry(QtCore.QRect(15, 130, 141, 51))
         self.clear.setObjectName("clear")
-        
+
+#2/1
+        self.clear1 = QtWidgets.QPushButton(self.tab_2, clicked = lambda: self.clear_cl())
+        self.clear1.setGeometry(QtCore.QRect(15, 130, 141, 51))
+        self.clear1.setObjectName("clear1")
+# end 2/1        
         # Genetic data
         self.te = QtWidgets.QTextEdit(self.tab)
         self.te.setGeometry(QtCore.QRect(210, 60, 1000, 351))
@@ -97,7 +102,7 @@ class Ui_Main_Window(object):
  
         # button to draw tree
         self.to_draw = QtWidgets.QPushButton(self.tab_2, clicked = lambda: self.openWindow())
-        self.to_draw.setGeometry(QtCore.QRect(15, 130, 141, 51))
+        self.to_draw.setGeometry(QtCore.QRect(15, 200, 141, 51))
         self.to_draw.setObjectName("to_draw")
         self.browse_c = QtWidgets.QPushButton(self.tab_2, clicked = lambda: self.pressit())
         self.browse_c.setGeometry(QtCore.QRect(15, 60, 141, 51))
@@ -180,6 +185,8 @@ class Ui_Main_Window(object):
       # press the button to delet data
     def clear_it(self):
         self.te.clear()
+    def clear_cl(self):
+        self.te2.clear()
 
 
     def retranslateUi(self, Main_Window):
@@ -192,7 +199,8 @@ class Ui_Main_Window(object):
         self.browse.setText(_translate("Main_Window", "Browse File"))
         self.browse_c.setText(_translate("Main_Window", "Browse \n Climatic Data"))
         self.to_draw.setText(_translate("Main_Window", "Draw \n Climatic Tree "))
-        self.clear.setText(_translate("Main_Window", "Clear"))
+        self.clear.setText(_translate("Main_Window", "Clear "))
+        self.clear1.setText(_translate("Main_Window", "Clear "))
         self.menuFile.setTitle(_translate("Main_Window", "File"))
         self.menuEdit.setTitle(_translate("Main_Window", "Edit"))
         self.menuAbout.setTitle(_translate("Main_Window", "Help"))
