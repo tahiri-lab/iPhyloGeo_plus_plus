@@ -73,6 +73,8 @@ class Ui_Main_Window(object):
         # Genetic data
         self.te = QtWidgets.QTextEdit(self.tab)
         self.te.setGeometry(QtCore.QRect(210, 60, 1000, 351))
+        self.te.setReadOnly(True)
+
         # Font type and size[
         font = QtGui.QFont()
         font.setFamily("Tibetan Machine Uni")
@@ -90,6 +92,7 @@ class Ui_Main_Window(object):
         self.te2 = QtWidgets.QTextEdit(self.tab_2)
         self.te2.setGeometry(QtCore.QRect(210, 60, 1000, 351))
         self.te2.setObjectName("te2")
+        self.te2.setReadOnly(True)
 
  
         # button to draw tree

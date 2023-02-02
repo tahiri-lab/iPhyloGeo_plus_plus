@@ -1,0 +1,14 @@
+Metadata-Version: 2.1
+Name: custom-inherit
+Version: 2.4.0
+Summary: A Python package that provides customized docstring inheritance       schemes between derived classes and their parents.
+Home-page: https://github.com/rsokl/custom_inherit
+Author: @rsokl
+Author-email: rsoklaski@gmail.com
+License: MIT
+Download-URL: https://github.com/rsokl/custom_inherit/tarball/2.4.0
+Platform: UNKNOWN
+
+UNKNOWN
+
+

@@ -4,6 +4,8 @@ import yaml
 import shutil
 import Bio as Bio 
 import csv
+import toyplot
+import toytree
 from Bio.Phylo.TreeConstruction import DistanceCalculator
 from Bio.Phylo.TreeConstruction import DistanceTreeConstructor
 from Bio.Phylo.Consensus import *
@@ -174,7 +176,8 @@ def drawTreesmake(trees):
         axes[i].text(0,mtree.ntips,names[i+1],style={'fill':randColor,
                     'font-size':'10px', 'font-weight':'bold'});
 
-    toyplot.pdf.render(canvas,'../viz/climactic_trees.pdf')
+    toyplot.pdf.render(canvas,'../viz/climatic_trees.pdf')
+    toyplot.png.render(canvas,'../viz/climatic_trees.png')
 
 
 def createTree(dm):

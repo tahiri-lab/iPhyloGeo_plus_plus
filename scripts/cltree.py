@@ -2,6 +2,8 @@
 import os
 import PyPDF2
 from PyQt5 import QtCore, QtGui, QtWidgets
+#import aPhyloGeo/aPhyloGeo # new
+#from aPhyloGeo import aPhyloGeo
 import toytree
 import random
 import toyplot.pdf
@@ -30,6 +32,8 @@ class Ui_ct(object):
         self.actionPrint.setObjectName("actionPrint")
         self.toolBar.addAction(self.actionPrint)
 
+        self.label = QtWidgets.QLabel(self.centralwidget)
+
     
         self.retranslateUi(ct)
         QtCore.QMetaObject.connectSlotsByName(ct)
@@ -38,9 +42,11 @@ class Ui_ct(object):
         _translate = QtCore.QCoreApplication.translate
         ct.setWindowTitle(_translate("ct", "Climate Tree"))
         
-        self.tb.setHtml(_translate("tb", 'climatic_trees.pdf'))
+        #self.tb.setHtml(_translate("tb", 'climatic_trees.pdf'))
         self.toolBar.setWindowTitle(_translate("ct", "toolBar"))
         self.actionPrint.setText(_translate("ct", "Print"))
+
+        self.label.setPixmap(QtGui.QPixmap('../viz/climatic_trees.png'))
 
 
 if __name__ == "__main__":

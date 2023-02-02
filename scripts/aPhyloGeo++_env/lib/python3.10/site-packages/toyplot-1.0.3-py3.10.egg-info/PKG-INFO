@@ -1,0 +1,33 @@
+Metadata-Version: 2.1
+Name: toyplot
+Version: 1.0.3
+Summary: A modern plotting toolkit supporting electronic publishing and reproducibility.
+Home-page: http://toyplot.readthedocs.io
+Author: Timothy M. Shead
+Author-email: tshead@sandia.gov
+Maintainer: Timothy M. Shead
+Maintainer-email: tshead@sandia.gov
+Project-URL: Chat, https://github.com/sandialabs/toyplot/discussions
+Project-URL: Coverage, https://coveralls.io/r/sandialabs/toyplot
+Project-URL: Documentation, https://toyplot.readthedocs.io
+Project-URL: Issue Tracker, https://github.com/sandialabs/toyplot/issues
+Project-URL: Regression Tests, https://github.com/sandialabs/toyplot/actions
+Project-URL: Source, https://github.com/sandialabs/toyplot
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Console
+Classifier: Environment :: Other Environment
+Classifier: Environment :: Web Environment
+Classifier: Framework :: IPython
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Scientific/Engineering :: Visualization
+License-File: LICENSE
+
+Toyplot is the kid-sized plotting toolkit for Python with grownup-sized goals:
+  * Develop beautiful plots that embrace the unique capabilities of electronic publishing and support repoducibility.
+  * Create the best possible data graphics "out-of-the-box", maximizing data ink and minimizing chartjunk.
+  * Provide a clean, minimalist interface that scientists and engineers will love.
+
+  See the Toyplot documentation at http://toyplot.readthedocs.io, and the Toyplot sources at http://github.com/sandialabs/toyplot
