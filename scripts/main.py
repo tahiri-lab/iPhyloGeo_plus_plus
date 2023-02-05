@@ -175,7 +175,23 @@ class Ui_Main_Window(object):
         path = pathlib.Path(filename[0])
         okPressed = True
         with open(path) as c:
-            self.te2.setText(c.read())
+            lines = c.readlines()
+            num_rows = len(lines)
+            first_line = lines[1].split(",")
+            num_columns = len(first_line)
+            cursor = QtGui.QTextCursor(self.te2.textCursor())
+            cursor.insertTable(num_rows, num_columns)
+            for line in lines:
+                line_split = line.split(",")
+                for value in line_split:
+                    cursor.insertText(value)
+                    cursor.movePosition(QtGui.QTextCursor.NextCell)
+
+
+
+
+            #file_to_format = c.read()
+            #self.te2.setText(c.read())
             
 
 
