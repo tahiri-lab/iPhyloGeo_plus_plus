@@ -9,6 +9,8 @@ import random
 import toyplot.pdf
 import pandas as pd
 
+
+
 class Ui_Main_Window(object):
     
 
@@ -102,7 +104,7 @@ class Ui_Main_Window(object):
         self.to_draw = QtWidgets.QPushButton(self.tab_2, clicked = lambda: self.openWindow())
         self.to_draw.setGeometry(QtCore.QRect(15, 200, 141, 51))
         self.to_draw.setObjectName("to_draw")
-        self.browse_c = QtWidgets.QPushButton(self.tab_2, clicked = lambda: self.press_it())
+        self.browse_c = QtWidgets.QPushButton(self.tab_2, clicked = lambda: self.pressit())
         self.browse_c.setGeometry(QtCore.QRect(15, 60, 141, 51))
         self.browse_c.setObjectName("browse")
 
@@ -158,16 +160,21 @@ class Ui_Main_Window(object):
 
     
     def press_it(self):
-        filename = QFileDialog.getOpenFileName()
-        path = pathlib.Path(filename[0])
-        okPressed = True
-        with open(path) as f:
-            content = f.read()
-            self.te.setText(content)
-            global sequence
-            sequence = ''
-            for char in content:
-                sequence += char.strip()
+        options = QFileDialog.Options()
+        options |= QFileDialog.ReadOnly
+        fileName, _ = QFileDialog.getOpenFileName(None,"QFileDialog.getOpenFileName()", "","All Files (*);;Text Files (*.txt)", options=options)
+        if fileName:
+            with open(fileName, "r") as f:
+                content = f.read()
+                self.te.setText(content)
+                global sequence
+                sequence = ''
+                for char in content:
+                    sequence += char.strip()
+                self.child_window = QtWidgets.QMainWindow()
+                self.ui = Ui_sec()
+                self.ui.setupUi(self.child_window)
+                self.child_window.setWindowModality(QtCore.Qt.NonModal)
 
         def color_background(letter):
             if letter == 'A':
@@ -181,30 +188,36 @@ class Ui_Main_Window(object):
             else:
                 return ''
 
-        formatted_sequence = ''.join(f'<span style="{color_background(l)}">{l}</span>' for l in sequence)
-        self.te.setText(formatted_sequence)
+        if 'sequence' in globals():
+            formatted_sequence = ''.join(f'<span style="{color_background(l)}">{l}</span>' for l in sequence)
+            self.te.setText(formatted_sequence)
             
   
     
     
-<<<<<<< HEAD
     # press the button to get climatic data
     def pressit(self):
-        filename = QFileDialog.getOpenFileName()
-        path = pathlib.Path(filename[0])
-        okPressed = True
-        with open(path) as c:
-            lines = c.readlines()
-            num_rows = len(lines)
-            first_line = lines[1].split(",")
-            num_columns = len(first_line)
-            cursor = QtGui.QTextCursor(self.te2.textCursor())
-            cursor.insertTable(num_rows, num_columns)
-            for line in lines:
-                line_split = line.split(",")
-                for value in line_split:
-                    cursor.insertText(value)
-                    cursor.movePosition(QtGui.QTextCursor.NextCell)
+        options = QFileDialog.Options()
+        options |= QFileDialog.ReadOnly
+        fileName, _ = QFileDialog.getOpenFileName(None,"QFileDialog.getOpenFileName()", "","All Files (*);;Text Files (*.txt)", options=options)
+        if fileName:
+            with open(fileName, "r") as c:
+                lines = c.readlines()
+                num_rows = len(lines)
+                first_line = lines[1].split(",")
+                num_columns = len(first_line)
+                cursor = QtGui.QTextCursor(self.te2.textCursor())
+                cursor.insertTable(num_rows, num_columns)
+                for line in lines:
+                    line_split = line.split(",")
+                    for value in line_split:
+                        cursor.insertText(value)
+                        cursor.movePosition(QtGui.QTextCursor.NextCell)
+                self.child_window = QtWidgets.QMainWindow()
+                self.ui = Ui_sec()
+                self.ui.setupUi(self.child_window)
+                self.child_window.setWindowModality(QtCore.Qt.NonModal)
+                #self.child_window.show()
 
 
 
@@ -212,18 +225,8 @@ class Ui_Main_Window(object):
             #file_to_format = c.read()
             #self.te2.setText(c.read())
             
-=======
-    # # press the button to get climatic data
-    # def pressit(self):
-    #     filename = QFileDialog.getOpenFileName()
-    #     path = pathlib.Path(filename[0])
-    #     okPressed = True
-    #     with open(path) as c:
-    #         self.te2.setText(c.read())
->>>>>>> 64f0857 (prevent the browse windows to close the whole app.)
 
-
-    def press_it(self):
+    def prevent_closing(self):
         options = QFileDialog.Options()
         options |= QFileDialog.ReadOnly
         fileName, _ = QFileDialog.getOpenFileName(None,"QFileDialog.getOpenFileName()", "","All Files (*);;Text Files (*.txt)", options=options)
@@ -236,7 +239,9 @@ class Ui_Main_Window(object):
                 self.ui.setupUi(self.child_window)
                 self.child_window.setWindowModality(QtCore.Qt.NonModal)
                 self.child_window.show()
+
     
+
 
       # press the button to delet data
     def clear_it(self):
