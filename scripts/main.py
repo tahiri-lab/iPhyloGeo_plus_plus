@@ -9,8 +9,6 @@ import random
 import toyplot.pdf
 import pandas as pd
 
-
-
 class Ui_Main_Window(object):
     
 
@@ -104,7 +102,7 @@ class Ui_Main_Window(object):
         self.to_draw = QtWidgets.QPushButton(self.tab_2, clicked = lambda: self.openWindow())
         self.to_draw.setGeometry(QtCore.QRect(15, 200, 141, 51))
         self.to_draw.setObjectName("to_draw")
-        self.browse_c = QtWidgets.QPushButton(self.tab_2, clicked = lambda: self.pressit())
+        self.browse_c = QtWidgets.QPushButton(self.tab_2, clicked = lambda: self.press_it())
         self.browse_c.setGeometry(QtCore.QRect(15, 60, 141, 51))
         self.browse_c.setObjectName("browse")
 
@@ -155,6 +153,7 @@ class Ui_Main_Window(object):
         self.toolBar.addAction(self.actionCopy)
         self.retranslateUi(Main_Window)
         self.tabWidget.setCurrentIndex(0)
+        Main_Window.setAttribute(QtCore.Qt.WA_DeleteOnClose, False)
         QtCore.QMetaObject.connectSlotsByName(Main_Window)
 
     
@@ -188,6 +187,7 @@ class Ui_Main_Window(object):
   
     
     
+<<<<<<< HEAD
     # press the button to get climatic data
     def pressit(self):
         filename = QFileDialog.getOpenFileName()
@@ -212,10 +212,31 @@ class Ui_Main_Window(object):
             #file_to_format = c.read()
             #self.te2.setText(c.read())
             
+=======
+    # # press the button to get climatic data
+    # def pressit(self):
+    #     filename = QFileDialog.getOpenFileName()
+    #     path = pathlib.Path(filename[0])
+    #     okPressed = True
+    #     with open(path) as c:
+    #         self.te2.setText(c.read())
+>>>>>>> 64f0857 (prevent the browse windows to close the whole app.)
 
 
+    def press_it(self):
+        options = QFileDialog.Options()
+        options |= QFileDialog.ReadOnly
+        fileName, _ = QFileDialog.getOpenFileName(None,"QFileDialog.getOpenFileName()", "","All Files (*);;Text Files (*.txt)", options=options)
+        if fileName:
+            with open(fileName, "r") as f:
+                data = f.read()
+                self.te.setText(data)
+                self.child_window = QtWidgets.QMainWindow()
+                self.ui = Ui_sec()
+                self.ui.setupUi(self.child_window)
+                self.child_window.setWindowModality(QtCore.Qt.NonModal)
+                self.child_window.show()
     
-
 
       # press the button to delet data
     def clear_it(self):
@@ -255,4 +276,5 @@ if __name__ == "__main__":
     ui = Ui_Main_Window()
     ui.setupUi(Main_Window)
     Main_Window.show()
+    Main_Window.setAttribute(QtCore.Qt.WA_DeleteOnClose, False)
     sys.exit(app.exec_())
