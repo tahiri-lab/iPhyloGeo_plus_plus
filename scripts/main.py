@@ -1,6 +1,7 @@
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidgetItem
 import pathlib
 from howtouse import Ui_sec
 from cltree import Ui_ct 
@@ -10,9 +11,8 @@ import toyplot.pdf
 import pandas as pd
 
 
-
 class Ui_Main_Window(object):
-    
+   
 
     def useWindow(self):
         self.window = QtWidgets.QMainWindow()
@@ -48,7 +48,10 @@ class Ui_Main_Window(object):
         self.centralwidget = QtWidgets.QWidget(Main_Window)
         self.centralwidget.setObjectName("centralwidget")
         
-#[
+
+        
+        
+        
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
         self.tabWidget.setGeometry(QtCore.QRect(5, 0, 1350, 950))
         self.tabWidget.setObjectName("tabWidget")
@@ -58,7 +61,46 @@ class Ui_Main_Window(object):
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
         self.tabWidget.addTab(self.tab_2, "")
-#]
+
+        #[ 6/2
+        self.comboBox = QtWidgets.QComboBox(self.tab_2)
+        self.comboBox.setGeometry(QtCore.QRect(420, 480, 201, 30))
+        
+        #self.comboBox.setSizePolicy(sizePolicy)
+        self.comboBox.setFrame(True)
+        self.comboBox.setObjectName("comboBox")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.frame_3 = QtWidgets.QFrame(self.tab_2)
+        self.frame_3.setGeometry(QtCore.QRect(730, 460, 381, 61))
+        self.frame_3.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.frame_3.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_3.setObjectName("frame_3")
+        self.comboBox_2 = QtWidgets.QComboBox(self.frame_3)
+        self.comboBox_2.setGeometry(QtCore.QRect(170, 20, 201, 30))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.comboBox_2.sizePolicy().hasHeightForWidth())
+        self.comboBox_2.setSizePolicy(sizePolicy)
+        self.comboBox_2.setFrame(True)
+        self.comboBox_2.setObjectName("comboBox_2")
+        self.comboBox_2.addItem("")
+        self.comboBox_2.addItem("")
+        self.comboBox_2.addItem("")
+        self.comboBox_2.addItem("")
+        self.comboBox_2.addItem("")
+        self.label_16 = QtWidgets.QLabel(self.frame_3)
+        self.label_16.setGeometry(QtCore.QRect(80, 20, 121, 31))
+        self.label_16.setObjectName("label_16")
+        self.label_13 = QtWidgets.QLabel(self.tab_2)
+        self.label_13.setGeometry(QtCore.QRect(340, 480, 201, 30))
+        self.label_13.setObjectName("label_13")
+        
         self.seq_alig = QtWidgets.QPushButton(self.tab)
         self.seq_alig.setGeometry(QtCore.QRect(15, 200, 141, 51))
         self.seq_alig.setIcon(icon)
@@ -70,11 +112,11 @@ class Ui_Main_Window(object):
         self.clear.setGeometry(QtCore.QRect(15, 130, 141, 51))
         self.clear.setObjectName("clear")
 
-#2/1
+
         self.clear1 = QtWidgets.QPushButton(self.tab_2, clicked = lambda: self.clear_cl())
         self.clear1.setGeometry(QtCore.QRect(15, 130, 141, 51))
         self.clear1.setObjectName("clear1")
-# end 2/1        
+        
         # Genetic data
         self.te = QtWidgets.QTextEdit(self.tab)
         self.te.setGeometry(QtCore.QRect(210, 60, 1000, 351))
@@ -87,7 +129,7 @@ class Ui_Main_Window(object):
         self.te.setFont(font)
      
         self.te.setObjectName("te")
-#[      seq_alig Genetic data
+#       seq_alig Genetic data
         self.te1 = QtWidgets.QTextEdit(self.tab)
         self.te1.setGeometry(QtCore.QRect(210, 450, 1000, 351))
         self.te1.setObjectName("te1")
@@ -158,6 +200,13 @@ class Ui_Main_Window(object):
         Main_Window.setAttribute(QtCore.Qt.WA_DeleteOnClose, False)
         QtCore.QMetaObject.connectSlotsByName(Main_Window)
 
+        self.comboBox.currentIndexChanged.connect(self.show_frame)
+        self.frame_3.setHidden(True)
+    def show_frame(self, value):
+        if value is not None:
+            self.frame_3.setHidden(False)
+        else:
+            self.frame_3.setHidden(True)
     
     def press_it(self):
         options = QFileDialog.Options()
@@ -272,6 +321,21 @@ class Ui_Main_Window(object):
         self.actionRead_Me.setText(_translate("Main_Window", "Read Me"))
         self.actionHelp.setText(_translate("Main_Window", "How to use"))
         self.actionopen.setText(_translate("Main_Window", "open"))
+
+        self.comboBox.setItemText(0, _translate("MainWindow", "None"))
+        self.comboBox.setItemText(1, _translate("MainWindow", "Bar Chart"))
+        self.comboBox.setItemText(2, _translate("MainWindow", "Line Chart"))
+        self.comboBox.setItemText(3, _translate("MainWindow", "Pie Chart"))
+        self.comboBox.setItemText(4, _translate("MainWindow", "Area Chart"))
+        self.comboBox.setItemText(5, _translate("MainWindow", "Scatter Chart"))
+        self.comboBox_2.setItemText(0, _translate("MainWindow", "All"))
+        self.comboBox_2.setItemText(1, _translate("MainWindow", "Temperature"))
+        self.comboBox_2.setItemText(2, _translate("MainWindow", "Wind"))
+        self.comboBox_2.setItemText(3, _translate("MainWindow", "Humidity"))
+        self.comboBox_2.setItemText(4, _translate("MainWindow", "Altitude"))
+        self.label_16.setText(_translate("MainWindow", "Climate \n"
+"condition"))
+        self.label_13.setText(_translate("MainWindow", "Statistics"))
 
 
 if __name__ == "__main__":
