@@ -158,13 +158,32 @@ class Ui_Main_Window(object):
         QtCore.QMetaObject.connectSlotsByName(Main_Window)
 
     
-    # press the button to get Genetic data
     def press_it(self):
         filename = QFileDialog.getOpenFileName()
         path = pathlib.Path(filename[0])
         okPressed = True
         with open(path) as f:
-                self.te.setText(f.read())
+            content = f.read()
+            self.te.setText(content)
+            global sequence
+            sequence = ''
+            for char in content:
+                sequence += char.strip()
+
+        def color_background(letter):
+            if letter == 'A':
+                return 'background-color: yellow'
+            elif letter == 'C':
+                return 'background-color: blue'
+            elif letter == 'G':
+                return 'background-color: red'
+            elif letter == 'T':
+                return 'background-color: orange'
+            else:
+                return ''
+
+        formatted_sequence = ''.join(f'<span style="{color_background(l)}">{l}</span>' for l in sequence)
+        self.te.setText(formatted_sequence)
             
   
     
