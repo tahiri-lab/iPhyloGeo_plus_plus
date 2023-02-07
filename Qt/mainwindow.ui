@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>970</width>
-    <height>639</height>
+    <width>1109</width>
+    <height>981</height>
    </rect>
   </property>
   <property name="focusPolicy">
@@ -43,7 +43,7 @@
      <rect>
       <x>-10</x>
       <y>0</y>
-      <width>981</width>
+      <width>1131</width>
       <height>91</height>
      </rect>
     </property>
@@ -60,7 +60,7 @@ background-color: rgb(222, 221, 218);</string>
     <widget class="QPushButton" name="pushButton_2">
      <property name="geometry">
       <rect>
-       <x>310</x>
+       <x>390</x>
        <y>10</y>
        <width>101</width>
        <height>81</height>
@@ -97,7 +97,7 @@ background-color: rgb(222, 221, 218);</string>
     <widget class="QPushButton" name="pushButton_3">
      <property name="geometry">
       <rect>
-       <x>410</x>
+       <x>520</x>
        <y>10</y>
        <width>81</width>
        <height>71</height>
@@ -131,7 +131,7 @@ background-color: rgb(222, 221, 218);</string>
     <widget class="QPushButton" name="pushButton_4">
      <property name="geometry">
       <rect>
-       <x>510</x>
+       <x>630</x>
        <y>10</y>
        <width>81</width>
        <height>71</height>
@@ -165,7 +165,7 @@ background-color: rgb(222, 221, 218);</string>
     <widget class="QPushButton" name="pushButton_5">
      <property name="geometry">
       <rect>
-       <x>640</x>
+       <x>790</x>
        <y>0</y>
        <width>91</width>
        <height>81</height>
@@ -208,7 +208,7 @@ background-color: rgb(222, 221, 218);</string>
     <widget class="QPushButton" name="pushButton_11">
      <property name="geometry">
       <rect>
-       <x>860</x>
+       <x>1010</x>
        <y>0</y>
        <width>111</width>
        <height>81</height>
@@ -237,8 +237,8 @@ background-color: rgb(222, 221, 218);</string>
      <rect>
       <x>-30</x>
       <y>90</y>
-      <width>1100</width>
-      <height>571</height>
+      <width>1151</width>
+      <height>1100</height>
      </rect>
     </property>
     <property name="frameShadow">
@@ -256,8 +256,8 @@ background-color: rgb(222, 221, 218);</string>
        <rect>
         <x>20</x>
         <y>0</y>
-        <width>981</width>
-        <height>551</height>
+        <width>1131</width>
+        <height>941</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -270,9 +270,9 @@ background-color: rgb(222, 221, 218);</string>
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>0</y>
-         <width>981</width>
-         <height>551</height>
+         <y>-10</y>
+         <width>1121</width>
+         <height>901</height>
         </rect>
        </property>
        <property name="frameShape">
@@ -357,7 +357,7 @@ background-color: rgb(222, 221, 218);</string>
          <rect>
           <x>240</x>
           <y>30</y>
-          <width>671</width>
+          <width>821</width>
           <height>181</height>
          </rect>
         </property>
@@ -367,7 +367,7 @@ background-color: rgb(222, 221, 218);</string>
          <rect>
           <x>240</x>
           <y>250</y>
-          <width>671</width>
+          <width>821</width>
           <height>181</height>
          </rect>
         </property>
@@ -476,6 +476,52 @@ background-color: rgb(222, 221, 218);</string>
          <string>Statistics</string>
         </property>
        </widget>
+       <widget class="QLabel" name="label_11">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>490</y>
+          <width>161</width>
+          <height>71</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>matrix</string>
+        </property>
+       </widget>
+       <widget class="QTextBrowser" name="textBrowser">
+        <property name="geometry">
+         <rect>
+          <x>240</x>
+          <y>440</y>
+          <width>821</width>
+          <height>192</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_12">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>720</y>
+          <width>67</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>tree</string>
+        </property>
+       </widget>
+       <widget class="QTextBrowser" name="textBrowser_2">
+        <property name="geometry">
+         <rect>
+          <x>240</x>
+          <y>650</y>
+          <width>821</width>
+          <height>191</height>
+         </rect>
+        </property>
+       </widget>
       </widget>
      </widget>
     </widget>
@@ -491,8 +537,8 @@ background-color: rgb(222, 221, 218);</string>
        <rect>
         <x>20</x>
         <y>0</y>
-        <width>981</width>
-        <height>541</height>
+        <width>1121</width>
+        <height>871</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -574,7 +620,7 @@ background-color: rgb(222, 221, 218);</string>
         <rect>
          <x>260</x>
          <y>270</y>
-         <width>661</width>
+         <width>711</width>
          <height>181</height>
         </rect>
        </property>
@@ -610,7 +656,7 @@ background-color: rgb(222, 221, 218);</string>
         <rect>
          <x>260</x>
          <y>50</y>
-         <width>661</width>
+         <width>711</width>
          <height>181</height>
         </rect>
        </property>
@@ -655,6 +701,142 @@ background-color: rgb(222, 221, 218);</string>
 Climatic Tree</string>
        </property>
       </widget>
+      <widget class="QLabel" name="label_13">
+       <property name="geometry">
+        <rect>
+         <x>260</x>
+         <y>480</y>
+         <width>67</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Statistics</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="comboBox">
+       <property name="geometry">
+        <rect>
+         <x>360</x>
+         <y>480</y>
+         <width>201</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="frame">
+        <bool>true</bool>
+       </property>
+       <item>
+        <property name="text">
+         <string>None</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Bar Chart</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Line Chart</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Pie Chart</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Area Chart</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Scatter Chart</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QFrame" name="frame_3">
+       <property name="geometry">
+        <rect>
+         <x>600</x>
+         <y>460</y>
+         <width>391</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QComboBox" name="comboBox_2">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>20</y>
+          <width>201</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="frame">
+         <bool>true</bool>
+        </property>
+        <item>
+         <property name="text">
+          <string>All</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Temperature</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Wind</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Humidity</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Altitude</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QLabel" name="label_16">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>20</y>
+          <width>91</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>  Climate 
+condition</string>
+        </property>
+       </widget>
+      </widget>
       <zorder>pushButton_8</zorder>
       <zorder>pushButton_9</zorder>
       <zorder>label</zorder>
@@ -663,6 +845,9 @@ Climatic Tree</string>
       <zorder>textEdit_3</zorder>
       <zorder>pushButton_14</zorder>
       <zorder>label_10</zorder>
+      <zorder>label_13</zorder>
+      <zorder>comboBox</zorder>
+      <zorder>frame_3</zorder>
      </widget>
     </widget>
     <widget class="QWidget" name="page_3">
@@ -671,8 +856,8 @@ Climatic Tree</string>
        <rect>
         <x>20</x>
         <y>0</y>
-        <width>981</width>
-        <height>551</height>
+        <width>1121</width>
+        <height>891</height>
        </rect>
       </property>
       <property name="focusPolicy">
@@ -782,11 +967,35 @@ Climatic Tree</string>
         <string>Submit</string>
        </property>
       </widget>
+      <widget class="QLabel" name="label_14">
+       <property name="geometry">
+        <rect>
+         <x>510</x>
+         <y>140</y>
+         <width>241</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>table of result in csv file</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_15">
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>380</y>
+         <width>121</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Statistics==&gt;</string>
+       </property>
+      </widget>
      </widget>
     </widget>
    </widget>
-   <zorder>stackedWidget</zorder>
-   <zorder>top_frame</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actiontit">

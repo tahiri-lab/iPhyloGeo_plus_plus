@@ -9,8 +9,8 @@ import toytree
 from Bio.Phylo.TreeConstruction import DistanceCalculator
 from Bio.Phylo.TreeConstruction import DistanceTreeConstructor
 from Bio.Phylo.Consensus import *
-from aPhyloGeo.MultiProcessor import Multi
-from aPhyloGeo.Alignement import AlignSequences
+from MultiProcessor import Multi
+from Alignement import AlignSequences
 from Bio.Phylo.TreeConstruction import DistanceTreeConstructor
 from Bio.Phylo.TreeConstruction import _DistanceMatrix
 from csv import writer
@@ -18,7 +18,7 @@ from yaml.loader import SafeLoader
 
 
 # We open the params.yaml file and put it in the params variable
-with open('aPhyloGeo/params.yaml') as f:
+with open('params.yaml') as f:
     params = yaml.load(f, Loader=SafeLoader)
 
 
@@ -398,3 +398,4 @@ def geneticPipeline(climaticTrees):
     msaSet = alignementObject.msaSet
     geneticTrees = createBoostrap(msaSet)
     filterResults(climaticTrees, geneticTrees)
+

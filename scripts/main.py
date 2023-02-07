@@ -47,11 +47,8 @@ class Ui_Main_Window(object):
         Main_Window.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(Main_Window)
         self.centralwidget.setObjectName("centralwidget")
-        
-
-        
-        
-        
+           
+             
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
         self.tabWidget.setGeometry(QtCore.QRect(5, 0, 1350, 950))
         self.tabWidget.setObjectName("tabWidget")
@@ -62,7 +59,6 @@ class Ui_Main_Window(object):
         self.tab_2.setObjectName("tab_2")
         self.tabWidget.addTab(self.tab_2, "")
 
-        #[ 6/2
         self.comboBox = QtWidgets.QComboBox(self.tab_2)
         self.comboBox.setGeometry(QtCore.QRect(420, 480, 201, 30))
         
