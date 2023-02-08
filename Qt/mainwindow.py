@@ -419,7 +419,7 @@ class Ui_MainWindow(object):
                 for char in content:
                     sequence += char.strip()
                 self.child_window = QtWidgets.QMainWindow()
-                self.ui = Ui_sec()
+                self.ui = Ui_how_to_use()
                 self.ui.setupUi(self.child_window)
                 self.child_window.setWindowModality(QtCore.Qt.NonModal)
 
@@ -458,7 +458,7 @@ class Ui_MainWindow(object):
                         cursor.insertText(value)
                         cursor.movePosition(QtGui.QTextCursor.NextCell)
                 self.child_window = QtWidgets.QMainWindow()
-                self.ui = Ui_sec()
+                self.ui = Ui_how_to_use()
                 self.ui.setupUi(self.child_window)
                 self.child_window.setWindowModality(QtCore.Qt.NonModal)
                 #self.child_window.show()
@@ -473,7 +473,7 @@ class Ui_MainWindow(object):
                 data = f.read()
                 self.page.setText(data)
                 self.child_window = QtWidgets.QMainWindow()
-                self.ui = Ui_sec()
+                self.ui = Ui_how_to_use()
                 self.ui.setupUi(self.child_window)
                 self.child_window.setWindowModality(QtCore.Qt.NonModal)
                 self.child_window.show()    
