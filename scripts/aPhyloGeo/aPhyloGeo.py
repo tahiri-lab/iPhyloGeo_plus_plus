@@ -9,33 +9,34 @@ import toytree
 from Bio.Phylo.TreeConstruction import DistanceCalculator
 from Bio.Phylo.TreeConstruction import DistanceTreeConstructor
 from Bio.Phylo.Consensus import *
-from MultiProcessor import Multi
-from Alignement import AlignSequences
+from aPhyloGeo.MultiProcessor import Multi
+from aPhyloGeo.Alignement import AlignSequences
 from Bio.Phylo.TreeConstruction import DistanceTreeConstructor
 from Bio.Phylo.TreeConstruction import _DistanceMatrix
 from csv import writer
-from yaml.loader import SafeLoader
+#from yaml.loader import SafeLoader
+from toyplot import pdf, png
 
 
 # We open the params.yaml file and put it in the params variable
-with open('params.yaml') as f:
-    params = yaml.load(f, Loader=SafeLoader)
+#with open('params.yaml') as f:
+#    params = yaml.load(f, Loader=SafeLoader)
 
 
-bootstrapThreshold = params["bootstrap_threshold"]
-lsThreshold = params["ls_threshold"]
-windowSize = params["window_size"]
-stepSize = params["step_size"]
-dataNames = params["data_names"]
-referenceGeneFile = params["reference_gene_file"]
-fileName = params["file_name"]
-specimen = params["specimen"]
-names = params["names"]
+bootstrapThreshold = 0
+lsThreshold = 60
+windowSize = 200
+stepSize = 100
+dataNames = ['ALLSKY_SFC_SW_DWN_newick', 'T2M_newick', 'QV2M_newick', 'PRECTOTCORR_newick', 'WS10M_newick']
+referenceGeneFile = '../datasets/small_seq.fasta'
+fileName = '../datasets/geo.csv'
+specimen = 'id'
+names = ['id', 'ALLSKY_SFC_SW_DWN', 'T2M', 'QV2M', 'PRECTOTCORR', 'WS10M']
 bootstrapList = []
 data = []
-bootstrapAmount = params['bootstrap_amount']
-referenceGeneDir = params['reference_gene_dir']
-makeDebugFiles =  params['makeDebugFiles']
+bootstrapAmount = 100
+referenceGeneDir = '../datasets/'
+makeDebugFiles =  True
 
 
 def openCSV(file):
@@ -382,7 +383,7 @@ def geneticPipeline(climaticTrees):
     the data that we need for the comparison
 
     Args:
-        climaticTrees (the dictionnary of climaticTrees)
+        climaticTrees (the dictionary of climaticTrees)
     '''
     ####### JUST TO MAKE THE DEBUG FILES ####### 
     if os.path.exists("./debug"):
@@ -398,4 +399,11 @@ def geneticPipeline(climaticTrees):
     msaSet = alignementObject.msaSet
     geneticTrees = createBoostrap(msaSet)
     filterResults(climaticTrees, geneticTrees)
+
+
+
+#function that will actually be called - modified by Yannick
+def create_and_save_tree():
+    trees = climaticPipeline()
+    drawTreesmake(trees)
 

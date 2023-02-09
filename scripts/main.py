@@ -9,6 +9,7 @@ import toytree
 import random
 import toyplot.pdf
 import pandas as pd
+from aPhyloGeo.aPhyloGeo import create_and_save_tree
 
 
 class Ui_Main_Window(object):
@@ -271,19 +272,19 @@ class Ui_Main_Window(object):
             #self.te2.setText(c.read())
             
 
-    def prevent_closing(self):
-        options = QFileDialog.Options()
-        options |= QFileDialog.ReadOnly
-        fileName, _ = QFileDialog.getOpenFileName(None,"QFileDialog.getOpenFileName()", "","All Files (*);;Text Files (*.txt)", options=options)
-        if fileName:
-            with open(fileName, "r") as f:
-                data = f.read()
-                self.te.setText(data)
-                self.child_window = QtWidgets.QMainWindow()
-                self.ui = Ui_sec()
-                self.ui.setupUi(self.child_window)
-                self.child_window.setWindowModality(QtCore.Qt.NonModal)
-                self.child_window.show()
+    #def prevent_closing(self):
+    #    options = QFileDialog.Options()
+    #    options |= QFileDialog.ReadOnly
+    #    fileName, _ = QFileDialog.getOpenFileName(None,"QFileDialog.getOpenFileName()", "","All Files (*);;Text Files (*.txt)", options=options)
+    #    if fileName:
+    #        with open(fileName, "r") as f:
+    #            data = f.read()
+    #            self.te.setText(data)
+    #            self.child_window = QtWidgets.QMainWindow()
+    #            self.ui = Ui_sec()
+    #            self.ui.setupUi(self.child_window)
+    #            self.child_window.setWindowModality(QtCore.Qt.NonModal)
+    #            self.child_window.show()
 
     
 
@@ -336,6 +337,7 @@ class Ui_Main_Window(object):
 
 if __name__ == "__main__":
     import sys
+    create_and_save_tree() #modified by Yannick
     app = QtWidgets.QApplication(sys.argv)
     Main_Window = QtWidgets.QMainWindow()
     ui = Ui_Main_Window()

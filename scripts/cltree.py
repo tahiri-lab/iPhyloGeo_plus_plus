@@ -1,4 +1,3 @@
-
 import os
 import PyPDF2
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -8,6 +7,7 @@ import toytree
 import random
 import toyplot.pdf
 import sys
+
 
 class Ui_ct(object):
     def setupUi(self, ct):
@@ -32,7 +32,7 @@ class Ui_ct(object):
         self.actionPrint.setObjectName("actionPrint")
         self.toolBar.addAction(self.actionPrint)
 
-        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label = QtWidgets.QLabel(self.centralwidget)  #modified by Yannick
 
     
         self.retranslateUi(ct)
@@ -46,7 +46,8 @@ class Ui_ct(object):
         self.toolBar.setWindowTitle(_translate("ct", "toolBar"))
         self.actionPrint.setText(_translate("ct", "Print"))
 
-        self.label.setPixmap(QtGui.QPixmap('../viz/climatic_trees.png'))
+        #create and show climatic tree
+        self.label.setPixmap(QtGui.QPixmap('../viz/climatic_trees.png')) #modified by Yannick
 
 
 if __name__ == "__main__":
