@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'mainwindow.ui'
+# Form implementation generated from reading ui file 'mainwindow4.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -11,7 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog
 import pathlib
-from help import Ui_how_to_use
+#from help import Ui_how_to_use
 from parameters import Ui_Dialog
 from help import Ui_how_to_use
 #from cltree import Ui_ct 
@@ -21,6 +21,7 @@ import toyplot.pdf
 
 class Ui_MainWindow(object):
     
+
     def useWindow(self):
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_how_to_use()
@@ -59,63 +60,55 @@ class Ui_MainWindow(object):
         self.top_frame.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.top_frame.setObjectName("top_frame")
         self.pushButton_2 = QtWidgets.QPushButton(self.top_frame)
-        self.pushButton_2.setGeometry(QtCore.QRect(390, 10, 101, 81))
+        self.pushButton_2.setGeometry(QtCore.QRect(420, 10, 101, 81))
         font = QtGui.QFont()
         font.setKerning(True)
         self.pushButton_2.setFont(font)
         self.pushButton_2.setToolTip("Genetic Data")
         self.pushButton_2.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("../img/RNW0fq01.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/Genetic.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_2.setIcon(icon1)
         self.pushButton_2.setIconSize(QtCore.QSize(75, 75))
         self.pushButton_2.setCheckable(False)
         self.pushButton_2.setFlat(True)
         self.pushButton_2.setObjectName("pushButton_2")
         self.pushButton_3 = QtWidgets.QPushButton(self.top_frame)
-        self.pushButton_3.setGeometry(QtCore.QRect(520, 10, 81, 71))
+        self.pushButton_3.setGeometry(QtCore.QRect(600, 10, 81, 71))
         self.pushButton_3.setToolTip("Climatic Data")
         font = QtGui.QFont()
         font.setKerning(True)
         self.pushButton_3.setFont(font)
         self.pushButton_3.setText("")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("../img/cli.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/climatic.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_3.setIcon(icon2)
         self.pushButton_3.setIconSize(QtCore.QSize(75, 75))
         self.pushButton_3.setCheckable(False)
         self.pushButton_3.setFlat(True)
         self.pushButton_3.setObjectName("pushButton_3")
         self.pushButton_4 = QtWidgets.QPushButton(self.top_frame)
-        self.pushButton_4.setGeometry(QtCore.QRect(630, 10, 81, 71))
+        self.pushButton_4.setGeometry(QtCore.QRect(770, 10, 81, 71))
         self.pushButton_4.setToolTip("Results")
         font = QtGui.QFont()
         font.setKerning(True)
         self.pushButton_4.setFont(font)
         self.pushButton_4.setText("")
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("../img/results.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/result.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_4.setIcon(icon3)
         self.pushButton_4.setIconSize(QtCore.QSize(70, 70))
         self.pushButton_4.setCheckable(False)
         self.pushButton_4.setFlat(True)
         self.pushButton_4.setObjectName("pushButton_4")
-        self.pushButton_5 = QtWidgets.QPushButton(self.top_frame)
-        self.pushButton_5.setGeometry(QtCore.QRect(790, 0, 91, 81))
-        font = QtGui.QFont()
-        font.setKerning(True)
-        self.pushButton_5.setFont(font)
-        self.pushButton_5.setCheckable(False)
-        self.pushButton_5.setFlat(True)
-        self.pushButton_5.setObjectName("pushButton_5")
         self.label_6 = QtWidgets.QLabel(self.top_frame)
-        self.label_6.setGeometry(QtCore.QRect(20, 20, 281, 51))
+        self.label_6.setGeometry(QtCore.QRect(20, 20, 311, 51))
         self.label_6.setText("")
         self.label_6.setPixmap(QtGui.QPixmap("../img/WSiN0h01.svg"))
         self.label_6.setScaledContents(True)
         self.label_6.setObjectName("label_6")
         self.pushButton_11 = QtWidgets.QPushButton(self.top_frame, clicked = lambda: self.useWindow())
-        self.pushButton_11.setGeometry(QtCore.QRect(1010, 0, 111, 81))
+        self.pushButton_11.setGeometry(QtCore.QRect(1000, 0, 111, 81))
         self.pushButton_11.setToolTip("How to use the application")
         self.pushButton_11.setText("")
         icon4 = QtGui.QIcon()
@@ -171,9 +164,8 @@ class Ui_MainWindow(object):
         self.textEdit = QtWidgets.QTextEdit(self.Gen_frame)
         self.textEdit.setGeometry(QtCore.QRect(240, 30, 821, 181))
         self.textEdit.setObjectName("textEdit")
-        self.textEdit.setReadOnly(True)
         self.textEdit_2 = QtWidgets.QTextEdit(self.Gen_frame)
-        self.textEdit_2.setGeometry(QtCore.QRect(240, 250, 821, 181))
+        self.textEdit_2.setGeometry(QtCore.QRect(240, 240, 821, 181))
         self.textEdit_2.setObjectName("textEdit_2")
         self.label_2 = QtWidgets.QLabel(self.Gen_frame)
         self.label_2.setGeometry(QtCore.QRect(100, 50, 101, 41))
@@ -206,7 +198,7 @@ class Ui_MainWindow(object):
         self.label_7.setGeometry(QtCore.QRect(110, 340, 67, 17))
         self.label_7.setObjectName("label_7")
         self.label_11 = QtWidgets.QLabel(self.Gen_frame)
-        self.label_11.setGeometry(QtCore.QRect(80, 490, 161, 71))
+        self.label_11.setGeometry(QtCore.QRect(80, 620, 161, 71))
         self.label_11.setObjectName("label_11")
         self.textBrowser = QtWidgets.QTextBrowser(self.Gen_frame)
         self.textBrowser.setGeometry(QtCore.QRect(240, 440, 821, 192))
@@ -250,7 +242,7 @@ class Ui_MainWindow(object):
         self.pushButton_9.setFlat(True)
         self.pushButton_9.setObjectName("pushButton_9")
         self.graphicsView = QtWidgets.QGraphicsView(self.frame)
-        self.graphicsView.setGeometry(QtCore.QRect(260, 270, 711, 181))
+        self.graphicsView.setGeometry(QtCore.QRect(290, 270, 711, 181))
         self.graphicsView.setObjectName("graphicsView")
         self.label = QtWidgets.QLabel(self.frame)
         self.label.setGeometry(QtCore.QRect(120, 50, 111, 41))
@@ -259,9 +251,8 @@ class Ui_MainWindow(object):
         self.label_4.setGeometry(QtCore.QRect(120, 150, 101, 31))
         self.label_4.setObjectName("label_4")
         self.textEdit_3 = QtWidgets.QTextEdit(self.frame)
-        self.textEdit_3.setGeometry(QtCore.QRect(260, 50, 711, 181))
+        self.textEdit_3.setGeometry(QtCore.QRect(290, 50, 711, 181))
         self.textEdit_3.setObjectName("textEdit_3")
-        self.textEdit_3.setReadOnly(True)
         self.pushButton_14 = QtWidgets.QPushButton(self.frame)
         self.pushButton_14.setGeometry(QtCore.QRect(30, 230, 91, 91))
         self.pushButton_14.setText("")
@@ -275,10 +266,11 @@ class Ui_MainWindow(object):
         self.label_10.setGeometry(QtCore.QRect(110, 240, 91, 81))
         self.label_10.setObjectName("label_10")
         self.label_13 = QtWidgets.QLabel(self.frame)
-        self.label_13.setGeometry(QtCore.QRect(260, 480, 67, 31))
+        self.label_13.setGeometry(QtCore.QRect(50, 380, 67, 31))
         self.label_13.setObjectName("label_13")
+        self.label_13.setToolTip("Choose chart type")
         self.comboBox = QtWidgets.QComboBox(self.frame)
-        self.comboBox.setGeometry(QtCore.QRect(360, 480, 201, 30))
+        self.comboBox.setGeometry(QtCore.QRect(40, 430, 201, 30))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -293,12 +285,12 @@ class Ui_MainWindow(object):
         self.comboBox.addItem("")
         self.comboBox.addItem("")
         self.frame_3 = QtWidgets.QFrame(self.frame)
-        self.frame_3.setGeometry(QtCore.QRect(600, 460, 391, 61))
+        self.frame_3.setGeometry(QtCore.QRect(20, 510, 261, 141))
         self.frame_3.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_3.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_3.setObjectName("frame_3")
         self.comboBox_2 = QtWidgets.QComboBox(self.frame_3)
-        self.comboBox_2.setGeometry(QtCore.QRect(170, 20, 201, 30))
+        self.comboBox_2.setGeometry(QtCore.QRect(20, 70, 201, 30))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -312,8 +304,14 @@ class Ui_MainWindow(object):
         self.comboBox_2.addItem("")
         self.comboBox_2.addItem("")
         self.label_16 = QtWidgets.QLabel(self.frame_3)
-        self.label_16.setGeometry(QtCore.QRect(60, 20, 91, 31))
+        self.label_16.setGeometry(QtCore.QRect(20, 20, 141, 31))
         self.label_16.setObjectName("label_16")
+        self.graphicsView_3 = QtWidgets.QGraphicsView(self.frame)
+        self.graphicsView_3.setGeometry(QtCore.QRect(320, 480, 681, 192))
+        self.graphicsView_3.setObjectName("graphicsView_3")
+        self.label_17 = QtWidgets.QLabel(self.frame)
+        self.label_17.setGeometry(QtCore.QRect(590, 560, 67, 17))
+        self.label_17.setObjectName("label_17")
         self.pushButton_8.raise_()
         self.pushButton_9.raise_()
         self.label.raise_()
@@ -325,6 +323,8 @@ class Ui_MainWindow(object):
         self.label_13.raise_()
         self.comboBox.raise_()
         self.frame_3.raise_()
+        self.graphicsView_3.raise_()
+        self.label_17.raise_()
         self.stackedWidget.addWidget(self.page_2)
         self.page_3 = QtWidgets.QWidget()
         self.page_3.setObjectName("page_3")
@@ -377,11 +377,9 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
         self.actiontit = QtWidgets.QAction(MainWindow)
         icon12 = QtGui.QIcon()
-        icon12.addPixmap(QtGui.QPixmap("../img/bImXxf01.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon12.addPixmap(QtGui.QPixmap("../icons/bImXxf01.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actiontit.setIcon(icon12)
         self.actiontit.setObjectName("actiontit")
-
-        
 
         self.retranslateUi(MainWindow)
         self.stackedWidget.setCurrentIndex(0)
@@ -389,7 +387,6 @@ class Ui_MainWindow(object):
         self.pushButton_3.clicked.connect(self.show_page_2) # type: ignore  (self.show_page2)
         self.pushButton_4.clicked.connect(self.show_page_3) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
 
 
         self.comboBox.currentIndexChanged.connect(self.show_frame)
@@ -491,13 +488,10 @@ class Ui_MainWindow(object):
     def clear_cl(self):
         self.textEdit_3.clear()
 
-
-
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.pushButton_2.setShortcut(_translate("MainWindow", "Down"))
-        self.pushButton_5.setText(_translate("MainWindow", "Example"))
         self.label_2.setText(_translate("MainWindow", "File Browser"))
         self.label_3.setText(_translate("MainWindow", "Clear"))
         self.label_5.setText(_translate("MainWindow", "Seq_Alig"))
@@ -520,8 +514,8 @@ class Ui_MainWindow(object):
         self.comboBox_2.setItemText(2, _translate("MainWindow", "Wind"))
         self.comboBox_2.setItemText(3, _translate("MainWindow", "Humidity"))
         self.comboBox_2.setItemText(4, _translate("MainWindow", "Altitude"))
-        self.label_16.setText(_translate("MainWindow", "  Climate \n"
-"condition"))
+        self.label_16.setText(_translate("MainWindow", "  Climate condition"))
+        self.label_17.setText(_translate("MainWindow", "Map"))
         self.label_8.setText(_translate("MainWindow", "Settings"))
         self.label_9.setText(_translate("MainWindow", "Submit"))
         self.label_14.setText(_translate("MainWindow", "table of result in csv file"))

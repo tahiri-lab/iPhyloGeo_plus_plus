@@ -21,12 +21,12 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../icons/archive (2)/sherbrooke.png</normaloff>
-    <normalon>../icons/archive (2)/sherbrooke.png</normalon>
-    <disabledon>../icons/archive (2)/sherbrooke.png</disabledon>
-    <activeoff>../icons/archive (2)/sherbrooke.png</activeoff>
-    <activeon>../icons/archive (2)/sherbrooke.png</activeon>
-    <selectedon>../icons/archive (2)/sherbrooke.png</selectedon>../icons/archive (2)/sherbrooke.png</iconset>
+    <normaloff>../../../Desktop/newdesign/icons/archive (2)/sherbrooke.png</normaloff>
+    <normalon>../../../Desktop/newdesign/icons/archive (2)/sherbrooke.png</normalon>
+    <disabledon>../../../Desktop/newdesign/icons/archive (2)/sherbrooke.png</disabledon>
+    <activeoff>../../../Desktop/newdesign/icons/archive (2)/sherbrooke.png</activeoff>
+    <activeon>../../../Desktop/newdesign/icons/archive (2)/sherbrooke.png</activeon>
+    <selectedon>../../../Desktop/newdesign/icons/archive (2)/sherbrooke.png</selectedon>../../../Desktop/newdesign/icons/archive (2)/sherbrooke.png</iconset>
   </property>
   <property name="toolTip">
    <string/>
@@ -60,7 +60,7 @@ background-color: rgb(222, 221, 218);</string>
     <widget class="QPushButton" name="pushButton_2">
      <property name="geometry">
       <rect>
-       <x>390</x>
+       <x>420</x>
        <y>10</y>
        <width>101</width>
        <height>81</height>
@@ -76,7 +76,7 @@ background-color: rgb(222, 221, 218);</string>
      </property>
      <property name="icon">
       <iconset>
-       <normaloff>../icons/archive (2)/RNW0fq01.svg</normaloff>../icons/archive (2)/RNW0fq01.svg</iconset>
+       <normaloff>../img/Genetic.svg</normaloff>../img/Genetic.svg</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -97,7 +97,7 @@ background-color: rgb(222, 221, 218);</string>
     <widget class="QPushButton" name="pushButton_3">
      <property name="geometry">
       <rect>
-       <x>520</x>
+       <x>600</x>
        <y>10</y>
        <width>81</width>
        <height>71</height>
@@ -113,7 +113,7 @@ background-color: rgb(222, 221, 218);</string>
      </property>
      <property name="icon">
       <iconset>
-       <normaloff>../icons/archive (2)/cli.svg</normaloff>../icons/archive (2)/cli.svg</iconset>
+       <normaloff>../img/climatic.svg</normaloff>../img/climatic.svg</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -131,7 +131,7 @@ background-color: rgb(222, 221, 218);</string>
     <widget class="QPushButton" name="pushButton_4">
      <property name="geometry">
       <rect>
-       <x>630</x>
+       <x>770</x>
        <y>10</y>
        <width>81</width>
        <height>71</height>
@@ -147,7 +147,7 @@ background-color: rgb(222, 221, 218);</string>
      </property>
      <property name="icon">
       <iconset>
-       <normaloff>../icons/archive (2)/results.svg</normaloff>../icons/archive (2)/results.svg</iconset>
+       <normaloff>../img/result.svg</normaloff>../img/result.svg</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -162,36 +162,12 @@ background-color: rgb(222, 221, 218);</string>
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_5">
-     <property name="geometry">
-      <rect>
-       <x>790</x>
-       <y>0</y>
-       <width>91</width>
-       <height>81</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <kerning>true</kerning>
-      </font>
-     </property>
-     <property name="text">
-      <string>Example</string>
-     </property>
-     <property name="checkable">
-      <bool>false</bool>
-     </property>
-     <property name="flat">
-      <bool>true</bool>
-     </property>
-    </widget>
     <widget class="QLabel" name="label_6">
      <property name="geometry">
       <rect>
        <x>20</x>
        <y>20</y>
-       <width>281</width>
+       <width>311</width>
        <height>51</height>
       </rect>
      </property>
@@ -199,7 +175,7 @@ background-color: rgb(222, 221, 218);</string>
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap>../icons/archive (2)/WSiN0h01.svg</pixmap>
+      <pixmap>../../../Desktop/newdesign/icons/archive (2)/WSiN0h01.svg</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -208,7 +184,7 @@ background-color: rgb(222, 221, 218);</string>
     <widget class="QPushButton" name="pushButton_11">
      <property name="geometry">
       <rect>
-       <x>1010</x>
+       <x>1000</x>
        <y>0</y>
        <width>111</width>
        <height>81</height>
@@ -219,7 +195,7 @@ background-color: rgb(222, 221, 218);</string>
      </property>
      <property name="icon">
       <iconset>
-       <normaloff>../icons/archive (2)/help.svg</normaloff>../icons/archive (2)/help.svg</iconset>
+       <normaloff>../../../Desktop/newdesign/icons/archive (2)/help.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/help.svg</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -245,7 +221,7 @@ background-color: rgb(222, 221, 218);</string>
      <enum>QFrame::Sunken</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="page">
      <widget class="QFrame" name="main_frame">
@@ -303,7 +279,7 @@ background-color: rgb(222, 221, 218);</string>
         </property>
         <property name="icon">
          <iconset>
-          <normaloff>../icons/archive (2)/Browse.svg</normaloff>../icons/archive (2)/Browse.svg</iconset>
+          <normaloff>../../../Desktop/newdesign/icons/archive (2)/Browse.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/Browse.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -337,7 +313,7 @@ background-color: rgb(222, 221, 218);</string>
         </property>
         <property name="icon">
          <iconset>
-          <normaloff>../icons/archive (2)/erase.svg</normaloff>../icons/archive (2)/erase.svg</iconset>
+          <normaloff>../../../Desktop/newdesign/icons/archive (2)/erase.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/erase.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -366,7 +342,7 @@ background-color: rgb(222, 221, 218);</string>
         <property name="geometry">
          <rect>
           <x>240</x>
-          <y>250</y>
+          <y>240</y>
           <width>821</width>
           <height>181</height>
          </rect>
@@ -412,7 +388,7 @@ background-color: rgb(222, 221, 218);</string>
         </property>
         <property name="icon">
          <iconset>
-          <normaloff>../icons/archive (2)/seq.svg</normaloff>../icons/archive (2)/seq.svg</iconset>
+          <normaloff>../../../Desktop/newdesign/icons/archive (2)/seq.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/seq.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -451,7 +427,7 @@ background-color: rgb(222, 221, 218);</string>
         </property>
         <property name="icon">
          <iconset>
-          <normaloff>../icons/archive (2)/analytics.svg</normaloff>../icons/archive (2)/analytics.svg</iconset>
+          <normaloff>../../../Desktop/newdesign/icons/archive (2)/analytics.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/analytics.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -480,7 +456,7 @@ background-color: rgb(222, 221, 218);</string>
         <property name="geometry">
          <rect>
           <x>80</x>
-          <y>490</y>
+          <y>620</y>
           <width>161</width>
           <height>71</height>
          </rect>
@@ -566,7 +542,7 @@ background-color: rgb(222, 221, 218);</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../icons/archive (2)/Browse.svg</normaloff>../icons/archive (2)/Browse.svg</iconset>
+         <normaloff>../../../Desktop/newdesign/icons/archive (2)/Browse.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/Browse.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -600,7 +576,7 @@ background-color: rgb(222, 221, 218);</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../icons/archive (2)/erase.svg</normaloff>../icons/archive (2)/erase.svg</iconset>
+         <normaloff>../../../Desktop/newdesign/icons/archive (2)/erase.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/erase.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -618,7 +594,7 @@ background-color: rgb(222, 221, 218);</string>
       <widget class="QGraphicsView" name="graphicsView">
        <property name="geometry">
         <rect>
-         <x>260</x>
+         <x>290</x>
          <y>270</y>
          <width>711</width>
          <height>181</height>
@@ -654,7 +630,7 @@ background-color: rgb(222, 221, 218);</string>
       <widget class="QTextEdit" name="textEdit_3">
        <property name="geometry">
         <rect>
-         <x>260</x>
+         <x>290</x>
          <y>50</y>
          <width>711</width>
          <height>181</height>
@@ -675,7 +651,7 @@ background-color: rgb(222, 221, 218);</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../icons/archive (2)/draw climatic.svg</normaloff>../icons/archive (2)/draw climatic.svg</iconset>
+         <normaloff>../../../Desktop/newdesign/icons/archive (2)/draw climatic.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/draw climatic.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -704,8 +680,8 @@ Climatic Tree</string>
       <widget class="QLabel" name="label_13">
        <property name="geometry">
         <rect>
-         <x>260</x>
-         <y>480</y>
+         <x>50</x>
+         <y>380</y>
          <width>67</width>
          <height>31</height>
         </rect>
@@ -717,8 +693,8 @@ Climatic Tree</string>
       <widget class="QComboBox" name="comboBox">
        <property name="geometry">
         <rect>
-         <x>360</x>
-         <y>480</y>
+         <x>40</x>
+         <y>430</y>
          <width>201</width>
          <height>30</height>
         </rect>
@@ -766,10 +742,10 @@ Climatic Tree</string>
       <widget class="QFrame" name="frame_3">
        <property name="geometry">
         <rect>
-         <x>600</x>
-         <y>460</y>
-         <width>391</width>
-         <height>61</height>
+         <x>20</x>
+         <y>510</y>
+         <width>261</width>
+         <height>141</height>
         </rect>
        </property>
        <property name="frameShape">
@@ -781,8 +757,8 @@ Climatic Tree</string>
        <widget class="QComboBox" name="comboBox_2">
         <property name="geometry">
          <rect>
-          <x>170</x>
-          <y>20</y>
+          <x>20</x>
+          <y>70</y>
           <width>201</width>
           <height>30</height>
          </rect>
@@ -825,17 +801,39 @@ Climatic Tree</string>
        <widget class="QLabel" name="label_16">
         <property name="geometry">
          <rect>
-          <x>60</x>
+          <x>20</x>
           <y>20</y>
-          <width>91</width>
+          <width>141</width>
           <height>31</height>
          </rect>
         </property>
         <property name="text">
-         <string>  Climate 
-condition</string>
+         <string>  Climate condition</string>
         </property>
        </widget>
+      </widget>
+      <widget class="QGraphicsView" name="graphicsView_3">
+       <property name="geometry">
+        <rect>
+         <x>320</x>
+         <y>480</y>
+         <width>681</width>
+         <height>192</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_17">
+       <property name="geometry">
+        <rect>
+         <x>590</x>
+         <y>560</y>
+         <width>67</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Map</string>
+       </property>
       </widget>
       <zorder>pushButton_8</zorder>
       <zorder>pushButton_9</zorder>
@@ -848,6 +846,8 @@ condition</string>
       <zorder>label_13</zorder>
       <zorder>comboBox</zorder>
       <zorder>frame_3</zorder>
+      <zorder>graphicsView_3</zorder>
+      <zorder>label_17</zorder>
      </widget>
     </widget>
     <widget class="QWidget" name="page_3">
@@ -883,7 +883,7 @@ condition</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../icons/archive (2)/settings.svg</normaloff>../icons/archive (2)/settings.svg</iconset>
+         <normaloff>../../../Desktop/newdesign/icons/archive (2)/settings.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/settings.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -909,7 +909,7 @@ condition</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../icons/archive (2)/submit.svg</normaloff>../icons/archive (2)/submit.svg</iconset>
+         <normaloff>../../../Desktop/newdesign/icons/archive (2)/submit.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/submit.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1001,7 +1001,7 @@ condition</string>
   <action name="actiontit">
    <property name="icon">
     <iconset>
-     <normaloff>../icons/bImXxf01.svg</normaloff>../icons/bImXxf01.svg</iconset>
+     <normaloff>../../../Desktop/newdesign/icons/bImXxf01.svg</normaloff>../../../Desktop/newdesign/icons/bImXxf01.svg</iconset>
    </property>
    <property name="text">
     <string>tit</string>
