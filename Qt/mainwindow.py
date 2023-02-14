@@ -10,11 +10,14 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import Qt
 import pathlib
-#from help import Ui_how_to_use
+from Bio import SeqIO
+from Bio.Seq import Seq
 from parameters import Ui_Dialog
 from help import Ui_how_to_use
-#from cltree import Ui_ct 
+from cltree import Ui_ct 
 import PyPDF2
 import toytree
 import toyplot.pdf
@@ -33,6 +36,14 @@ class Ui_MainWindow(object):
         self.ui = Ui_Dialog()
         self.ui.setupUi(self.window)
         self.window.show()
+
+    # open cltree window
+    def openWindow(self):
+        from cltree import Ui_ct
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_ct()
+        self.ui.setupUi(self.window)
+        self.window.show() 
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -65,6 +76,7 @@ class Ui_MainWindow(object):
         font.setKerning(True)
         self.pushButton_2.setFont(font)
         self.pushButton_2.setToolTip("Genetic Data")
+        self.pushButton_2.clicked.connect(self.change_icon_and_show_page)
         self.pushButton_2.setText("")
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/Genetic.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -76,6 +88,7 @@ class Ui_MainWindow(object):
         self.pushButton_3 = QtWidgets.QPushButton(self.top_frame)
         self.pushButton_3.setGeometry(QtCore.QRect(600, 10, 81, 71))
         self.pushButton_3.setToolTip("Climatic Data")
+        self.pushButton_3.clicked.connect(self.change_icon_and_show_page_2)
         font = QtGui.QFont()
         font.setKerning(True)
         self.pushButton_3.setFont(font)
@@ -90,6 +103,7 @@ class Ui_MainWindow(object):
         self.pushButton_4 = QtWidgets.QPushButton(self.top_frame)
         self.pushButton_4.setGeometry(QtCore.QRect(770, 10, 81, 71))
         self.pushButton_4.setToolTip("Results")
+        self.pushButton_4.clicked.connect(self.change_icon_and_show_page_3)
         font = QtGui.QFont()
         font.setKerning(True)
         self.pushButton_4.setFont(font)
@@ -164,6 +178,7 @@ class Ui_MainWindow(object):
         self.textEdit = QtWidgets.QTextEdit(self.Gen_frame)
         self.textEdit.setGeometry(QtCore.QRect(240, 30, 821, 181))
         self.textEdit.setObjectName("textEdit")
+        self.textEdit.setReadOnly(True)
         self.textEdit_2 = QtWidgets.QTextEdit(self.Gen_frame)
         self.textEdit_2.setGeometry(QtCore.QRect(240, 240, 821, 181))
         self.textEdit_2.setObjectName("textEdit_2")
@@ -253,7 +268,8 @@ class Ui_MainWindow(object):
         self.textEdit_3 = QtWidgets.QTextEdit(self.frame)
         self.textEdit_3.setGeometry(QtCore.QRect(290, 50, 711, 181))
         self.textEdit_3.setObjectName("textEdit_3")
-        self.pushButton_14 = QtWidgets.QPushButton(self.frame)
+        self.textEdit_3.setReadOnly(True)
+        self.pushButton_14 = QtWidgets.QPushButton(self.frame, clicked = lambda: self.openWindow())
         self.pushButton_14.setGeometry(QtCore.QRect(30, 230, 91, 91))
         self.pushButton_14.setText("")
         icon9 = QtGui.QIcon()
@@ -407,24 +423,28 @@ class Ui_MainWindow(object):
         self.stackedWidget.setCurrentIndex(2)
 
         
+    
+        
     def press_it(self):
         options = QFileDialog.Options()
         options |= QFileDialog.ReadOnly
-        fileName, _ = QFileDialog.getOpenFileName(None,"QFileDialog.getOpenFileName()", "","All Files (*);;Text Files (*.txt)", options=options)
+        fileName, _ = QFileDialog.getOpenFileName(None, "Select FASTA file", "", " (*.fasta);; (*.fasta)", options=options)
         if fileName:
-            with open(fileName, "r") as f:
-                content = f.read()
-                self.textEdit.setText(content)
-                global sequence
-                sequence = ''
-                for char in content:
-                    sequence += char.strip()
-                self.child_window = QtWidgets.QMainWindow()
-                self.ui = Ui_how_to_use()
-                self.ui.setupUi(self.child_window)
-                self.child_window.setWindowModality(QtCore.Qt.NonModal)
+         with open(fileName, "r") as f:
+            content = f.read()
+            self.textEdit.setText(content)
+            global sequence
+            sequence = ''
+            for char in content:
+                sequence += char.strip()
+            self.child_window = QtWidgets.QMainWindow()
+            self.ui = Ui_how_to_use()
+            self.ui.setupUi(self.child_window)
+            self.child_window.setWindowModality(QtCore.Qt.NonModal)
+        
 
-        def color_background(letter):
+    
+    def color_background(letter):
             if letter == 'A':
                 return 'background-color: yellow'
             elif letter == 'C':
@@ -436,15 +456,18 @@ class Ui_MainWindow(object):
             else:
                 return ''
 
-        if 'sequence' in globals():
-            formatted_sequence = ''.join(f'<span style="{color_background(l)}">{l}</span>' for l in sequence)
-            self.textEdit.setText(formatted_sequence)
+    if 'sequence' in globals():
+        formatted_sequence = ''.join(f'<span style="{color_background(l)}">{l}</span>' for l in sequence)
+        self.textEdit.setText(formatted_sequence)
+
 
 
     def pressit(self):
         options = QFileDialog.Options()
         options |= QFileDialog.ReadOnly
-        fileName, _ = QFileDialog.getOpenFileName(None,"QFileDialog.getOpenFileName()", "","All Files (*);;Text Files (*.txt)", options=options)
+        #fileName, _ = QFileDialog.getOpenFileName(None,"QFileDialog.getOpenFileName()", "","All Files (*);;Text Files (*.txt)", options=options)
+        fileName, _ = QFileDialog.getOpenFileName(None,"Select CSV file", "","Comma Separated Values (*.csv)", options=options)
+   
         if fileName:
             with open(fileName, "r") as c:
                 lines = c.readlines()
@@ -465,28 +488,41 @@ class Ui_MainWindow(object):
                 #self.child_window.show()
 
 
-    def prevent_closing(self):
-        options = QFileDialog.Options()
-        options |= QFileDialog.ReadOnly
-        fileName, _ = QFileDialog.getOpenFileName(None,"QFileDialog.getOpenFileName()", "","All Files (*);;Text Files (*.txt)", options=options)
-        if fileName:
-            with open(fileName, "r") as f:
-                data = f.read()
-                self.page.setText(data)
-                self.child_window = QtWidgets.QMainWindow()
-                self.ui = Ui_how_to_use()
-                self.ui.setupUi(self.child_window)
-                self.child_window.setWindowModality(QtCore.Qt.NonModal)
-                self.child_window.show()    
-
-
-
-
     # press the button to delet data
     def clear_it(self):
         self.textEdit.clear()
     def clear_cl(self):
         self.textEdit_3.clear()
+
+    def change_icon_and_show_page_2(self):
+            if self.pushButton_3.icon().isNull():
+                self.pushButton_3.setIcon(QIcon("icon2.png"))
+            else:
+                self.pushButton_3.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/cli.svg"))
+                self.pushButton_2.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/genetic.svg"))
+                self.pushButton_4.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/result.svg"))
+            self.show_page_2()
+
+    def change_icon_and_show_page(self):
+            if self.pushButton_2.icon().isNull():
+                self.pushButton_2.setIcon(QIcon("icon1.png"))
+            else:
+                self.pushButton_3.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/climatic.svg"))
+                self.pushButton_2.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/Genetic.svg"))
+                self.pushButton_4.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/result.svg"))
+            self.show_page()
+
+    def change_icon_and_show_page_3(self):
+            if self.pushButton_4.icon().isNull():
+                self.pushButton_4.setIcon(QIcon("icon3.png"))
+            else:
+                self.pushButton_3.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/climatic.svg"))
+                self.pushButton_2.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/genetic.svg"))
+                self.pushButton_4.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/monitor.svg"))
+            self.show_page_3()
+
+
+    
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
