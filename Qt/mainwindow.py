@@ -94,7 +94,7 @@ class Ui_MainWindow(object):
         self.pushButton_3.setFont(font)
         self.pushButton_3.setText("")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/climatic.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/cli.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_3.setIcon(icon2)
         self.pushButton_3.setIconSize(QtCore.QSize(75, 75))
         self.pushButton_3.setCheckable(False)
@@ -498,8 +498,8 @@ class Ui_MainWindow(object):
             if self.pushButton_3.icon().isNull():
                 self.pushButton_3.setIcon(QIcon("icon2.png"))
             else:
-                self.pushButton_3.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/cli.svg"))
-                self.pushButton_2.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/genetic.svg"))
+                self.pushButton_3.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/climatic_actg.svg"))
+                self.pushButton_2.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/Genetic.svg"))
                 self.pushButton_4.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/result.svg"))
             self.show_page_2()
 
@@ -507,8 +507,8 @@ class Ui_MainWindow(object):
             if self.pushButton_2.icon().isNull():
                 self.pushButton_2.setIcon(QIcon("icon1.png"))
             else:
-                self.pushButton_3.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/climatic.svg"))
-                self.pushButton_2.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/Genetic.svg"))
+                self.pushButton_3.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/cli.svg"))
+                self.pushButton_2.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/genetic_actg.svg"))
                 self.pushButton_4.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/result.svg"))
             self.show_page()
 
@@ -516,9 +516,9 @@ class Ui_MainWindow(object):
             if self.pushButton_4.icon().isNull():
                 self.pushButton_4.setIcon(QIcon("icon3.png"))
             else:
-                self.pushButton_3.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/climatic.svg"))
-                self.pushButton_2.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/genetic.svg"))
-                self.pushButton_4.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/monitor.svg"))
+                self.pushButton_3.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/cli.svg"))
+                self.pushButton_2.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/Genetic.svg"))
+                self.pushButton_4.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/result_actg.svg"))
             self.show_page_3()
 
 
