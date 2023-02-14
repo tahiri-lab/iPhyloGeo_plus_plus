@@ -45,6 +45,11 @@ class Ui_MainWindow(object):
         self.ui.setupUi(self.window)
         self.window.show() 
 
+
+    def enable_button(self):
+        if textEdit.toPlainText():
+            pushButton_4.setEnabled(True)
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
@@ -77,6 +82,7 @@ class Ui_MainWindow(object):
         self.pushButton_2.setFont(font)
         self.pushButton_2.setToolTip("Genetic Data")
         self.pushButton_2.clicked.connect(self.change_icon_and_show_page)
+        self.pushButton_2.clicked.connect(self.enableFrame)
         self.pushButton_2.setText("")
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/Genetic.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -112,6 +118,7 @@ class Ui_MainWindow(object):
         icon3.addPixmap(QtGui.QPixmap("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/result.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_4.setIcon(icon3)
         self.pushButton_4.setIconSize(QtCore.QSize(70, 70))
+        self.pushButton_4.setEnabled(False)
         self.pushButton_4.setCheckable(False)
         self.pushButton_4.setFlat(True)
         self.pushButton_4.setObjectName("pushButton_4")
@@ -149,6 +156,7 @@ class Ui_MainWindow(object):
         self.Gen_frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.Gen_frame.setLineWidth(0)
         self.Gen_frame.setObjectName("Gen_frame")
+        self.Gen_frame.setEnabled(False)
         self.pushButton_6 = QtWidgets.QPushButton(self.Gen_frame, clicked = lambda: self.press_it())
         self.pushButton_6.setGeometry(QtCore.QRect(30, 30, 71, 81))
         font = QtGui.QFont()
@@ -178,6 +186,7 @@ class Ui_MainWindow(object):
         self.textEdit = QtWidgets.QTextEdit(self.Gen_frame)
         self.textEdit.setGeometry(QtCore.QRect(240, 30, 821, 181))
         self.textEdit.setObjectName("textEdit")
+        self.textEdit.textChanged.connect(self.onTextChanged)
         self.textEdit.setReadOnly(True)
         self.textEdit_2 = QtWidgets.QTextEdit(self.Gen_frame)
         self.textEdit_2.setGeometry(QtCore.QRect(240, 240, 821, 181))
@@ -268,6 +277,7 @@ class Ui_MainWindow(object):
         self.textEdit_3 = QtWidgets.QTextEdit(self.frame)
         self.textEdit_3.setGeometry(QtCore.QRect(290, 50, 711, 181))
         self.textEdit_3.setObjectName("textEdit_3")
+        self.textEdit_3.textChanged.connect(self.onTextChanged)
         self.textEdit_3.setReadOnly(True)
         self.pushButton_14 = QtWidgets.QPushButton(self.frame, clicked = lambda: self.openWindow())
         self.pushButton_14.setGeometry(QtCore.QRect(30, 230, 91, 91))
@@ -399,9 +409,9 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         self.stackedWidget.setCurrentIndex(0)
-        self.pushButton_2.clicked.connect(self.show_page) # type: ignore
-        self.pushButton_3.clicked.connect(self.show_page_2) # type: ignore  (self.show_page2)
-        self.pushButton_4.clicked.connect(self.show_page_3) # type: ignore
+        self.pushButton_2.clicked.connect(self.show_page) 
+        self.pushButton_3.clicked.connect(self.show_page_2) 
+        self.pushButton_4.clicked.connect(self.show_page_3) 
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
 
@@ -456,8 +466,6 @@ class Ui_MainWindow(object):
             self.textEdit.setHtml(formatted_sequence)
 
 
-
-
     def pressit(self):
         options = QFileDialog.Options()
         options |= QFileDialog.ReadOnly
@@ -490,13 +498,26 @@ class Ui_MainWindow(object):
     def clear_cl(self):
         self.textEdit_3.clear()
 
+    # Enable_button():
+    def onTextChanged(self):
+        if self.textEdit.toPlainText() and self.textEdit_3.toPlainText():
+            self.pushButton_4.setEnabled(True)
+            self.pushButton_4.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/resule_press.svg"))
+        else:
+            self.pushButton_4.setEnabled(False)
+
+    # enable the frame when the push button is clicked
+    def enableFrame(self):
+        self.Gen_frame.setEnabled(True)
+
+
     def change_icon_and_show_page_2(self):
             if self.pushButton_3.icon().isNull():
                 self.pushButton_3.setIcon(QIcon("icon2.png"))
             else:
                 self.pushButton_3.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/climatic_actg.svg"))
                 self.pushButton_2.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/Genetic.svg"))
-                self.pushButton_4.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/result.svg"))
+                self.pushButton_4.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/resule_press.svg"))
             self.show_page_2()
 
     def change_icon_and_show_page(self):
@@ -504,8 +525,8 @@ class Ui_MainWindow(object):
                 self.pushButton_2.setIcon(QIcon("icon1.png"))
             else:
                 self.pushButton_3.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/cli.svg"))
-                self.pushButton_2.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/genetic_actg.svg"))
-                self.pushButton_4.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/result.svg"))
+                self.pushButton_2.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/genetic_actg.svg")) 
+                self.pushButton_4.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/resule_press.svg"))
             self.show_page()
 
     def change_icon_and_show_page_3(self):
