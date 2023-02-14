@@ -423,30 +423,25 @@ class Ui_MainWindow(object):
         self.stackedWidget.setCurrentIndex(2)
 
         
-    
-        
     def press_it(self):
         options = QFileDialog.Options()
         options |= QFileDialog.ReadOnly
         fileName, _ = QFileDialog.getOpenFileName(None, "Select FASTA file", "", " (*.fasta);; (*.fasta)", options=options)
         if fileName:
-         with open(fileName, "r") as f:
-            content = f.read()
-            self.textEdit.setText(content)
-            global sequence
-            sequence = ''
-            for char in content:
-                sequence += char.strip()
-            self.child_window = QtWidgets.QMainWindow()
-            self.ui = Ui_how_to_use()
-            self.ui.setupUi(self.child_window)
-            self.child_window.setWindowModality(QtCore.Qt.NonModal)
-        
+            with open(fileName, "r") as f:
+                content = f.read()
+                self.textEdit.setText(content)
+                global sequence
+                sequence = ''
+                for char in content:
+                    sequence += char#.strip()
 
-    
-    def color_background(letter):
+        
+        def color_background(letter):
             if letter == 'A':
                 return 'background-color: yellow'
+            elif letter == '>':
+                return '\n'
             elif letter == 'C':
                 return 'background-color: blue'
             elif letter == 'G':
@@ -456,9 +451,10 @@ class Ui_MainWindow(object):
             else:
                 return ''
 
-    if 'sequence' in globals():
-        formatted_sequence = ''.join(f'<span style="{color_background(l)}">{l}</span>' for l in sequence)
-        self.textEdit.setText(formatted_sequence)
+        if 'sequence' in globals():
+            formatted_sequence = ''.join(f'<span style="{color_background(l)}">{l}</span>' for l in sequence)
+            self.textEdit.setHtml(formatted_sequence)
+
 
 
 
