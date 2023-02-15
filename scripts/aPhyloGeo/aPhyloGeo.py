@@ -15,7 +15,7 @@ from Bio.Phylo.TreeConstruction import DistanceTreeConstructor
 from Bio.Phylo.TreeConstruction import _DistanceMatrix
 from csv import writer
 #from yaml.loader import SafeLoader
-from toyplot import pdf, png
+from toyplot import pdf, png, browser
 
 
 # We open the params.yaml file and put it in the params variable
@@ -176,7 +176,6 @@ def drawTreesmake(trees):
         randColor = "#%03x" % random.randint(0, 0xFFF)
         axes[i].text(0,mtree.ntips,names[i+1],style={'fill':randColor,
                     'font-size':'10px', 'font-weight':'bold'});
-
     toyplot.pdf.render(canvas,'../viz/climatic_trees.pdf')
     toyplot.png.render(canvas,'../viz/climatic_trees.png')
 
@@ -406,4 +405,5 @@ def geneticPipeline(climaticTrees):
 def create_and_save_tree():
     trees = climaticPipeline()
     drawTreesmake(trees)
+
 

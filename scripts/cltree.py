@@ -7,7 +7,7 @@ import toytree
 import random
 import toyplot.pdf
 import sys
-
+from aPhyloGeo.aPhyloGeo import create_and_save_tree
 
 class Ui_ct(object):
     def setupUi(self, ct):
@@ -47,6 +47,7 @@ class Ui_ct(object):
         self.actionPrint.setText(_translate("ct", "Print"))
 
         #create and show climatic tree
+        create_and_save_tree()    #modified by Yannick
         self.label.setPixmap(QtGui.QPixmap('../viz/climatic_trees.png')) #modified by Yannick
 
 
