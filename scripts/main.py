@@ -252,6 +252,7 @@ class Ui_Main_Window(object):
                 num_rows = len(lines)
                 first_line = lines[1].split(",")
                 num_columns = len(first_line)
+                self.te2.clear()   #modified by Yannick
                 cursor = QtGui.QTextCursor(self.te2.textCursor())
                 cursor.insertTable(num_rows, num_columns)
                 for line in lines:
