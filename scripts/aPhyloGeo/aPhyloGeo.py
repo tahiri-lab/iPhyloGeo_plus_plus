@@ -9,8 +9,8 @@ import toytree
 from Bio.Phylo.TreeConstruction import DistanceCalculator
 from Bio.Phylo.TreeConstruction import DistanceTreeConstructor
 from Bio.Phylo.Consensus import *
-from aPhyloGeo.MultiProcessor import Multi
-from aPhyloGeo.Alignement import AlignSequences
+from scripts.aPhyloGeo.MultiProcessor import Multi
+from scripts.aPhyloGeo.Alignement import AlignSequences
 from Bio.Phylo.TreeConstruction import DistanceTreeConstructor
 from Bio.Phylo.TreeConstruction import _DistanceMatrix
 from csv import writer

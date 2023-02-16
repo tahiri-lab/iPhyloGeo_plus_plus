@@ -21,6 +21,7 @@ from cltree import Ui_ct
 import PyPDF2
 import toytree
 import toyplot.pdf
+import scripts.aPhyloGeo.aPhyloGeo
 
 class Ui_MainWindow(object):
     
@@ -56,12 +57,12 @@ class Ui_MainWindow(object):
         MainWindow.resize(1109, 981)
         MainWindow.setFocusPolicy(QtCore.Qt.StrongFocus)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/sherbrooke.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        icon.addPixmap(QtGui.QPixmap("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/sherbrooke.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
-        icon.addPixmap(QtGui.QPixmap("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/imgsherbrooke.png"), QtGui.QIcon.Disabled, QtGui.QIcon.On)
-        icon.addPixmap(QtGui.QPixmap("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/sherbrooke.png"), QtGui.QIcon.Active, QtGui.QIcon.Off)
-        icon.addPixmap(QtGui.QPixmap("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/sherbrooke.png"), QtGui.QIcon.Active, QtGui.QIcon.On)
-        icon.addPixmap(QtGui.QPixmap("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/sherbrooke.png"), QtGui.QIcon.Selected, QtGui.QIcon.On)
+        icon.addPixmap(QtGui.QPixmap("../img/sherbrooke.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("../img/sherbrooke.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        icon.addPixmap(QtGui.QPixmap("../img/sherbrooke.png"), QtGui.QIcon.Disabled, QtGui.QIcon.On)
+        icon.addPixmap(QtGui.QPixmap("../img/sherbrooke.png"), QtGui.QIcon.Active, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("../img/sherbrooke.png"), QtGui.QIcon.Active, QtGui.QIcon.On)
+        icon.addPixmap(QtGui.QPixmap("../img/sherbrooke.png"), QtGui.QIcon.Selected, QtGui.QIcon.On)
         MainWindow.setWindowIcon(icon)
         MainWindow.setToolTip("")
         MainWindow.setInputMethodHints(QtCore.Qt.ImhNone)
@@ -85,7 +86,7 @@ class Ui_MainWindow(object):
         self.pushButton_2.clicked.connect(self.enableFrame)
         self.pushButton_2.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/Genetic.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("../img/Genetic.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_2.setIcon(icon1)
         self.pushButton_2.setIconSize(QtCore.QSize(75, 75))
         self.pushButton_2.setCheckable(False)
@@ -100,7 +101,7 @@ class Ui_MainWindow(object):
         self.pushButton_3.setFont(font)
         self.pushButton_3.setText("")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/cli.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap("../img/cli.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_3.setIcon(icon2)
         self.pushButton_3.setIconSize(QtCore.QSize(75, 75))
         self.pushButton_3.setCheckable(False)
@@ -115,7 +116,7 @@ class Ui_MainWindow(object):
         self.pushButton_4.setFont(font)
         self.pushButton_4.setText("")
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/result.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap("../img/result.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_4.setIcon(icon3)
         self.pushButton_4.setIconSize(QtCore.QSize(70, 70))
         self.pushButton_4.setEnabled(False)
@@ -490,6 +491,7 @@ class Ui_MainWindow(object):
                 num_rows = len(lines)
                 first_line = lines[1].split(",")
                 num_columns = len(first_line)
+                self.textEdit_3.clear()
                 cursor = QtGui.QTextCursor(self.textEdit_3.textCursor())
                 cursor.insertTable(num_rows, num_columns)
                 for line in lines:
@@ -514,7 +516,7 @@ class Ui_MainWindow(object):
     def onTextChanged(self):
         if self.textEdit.toPlainText() and self.textEdit_3.toPlainText():
             self.pushButton_4.setEnabled(True)
-            self.pushButton_4.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/resule_press.svg"))
+            self.pushButton_4.setIcon(QIcon("../img/resule_press.svg"))
         else:
             self.pushButton_4.setEnabled(False)
 
@@ -527,27 +529,27 @@ class Ui_MainWindow(object):
             if self.pushButton_3.icon().isNull():
                 self.pushButton_3.setIcon(QIcon("icon2.png"))
             else:
-                self.pushButton_3.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/climatic_actg.svg"))
-                self.pushButton_2.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/Genetic.svg"))
-                self.pushButton_4.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/resule_press.svg"))
+                self.pushButton_3.setIcon(QIcon("../img/climatic_actg.svg"))
+                self.pushButton_2.setIcon(QIcon("../img/Genetic.svg"))
+                self.pushButton_4.setIcon(QIcon("../img/resule_press.svg"))
             self.show_page_2()
 
     def change_icon_and_show_page(self):
             if self.pushButton_2.icon().isNull():
                 self.pushButton_2.setIcon(QIcon("icon1.png"))
             else:
-                self.pushButton_3.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/cli.svg"))
-                self.pushButton_2.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/genetic_actg.svg")) 
-                self.pushButton_4.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/resule_press.svg"))
+                self.pushButton_3.setIcon(QIcon("../img/cli.svg"))
+                self.pushButton_2.setIcon(QIcon("../img/genetic_actg.svg")) 
+                self.pushButton_4.setIcon(QIcon("../img/resule_press.svg"))
             self.show_page()
 
     def change_icon_and_show_page_3(self):
             if self.pushButton_4.icon().isNull():
                 self.pushButton_4.setIcon(QIcon("icon3.png"))
             else:
-                self.pushButton_3.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/cli.svg"))
-                self.pushButton_2.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/Genetic.svg"))
-                self.pushButton_4.setIcon(QIcon("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/result_actg.svg"))
+                self.pushButton_3.setIcon(QIcon("../img/cli.svg"))
+                self.pushButton_2.setIcon(QIcon("../img/Genetic.svg"))
+                self.pushButton_4.setIcon(QIcon("../img/result_actg.svg"))
             self.show_page_3()
 
 

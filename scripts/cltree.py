@@ -33,7 +33,7 @@ class Ui_ct(object):
         self.toolBar.addAction(self.actionPrint)
 
         self.label = QtWidgets.QLabel(self.centralwidget)  #modified by Yannick
-
+        
     
         self.retranslateUi(ct)
         QtCore.QMetaObject.connectSlotsByName(ct)
@@ -49,6 +49,7 @@ class Ui_ct(object):
         #create and show climatic tree
         create_and_save_tree()    #modified by Yannick
         self.label.setPixmap(QtGui.QPixmap('../viz/climatic_trees.png')) #modified by Yannick
+
 
 
 if __name__ == "__main__":
