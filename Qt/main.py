@@ -56,12 +56,12 @@ class Ui_MainWindow(object):
         MainWindow.resize(1109, 981)
         MainWindow.setFocusPolicy(QtCore.Qt.StrongFocus)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../icons/archive (2)/sherbrooke.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        icon.addPixmap(QtGui.QPixmap("../icons/archive (2)/sherbrooke.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
-        icon.addPixmap(QtGui.QPixmap("../icons/archive (2)/sherbrooke.png"), QtGui.QIcon.Disabled, QtGui.QIcon.On)
-        icon.addPixmap(QtGui.QPixmap("../icons/archive (2)/sherbrooke.png"), QtGui.QIcon.Active, QtGui.QIcon.Off)
-        icon.addPixmap(QtGui.QPixmap("../icons/archive (2)/sherbrooke.png"), QtGui.QIcon.Active, QtGui.QIcon.On)
-        icon.addPixmap(QtGui.QPixmap("../icons/archive (2)/sherbrooke.png"), QtGui.QIcon.Selected, QtGui.QIcon.On)
+        icon.addPixmap(QtGui.QPixmap("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/sherbrooke.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/sherbrooke.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        icon.addPixmap(QtGui.QPixmap("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/imgsherbrooke.png"), QtGui.QIcon.Disabled, QtGui.QIcon.On)
+        icon.addPixmap(QtGui.QPixmap("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/sherbrooke.png"), QtGui.QIcon.Active, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/sherbrooke.png"), QtGui.QIcon.Active, QtGui.QIcon.On)
+        icon.addPixmap(QtGui.QPixmap("../../../aPhyloGeo_plus_plus/aPhyloGeo_plus_plus/img/sherbrooke.png"), QtGui.QIcon.Selected, QtGui.QIcon.On)
         MainWindow.setWindowIcon(icon)
         MainWindow.setToolTip("")
         MainWindow.setInputMethodHints(QtCore.Qt.ImhNone)
@@ -451,7 +451,7 @@ class Ui_MainWindow(object):
             if letter == 'A':
                 return 'background-color: yellow'
             elif letter == '>':
-                return '\n'
+                return '<br>'
             elif letter == 'C':
                 return 'background-color: blue'
             elif letter == 'G':
@@ -462,7 +462,19 @@ class Ui_MainWindow(object):
                 return ''
 
         if 'sequence' in globals():
-            formatted_sequence = ''.join(f'<span style="{color_background(l)}">{l}</span>' for l in sequence)
+            formatted_sequence = ''
+            for l in sequence:
+                charA = color_background(l)
+                if charA == '<br>':
+                    if formatted_sequence != '':
+                        formatted_sequence += '<span style="{background-color: white}">' + charA + l + '</span>'
+                    else:
+                        formatted_sequence = '<span style="{background-color: white}">' + l + '</span>'
+                else:
+                    formatted_sequence += '<span style="{' + color_background(l) + '}">' + l + '</span>'
+
+            #formatted_sequence = ''.join(f'<span style="{color_background(l)}">{l}</span>' for l in sequence)
+            #print(formatted_sequence)
             self.textEdit.setHtml(formatted_sequence)
 
 
