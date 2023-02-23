@@ -81,12 +81,18 @@
       <property name="text">
        <string>Metric threshold</string>
       </property>
+      <property name="indent">
+       <number>10</number>
+      </property>
      </widget>
     </item>
     <item row="5" column="0">
      <widget class="QLabel" name="label_6">
       <property name="text">
        <string>Metrics </string>
+      </property>
+      <property name="indent">
+       <number>10</number>
       </property>
      </widget>
     </item>
@@ -95,12 +101,18 @@
       <property name="text">
        <string>Bootstrap value</string>
       </property>
+      <property name="indent">
+       <number>10</number>
+      </property>
      </widget>
     </item>
     <item row="2" column="0">
      <widget class="QLabel" name="label_3">
       <property name="text">
        <string>Window size</string>
+      </property>
+      <property name="indent">
+       <number>10</number>
       </property>
      </widget>
     </item>
@@ -173,6 +185,9 @@
      <widget class="QLabel" name="label_4">
       <property name="text">
        <string>Step size</string>
+      </property>
+      <property name="indent">
+       <number>10</number>
       </property>
      </widget>
     </item>
