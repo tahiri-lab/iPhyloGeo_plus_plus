@@ -14,11 +14,20 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_how_to_use(object):
     def setupUi(self, how_to_use):
         how_to_use.setObjectName("how_to_use")
-        how_to_use.resize(800, 610)
+        #
+        how_to_use.resize(1243, 1100)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(how_to_use.sizePolicy().hasHeightForWidth())
+        how_to_use.setSizePolicy(sizePolicy)
+        how_to_use.setMinimumSize(QtCore.QSize(1243, 1100))
+        how_to_use.setMaximumSize(QtCore.QSize(1243, 1100))
+        #        
         self.centralwidget = QtWidgets.QWidget(how_to_use)
         self.centralwidget.setObjectName("centralwidget")
         self.textBrowser = QtWidgets.QTextBrowser(self.centralwidget)
-        self.textBrowser.setGeometry(QtCore.QRect(0, 0, 801, 581))
+        self.textBrowser.setGeometry(QtCore.QRect(5, 1, 1235, 1095))
         self.textBrowser.setObjectName("textBrowser")
         how_to_use.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(how_to_use)
