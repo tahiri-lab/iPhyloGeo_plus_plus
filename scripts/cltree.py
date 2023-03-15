@@ -6,7 +6,10 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import toytree
 import random
 import toyplot.pdf
+import toyplot.svg
+import toyplot.browser
 import sys
+import io
 sys.path.append('..')
 from scripts.aPhyloGeo.aPhyloGeo import create_and_save_tree
 
@@ -36,6 +39,10 @@ class Ui_ct(object):
 
         self.label = QtWidgets.QLabel(self.centralwidget)  #modified by Yannick
 
+        saveAction = QtWidgets.QAction("Save", self.label)
+        self.toolBar.addAction(saveAction)
+        saveAction.triggered.connect(self.save)
+
     
         self.retranslateUi(ct)
         QtCore.QMetaObject.connectSlotsByName(ct)
@@ -50,7 +57,17 @@ class Ui_ct(object):
 
         #create and show climatic tree
         create_and_save_tree()
-        self.label.setPixmap(QtGui.QPixmap('../viz/climatic_trees.png')) #modified by Yannick
+        pixmap = QtGui.QPixmap('/tmp/climatic_trees.png')
+        self.label.setPixmap(pixmap)
+        self.image = QtGui.QPixmap.toImage(pixmap)
+        os.remove('/tmp/climatic_trees.png')
+    
+    def save(self):
+        filePath, _ = QtWidgets.QFileDialog.getSaveFileName(self.label, "Save Image", "",
+                         "PNG(*.png);;JPEG(*.jpg *.jpeg);;All Files(*.*) ")
+        if filePath != "":
+            self.image.save(filePath)
+
 
 
 if __name__ == "__main__":

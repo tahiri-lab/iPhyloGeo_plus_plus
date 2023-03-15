@@ -15,7 +15,9 @@ from Bio.Phylo.TreeConstruction import DistanceTreeConstructor
 from Bio.Phylo.TreeConstruction import _DistanceMatrix
 from csv import writer
 #from yaml.loader import SafeLoader
-from toyplot import pdf, png, browser
+from toyplot import pdf, png, browser, svg, html
+import io
+import tempfile
 
 
 # We open the params.yaml file and put it in the params variable
@@ -164,7 +166,7 @@ def drawTreesmake(trees):
                 node.add_feature('color', toytree.colors[7]) 
             else:
                 node.add_feature('color', toytree.colors[1])  
-    colors = tree.get_node_values('color', show_root=1, show_tips=1) 
+    colors = tree.get_node_values('color', show_root=1, show_tips=1)
 
     # Draw the climatic trees
     canvas, axes, mark = mtree.draw(nrows = round(len(mtree)/5), 
@@ -176,8 +178,8 @@ def drawTreesmake(trees):
         randColor = "#%03x" % random.randint(0, 0xFFF)
         axes[i].text(0,mtree.ntips,names[i+1],style={'fill':randColor,
                     'font-size':'10px', 'font-weight':'bold'});
-    toyplot.pdf.render(canvas,'../viz/climatic_trees.pdf')
-    toyplot.png.render(canvas,'../viz/climatic_trees.png')
+    toyplot.png.render(canvas,'/tmp/climatic_trees.png')
+
 
 
 def createTree(dm):
@@ -404,6 +406,6 @@ def geneticPipeline(climaticTrees):
 #function that will actually be called - modified by Yannick
 def create_and_save_tree():
     trees = climaticPipeline()
-    drawTreesmake(trees)
+    return drawTreesmake(trees)
 
 
