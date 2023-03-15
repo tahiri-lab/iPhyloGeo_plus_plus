@@ -66,7 +66,7 @@ class Ui_ct(object):
         filePath, _ = QtWidgets.QFileDialog.getSaveFileName(self.label, "Save Image", "",
                          "PNG(*.png);;JPEG(*.jpg *.jpeg);;All Files(*.*) ")
         if filePath != "":
-            self.image.save(filePath)
+            self.image.save(filePath, format='PNG')
 
 
 
