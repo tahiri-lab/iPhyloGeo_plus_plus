@@ -22,6 +22,9 @@ import PyPDF2
 import toytree
 import toyplot.pdf
 import aPhyloGeo
+from decimal import Decimal, ROUND_UP
+from math import ceil
+import re
 
 
 class Ui_MainWindow(object):
@@ -1369,16 +1372,17 @@ class Ui_MainWindow(object):
                 for line in lines:
                     line_split = line.split(",")
                     for value in line_split:
-                        cursor.insertText(value)
-                        cursor.movePosition(QtGui.QTextCursor.NextCell)
+                        if re.search("^[0-9]*\.[0-9]*", value) != None:
+                            cursor.insertText(str(round(Decimal(value),3)))
+                            cursor.movePosition(QtGui.QTextCursor.NextCell)
+                        else:
+                            cursor.insertText(value)
+                            cursor.movePosition(QtGui.QTextCursor.NextCell)
                 self.child_window = QtWidgets.QMainWindow()
                 self.ui = Ui_how_to_use()
                 self.ui.setupUi(self.child_window)
                 self.child_window.setWindowModality(QtCore.Qt.NonModal)
                 #self.child_window.show()
-
-
-
 
 
 
