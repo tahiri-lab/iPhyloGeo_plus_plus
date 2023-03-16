@@ -23,7 +23,6 @@ import toytree
 import toyplot.pdf
 import aPhyloGeo
 from decimal import Decimal, ROUND_UP
-from math import ceil
 import re
 
 
@@ -1364,15 +1363,19 @@ class Ui_MainWindow(object):
             with open(fileName, "r") as c:
                 lines = c.readlines()
                 num_rows = len(lines)
-                first_line = lines[1].split(",")
+                first_line = lines[0].split(",")
                 num_columns = len(first_line)
                 self.textBrowser_3.clear()
                 cursor = QtGui.QTextCursor(self.textBrowser_3.textCursor())
                 cursor.insertTable(num_rows, num_columns)
+                format = QtGui.QTextCharFormat()
+                format.setForeground(QtGui.QColor('#006400'))
                 for line in lines:
                     line_split = line.split(",")
                     for value in line_split:
-                        if re.search("^[0-9]*\.[0-9]*", value) != None:
+                        if line == lines[0]:
+                            cursor.setCharFormat(format)
+                        if re.search("^[0-9]*\.[0-9]*", value) != None:  #will not match if it is an integer
                             cursor.insertText(str(round(Decimal(value),3)))
                             cursor.movePosition(QtGui.QTextCursor.NextCell)
                         else:
