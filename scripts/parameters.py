@@ -100,9 +100,12 @@ class Ui_Dialog(object):
         self.cancel_button = QtWidgets.QPushButton(Dialog)
         self.cancel_button.setGeometry(QtCore.QRect(160, 400, 120, 30))
         self.cancel_button.setObjectName("cancel_button")
+        self.cancel_button.setText("Cancel")
+        self.cancel_button.clicked.connect(Dialog.close)
         self.ok_button = QtWidgets.QPushButton(Dialog)
         self.ok_button.setGeometry(QtCore.QRect(300, 400, 120, 30))
         self.ok_button.setObjectName("ok_button")
+        self.ok_button.clicked.connect(Dialog.close)
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
