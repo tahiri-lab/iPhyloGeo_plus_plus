@@ -1302,6 +1302,32 @@ class Ui_MainWindow(object):
         self.pushButton_24.clicked.connect(self.show_Clim_stat_frame_10)
         self.pushButton_32.clicked.connect(self.show_Clim_stat_frame_10)
         self.pushButton_35.clicked.connect(self.show_result_stat_frame_16)
+
+        buttons = [ self.pushButton, self.pushButton_2, self.pushButton_3, self.pushButton_4, self.pushButton_5 , self.pushButton_6 , self.pushButton_7, self.pushButton_8,  
+        self.pushButton_9,  self.pushButton_10, self.pushButton_11, self.pushButton_12, self.pushButton_13, self.pushButton_14, self.pushButton_15, self.pushButton_16, 
+        self.pushButton_17,  self.pushButton_18, self.pushButton_19,  self.pushButton_20,  self.pushButton_21, self.pushButton_22, self.pushButton_23, self.pushButton_24,  
+        self.pushButton_25,  self.pushButton_26, self.pushButton_27, self.pushButton_28, self.pushButton_29, self.pushButton_30, self.pushButton_31,self.pushButton_32, 
+        self.pushButton_33, self.pushButton_34, self.pushButton_35 ,self.pushButton_35,  self.pushButton_36, self.pushButton_37, self.pushButton_38,
+        self.pushButton_39, self.pushButton_40, self.pushButton_41, self.pushButton_42, self.pushButton_43, self.pushButton_44, self.back,
+
+        ]
+
+        # Définir le curseur et la feuille de style pour tous les boutons
+        for button in buttons:
+            button.setCursor(Qt.PointingHandCursor)
+            button.setStyleSheet("""
+            QPushButton:hover {
+            background-color: grey;
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            }
+            """)
+
+
+
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         self.comboBox.currentIndexChanged.connect(self.show_frame)
