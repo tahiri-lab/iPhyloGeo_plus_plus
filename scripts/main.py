@@ -1302,11 +1302,8 @@ class Ui_MainWindow(object):
         self.pushButton_24.clicked.connect(self.show_Clim_stat_frame_10)
         self.pushButton_32.clicked.connect(self.show_Clim_stat_frame_10)
         self.pushButton_35.clicked.connect(self.show_result_stat_frame_16)
-<<<<<<< HEAD
 
-=======
         
->>>>>>> c1fe25172cdb14d75ca56d7e292943769bc20c4f
         buttons = [ self.pushButton, self.pushButton_2, self.pushButton_3, self.pushButton_4, self.pushButton_5 , self.pushButton_6 , self.pushButton_7, self.pushButton_8,  
         self.pushButton_9,  self.pushButton_10, self.pushButton_11, self.pushButton_12, self.pushButton_13, self.pushButton_14, self.pushButton_15, self.pushButton_16, 
         self.pushButton_17,  self.pushButton_18, self.pushButton_19,  self.pushButton_20,  self.pushButton_21, self.pushButton_22, self.pushButton_23, self.pushButton_24,  
@@ -1377,11 +1374,9 @@ class Ui_MainWindow(object):
                         formatted_sequence = '<span style="{background-color: white}">' + l + '</span>'
                 else:
                     formatted_sequence += '<span style="{' + charA + '}">' + l + '</span>'
-
             #formatted_sequence = ''.join(f'<span style="{color_background(l)}">{l}</span>' for l in sequence)
             #print(formatted_sequence)
             self.textEdit_4.setHtml(formatted_sequence)
-
         """
 
     def retrieve_data_names(self, list):
