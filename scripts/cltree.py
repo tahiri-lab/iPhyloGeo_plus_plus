@@ -12,6 +12,7 @@ import sys
 import io
 sys.path.append('..')
 from scripts.aPhyloGeo.aPhyloGeo import create_and_save_tree
+import aPhyloGeo.aPhyloGeo
 
 
 class Ui_ct(object):
@@ -56,7 +57,10 @@ class Ui_ct(object):
         self.actionPrint.setText(_translate("ct", "Print"))
 
         #create and show climatic tree
-        create_and_save_tree()
+        print(aPhyloGeo.aPhyloGeo.userData.get_fileName() + '&')
+        create_and_save_tree(aPhyloGeo.aPhyloGeo.userData.get_fileName(), 
+                             aPhyloGeo.aPhyloGeo.userData.get_names())
+        print(aPhyloGeo.aPhyloGeo.userData.get_fileName() + '*')
         pixmap = QtGui.QPixmap('/tmp/climatic_trees.png')
         self.label.setPixmap(pixmap)
         self.image = QtGui.QPixmap.toImage(pixmap)

@@ -17,28 +17,33 @@ from csv import writer
 #from yaml.loader import SafeLoader
 from toyplot import pdf, png, browser, svg, html
 import io
-import tempfile
+import UserConfig
 
 
 # We open the params.yaml file and put it in the params variable
 #with open('params.yaml') as f:
 #    params = yaml.load(f, Loader=SafeLoader)
 
+print("aPhylogeo")
+
+userData = UserConfig.DataConfig()
+
 
 bootstrapThreshold = 0
 lsThreshold = 60
 windowSize = 200
 stepSize = 100
-dataNames = ['ALLSKY_SFC_SW_DWN_newick', 'T2M_newick', 'QV2M_newick', 'PRECTOTCORR_newick', 'WS10M_newick']
+#dataNames = ['ALLSKY_SFC_SW_DWN_newick', 'T2M_newick', 'QV2M_newick', 'PRECTOTCORR_newick', 'WS10M_newick']
 referenceGeneFile = '../datasets/small_seq.fasta'
-fileName = '../datasets/geo.csv'
+#fileName = '../datasets/geo.csv'
 specimen = 'id'
-names = ['id', 'ALLSKY_SFC_SW_DWN', 'T2M', 'QV2M', 'PRECTOTCORR', 'WS10M']
+#names = ['id', 'ALLSKY_SFC_SW_DWN', 'T2M', 'QV2M', 'PRECTOTCORR', 'WS10M']
 bootstrapList = []
 data = []
 bootstrapAmount = 100
 referenceGeneDir = '../datasets/'
 makeDebugFiles =  True
+
 
 
 def openCSV(file):
@@ -137,7 +142,7 @@ def leastSquare(tree1, tree2):
     return ls
 
 
-def drawTreesmake(trees):
+def drawTreesmake(trees, other_names):
     """
     Function that will draw the trees for each climatic variable.
     The DistanceTreeConstructor object is transformed to Newick format and 
@@ -151,6 +156,8 @@ def drawTreesmake(trees):
     """
     treesNewick= {}
     toytrees = []
+    #names = userData.get_names()
+    names = other_names
     
     for k,v in trees.items():
         treesNewick[k] = v.format('newick')
@@ -197,7 +204,7 @@ def createTree(dm):
     return tree
 
 
-def climaticPipeline():
+def climaticPipeline(other_file, other_names):
     '''
     Creates a dictionnary with the climatic Trees
 
@@ -205,11 +212,21 @@ def climaticPipeline():
         trees (the climatic tree dictionnary)
     '''
     trees = {}
-    df = openCSV(fileName)
+    df = openCSV(other_file)
+    #df = openCSV(userData.get_fileName())
+    print(other_file)
+    #names = userData.get_names()
+    names = other_names
+    names[len(names) - 1] = names[len(names) - 1].strip()
+    print("names\n")
+    print(names)
+    print("df\n")
+    print(df)
     for i in range(1, len(names)):
         dm = getDissimilaritiesMatrix(df, names[0], names[i])
         trees[names[i]] = createTree(dm)
-    leastSquare(trees[names[1]],trees[names[2]])
+        print(names[i])
+    #leastSquare(trees[names[1]],trees[names[2]])
     return trees
     
 
@@ -404,8 +421,8 @@ def geneticPipeline(climaticTrees):
 
 
 #function that will actually be called - modified by Yannick
-def create_and_save_tree():
-    trees = climaticPipeline()
-    return drawTreesmake(trees)
+def create_and_save_tree(other_file, other_names):
+    trees = climaticPipeline(other_file, other_names)
+    return drawTreesmake(trees, other_names)
 
 
