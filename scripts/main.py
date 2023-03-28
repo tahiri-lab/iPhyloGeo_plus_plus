@@ -1391,22 +1391,17 @@ class Ui_MainWindow(object):
     def pressit(self):
         options = QFileDialog.Options()
         options |= QFileDialog.ReadOnly
-        #fileName, _ = QFileDialog.getOpenFileName(None,"QFileDialog.getOpenFileName()", "","All Files (*);;Text Files (*.txt)", options=options)
         fileName, _ = QFileDialog.getOpenFileName(None,"Select CSV file", "","Comma Separated Values (*.csv)", options=options)
    
         if fileName:
-            #aPhyloGeo.aPhyloGeo.fileName = fileName
             aPhyloGeo.aPhyloGeo.userData.set_fileName(fileName)
             with open(fileName, "r") as c:
                 lines = c.readlines()
                 num_rows = len(lines)
                 first_line = lines[0].split(",")
-                #first_line = map(lambda s: s.strip(), first_line)
                 clim_data_names = self.retrieve_data_names(first_line)
                 aPhyloGeo.aPhyloGeo.userData.set_dataNames(clim_data_names)
                 aPhyloGeo.aPhyloGeo.userData.set_names(first_line)
-                #aPhyloGeo.aPhyloGeo.dataNames = clim_data_names
-                #aPhyloGeo.aPhyloGeo.names = first_line
                 num_columns = len(first_line)
                 self.textBrowser_3.clear()
                 cursor = QtGui.QTextCursor(self.textBrowser_3.textCursor())
@@ -1428,19 +1423,7 @@ class Ui_MainWindow(object):
                 self.ui = Ui_how_to_use()
                 self.ui.setupUi(self.child_window)
                 self.child_window.setWindowModality(QtCore.Qt.NonModal)
-                print(aPhyloGeo.aPhyloGeo.userData.get_fileName())
-                print(aPhyloGeo.aPhyloGeo.userData.get_names())
-                print(aPhyloGeo.aPhyloGeo.userData.get_dataNames())
                 #self.child_window.show()
-
-    
-    
-    
-
-        
-
-
-
 
 
 

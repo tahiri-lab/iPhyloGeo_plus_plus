@@ -38,7 +38,7 @@ class Ui_ct(object):
         self.actionPrint.setObjectName("actionPrint")
         self.toolBar.addAction(self.actionPrint)
 
-        self.label = QtWidgets.QLabel(self.centralwidget)  #modified by Yannick
+        self.label = QtWidgets.QLabel(self.centralwidget)  
 
         saveAction = QtWidgets.QAction("Save", self.label)
         self.toolBar.addAction(saveAction)
@@ -52,15 +52,12 @@ class Ui_ct(object):
         _translate = QtCore.QCoreApplication.translate
         ct.setWindowTitle(_translate("ct", "Climate Tree"))
         
-        #self.tb.setHtml(_translate("tb", 'climatic_trees.pdf'))
         self.toolBar.setWindowTitle(_translate("ct", "toolBar"))
         self.actionPrint.setText(_translate("ct", "Print"))
 
         #create and show climatic tree
-        print(aPhyloGeo.aPhyloGeo.userData.get_fileName() + '&')
         create_and_save_tree(aPhyloGeo.aPhyloGeo.userData.get_fileName(), 
                              aPhyloGeo.aPhyloGeo.userData.get_names())
-        print(aPhyloGeo.aPhyloGeo.userData.get_fileName() + '*')
         pixmap = QtGui.QPixmap('/tmp/climatic_trees.png')
         self.label.setPixmap(pixmap)
         self.image = QtGui.QPixmap.toImage(pixmap)
@@ -68,7 +65,7 @@ class Ui_ct(object):
     
     def save(self):
         filePath, _ = QtWidgets.QFileDialog.getSaveFileName(self.label, "Save Image", "",
-                         "PNG(*.png);;JPEG(*.jpg *.jpeg);;All Files(*.*) ")
+                         "PNG(*.png)")
         if filePath != "":
             self.image.save(filePath, format='PNG')
 
