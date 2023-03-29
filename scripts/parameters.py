@@ -9,6 +9,9 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import sys
+sys.path.append('..')
+import aPhyloGeo.aPhyloGeo as aPhylo
 
 
 class Ui_Dialog(object):
@@ -59,7 +62,7 @@ class Ui_Dialog(object):
         self.spinBox_window.setMinimum(0)
         self.spinBox_window.setMaximum(1000)
         self.spinBox_window.setSingleStep(1)
-        self.spinBox_window.setProperty("value", 200)
+        self.spinBox_window.setProperty("value", aPhylo.userData.get_windowSize())  #userData.get_windowSize()
         self.spinBox_window.setObjectName("spinBox_window")
         self.gridLayout.addWidget(self.spinBox_window, 2, 1, 1, 1)
         self.comboBox = QtWidgets.QComboBox(self.groupBox)
@@ -79,7 +82,7 @@ class Ui_Dialog(object):
         self.spinBox_step.setMinimum(0)
         self.spinBox_step.setMaximum(200)
         self.spinBox_step.setSingleStep(1)
-        self.spinBox_step.setProperty("value", 100)
+        self.spinBox_step.setProperty("value", aPhylo.userData.get_stepSize())  #userData.get_stepSize()
         self.spinBox_step.setObjectName("spinBox_step")
         self.gridLayout.addWidget(self.spinBox_step, 3, 1, 1, 1)
         self.label_4 = QtWidgets.QLabel(self.groupBox)
@@ -87,14 +90,14 @@ class Ui_Dialog(object):
         self.label_4.setObjectName("label_4")
         self.gridLayout.addWidget(self.label_4, 3, 0, 1, 1)
         self.spinBox = QtWidgets.QSpinBox(self.groupBox)
-        self.spinBox.setProperty("value", 60)
+        self.spinBox.setProperty("value", aPhylo.userData.get_lsThreshold)  #userData.get_lsthreshold /// metric_threshold?
         self.spinBox.setObjectName("spinBox")
         self.gridLayout.addWidget(self.spinBox, 6, 1, 1, 1)
         self.spinBox_bootstrap = QtWidgets.QSpinBox(self.groupBox)
         self.spinBox_bootstrap.setMinimum(0)
         self.spinBox_bootstrap.setMaximum(1000)
         self.spinBox_bootstrap.setSingleStep(1)
-        self.spinBox_bootstrap.setProperty("value", 0)
+        self.spinBox_bootstrap.setProperty("value", aPhylo.userData.get_bootstrapThreshold())  #userData.get_bootstrapValue()
         self.spinBox_bootstrap.setObjectName("spinBox_bootstrap")
         self.gridLayout.addWidget(self.spinBox_bootstrap, 0, 1, 1, 1)
         self.cancel_button = QtWidgets.QPushButton(Dialog)

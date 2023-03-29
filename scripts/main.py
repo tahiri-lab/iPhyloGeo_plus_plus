@@ -9,7 +9,8 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtWebEngineWidgets import QWebEngineView
+from PyQt5.QtWidgets import QFileDialog, QVBoxLayout
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 import pathlib
@@ -24,6 +25,8 @@ import toyplot.pdf
 import aPhyloGeo.aPhyloGeo
 from decimal import Decimal, ROUND_UP
 import re
+import folium
+import io
 
 
 
@@ -1386,7 +1389,25 @@ class Ui_MainWindow(object):
                 names_to_retrieve.append(data)
         return names_to_retrieve
     
-
+    def populate_map(self, lat, long):
+        mean_lat = 0
+        mean_long = 0
+        for y in lat:
+            mean_lat = mean_lat + Decimal(y)
+        mean_lat = mean_lat/len(lat)
+        for x in long:
+            mean_long = mean_long + Decimal(x)
+        mean_long = mean_long/len(long)
+        map = folium.Map(location=[mean_lat, mean_long],
+                         zoom_start=14,
+                         control_scale=True)
+        i = 0
+        while i < len(lat):
+            folium.Marker(location=(lat[i], long[i])).add_to(map)
+            i = i + 1
+        data = io.BytesIO()
+        map.save(data, close_file=False)
+        return data
 
     def pressit(self):
         options = QFileDialog.Options()
@@ -1399,10 +1420,25 @@ class Ui_MainWindow(object):
                 lines = c.readlines()
                 num_rows = len(lines)
                 first_line = lines[0].split(",")
-                clim_data_names = self.retrieve_data_names(first_line)
-                aPhyloGeo.aPhyloGeo.userData.set_dataNames(clim_data_names)
-                aPhyloGeo.aPhyloGeo.userData.set_names(first_line)
+                lat = []
+                long = []
+                loc = False
                 num_columns = len(first_line)
+                print(first_line[len(first_line) - 1])
+                if first_line[len(first_line) - 2] == 'LAT':
+                    print('if')
+                    first_line_without_loc = first_line
+                    print(first_line_without_loc)
+                    first_line_without_loc.pop(len(first_line_without_loc) - 1)
+                    first_line_without_loc.pop(len(first_line_without_loc) - 1)
+                    clim_data_names = self.retrieve_data_names(first_line_without_loc)
+                    aPhyloGeo.aPhyloGeo.userData.set_names(first_line_without_loc)
+                    loc = True
+                else:
+                    print('else')
+                    clim_data_names = self.retrieve_data_names(first_line)
+                    aPhyloGeo.aPhyloGeo.userData.set_names(first_line)
+                aPhyloGeo.aPhyloGeo.userData.set_dataNames(clim_data_names)      
                 self.textBrowser_3.clear()
                 cursor = QtGui.QTextCursor(self.textBrowser_3.textCursor())
                 cursor.insertTable(num_rows, num_columns)
@@ -1410,19 +1446,30 @@ class Ui_MainWindow(object):
                 format.setForeground(QtGui.QColor('#006400'))
                 for line in lines:
                     line_split = line.split(",")
+                    if line != lines[0] and loc == True:
+                        lat.append(line_split[len(line_split) - 2])
+                        long.append(line_split[len(line_split) - 1])
                     for value in line_split:
                         if line == lines[0]:
                             cursor.setCharFormat(format)
-                        if re.search("^[0-9]*\.[0-9]*", value) != None:  #will not match if it is an integer
+                        if re.search("^[0-9\-]*\.[0-9]*", value) != None:  #will not match if it is an integer
                             cursor.insertText(str(round(Decimal(value),3)))
                             cursor.movePosition(QtGui.QTextCursor.NextCell)
                         else:
                             cursor.insertText(value)
                             cursor.movePosition(QtGui.QTextCursor.NextCell)
+                if loc == True:
+                    self.layout = QVBoxLayout()
+                    map = self.populate_map(lat, long)
+                    self.textBrowser_5.setHtml(map.getvalue().decode())
+                    self.webview = QWebEngineView()
+                    self.webview.setHtml(map.getvalue().decode())
                 self.child_window = QtWidgets.QMainWindow()
                 self.ui = Ui_how_to_use()
                 self.ui.setupUi(self.child_window)
                 self.child_window.setWindowModality(QtCore.Qt.NonModal)
+                print(aPhyloGeo.aPhyloGeo.userData.get_names())
+                print(aPhyloGeo.aPhyloGeo.userData.get_dataNames())
                 #self.child_window.show()
 
 
