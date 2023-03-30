@@ -1389,6 +1389,7 @@ class Ui_MainWindow(object):
                 names_to_retrieve.append(data)
         return names_to_retrieve
     
+    '''
     def populate_map(self, lat, long):
         mean_lat = 0
         mean_long = 0
@@ -1408,6 +1409,7 @@ class Ui_MainWindow(object):
         data = io.BytesIO()
         map.save(data, close_file=False)
         return data
+    '''
 
     def pressit(self):
         options = QFileDialog.Options()
@@ -1457,8 +1459,8 @@ class Ui_MainWindow(object):
                             cursor.movePosition(QtGui.QTextCursor.NextCell)
                 if loc == True:
                     self.layout = QVBoxLayout()
-                    map = self.populate_map(lat, long)
-                    self.textBrowser_5.setHtml(map.getvalue().decode())
+                    #map = self.populate_map(lat, long)
+                    #self.textBrowser_5.setHtml(map.getvalue().decode())
                     self.webview = QWebEngineView()
                     self.webview.setHtml(map.getvalue().decode())
                 self.child_window = QtWidgets.QMainWindow()
