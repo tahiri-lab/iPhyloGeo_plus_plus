@@ -27,6 +27,8 @@ from decimal import Decimal, ROUND_UP
 import re
 import folium
 import io
+import webbrowser
+import os
 
 
 
@@ -1279,6 +1281,9 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
+
+        
+
        # self.retranslateUi(MainWindow)
        # self.stackedWidget.setCurrentIndex(0)
         #QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -1389,7 +1394,7 @@ class Ui_MainWindow(object):
                 names_to_retrieve.append(data)
         return names_to_retrieve
     
-    '''
+    
     def populate_map(self, lat, long):
         mean_lat = 0
         mean_long = 0
@@ -1399,17 +1404,22 @@ class Ui_MainWindow(object):
         for x in long:
             mean_long = mean_long + Decimal(x)
         mean_long = mean_long/len(long)
-        map = folium.Map(location=[mean_lat, mean_long],
+        m = folium.Map(location=[mean_lat, mean_long],
                          zoom_start=14,
-                         control_scale=True)
+                         tiles="OpenStreetMap")
         i = 0
         while i < len(lat):
-            folium.Marker(location=(lat[i], long[i])).add_to(map)
+            folium.Marker([Decimal(lat[i]), Decimal(long[i])]).add_to(m)
             i = i + 1
-        data = io.BytesIO()
-        map.save(data, close_file=False)
-        return data
-    '''
+        m.save('m.html')
+        webbrowser.open('m.html')
+        #data = io.BytesIO()
+        #m.save(data, close_file=False)
+        #self.webview = QWebEngineView()
+        #self.webview.setWindowTitle("Climate Map")
+        #self.webview.setHtml(data.getvalue().decode())
+        #self.webview.show()
+        
 
     def pressit(self):
         options = QFileDialog.Options()
@@ -1426,7 +1436,6 @@ class Ui_MainWindow(object):
                 long = []
                 loc = False
                 num_columns = len(first_line)
-                print(first_line[len(first_line) - 1])
                 if first_line[len(first_line) - 2] == 'LAT':
                     first_line_without_loc = first_line
                     first_line_without_loc.pop(len(first_line_without_loc) - 1)
@@ -1458,11 +1467,8 @@ class Ui_MainWindow(object):
                             cursor.insertText(value)
                             cursor.movePosition(QtGui.QTextCursor.NextCell)
                 if loc == True:
-                    self.layout = QVBoxLayout()
-                    #map = self.populate_map(lat, long)
-                    #self.textBrowser_5.setHtml(map.getvalue().decode())
-                    self.webview = QWebEngineView()
-                    self.webview.setHtml(map.getvalue().decode())
+                    self.populate_map(lat, long)
+                    #map.close()
                 self.child_window = QtWidgets.QMainWindow()
                 self.ui = Ui_how_to_use()
                 self.ui.setupUi(self.child_window)
