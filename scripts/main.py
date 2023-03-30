@@ -25,7 +25,7 @@ import toyplot.pdf
 import aPhyloGeo.aPhyloGeo
 from decimal import Decimal, ROUND_UP
 import re
-import folium
+#import folium
 import io
 
 
@@ -1470,6 +1470,7 @@ class Ui_MainWindow(object):
                 self.child_window.setWindowModality(QtCore.Qt.NonModal)
                 print(aPhyloGeo.aPhyloGeo.userData.get_names())
                 print(aPhyloGeo.aPhyloGeo.userData.get_dataNames())
+                cursor.movePosition(QtGui.QTextCursor.Ne)
                 #self.child_window.show()
 
 
