@@ -15,6 +15,7 @@ import aPhyloGeo.aPhyloGeo as aPhylo
 
 
 class Ui_Dialog(object):
+    selected_index = 0 
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(431, 444)
@@ -77,6 +78,8 @@ class Ui_Dialog(object):
         self.comboBox.addItem("")
         self.comboBox.addItem("")
         self.comboBox.addItem("")
+        self.comboBox.setCurrentIndex(Ui_Dialog.selected_index)
+        self.comboBox.activated.connect(self.comboBox_selected)
         self.gridLayout.addWidget(self.comboBox, 5, 1, 1, 1)
         self.spinBox_step = QtWidgets.QSpinBox(self.groupBox)
         self.spinBox_step.setMinimum(0)
@@ -90,11 +93,11 @@ class Ui_Dialog(object):
         self.label_4.setObjectName("label_4")
         self.gridLayout.addWidget(self.label_4, 3, 0, 1, 1)
         self.spinBox = QtWidgets.QSpinBox(self.groupBox)
-        self.spinBox.setProperty("value", aPhylo.userData.get_lsThreshold)  #userData.get_lsthreshold /// metric_threshold?
+        self.spinBox.setProperty("value", aPhylo.userData.get_lsThreshold())  #userData.get_lsthreshold /// metric_threshold?
         self.spinBox.setObjectName("spinBox")
         self.gridLayout.addWidget(self.spinBox, 6, 1, 1, 1)
         self.spinBox_bootstrap = QtWidgets.QSpinBox(self.groupBox)
-        self.spinBox_bootstrap.setMinimum(0)
+        self.spinBox_bootstrap.setMinimum(0) 
         self.spinBox_bootstrap.setMaximum(1000)
         self.spinBox_bootstrap.setSingleStep(1)
         self.spinBox_bootstrap.setProperty("value", aPhylo.userData.get_bootstrapThreshold())  #userData.get_bootstrapValue()
@@ -108,6 +111,7 @@ class Ui_Dialog(object):
         self.ok_button = QtWidgets.QPushButton(Dialog)
         self.ok_button.setGeometry(QtCore.QRect(300, 400, 120, 30))
         self.ok_button.setObjectName("ok_button")
+        self.ok_button.clicked.connect(self.save_data) 
         self.ok_button.clicked.connect(Dialog.close)
 
         self.retranslateUi(Dialog)
@@ -128,6 +132,23 @@ class Ui_Dialog(object):
         self.label_4.setText(_translate("Dialog", "Step size"))
         self.cancel_button.setText(_translate("Dialog", "Cancel"))
         self.ok_button.setText(_translate("Dialog", "Ok"))
+
+
+
+    def save_data(self):
+        window_size = self.spinBox_window.value()
+        step_size = self.spinBox_step.value()
+        bootstrap_value = self.spinBox_bootstrap.value()
+        metric_threshold = self.spinBox.value()
+        aPhylo.userData.set_windowSize(window_size)
+        aPhylo.userData.set_stepSize(step_size)
+        aPhylo.userData.set_bootstrapThreshold(bootstrap_value)
+        aPhylo.userData.set_lsThreshold(metric_threshold)
+
+    def comboBox_selected(self, index):
+        if index != 0:
+            Ui_Dialog.selected_index = index
+
 
 
 if __name__ == "__main__":
