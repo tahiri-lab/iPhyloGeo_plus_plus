@@ -1395,7 +1395,7 @@ class Ui_MainWindow(object):
     def call_seq_align(self):
         #align_obj = aPhyloGeo.Alignement.AlignSequences()
         #seq_al = aPhyloGeo.Alignement.AlignSequences.alignSequences(align_obj)
-        #self.textEd_4.insertPlainText(seq_al)
+
         print("seq align called")
 
     def retrieve_data_names(self, list):

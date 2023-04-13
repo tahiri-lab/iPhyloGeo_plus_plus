@@ -423,8 +423,8 @@ class AlignSequences:
         longKey = max(alignedSequences, key=alignedSequences.get)
         maxLength = len(alignedSequences[longKey])
         
-        winSize = p.window_size #longueur
-        stepSize = p.step_size #avance de x
+        winSize = userData_align.get_windowSize() #longueur
+        stepSize = userData_align.get_stepSize() #avance de x
         stepStart = 0
         stepEnd = winSize -1
 
@@ -443,10 +443,10 @@ class AlignSequences:
             stepEnd += stepSize
 
         ####### JUST TO MAKE THE DEBUG FILES ####### 
-        if p.makeDebugFiles:
-            os.mkdir("./debug/3_slidingWindow")
-            for w in windowsDict.keys():
-                self.dictToFile(windowsDict[w],"3_slidingWindow/"+w,".fasta")
+        #if p.makeDebugFiles:
+        #    os.mkdir("./debug/3_slidingWindow")
+        #    for w in windowsDict.keys():
+         #       self.dictToFile(windowsDict[w],"3_slidingWindow/"+w,".fasta")
         ####### JUST TO MAKE THE DEBUG FILES ####### 
 
         return windowsDict
