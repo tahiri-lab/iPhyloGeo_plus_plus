@@ -29,6 +29,8 @@ import folium
 import io
 import webbrowser
 import os
+import aPhyloGeo.Alignement
+import matplotlib.pyplot as plt
 
 
 
@@ -334,7 +336,7 @@ class Ui_MainWindow(object):
         #
         self.pushButton_12.setIconSize(QtCore.QSize(60, 70))
         #
-        self.pushButton_12.clicked.connect(self.show_Seq_alin_frame_19)
+        #self.pushButton_12.clicked.connect(self.show_Seq_alin_frame_19)
         #self.pushButton_12.clicked.connect(self.enableFrame_19)
         #
         self.pushButton_12.setFlat(True)
@@ -441,6 +443,7 @@ class Ui_MainWindow(object):
         self.frame_3.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_3.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_3.setObjectName("frame_3")
+        #self.pushButton_14 = QtWidgets.QPushButton(self.frame_3)
         self.pushButton_14 = QtWidgets.QPushButton(self.frame_3)
         self.pushButton_14.setGeometry(QtCore.QRect(10, 230, 61, 71))
         self.pushButton_14.setText("")
@@ -1362,6 +1365,7 @@ class Ui_MainWindow(object):
         options |= QFileDialog.ReadOnly
         fileName, _ = QFileDialog.getOpenFileName(None, "Select FASTA file", "", " (*.fasta);; (*.fasta)", options=options)
         if fileName:
+            aPhyloGeo.Alignement.userData_align.set_referenceGeneFile(fileName)
             with open(fileName, "r") as f:
                 content = f.read()
                 self.textEdit_4.setText(content)
@@ -1387,6 +1391,13 @@ class Ui_MainWindow(object):
             self.textEdit_4.setHtml(formatted_sequence)
         """
 
+
+    def call_seq_align(self):
+        #align_obj = aPhyloGeo.Alignement.AlignSequences()
+        #seq_al = aPhyloGeo.Alignement.AlignSequences.alignSequences(align_obj)
+        #self.textEd_4.insertPlainText(seq_al)
+        print("seq align called")
+
     def retrieve_data_names(self, list):
         names_to_retrieve = []
         for data in list:
@@ -1411,14 +1422,22 @@ class Ui_MainWindow(object):
         while i < len(lat):
             folium.Marker([Decimal(lat[i]), Decimal(long[i])]).add_to(m)
             i = i + 1
-        m.save('m.html')
-        webbrowser.open('m.html')
-        #data = io.BytesIO()
-        #m.save(data, close_file=False)
-        #self.webview = QWebEngineView()
-        #self.webview.setWindowTitle("Climate Map")
-        #self.webview.setHtml(data.getvalue().decode())
-        #self.webview.show()
+        #m.save('m.html')
+        #webbrowser.open('m.html')
+        
+        data = io.BytesIO()
+        m.save(data, close_file=False)
+        self.webview = QWebEngineView()
+        self.webview.setWindowTitle("Climate Map")
+        self.webview.setHtml(data.getvalue().decode())
+        self.webview.show()
+        
+        
+        
+
+
+
+    
         
 
     def pressit(self):
@@ -1442,11 +1461,14 @@ class Ui_MainWindow(object):
                     first_line_without_loc.pop(len(first_line_without_loc) - 1)
                     clim_data_names = self.retrieve_data_names(first_line_without_loc)
                     aPhyloGeo.aPhyloGeo.userData.set_names(first_line_without_loc)
+                    aPhyloGeo.Alignement.userData_align.set_names(first_line_without_loc)
                     loc = True
                 else:
                     clim_data_names = self.retrieve_data_names(first_line)
                     aPhyloGeo.aPhyloGeo.userData.set_names(first_line)
-                aPhyloGeo.aPhyloGeo.userData.set_dataNames(clim_data_names)      
+                    aPhyloGeo.Alignement.userData_align.set_names(first_line)
+                aPhyloGeo.aPhyloGeo.userData.set_dataNames(clim_data_names)   
+                aPhyloGeo.Alignement.userData_align.set_dataNames(clim_data_names)    
                 self.textBrowser_3.clear()
                 cursor = QtGui.QTextCursor(self.textBrowser_3.textCursor())
                 cursor.insertTable(num_rows, num_columns)
@@ -1508,6 +1530,7 @@ class Ui_MainWindow(object):
         self.stackedWidget.setCurrentIndex(7)
 
     def show_Seq_alin_frame_19(self):
+        self.call_seq_align()
         self.stackedWidget.setCurrentIndex(8)
 
     

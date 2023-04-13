@@ -407,6 +407,18 @@ def geneticPipeline(climaticTrees):
     filterResults(climaticTrees, geneticTrees)
 
 
+def createSeqAlign(self):
+    align = AlignSequences.alignSequences()
+    return align
+
+
+def createGenTree():
+    alignementObject = AlignSequences()
+    msaSet = alignementObject.msaSet
+    geneticTrees = createBoostrap(msaSet)
+    return geneticTrees
+
+
 
 #function that will actually be called - modified by Yannick
 def create_and_save_tree(user_provided_file, user_provided_names):

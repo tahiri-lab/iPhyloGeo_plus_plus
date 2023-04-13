@@ -9,6 +9,9 @@ from Bio import pairwise2
 from Bio.Seq import Seq
 from Bio import AlignIO
 from scripts.aPhyloGeo.MultiProcessor import Multi
+import UserConfig
+
+userData_align = UserConfig.DataConfig()
 
 class AlignSequences:
     """
@@ -48,7 +51,8 @@ class AlignSequences:
             self.msa (AlignIO()) 
         """
 
-        self.sequences = self.openFastaFile(p.reference_gene_file)
+        #self.sequences = self.openFastaFile(p.reference_gene_file)
+        self.sequences = self.openFastaFile(userData_align.get_referenceGeneFile())
         self.centroidKey = self.getSequenceCentroid()[0]
         self.centroidSeq = self.sequences.pop(self.centroidKey)
 
@@ -171,6 +175,7 @@ class AlignSequences:
             list.append( [self.centroidKey, self.centroidSeq, seqXID, seqs[seqXID] ] )
 
         result = Multi(list,self.alignSingle).processingLargeData()
+        #result = Multi(list,self.alignSingle).processingSmallData()
         aligned={}
 
         #reformats the output in a  dictionnary
@@ -181,6 +186,7 @@ class AlignSequences:
             aligned[str(i[0]+" vs "+i[2])]=temp
         #time.sleep(1)
 
+        '''
         ####### JUST TO MAKE THE DEBUG FILES ####### 
         if p.makeDebugFiles:
             os.mkdir("./debug/1_alignSequences")
@@ -188,6 +194,7 @@ class AlignSequences:
                 self.dictToFile(aligned[w],str("1_alignSequences/"+w),".fasta")
         #time.sleep(1)
         ####### JUST TO MAKE THE DEBUG FILES ####### 
+        '''
 
         return aligned
    
@@ -277,9 +284,11 @@ class AlignSequences:
         starAlign.pop( "temp" )
 
         ####### JUST TO MAKE THE DEBUG FILES ####### 
+        '''
         if p.makeDebugFiles:
             os.mkdir("./debug/2_starAlignement")
             self.dictToFile(starAlign,"2_starAlignement/starAligned",".fasta")
+        '''
         ####### JUST TO MAKE THE DEBUG FILES ####### 
 
         return starAlign
