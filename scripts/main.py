@@ -1393,10 +1393,14 @@ class Ui_MainWindow(object):
 
 
     def call_seq_align(self):
-        #align_obj = aPhyloGeo.Alignement.AlignSequences()
-        #seq_al = aPhyloGeo.Alignement.AlignSequences.alignSequences(align_obj)
-
+        align_obj = aPhyloGeo.Alignement.AlignSequences()
+        seq_al = aPhyloGeo.Alignement.AlignSequences.alignSequences(align_obj)
+        #print(seq_al)
+        print(seq_al)
+        obj = str(seq_al)            
+        self.textEd_4.setText(obj)
         print("seq align called")
+        
 
     def retrieve_data_names(self, list):
         names_to_retrieve = []
