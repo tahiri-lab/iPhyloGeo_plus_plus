@@ -8,6 +8,12 @@
 
 <h2  align="center">Multi-platform application for analyze phylogenetic trees with climatic parameters</h2>
 
+<table>
+<tr>
+<th align="left">
+<img width="441" height="1">
+<p> 
+<small>
 <details open>
   <summary>Table of Contents</summary>
   <ol>
@@ -25,6 +31,19 @@
     </li>
   </ol>
 </details>
+</small>
+</p>
+</th>
+<th align="center">
+<img width="441" height="1">
+<p> 
+<small>
+<img src="/img/readme-pic/Aphy-1.png"  alt="1">
+</small>
+</p>
+</th>
+</tr>
+</table>
 
 
 # 📝 About the project
