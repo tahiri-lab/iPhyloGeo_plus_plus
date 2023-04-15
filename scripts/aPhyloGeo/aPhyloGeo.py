@@ -335,7 +335,7 @@ def writeOutputFile(data):
         data (the list contaning the final data)
     '''
     header = ['Gene', 'Phylogeographic tree','Name of species', 
-              'Position in ASM', 'Bootsrap mean', 'Least-Square distance']
+              'Position in ASM', 'Bootstrap mean', 'Least-Square distance']
     with open ("output.csv", "w", encoding="UTF8") as f:
         writer = csv.writer(f)
         writer.writerow(header)
@@ -412,9 +412,8 @@ def createSeqAlign(self):
     return align
 
 
-def createGenTree():
-    alignementObject = AlignSequences()
-    msaSet = alignementObject.msaSet
+def createGenTree(align_obj):
+    msaSet = align_obj.msaSet
     geneticTrees = createBoostrap(msaSet)
     return geneticTrees
 

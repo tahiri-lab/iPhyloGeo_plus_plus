@@ -981,7 +981,7 @@ class Ui_MainWindow(object):
         self.pushButton.setIconSize(QtCore.QSize(50, 50))
         self.pushButton.setFlat(True)
         self.pushButton.setObjectName("pushButton")
-        self.pushButton_33 = QtWidgets.QPushButton(self.frame_14)
+        self.pushButton_33 = QtWidgets.QPushButton(self.frame_14, clicked = lambda: self.show_filtered_results())
         self.pushButton_33.setGeometry(QtCore.QRect(10, 230, 71, 61))
         self.pushButton_33.setText("")
         icon15 = QtGui.QIcon()
@@ -1285,7 +1285,6 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
 
-        
 
        # self.retranslateUi(MainWindow)
        # self.stackedWidget.setCurrentIndex(0)
@@ -1397,10 +1396,18 @@ class Ui_MainWindow(object):
         seq_al = aPhyloGeo.Alignement.AlignSequences.alignSequences(align_obj)
         #print(seq_al)
         print(seq_al)
-        obj = str(seq_al)            
+        obj = ""
+        for keys,values in seq_al.items():
+            obj = obj + keys + ": " + values + "\n"
+            #key = "".join(keys)
+            #self.textEd_4.insertPlainText(key)
+            #self.textEd_4.insertPlainText(": ")
+            #value = "".join(values)
+            #self.textEd_4.insertPlainText(value)
+            #self.textEd_4.insertPlainText("\n")
         self.textEd_4.setText(obj)
         print("seq align called")
-        
+        return align_obj
 
     def retrieve_data_names(self, list):
         names_to_retrieve = []
@@ -1437,7 +1444,7 @@ class Ui_MainWindow(object):
         self.webview.show()
         
         
-        
+    
 
 
 
@@ -1533,9 +1540,20 @@ class Ui_MainWindow(object):
     def show_result_stat_frame_16(self):
         self.stackedWidget.setCurrentIndex(7)
 
+    
+
     def show_Seq_alin_frame_19(self):
         self.call_seq_align()
         self.stackedWidget.setCurrentIndex(8)
+
+    def show_filtered_results(self):
+        aPhyloGeo.aPhyloGeo.filterResults(aPhyloGeo.aPhyloGeo.climaticPipeline(aPhyloGeo.aPhyloGeo.userData.get_fileName(), aPhyloGeo.aPhyloGeo.userData.get_names()),
+                                           self.genetic_tree_dict)
+        print(self.genetic_tree_dict)
+        print(aPhyloGeo.aPhyloGeo.climaticPipeline(aPhyloGeo.aPhyloGeo.userData.get_fileName(), aPhyloGeo.aPhyloGeo.userData.get_names()))
+        with open("output.csv", "r") as f:
+            content = f.read()
+        self.textBrowser_7.setText(content)
 
     
     # Enable_button():
