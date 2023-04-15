@@ -1373,8 +1373,10 @@ class Ui_MainWindow(object):
                 for char in content:
                     sequence += char#.strip()
 
-        """          
-        if 'sequence' in globals():
+    
+
+    """          
+    if 'sequence' in globals():
             formatted_sequence = ''
             for l in sequence:
                 charA = Ui_MainWindow.color_background(l)
@@ -1388,26 +1390,16 @@ class Ui_MainWindow(object):
             #formatted_sequence = ''.join(f'<span style="{color_background(l)}">{l}</span>' for l in sequence)
             #print(formatted_sequence)
             self.textEdit_4.setHtml(formatted_sequence)
-        """
+    """
 
 
     def call_seq_align(self):
         align_obj = aPhyloGeo.Alignement.AlignSequences()
-        seq_al = aPhyloGeo.Alignement.AlignSequences.alignSequences(align_obj)
-        #print(seq_al)
-        print(seq_al)
-        obj = ""
-        for keys,values in seq_al.items():
-            obj = obj + keys + ": " + values + "\n"
-            #key = "".join(keys)
-            #self.textEd_4.insertPlainText(key)
-            #self.textEd_4.insertPlainText(": ")
-            #value = "".join(values)
-            #self.textEd_4.insertPlainText(value)
-            #self.textEd_4.insertPlainText("\n")
+        seq_al = align_obj.aligned
+        obj = str(seq_al)           
         self.textEd_4.setText(obj)
-        print("seq align called")
-        return align_obj
+        gen_tree = aPhyloGeo.aPhyloGeo.createGenTree(align_obj)
+        return gen_tree
 
     def retrieve_data_names(self, list):
         names_to_retrieve = []
@@ -1543,8 +1535,9 @@ class Ui_MainWindow(object):
     
 
     def show_Seq_alin_frame_19(self):
-        self.call_seq_align()
+        self.genetic_tree_dict = self.call_seq_align()
         self.stackedWidget.setCurrentIndex(8)
+
 
     def show_filtered_results(self):
         aPhyloGeo.aPhyloGeo.filterResults(aPhyloGeo.aPhyloGeo.climaticPipeline(aPhyloGeo.aPhyloGeo.userData.get_fileName(), aPhyloGeo.aPhyloGeo.userData.get_names()),
@@ -1553,7 +1546,7 @@ class Ui_MainWindow(object):
         print(aPhyloGeo.aPhyloGeo.climaticPipeline(aPhyloGeo.aPhyloGeo.userData.get_fileName(), aPhyloGeo.aPhyloGeo.userData.get_names()))
         with open("output.csv", "r") as f:
             content = f.read()
-        self.textBrowser_7.setText(content)
+        self.textBrowser_7.setText(str(content))
 
     
     # Enable_button():

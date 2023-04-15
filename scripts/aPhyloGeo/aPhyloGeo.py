@@ -317,7 +317,7 @@ def getData(leavesName, ls, index, climaticList, geneticList):
         climaticList (the list of climatic trees)
         geneticList : (the list of genetic trees)
     '''
-    with open(fileName, 'r') as file:
+    with open(userData.get_fileName(), 'r') as file:
         csvreader = csv.reader(file)
         for leave in leavesName:
             for row in csvreader:
