@@ -26,6 +26,15 @@
         <li><a href="#Linux-UNIX-and-Mac-OS-versions">Linux/UNIX and Mac OS versions</a></li>
       </ul>
     </li>
+    <li> How to use</li>
+      <ul>
+        <li><a href="#Getting-data">Getting genetic data</a></li>
+        <li><a href="#SimPlot-analysis">Getting climatic data</a></li>
+        <li><a href="#Similarity-networks">Display results</a></li>
+        <li><a href="#BootScan-analysis">BootScan analysis</a></li>
+        <li><a href="#Findsites">Findsites</a></li>
+        <li><a href="#Detection-of-recombination">Detection of recombination</a></li>
+      </ul>
     <li>
       <a href="#contact">Contact</a>
     </li>
@@ -77,6 +86,26 @@ A `requirements.txt` file containing all required libraries is available in the 
 6. Launch aPhyloGeo using `python3 main.py`.
 
 <!--You can also launch the package using the `make` command from your terminal when you are in the `root`. This command will use the `Makefile` to run the script. If you use the command `make clean`, it will erase the `output.csv` file previously created with the first command.-->
+
+
+# Getting started
+
+## Genetic Data
+In the genetic data tab, the user can load a sequence file (only Fasta files are accepted) and alignment will be done when using the `sequence alignment` button.
+
+### A typical workflow would look like this:
+
+![group_page_step](/img/readme-pic/Aphy-Use.png)
+
+1. Select your sequence file in an accepted format (Fasta) through the **File browser** button.
+2. Once the file is loaded, the sequence will appear in the main window.
+3. Launch the sequence alignment through the **Sequence Alignment** button.
+  - The sequence alignment process might be CPU demanding so a good PC configuration can be necessary, with an Mac M1 chip, the whole process can take 2 to 3 minutes.
+  - When the process is done the sequence aligned will be displayed on the main window
+
+Below is a summary of the steps presented:
+
+![group page gif](/img/readme-pic/geneticData-gif.gif)
 
 
 # ✔️ References
