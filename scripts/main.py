@@ -1373,6 +1373,27 @@ class Ui_MainWindow(object):
                 for char in content:
                     sequence += char#.strip()
 
+        def color_background(letter):
+
+            if letter == 'A':
+                return 'background-color: yellow'
+            elif letter == 'C':
+                return 'background-color: blue'
+            elif letter == 'G':
+                return 'background-color: red'
+            elif letter == 'T':
+                return 'background-color: orange'
+            return ''
+        
+        if 'sequence' in globals():
+            test = ""
+            for line in sequence.splitlines():
+                if not line.startswith('>') :
+                    line = ''.join(f'<span style="{color_background(char)}">{char}</span>' for char in line)
+                
+                test += line + "<br>"
+            self.textEdit_4.setText(test)
+
     
 
     """          
