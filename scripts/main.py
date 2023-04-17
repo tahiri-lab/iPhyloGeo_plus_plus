@@ -1465,6 +1465,11 @@ class Ui_MainWindow(object):
         
 
     def pressit(self):
+        '''
+        Retrieve data from climatic file and show it in a table
+        If the last 2 columns of the data are 'LAT' and 'LONG',
+        generate a folium map with these columns
+        '''
         options = QFileDialog.Options()
         options |= QFileDialog.ReadOnly
         fileName, _ = QFileDialog.getOpenFileName(None,"Select CSV file", "","Comma Separated Values (*.csv)", options=options)
@@ -1495,7 +1500,10 @@ class Ui_MainWindow(object):
                 aPhyloGeo.Alignement.userData_align.set_dataNames(clim_data_names)    
                 self.textBrowser_3.clear()
                 cursor = QtGui.QTextCursor(self.textBrowser_3.textCursor())
-                cursor.insertTable(num_rows, num_columns)
+                clim_data_table = cursor.insertTable(num_rows, num_columns)
+                fmt = clim_data_table.format()
+                fmt.setWidth(QtGui.QTextLength(QtGui.QTextLength.PercentageLength, 100))
+                clim_data_table.setFormat(fmt)
                 format = QtGui.QTextCharFormat()
                 format.setForeground(QtGui.QColor('#006400'))
                 for line in lines:
