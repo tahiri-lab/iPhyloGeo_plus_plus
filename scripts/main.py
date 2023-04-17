@@ -31,6 +31,8 @@ import webbrowser
 import os
 import aPhyloGeo.Alignement
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 
 
 
@@ -725,7 +727,7 @@ class Ui_MainWindow(object):
         self.label_21 = QtWidgets.QLabel(self.frame_7)
         self.label_21.setGeometry(QtCore.QRect(90, 270, 67, 17))
         self.label_21.setObjectName("label_21")
-        self.pushButton_24 = QtWidgets.QPushButton(self.frame_7)
+        self.pushButton_24 = QtWidgets.QPushButton(self.frame_7, clicked = lambda: self.show_clim_stat_bar())
         self.pushButton_24.setGeometry(QtCore.QRect(10, 240, 71, 71))
         self.pushButton_24.setText("")
         self.pushButton_24.setIcon(icon6)
@@ -1482,6 +1484,8 @@ class Ui_MainWindow(object):
                 first_line = lines[0].split(",")
                 lat = []
                 long = []
+                self.species = []
+                self.factors = [[],[],[],[],[]]
                 loc = False
                 num_columns = len(first_line)
                 if first_line[len(first_line) - 2] == 'LAT':
@@ -1511,6 +1515,19 @@ class Ui_MainWindow(object):
                     if line != lines[0] and loc == True:
                         lat.append(line_split[len(line_split) - 2])
                         long.append(line_split[len(line_split) - 1])
+                        self.species.append(line_split[0])
+                        self.factors[0].append(line_split[1])  #code is not optimal, temporary solution
+                        self.factors[1].append(line_split[2])
+                        self.factors[2].append(line_split[3])
+                        self.factors[3].append(line_split[4])
+                        self.factors[4].append(line_split[5])
+                    if line != lines[0] and loc == False:
+                        self.species.append(line_split[0])
+                        self.factors[0].append(line_split[1])  #code is not optimal, temporary solution
+                        self.factors[1].append(line_split[2])
+                        self.factors[2].append(line_split[3])
+                        self.factors[3].append(line_split[4])
+                        self.factors[4].append(line_split[5])
                     for value in line_split:
                         if line == lines[0]:
                             cursor.setCharFormat(format)
@@ -1528,6 +1545,31 @@ class Ui_MainWindow(object):
                 self.ui.setupUi(self.child_window)
                 self.child_window.setWindowModality(QtCore.Qt.NonModal)
                 #self.child_window.show()
+
+
+    def show_clim_stat_bar(self):
+        #Condition should be added to show plot
+        #according to user choice
+        self.show_clim_stat_bar_all_fact()
+
+    def show_clim_stat_bar_all_fact(self):
+        X = np.arange(len(self.species))
+        fig = plt.figure()
+        ax = fig.add_axes([0,0,1,1])
+        ax.set_title("Climatic data by COVID-19 variant")
+        ax.bar(X + 0.00, self.factors[0], color = 'black', width = 0.15)
+        ax.bar(X + 0.15, self.factors[1], color = 'red', width = 0.15)
+        ax.bar(X + 0.30, self.factors[2], color = 'green', width = 0.15)
+        ax.bar(X + 0.45, self.factors[3], color = 'blue', width = 0.15)
+        ax.bar(X + 0.60, self.factors[4], color = 'cyan', width = 0.15)
+        ax.set_xlabel("Climatic variables")
+        ax.set_xticks(X, aPhyloGeo.aPhyloGeo.userData.get_dataNames())
+        ax.set_yticks(np.arange(0, 30))
+        ax.legend(self.species)
+        plt.show()
+        
+
+
 
 
 
@@ -1571,8 +1613,8 @@ class Ui_MainWindow(object):
     def show_filtered_results(self):
         aPhyloGeo.aPhyloGeo.filterResults(aPhyloGeo.aPhyloGeo.climaticPipeline(aPhyloGeo.aPhyloGeo.userData.get_fileName(), aPhyloGeo.aPhyloGeo.userData.get_names()),
                                            self.genetic_tree_dict)
-        print(self.genetic_tree_dict)
-        print(aPhyloGeo.aPhyloGeo.climaticPipeline(aPhyloGeo.aPhyloGeo.userData.get_fileName(), aPhyloGeo.aPhyloGeo.userData.get_names()))
+        #print(self.genetic_tree_dict)
+        #print(aPhyloGeo.aPhyloGeo.climaticPipeline(aPhyloGeo.aPhyloGeo.userData.get_fileName(), aPhyloGeo.aPhyloGeo.userData.get_names()))
         with open("output.csv", "r") as f:
             content = f.read()
         self.textBrowser_7.setText(str(content))
