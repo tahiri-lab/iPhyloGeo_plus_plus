@@ -119,7 +119,7 @@ With both genetic and climatic data we can now move forward to the last section,
 
 This feature will display the results through the **submit** button:
 
-![group page gif](/img/readme-pic/results.gif)
+![group page gif](/img/readme-pic/results1.gif)
 
 # ✔️ References
 
