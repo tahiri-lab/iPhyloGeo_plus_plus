@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿<h1  align="center"> 🌳 aPhyloGeo++ <p align='center'> 
+﻿﻿������<h1  align="center"> 🌳 aPhyloGeo++ <p align='center'> 
         [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
         [![Contributions](https://img.shields.io/badge/contributions-welcome-blue.svg)](https://pysd.readthedocs.io/en/latest/development/development_index.html)
         [![Py version](https://img.shields.io/pypi/pyversions/pysd.svg)](https://pypi.python.org/pypi/pysd/)
@@ -28,12 +28,9 @@
     </li>
     <li> How to use</li>
       <ul>
-        <li><a href="#Getting-data">Getting genetic data</a></li>
-        <li><a href="#SimPlot-analysis">Getting climatic data</a></li>
-        <li><a href="#Similarity-networks">Display results</a></li>
-        <li><a href="#BootScan-analysis">BootScan analysis</a></li>
-        <li><a href="#Findsites">Findsites</a></li>
-        <li><a href="#Detection-of-recombination">Detection of recombination</a></li>
+        <li><a href="#Getting-genetic-data">Getting genetic data</a></li>
+        <li><a href="#Getting-climatic-data">Getting climatic data</a></li>
+        <li><a href="#Display-results">Display results</a></li>
       </ul>
     <li>
       <a href="#contact">Contact</a>
@@ -107,6 +104,22 @@ Below is a summary of the steps presented:
 
 ![group page gif](/img/readme-pic/geneticData-gif.gif)
 
+## Climatic Data
+After selecting the required file for the climatic data section, a tab and a map will automatically be generated.
+
+1. Select your climatic file in an accepted format (csv) through the **File browser** button.
+2. Once the file is loaded, the tab and the map will appear in the main window.
+
+Below is a summary of the steps presented:
+
+![group page gif](/img/readme-pic/climaticData.gif)
+
+## Display results
+With both genetic and climatic data we can now move forward to the last section, the **Results** tab.
+
+This feature will display the results through the **submit** button:
+
+![group page gif](/img/readme-pic/results.gif)
 
 # ✔️ References
 
@@ -123,3 +136,4 @@ Below is a summary of the steps presented:
 
 # 📧 Contact
 Please email us at : <Nadia.Tahiri@USherbrooke.ca> for any question or feedback.
+
