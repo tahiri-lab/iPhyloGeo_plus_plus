@@ -1472,24 +1472,21 @@ class Ui_MainWindow(object):
                 clim_data_table.setFormat(fmt)
                 format = QtGui.QTextCharFormat()
                 format.setForeground(QtGui.QColor('#006400'))
+                i = 0
                 for line in lines:
                     line_split = line.split(",")
                     if line != lines[0] and loc == True:
                         lat.append(line_split[len(line_split) - 2])
                         long.append(line_split[len(line_split) - 1])
                         self.species.append(line_split[0])
-                        self.factors[0].append(line_split[1])  #code is not optimal, temporary solution
-                        self.factors[1].append(line_split[2])
-                        self.factors[2].append(line_split[3])
-                        self.factors[3].append(line_split[4])
-                        self.factors[4].append(line_split[5])
+                        for j in [1, 2, 3, 4, 5]:
+                            self.factors[i].append(line_split[j])
+                        i+=1
                     if line != lines[0] and loc == False:
                         self.species.append(line_split[0])
-                        self.factors[0].append(line_split[1])  #code is not optimal, temporary solution
-                        self.factors[1].append(line_split[2])
-                        self.factors[2].append(line_split[3])
-                        self.factors[3].append(line_split[4])
-                        self.factors[4].append(line_split[5])
+                        for j in [1, 2, 3, 4, 5]:
+                            self.factors[i].append(line_split[j])
+                        i+=1
                     for value in line_split:
                         if line == lines[0]:
                             cursor.setCharFormat(format)
@@ -1507,6 +1504,8 @@ class Ui_MainWindow(object):
                 self.ui.setupUi(self.child_window)
                 self.child_window.setWindowModality(QtCore.Qt.NonModal)
                 #self.child_window.show()
+                print(self.factors[0])
+                print(self.factors[1])
 
 
     def show_clim_stat_bar(self):
@@ -1515,20 +1514,38 @@ class Ui_MainWindow(object):
         self.show_clim_stat_bar_all_fact()
 
     def show_clim_stat_bar_all_fact(self):
-        X = np.arange(len(self.species))
-        fig = plt.figure()
-        ax = fig.add_axes([0,0,1,1])
-        ax.set_title("Climatic data by COVID-19 variant")
-        ax.bar(X + 0.00, self.factors[0], color = 'black', width = 0.15)
-        ax.bar(X + 0.15, self.factors[1], color = 'red', width = 0.15)
-        ax.bar(X + 0.30, self.factors[2], color = 'green', width = 0.15)
-        ax.bar(X + 0.45, self.factors[3], color = 'blue', width = 0.15)
-        ax.bar(X + 0.60, self.factors[4], color = 'cyan', width = 0.15)
-        ax.set_xlabel("Climatic variables")
-        ax.set_xticks(X, aPhyloGeo.aPhyloGeo.userData.get_dataNames())
-        ax.set_yticks(np.arange(0, 30))
-        ax.legend(self.species)
+        self.factors[0] = [float(v) for v in self.factors[0]]
+        self.factors[1] = [float(v) for v in self.factors[1]]
+        self.factors[2] = [float(v) for v in self.factors[2]]
+        self.factors[3] = [float(v) for v in self.factors[3]]
+        self.factors[4] = [float(v) for v in self.factors[4]]
+
+        barwidth = 0.15
+        fig = plt.subplots(figsize = (15, 10))
+        br1 = np.arange(len(self.factors[0]))
+        br2 = [x + barwidth for x in br1]
+        br3 = [x + barwidth for x in br2]
+        br4 = [x + barwidth for x in br3]
+        br5 = [x + barwidth for x in br4]
+        plt.bar(br1, self.factors[0], color = 'black', width = barwidth,
+                edgecolor = 'grey', label = self.species[0])
+        plt.bar(br2, self.factors[1], color = 'red', width = barwidth,
+                edgecolor = 'grey', label = self.species[1])
+        plt.bar(br3, self.factors[2], color = 'green', width = barwidth,
+                edgecolor = 'grey', label = self.species[2])
+        plt.bar(br4, self.factors[3], color = 'blue', width = barwidth,
+                edgecolor = 'grey', label = self.species[3])
+        plt.bar(br5, self.factors[4], color = 'cyan', width = barwidth,
+                edgecolor = 'grey', label = self.species[4])
+        plt.xlabel('COVID-19 Variant', fontweight = 'bold')
+        plt.ylabel("Climatic data", fontweight = 'bold')
+        plt.xticks([r + barwidth for r in range(len(self.factors[0]))],
+                   aPhyloGeo.aPhyloGeo.userData.get_dataNames())
+        plt.yticks(np.arange(0, 30))
+        plt.title("Climatic variables for each COVID Variant")
+        plt.legend()
         plt.show()
+
         
 
 
