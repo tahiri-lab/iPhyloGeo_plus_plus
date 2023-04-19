@@ -37,7 +37,7 @@ import pandas as pd
 
 
 class Ui_MainWindow(object):
-
+ 
 
     # added code from her[
 
@@ -69,6 +69,7 @@ class Ui_MainWindow(object):
 
 
 # to her]
+
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -1286,8 +1287,6 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
-
-
        # self.retranslateUi(MainWindow)
        # self.stackedWidget.setCurrentIndex(0)
         #QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -1346,19 +1345,6 @@ class Ui_MainWindow(object):
         self.comboBox.currentIndexChanged.connect(self.show_frame)
         self.frame_11.setHidden(True)
 
-    def color_background(letter):
-            if letter == 'A':
-                return 'background-color: yellow'
-            elif letter == '>':
-                return '<br>'
-            elif letter == 'C':
-                return 'background-color: blue'
-            elif letter == 'G':
-                return 'background-color: red'
-            elif letter == 'T':
-                return 'background-color: orange'
-            else:
-                return ''
     
         
     def press_it(self):
@@ -1368,61 +1354,37 @@ class Ui_MainWindow(object):
         if fileName:
             aPhyloGeo.Alignement.userData_align.set_referenceGeneFile(fileName)
             with open(fileName, "r") as f:
+                self.clear_it()
                 content = f.read()
                 self.textEdit_4.setText(content)
-                global sequence
-                sequence = ''
-                for char in content:
-                    sequence += char#.strip()
-
-        def color_background(letter):
-
-            if letter == 'A':
-                return 'background-color: yellow'
-            elif letter == 'C':
-                return 'background-color: blue'
-            elif letter == 'G':
-                return 'background-color: red'
-            elif letter == 'T':
-                return 'background-color: orange'
-            return ''
-        
-        if 'sequence' in globals():
-            test = ""
-            for line in sequence.splitlines():
-                if not line.startswith('>') :
-                    line = ''.join(f'<span style="{color_background(char)}">{char}</span>' for char in line)
-                
-                test += line + "<br>"
-            self.textEdit_4.setText(test)
+                sequence = ""
+                for line in content.splitlines():
+                    if not line.startswith('>') :
+                        new_line = ''
+                        for char in line:
+                            if char == 'A':
+                                new_line += f'<span style="background-color: yellow">{char}</span>'
+                            elif char == 'C':
+                                new_line += f'<span style="background-color: blue">{char}</span>'
+                            elif char == 'G':
+                                new_line += f'<span style="background-color: red">{char}</span>'
+                            elif char == 'T':
+                                new_line += f'<span style="background-color: orange">{char}</span>'
+                        line = new_line
+                    sequence += line + "<br>"
+                self.textEdit_4.setText(sequence)
 
     
 
-    """          
-    if 'sequence' in globals():
-            formatted_sequence = ''
-            for l in sequence:
-                charA = Ui_MainWindow.color_background(l)
-                if charA == '<br>':
-                    if formatted_sequence != '':
-                        formatted_sequence += '<span style="{background-color: white}">' + charA + l + '</span>'
-                    else:
-                        formatted_sequence = '<span style="{background-color: white}">' + l + '</span>'
-                else:
-                    formatted_sequence += '<span style="{' + charA + '}">' + l + '</span>'
-            #formatted_sequence = ''.join(f'<span style="{color_background(l)}">{l}</span>' for l in sequence)
-            #print(formatted_sequence)
-            self.textEdit_4.setHtml(formatted_sequence)
-    """
-
 
     def call_seq_align(self):
-        align_obj = aPhyloGeo.Alignement.AlignSequences()
-        seq_al = align_obj.aligned
-        obj = str(seq_al)           
-        self.textEd_4.setText(obj)
-        gen_tree = aPhyloGeo.aPhyloGeo.createGenTree(align_obj)
-        return gen_tree
+        if self.textEd_4.toPlainText() == "" or self.textEd_4.toPlainText() == None:
+            align_obj = aPhyloGeo.Alignement.AlignSequences()
+            seq_al = align_obj.aligned
+            obj = str(seq_al)           
+            self.textEd_4.setText(obj)
+            gen_tree = aPhyloGeo.aPhyloGeo.createGenTree(align_obj)
+            return gen_tree
 
     def retrieve_data_names(self, list):
         names_to_retrieve = []
@@ -1710,6 +1672,7 @@ class Ui_MainWindow(object):
 
     # press the button to delet data
     def clear_it(self):
+        self.textEd_4.clear()
         self.textEdit_4.clear()
     def clear_seq(self):
         self.textEd_4.clear()
