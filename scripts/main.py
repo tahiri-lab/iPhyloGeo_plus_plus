@@ -1504,8 +1504,6 @@ class Ui_MainWindow(object):
                 self.ui.setupUi(self.child_window)
                 self.child_window.setWindowModality(QtCore.Qt.NonModal)
                 #self.child_window.show()
-                print(self.factors[0])
-                print(self.factors[1])
 
 
     def show_clim_stat_bar(self):
