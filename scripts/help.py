@@ -51,11 +51,17 @@ class Ui_how_to_use(object):
     def retranslateUi(self, how_to_use):
         _translate = QtCore.QCoreApplication.translate
         how_to_use.setWindowTitle(_translate("how_to_use", "How To Use"))
+        with open("help.txt", "r") as f:
+            help_txt = f.read()
+            self.textBrowser.setText(help_txt)
+
+        '''
         self.textBrowser.setHtml(_translate("how_to_use", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'Ubuntu\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Steps to use the application</p></body></html>"))
+        '''
         self.toolBar.setWindowTitle(_translate("how_to_use", "toolBar"))
         self.actionprint.setText(_translate("how_to_use", "print"))
         self.actionPrint.setText(_translate("how_to_use", "Print"))

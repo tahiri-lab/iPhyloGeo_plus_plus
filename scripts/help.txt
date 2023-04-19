@@ -1,0 +1,15 @@
+Steps to use the application
+
+1- Click on "Genetic Data" and then on "File Browser" to add a genetic file
+
+2- Click on "Sequence Alignment" to create the alignment. This step may take a few minutes. Alternatively,
+you can do step 3 before step 2
+
+3- Click on "Climatic Data" and then on "File Browser" to add a climatic file
+
+4- Click on "Statistics" to show the climatic bar graph
+
+5- Click on "Results" and then on "Submit" to filter the data according to a specific threshold.
+You can change the filter in "Settings"
+
+You will obtain more information here : https://github.com/tahiri-lab/aPhyloGeo_plus_plus/blob/main/README.md
