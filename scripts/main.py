@@ -63,8 +63,8 @@ class Ui_MainWindow(object):
 
 
     def enable_button(self):
-        if textEdit_4.toPlainText():
-            pushButton_4.setEnabled(True)
+        if self.textEdit_4.toPlainText():
+            self.pushButton_4.setEnabled(True)
 
 
 
@@ -243,7 +243,6 @@ class Ui_MainWindow(object):
         self.top_frame.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.top_frame.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.top_frame.setObjectName("top_frame")
-        #self.pushButton_11 = QtWidgets.QPushButton(self.top_frame)
         #
         self.pushButton_11 = QtWidgets.QPushButton(self.top_frame, clicked = lambda: self.useWindow())
         #
@@ -256,7 +255,7 @@ class Ui_MainWindow(object):
         self.pushButton_11.setDefault(False)
         self.pushButton_11.setFlat(True)
         self.pushButton_11.setObjectName("pushButton_11")
-        self.pushButton_3 = QtWidgets.QPushButton(self.top_frame)
+        self.pushButton_3 = QtWidgets.QPushButton(self.top_frame)              #button to access climatic section
         self.pushButton_3.setGeometry(QtCore.QRect(580, 10, 81, 71))
         font = QtGui.QFont()
         font.setKerning(True)
@@ -276,10 +275,9 @@ class Ui_MainWindow(object):
         #
         self.label_6.setText("")
         self.label_6.setPixmap(QtGui.QPixmap("../img/other/aPhylogeo.svg"))
-        #self.label_6.setPixmap(QtGui.QPixmap("../icons/archive (2)/WSiN0h01.svg"))
         self.label_6.setScaledContents(True)
         self.label_6.setObjectName("label_6")
-        self.pushButton_4 = QtWidgets.QPushButton(self.top_frame)
+        self.pushButton_4 = QtWidgets.QPushButton(self.top_frame)            #button to access the results section
         self.pushButton_4.setGeometry(QtCore.QRect(770, 10, 81, 71))
         font = QtGui.QFont()
         font.setKerning(True)
@@ -292,7 +290,7 @@ class Ui_MainWindow(object):
         self.pushButton_4.setCheckable(False)
         self.pushButton_4.setFlat(True)
         self.pushButton_4.setObjectName("pushButton_4")
-        self.pushButton_2 = QtWidgets.QPushButton(self.top_frame)
+        self.pushButton_2 = QtWidgets.QPushButton(self.top_frame)                #button to access genetic section
         self.pushButton_2.setGeometry(QtCore.QRect(380, 10, 101, 81))
         #
         self.pushButton_4.clicked.connect(self.change_icon_and_show_page_3)
@@ -313,9 +311,9 @@ class Ui_MainWindow(object):
         self.pushButton_2.setCheckable(False)
         self.pushButton_2.setFlat(True)
         self.pushButton_2.setObjectName("pushButton_2")
-        self.stackedWidget = QtWidgets.QStackedWidget(self.centralwidget)
-        self.stackedWidget.setGeometry(QtCore.QRect(0, 99, 1151, 581))
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        self.stackedWidget = QtWidgets.QStackedWidget(self.centralwidget)                 #stackedwidgets are the frames that appear only when the user
+        self.stackedWidget.setGeometry(QtCore.QRect(0, 99, 1151, 581))                    #clicks to generate something from a climatic or genetic file
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)     #e.g. sequence alignment, statistics, map, etc.
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.stackedWidget.sizePolicy().hasHeightForWidth())
@@ -328,7 +326,7 @@ class Ui_MainWindow(object):
         self.frame.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
-        self.pushButton_12 = QtWidgets.QPushButton(self.frame)
+        self.pushButton_12 = QtWidgets.QPushButton(self.frame)                          #button to initiate sequence alignment
         self.pushButton_12.setGeometry(QtCore.QRect(10, 230, 61, 71))
         self.pushButton_12.setText("")
         icon5 = QtGui.QIcon()
@@ -339,12 +337,9 @@ class Ui_MainWindow(object):
         #
         self.pushButton_12.setIconSize(QtCore.QSize(60, 70))
         #
-        #self.pushButton_12.clicked.connect(self.show_Seq_alin_frame_19)
-        #self.pushButton_12.clicked.connect(self.enableFrame_19)
-        #
         self.pushButton_12.setFlat(True)
         self.pushButton_12.setObjectName("pushButton_12")
-        self.pushButton_13 = QtWidgets.QPushButton(self.frame)
+        self.pushButton_13 = QtWidgets.QPushButton(self.frame)                   
         self.pushButton_13.setGeometry(QtCore.QRect(0, 340, 71, 71))
         self.pushButton_13.setText("")
         icon6 = QtGui.QIcon()
@@ -365,7 +360,6 @@ class Ui_MainWindow(object):
         #
         self.pushButton_6 = QtWidgets.QPushButton(self.frame, clicked = lambda: self.press_it())
         #
-        #self.pushButton_6 = QtWidgets.QPushButton(self.frame)
         self.pushButton_6.setGeometry(QtCore.QRect(0, 20, 71, 81))
         font = QtGui.QFont()
         font.setKerning(True)
@@ -373,16 +367,14 @@ class Ui_MainWindow(object):
         self.pushButton_6.setText("")
         icon7 = QtGui.QIcon()
         icon7.addPixmap(QtGui.QPixmap("../img/other/Browse.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        #icon7.addPixmap(QtGui.QPixmap("../icons/archive (2)/Browse.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_6.setIcon(icon7)
         self.pushButton_6.setIconSize(QtCore.QSize(60, 90))
         self.pushButton_6.setCheckable(False)
         self.pushButton_6.setFlat(True)
         self.pushButton_6.setObjectName("pushButton_6")
         #
-        self.pushButton_7 = QtWidgets.QPushButton(self.frame, clicked = lambda: self.clear_it())
+        self.pushButton_7 = QtWidgets.QPushButton(self.frame, clicked = lambda: self.clear_it())           #button to clear genetic file previously loaded
         #
-        #self.pushButton_7 = QtWidgets.QPushButton(self.frame)
         self.pushButton_7.setGeometry(QtCore.QRect(0, 120, 61, 81))
         font = QtGui.QFont()
         font.setKerning(True)
@@ -390,7 +382,6 @@ class Ui_MainWindow(object):
         self.pushButton_7.setText("")
         icon8 = QtGui.QIcon()
         icon8.addPixmap(QtGui.QPixmap("../img/other/erase.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        #icon8.addPixmap(QtGui.QPixmap("../icons/archive (2)/erase.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_7.setIcon(icon8)
         self.pushButton_7.setIconSize(QtCore.QSize(60, 90))
         self.pushButton_7.setCheckable(False)
@@ -430,7 +421,7 @@ class Ui_MainWindow(object):
         self.textEd_3 = QtWidgets.QTextEdit(self.frame_2)
         self.textEd_3.setGeometry(QtCore.QRect(30, 280, 931, 251))
         self.textEd_3.setObjectName("textEd_3")
-        self.textEdit_4 = QtWidgets.QTextEdit(self.frame_2)
+        self.textEdit_4 = QtWidgets.QTextEdit(self.frame_2)                           #box where genetic file is loaded
         self.textEdit_4.setGeometry(QtCore.QRect(30, 10, 931, 531))
         self.textEdit_4.setObjectName("textEdit_4")
         #
@@ -458,7 +449,7 @@ class Ui_MainWindow(object):
         self.pushButton_14.setIconSize(QtCore.QSize(60, 70))
         self.pushButton_14.setFlat(True)
         self.pushButton_14.setObjectName("pushButton_14")
-        self.pushButton_15 = QtWidgets.QPushButton(self.frame_3)
+        self.pushButton_15 = QtWidgets.QPushButton(self.frame_3)                  
         self.pushButton_15.setGeometry(QtCore.QRect(0, 340, 71, 71))
         self.pushButton_15.setText("")
         #
@@ -471,7 +462,6 @@ class Ui_MainWindow(object):
         #
         self.pushButton_15.clicked.connect(self.show_Gen_stat_frame_4)
         self.pushButton_15.clicked.connect(self.enableFrame_4)
-        #self.pushButton_15 = QtWidgets.QPushButton(self.frame_3, clicked = lambda: self.show_Gen_stat_frame_4())
         #
         self.pushButton_15.setObjectName("pushButton_15")
         self.label_4 = QtWidgets.QLabel(self.frame_3)
@@ -498,7 +488,7 @@ class Ui_MainWindow(object):
         self.pushButton_8.setObjectName("pushButton_8")
         #self.pushButton_9 = QtWidgets.QPushButton(self.frame_3)
         #
-        self.pushButton_9 = QtWidgets.QPushButton(self.frame_3, clicked = lambda: self.clear_gen_stat())
+        self.pushButton_9 = QtWidgets.QPushButton(self.frame_3, clicked = lambda: self.clear_gen_stat())            #button to clear genetic statistics
         self.pushButton_9.clicked.connect(self.reset_com_2)
         #
         self.pushButton_9.setGeometry(QtCore.QRect(0, 120, 61, 81))
@@ -534,7 +524,7 @@ class Ui_MainWindow(object):
         self.frame_4.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_4.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_4.setObjectName("frame_4")
-        self.textBrowser = QtWidgets.QTextBrowser(self.frame_4)
+        self.textBrowser = QtWidgets.QTextBrowser(self.frame_4)                 #box where genetic stats should appear
         self.textBrowser.setGeometry(QtCore.QRect(20, 70, 941, 441))
         self.textBrowser.setObjectName("textBrowser")
         self.back = QtWidgets.QPushButton(self.frame_4)
@@ -550,7 +540,7 @@ class Ui_MainWindow(object):
         font.setPointSize(12)
         self.label.setFont(font)
         self.label.setObjectName("label")
-        self.comboBox_2 = QtWidgets.QComboBox(self.frame_4)
+        self.comboBox_2 = QtWidgets.QComboBox(self.frame_4)                       #dialog box to select species for genetic stats
         self.comboBox_2.setGeometry(QtCore.QRect(760, 30, 201, 30))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -664,7 +654,6 @@ class Ui_MainWindow(object):
         self.back_2 = QtWidgets.QPushButton(self.frame_6)
         #
         self.back_2.clicked.connect(self.show_page)
-        #self.back_2.clicked.connect(self.enableFrame_13)
         #
         self.back_2.setGeometry(QtCore.QRect(870, 520, 89, 25))
         self.back_2.setObjectName("back_2")
@@ -679,7 +668,6 @@ class Ui_MainWindow(object):
         #
         self.pushButton_21 = QtWidgets.QPushButton(self.frame_7, clicked = lambda: self.clear_cl())
         #
-        #self.pushButton_21 = QtWidgets.QPushButton(self.frame_7)
         self.pushButton_21.setGeometry(QtCore.QRect(10, 120, 61, 81))
         font = QtGui.QFont()
         font.setKerning(True)
@@ -705,7 +693,6 @@ class Ui_MainWindow(object):
         #
         self.pushButton_23 = QtWidgets.QPushButton(self.frame_7, clicked = lambda: self.pressit())
         #
-        #self.pushButton_23 = QtWidgets.QPushButton(self.frame_7)
         self.pushButton_23.setGeometry(QtCore.QRect(0, 20, 91, 81))
         font = QtGui.QFont()
         font.setKerning(True)
@@ -728,7 +715,7 @@ class Ui_MainWindow(object):
         self.label_21 = QtWidgets.QLabel(self.frame_7)
         self.label_21.setGeometry(QtCore.QRect(90, 270, 67, 17))
         self.label_21.setObjectName("label_21")
-        self.pushButton_24 = QtWidgets.QPushButton(self.frame_7, clicked = lambda: self.show_clim_stat_bar())
+        self.pushButton_24 = QtWidgets.QPushButton(self.frame_7, clicked = lambda: self.show_clim_stat_bar())      #button to show climatic stats
         self.pushButton_24.setGeometry(QtCore.QRect(10, 240, 71, 71))
         self.pushButton_24.setText("")
         self.pushButton_24.setIcon(icon6)
@@ -745,7 +732,7 @@ class Ui_MainWindow(object):
         self.frame_8.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_8.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_8.setObjectName("frame_8")
-        self.textBrowser_3 = QtWidgets.QTextBrowser(self.frame_8)
+        self.textBrowser_3 = QtWidgets.QTextBrowser(self.frame_8)                        #box where climatic data is loaded
         self.textBrowser_3.setGeometry(QtCore.QRect(10, 20, 931, 231))
         self.textBrowser_3.setObjectName("textBrowser_3")
         #
@@ -829,7 +816,7 @@ class Ui_MainWindow(object):
         self.frame_11.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_11.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_11.setObjectName("frame_11")
-        self.comboBox_3 = QtWidgets.QComboBox(self.frame_11)
+        self.comboBox_3 = QtWidgets.QComboBox(self.frame_11)                          #dialog box to choose climate condition for climatic graph
         self.comboBox_3.setGeometry(QtCore.QRect(160, 20, 201, 30))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -846,7 +833,7 @@ class Ui_MainWindow(object):
         self.label_26 = QtWidgets.QLabel(self.frame_11)
         self.label_26.setGeometry(QtCore.QRect(20, 20, 141, 31))
         self.label_26.setObjectName("label_26")
-        self.comboBox = QtWidgets.QComboBox(self.frame_10)
+        self.comboBox = QtWidgets.QComboBox(self.frame_10)                                 #dialog box to choose type of graph for climatic data
         self.comboBox.setGeometry(QtCore.QRect(110, 50, 201, 30))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -864,8 +851,8 @@ class Ui_MainWindow(object):
         self.label_27 = QtWidgets.QLabel(self.frame_10)
         self.label_27.setGeometry(QtCore.QRect(20, 50, 81, 31))
         self.label_27.setObjectName("label_27")
-        self.textBrowser_4 = QtWidgets.QTextBrowser(self.frame_10)
-        self.textBrowser_4.setGeometry(QtCore.QRect(20, 90, 921, 421))
+        self.textBrowser_4 = QtWidgets.QTextBrowser(self.frame_10)               #box where climatic stats appear. Maybe remove since graph
+        self.textBrowser_4.setGeometry(QtCore.QRect(20, 90, 921, 421))           #from matplotlib is rendered in separate window
         self.textBrowser_4.setObjectName("textBrowser_4")
         self.back_3 = QtWidgets.QPushButton(self.frame_10)
         #
@@ -975,7 +962,6 @@ class Ui_MainWindow(object):
         #
         self.pushButton = QtWidgets.QPushButton(self.frame_14, clicked = lambda: self.param_Win())
         #
-        #self.pushButton = QtWidgets.QPushButton(self.frame_14)
         self.pushButton.setGeometry(QtCore.QRect(0, 40, 81, 61))
         self.pushButton.setText("")
         icon14 = QtGui.QIcon()
@@ -984,7 +970,7 @@ class Ui_MainWindow(object):
         self.pushButton.setIconSize(QtCore.QSize(50, 50))
         self.pushButton.setFlat(True)
         self.pushButton.setObjectName("pushButton")
-        self.pushButton_33 = QtWidgets.QPushButton(self.frame_14, clicked = lambda: self.show_filtered_results())
+        self.pushButton_33 = QtWidgets.QPushButton(self.frame_14, clicked = lambda: self.show_filtered_results())        #submit button to show the final results
         self.pushButton_33.setGeometry(QtCore.QRect(10, 230, 71, 61))
         self.pushButton_33.setText("")
         icon15 = QtGui.QIcon()
@@ -1019,7 +1005,6 @@ class Ui_MainWindow(object):
         #
         self.pushButton_43 = QtWidgets.QPushButton(self.frame_14, clicked = lambda: self.clear_result())
         #
-        #self.pushButton_43 = QtWidgets.QPushButton(self.frame_14)
         self.pushButton_43.setGeometry(QtCore.QRect(10, 120, 61, 81))
         font = QtGui.QFont()
         font.setKerning(True)
@@ -1056,7 +1041,6 @@ class Ui_MainWindow(object):
         self.pushButton_5 = QtWidgets.QPushButton(self.frame_16, clicked = lambda: self.param_Win())
         self.pushButton_5.clicked.connect(self.change_icon_and_show_page_3)
         #
-        #self.pushButton_5 = QtWidgets.QPushButton(self.frame_16)
         self.pushButton_5.setGeometry(QtCore.QRect(0, 40, 81, 61))
         self.pushButton_5.setText("")
         self.pushButton_5.setIcon(icon14)
@@ -1093,7 +1077,6 @@ class Ui_MainWindow(object):
         self.pushButton_44 = QtWidgets.QPushButton(self.frame_16, clicked = lambda: self.clear_result_stat())
         self.pushButton_44.clicked.connect(self.reset_com_4_5)
         #
-        #self.pushButton_44 = QtWidgets.QPushButton(self.frame_16)
         self.pushButton_44.setGeometry(QtCore.QRect(10, 120, 61, 81))
         font = QtGui.QFont()
         font.setKerning(True)
@@ -1115,7 +1098,6 @@ class Ui_MainWindow(object):
         self.back_5 = QtWidgets.QPushButton(self.frame_17)
         #
         self.back_5.clicked.connect(self.show_page_7)
-        #self.back_5.clicked.connect(self.enableFrame)
         #
         self.back_5.setGeometry(QtCore.QRect(860, 520, 89, 25))
         self.back_5.setObjectName("back_5")
@@ -1201,7 +1183,6 @@ class Ui_MainWindow(object):
         self.pushButton_40.clicked.connect(self.change_icon_and_show_page)
         self.pushButton_40.clicked.connect(self.enableFrame)
         #
-        #self.pushButton_40 = QtWidgets.QPushButton(self.frame_18)
         self.pushButton_40.setGeometry(QtCore.QRect(0, 20, 71, 81))
         font = QtGui.QFont()
         font.setKerning(True)
@@ -1215,7 +1196,6 @@ class Ui_MainWindow(object):
         #
         self.pushButton_41 = QtWidgets.QPushButton(self.frame_18, clicked = lambda: self.clear_seq())
         #
-        #self.pushButton_41 = QtWidgets.QPushButton(self.frame_18)
         self.pushButton_41.setGeometry(QtCore.QRect(0, 120, 61, 81))
         font = QtGui.QFont()
         font.setKerning(True)
@@ -1287,13 +1267,6 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
-       # self.retranslateUi(MainWindow)
-       # self.stackedWidget.setCurrentIndex(0)
-        #QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
-
-
-    # added code from her[
 
         self.retranslateUi(MainWindow)
         self.stackedWidget.setCurrentIndex(0)
@@ -1348,6 +1321,9 @@ class Ui_MainWindow(object):
     
         
     def press_it(self):
+        '''
+        Retrieve data from genetic file and show it in color
+        '''
         options = QFileDialog.Options()
         options |= QFileDialog.ReadOnly
         fileName, _ = QFileDialog.getOpenFileName(None, "Select FASTA file", "", " (*.fasta);; (*.fasta)", options=options)
@@ -1378,15 +1354,26 @@ class Ui_MainWindow(object):
 
 
     def call_seq_align(self):
-        if self.textEd_4.toPlainText() == "" or self.textEd_4.toPlainText() == None:
+        '''
+        Initiate sequence alignment
+        Return: genetic dictionary used for the final filter
+        '''
+        if self.textEd_4.toPlainText() == "":
             align_obj = aPhyloGeo.Alignement.AlignSequences()
             seq_al = align_obj.aligned
             obj = str(seq_al)           
             self.textEd_4.setText(obj)
-            gen_tree = aPhyloGeo.aPhyloGeo.createGenTree(align_obj)
-            return gen_tree
+            self.gen_tree = aPhyloGeo.aPhyloGeo.createGenTree(align_obj)
+        return self.gen_tree
 
     def retrieve_data_names(self, list):
+        '''
+        Retrieve data from a list, except for first element
+        Args: 
+         list (from which we get data)
+        Return: 
+         names_to_retrieve (Retrieved elements)
+        '''
         names_to_retrieve = []
         for data in list:
             if data != list[0]:
@@ -1395,6 +1382,11 @@ class Ui_MainWindow(object):
     
     
     def populate_map(self, lat, long):
+        '''
+        Create folium map
+        Args:
+         lat (latitude), long (longitude)
+        '''
         mean_lat = 0
         mean_long = 0
         for y in lat:
@@ -1410,9 +1402,9 @@ class Ui_MainWindow(object):
         while i < len(lat):
             folium.Marker([Decimal(lat[i]), Decimal(long[i])]).add_to(m)
             i = i + 1
-        #m.save('m.html')
-        #webbrowser.open('m.html')
-        
+        #m.save('m.html')                  #folium map does not appear correctly on MAC with webbrowser.open(), 
+        #webbrowser.open('m.html')         #but it does not appear correctly on Linux with webview.show()
+                                           #will have to be fixed
         data = io.BytesIO()
         m.save(data, close_file=False)
         self.webview = QWebEngineView()
@@ -1498,12 +1490,10 @@ class Ui_MainWindow(object):
                             cursor.movePosition(QtGui.QTextCursor.NextCell)
                 if loc == True:
                     self.populate_map(lat, long)
-                    #map.close()
                 self.child_window = QtWidgets.QMainWindow()
                 self.ui = Ui_how_to_use()
                 self.ui.setupUi(self.child_window)
                 self.child_window.setWindowModality(QtCore.Qt.NonModal)
-                #self.child_window.show()
 
 
     def show_clim_stat_bar(self):
@@ -1512,6 +1502,9 @@ class Ui_MainWindow(object):
         self.show_clim_stat_bar_all_fact()
 
     def show_clim_stat_bar_all_fact(self):
+        '''
+        Generate a bar graph that includes every factor for every species
+        '''
         self.factors[0] = [float(v) for v in self.factors[0]]
         self.factors[1] = [float(v) for v in self.factors[1]]
         self.factors[2] = [float(v) for v in self.factors[2]]
@@ -1540,7 +1533,7 @@ class Ui_MainWindow(object):
         plt.xticks([r + barwidth for r in range(len(self.factors[0]))],
                    aPhyloGeo.aPhyloGeo.userData.get_dataNames())
         plt.yticks(np.arange(0, 30))
-        plt.title("Climatic variables for each COVID Variant")
+        plt.title("Distribution of climatic variables for each COVID Variant")
         plt.legend()
         plt.show()
 
@@ -1588,10 +1581,11 @@ class Ui_MainWindow(object):
 
 
     def show_filtered_results(self):
+        '''
+        Show the results filtered with metric threshold provided by user
+        '''
         aPhyloGeo.aPhyloGeo.filterResults(aPhyloGeo.aPhyloGeo.climaticPipeline(aPhyloGeo.aPhyloGeo.userData.get_fileName(), aPhyloGeo.aPhyloGeo.userData.get_names()),
                                            self.genetic_tree_dict)
-        #print(self.genetic_tree_dict)
-        #print(aPhyloGeo.aPhyloGeo.climaticPipeline(aPhyloGeo.aPhyloGeo.userData.get_fileName(), aPhyloGeo.aPhyloGeo.userData.get_names()))
         with open("output.csv", "r") as f:
             content = f.read()
         self.textBrowser_7.setText(str(content))

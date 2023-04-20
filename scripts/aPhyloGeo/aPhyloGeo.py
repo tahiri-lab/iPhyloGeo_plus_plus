@@ -19,11 +19,9 @@ import io
 import UserConfig
 
 
-# We open the params.yaml file and put it in the params variable
-#with open('params.yaml') as f:
-#    params = yaml.load(f, Loader=SafeLoader)
 
-userData = UserConfig.DataConfig()
+
+userData = UserConfig.DataConfig()         #object used to store parameters provided by user
 
 
 bootstrapThreshold = 0
@@ -413,14 +411,26 @@ def createSeqAlign(self):
 
 
 def createGenTree(align_obj):
+    '''
+    Create a genetic trees dictionary
+    Args:
+     align_obj (object from AlignSequences() class)
+    Return:
+     geneticTrees (the genetic trees dictionary)
+    '''
     msaSet = align_obj.msaSet
     geneticTrees = createBoostrap(msaSet)
     return geneticTrees
 
 
-
-#function that will actually be called - modified by Yannick
 def create_and_save_tree(user_provided_file, user_provided_names):
+    '''
+    Draw and show climatic trees
+    Args: user_provided_file (name of the climatic data file), 
+        user_provided_names (names of the columns in the climatic file)
+    Return:
+     drawTreesmake(trees, user_provided_names) (call to function that draws and returns the tree)
+    '''
     trees = climaticPipeline(user_provided_file, user_provided_names)
     return drawTreesmake(trees, user_provided_names)
 
