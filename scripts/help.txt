@@ -5,7 +5,8 @@ Steps to use the application
 2- Click on "Sequence Alignment" to create the alignment. This step may take a few minutes. Alternatively,
 you can do step 3 before step 2
 
-3- Click on "Climatic Data" and then on "File Browser" to add a climatic file
+3- Click on "Climatic Data" and then on "File Browser" to add a climatic file. If the last 2 columns of the file are
+'LAT' and 'LONG', a map is also rendered
 
 4- Click on "Statistics" to show the climatic bar graph
 
