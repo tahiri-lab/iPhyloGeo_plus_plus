@@ -12,4 +12,6 @@ you can do step 3 before step 2
 5- Click on "Results" and then on "Submit" to filter the data according to a specific threshold.
 You can change the filter in "Settings"
 
+The results are automatically saved in a file called "output.csv"
+
 You will obtain more information here : https://github.com/tahiri-lab/aPhyloGeo_plus_plus/blob/main/README.md
