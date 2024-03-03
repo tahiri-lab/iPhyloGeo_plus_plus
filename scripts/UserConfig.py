@@ -4,7 +4,8 @@ class DataConfig:
         self._lsThreshold = 60
         self._windowSize = 200
         self._stepSize = 100
-        self._dataNames = ['ALLSKY_SFC_SW_DWN_newick', 'T2M_newick', 'QV2M_newick', 'PRECTOTCORR_newick', 'WS10M_newick']
+        self._dataNames = ['ALLSKY_SFC_SW_DWN_newick', 'T2M_newick', 'QV2M_newick', 'PRECTOTCORR_newick',
+                           'WS10M_newick']
         self._referenceGeneFile = '../datasets/small_seq.fasta'
         self._fileName = '../datasets/geo.csv'
         self._specimen = 'id'

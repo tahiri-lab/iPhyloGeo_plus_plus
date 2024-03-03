@@ -11,7 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_how_to_use(object):
+class UiHowToUse(object):
     def setupUi(self, how_to_use):
         how_to_use.setObjectName("how_to_use")
         #
@@ -61,9 +61,10 @@ class Ui_how_to_use(object):
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     how_to_use = QtWidgets.QMainWindow()
-    ui = Ui_how_to_use()
+    ui = UiHowToUse()
     ui.setupUi(how_to_use)
     how_to_use.show()
     sys.exit(app.exec_())
