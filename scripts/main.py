@@ -1,16 +1,18 @@
 import io
 import re
 from decimal import Decimal
-import folium
-import matplotlib.pyplot as plt
-import numpy as np
-from PyQt5 import QtCore, QtGui, QtWidgets
+
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QFileDialog
+
 import aPhyloGeo.Alignement
 import aPhyloGeo.aPhyloGeo
+import folium
+import matplotlib.pyplot as plt
+import numpy as np
+from PyQt5 import QtCore, QtGui, QtWidgets
 from help import UiHowToUse
 from parameters import UiDialog
 
@@ -834,7 +836,8 @@ class UiMainWindow(object):
         self.label_27.setObjectName("label_27")
         self.textBrowser_4 = QtWidgets.QTextBrowser(
             self.frame_10)  # Box where climatic stats appear. Maybe remove since graph
-        self.textBrowser_4.setGeometry(QtCore.QRect(20, 90, 921, 421))  # from matplotlib is rendered in a separate window
+        self.textBrowser_4.setGeometry(
+            QtCore.QRect(20, 90, 921, 421))  # from matplotlib is rendered in a separate window
         self.textBrowser_4.setObjectName("textBrowser_4")
         self.back_3 = QtWidgets.QPushButton(self.frame_10)
         #
