@@ -33,7 +33,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../img/sherbrooke.png</normaloff>../img/sherbrooke.png</iconset>
+    <normaloff>:sherbrooke.png</normaloff>:sherbrooke.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="sizePolicy">
@@ -519,7 +519,7 @@
      </property>
      <property name="icon">
       <iconset>
-       <normaloff>../img/other/help.svg</normaloff>../img/other/help.svg</iconset>
+       <normaloff>:other/help.svg</normaloff>:other/help.svg</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -556,7 +556,7 @@
      </property>
      <property name="icon">
       <iconset>
-       <normaloff>../img/inactive/climatic.svg</normaloff>../img/inactive/climatic.svg</iconset>
+       <normaloff>:inactive/climatic.svg</normaloff>:inactive/climatic.svg</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -612,7 +612,7 @@
      </property>
      <property name="icon">
       <iconset>
-       <normaloff>../img/disabled/result.svg</normaloff>../img/disabled/result.svg</iconset>
+       <normaloff>:disabled/result.svg</normaloff>:disabled/result.svg</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -649,7 +649,7 @@
      </property>
      <property name="icon">
       <iconset>
-       <normaloff>../img/active/genetic.svg</normaloff>../img/active/genetic.svg</iconset>
+       <normaloff>:active/genetic.svg</normaloff>:active/genetic.svg</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -716,7 +716,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../img/disabled/sequence.svg</normaloff>../img/disabled/sequence.svg</iconset>
+         <normaloff>:disabled/sequence.svg</normaloff>:disabled/sequence.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -742,7 +742,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../img/disabled/statistics.svg</normaloff>../img/disabled/statistics.svg</iconset>
+         <normaloff>:disabled/statistics.svg</normaloff>:disabled/statistics.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -889,7 +889,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../img/disabled/tree.svg</normaloff>../img/disabled/tree.svg</iconset>
+         <normaloff>:disabled/tree.svg</normaloff>:disabled/tree.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1164,7 +1164,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../img/inactive/tree.svg</normaloff>../img/inactive/tree.svg</iconset>
+         <normaloff>:inactive/tree.svg</normaloff>:inactive/tree.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1654,7 +1654,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../img/disabled/tree.svg</normaloff>../img/disabled/tree.svg</iconset>
+         <normaloff>:disabled/tree.svg</normaloff>:disabled/tree.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1766,7 +1766,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../img/disabled/statistics.svg</normaloff>../img/disabled/statistics.svg</iconset>
+         <normaloff>:disabled/statistics.svg</normaloff>:disabled/statistics.svg</iconset>
        </property>
        <property name="iconSize">
         <size>

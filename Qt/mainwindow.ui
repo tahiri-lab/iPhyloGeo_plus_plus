@@ -76,7 +76,7 @@ background-color: rgb(222, 221, 218);</string>
      </property>
      <property name="icon">
       <iconset>
-       <normaloff>../img/Genetic.svg</normaloff>../img/Genetic.svg</iconset>
+       <normaloff>:Genetic.svg</normaloff>:Genetic.svg</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -113,7 +113,7 @@ background-color: rgb(222, 221, 218);</string>
      </property>
      <property name="icon">
       <iconset>
-       <normaloff>../img/climatic.svg</normaloff>../img/climatic.svg</iconset>
+       <normaloff>:climatic.svg</normaloff>:climatic.svg</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -147,7 +147,7 @@ background-color: rgb(222, 221, 218);</string>
      </property>
      <property name="icon">
       <iconset>
-       <normaloff>../img/result.svg</normaloff>../img/result.svg</iconset>
+       <normaloff>:result.svg</normaloff>:result.svg</iconset>
      </property>
      <property name="iconSize">
       <size>

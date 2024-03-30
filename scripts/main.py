@@ -1,7 +1,7 @@
 import io
 import re
 from decimal import Decimal
-
+import resources_rc
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWebEngineWidgets import QWebEngineView
@@ -58,7 +58,7 @@ class UiMainWindow(object):
         MainWindow.setMinimumSize(QtCore.QSize(1143, 670))
         MainWindow.setMaximumSize(QtCore.QSize(1143, 670))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../img/other/sherbrooke.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":other/sherbrooke.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -225,7 +225,7 @@ class UiMainWindow(object):
         self.pushButton_11.setGeometry(QtCore.QRect(1040, 10, 111, 81))
         self.pushButton_11.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("../img/other/help.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap(":other/help.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_11.setIcon(icon1)
         self.pushButton_11.setIconSize(QtCore.QSize(80, 80))
         self.pushButton_11.setDefault(False)
@@ -238,7 +238,7 @@ class UiMainWindow(object):
         self.pushButton_3.setFont(font)
         self.pushButton_3.setText("")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("../img/inactive/climatic.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap(":inactive/climatic.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_3.setIcon(icon2)
         self.pushButton_3.setIconSize(QtCore.QSize(75, 75))
         self.pushButton_3.setCheckable(False)
@@ -250,7 +250,7 @@ class UiMainWindow(object):
         self.pushButton_3.clicked.connect(self.changeIconAndShowPage2)
         #
         self.label_6.setText("")
-        self.label_6.setPixmap(QtGui.QPixmap("../img/other/aPhylogeo.svg"))
+        self.label_6.setPixmap(QtGui.QPixmap(":other/aPhylogeo.svg"))
         self.label_6.setScaledContents(True)
         self.label_6.setObjectName("label_6")
         self.pushButton_4 = QtWidgets.QPushButton(self.top_frame)  # button to access the results section
@@ -260,7 +260,7 @@ class UiMainWindow(object):
         self.pushButton_4.setFont(font)
         self.pushButton_4.setText("")
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("../img/disabled/result.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap(":disabled/result.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_4.setIcon(icon3)
         self.pushButton_4.setIconSize(QtCore.QSize(70, 70))
         self.pushButton_4.setCheckable(False)
@@ -277,7 +277,7 @@ class UiMainWindow(object):
         self.pushButton_2.setFont(font)
         self.pushButton_2.setText("")
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap("../img/active/genetic.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon4.addPixmap(QtGui.QPixmap(":active/genetic.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_2.setIcon(icon4)
         self.pushButton_2.setIconSize(QtCore.QSize(75, 75))
         #
@@ -309,7 +309,7 @@ class UiMainWindow(object):
         self.pushButton_12.setGeometry(QtCore.QRect(10, 230, 61, 71))
         self.pushButton_12.setText("")
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap("../img/disabled/sequence.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon5.addPixmap(QtGui.QPixmap(":disabled/sequence.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_12.setIcon(icon5)
         #
         self.pushButton_12.setEnabled(False)
@@ -322,7 +322,7 @@ class UiMainWindow(object):
         self.pushButton_13.setGeometry(QtCore.QRect(0, 340, 71, 71))
         self.pushButton_13.setText("")
         icon6 = QtGui.QIcon()
-        icon6.addPixmap(QtGui.QPixmap("../img/disabled/statistics.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon6.addPixmap(QtGui.QPixmap(":disabled/statistics.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_13.setIcon(icon6)
         self.pushButton_13.setIconSize(QtCore.QSize(50, 50))
         self.pushButton_13.setFlat(True)
@@ -345,7 +345,7 @@ class UiMainWindow(object):
         self.pushButton_6.setFont(font)
         self.pushButton_6.setText("")
         icon7 = QtGui.QIcon()
-        icon7.addPixmap(QtGui.QPixmap("../img/other/Browse.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon7.addPixmap(QtGui.QPixmap(":other/Browse.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_6.setIcon(icon7)
         self.pushButton_6.setIconSize(QtCore.QSize(60, 90))
         self.pushButton_6.setCheckable(False)
@@ -361,7 +361,7 @@ class UiMainWindow(object):
         self.pushButton_7.setFont(font)
         self.pushButton_7.setText("")
         icon8 = QtGui.QIcon()
-        icon8.addPixmap(QtGui.QPixmap("../img/other/erase.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon8.addPixmap(QtGui.QPixmap(":other/erase.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_7.setIcon(icon8)
         self.pushButton_7.setIconSize(QtCore.QSize(60, 90))
         self.pushButton_7.setCheckable(False)
@@ -377,7 +377,7 @@ class UiMainWindow(object):
         self.pushButton_16.setGeometry(QtCore.QRect(-10, 450, 91, 91))
         self.pushButton_16.setText("")
         icon9 = QtGui.QIcon()
-        icon9.addPixmap(QtGui.QPixmap("../img/disabled/tree.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon9.addPixmap(QtGui.QPixmap(":disabled/tree.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_16.setIcon(icon9)
         self.pushButton_16.setIconSize(QtCore.QSize(100, 100))
         self.pushButton_16.setFlat(True)
@@ -423,7 +423,7 @@ class UiMainWindow(object):
         self.pushButton_14.setText("")
         #
         icon10 = QtGui.QIcon()
-        icon10.addPixmap(QtGui.QPixmap("../img/inactive/sequence.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon10.addPixmap(QtGui.QPixmap(":inactive/sequence.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         #
         self.pushButton_14.setIcon(icon10)
         self.pushButton_14.setIconSize(QtCore.QSize(60, 70))
@@ -434,7 +434,7 @@ class UiMainWindow(object):
         self.pushButton_15.setText("")
         #
         icon11 = QtGui.QIcon()
-        icon11.addPixmap(QtGui.QPixmap("../img/inactive/statistics.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon11.addPixmap(QtGui.QPixmap(":inactive/statistics.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         #
         self.pushButton_15.setIcon(icon11)
         self.pushButton_15.setIconSize(QtCore.QSize(50, 50))
@@ -495,7 +495,7 @@ class UiMainWindow(object):
         self.pushButton_34.setGeometry(QtCore.QRect(-10, 450, 91, 91))
         self.pushButton_34.setText("")
         icon12 = QtGui.QIcon()
-        icon12.addPixmap(QtGui.QPixmap("../img/inactive/tree.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon12.addPixmap(QtGui.QPixmap(":inactive/tree.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_34.setIcon(icon12)
         self.pushButton_34.setIconSize(QtCore.QSize(100, 100))
         self.pushButton_34.setFlat(True)
@@ -610,7 +610,7 @@ class UiMainWindow(object):
         self.pushButton_20.setGeometry(QtCore.QRect(-10, 450, 91, 91))
         self.pushButton_20.setText("")
         icon13 = QtGui.QIcon()
-        icon13.addPixmap(QtGui.QPixmap("../img/inactive/tree.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon13.addPixmap(QtGui.QPixmap(":inactive/tree.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_20.setIcon(icon13)
         self.pushButton_20.setIconSize(QtCore.QSize(100, 100))
         self.pushButton_20.setFlat(True)
@@ -950,7 +950,7 @@ class UiMainWindow(object):
         self.pushButton.setGeometry(QtCore.QRect(0, 40, 81, 61))
         self.pushButton.setText("")
         icon14 = QtGui.QIcon()
-        icon14.addPixmap(QtGui.QPixmap("../img/inactive/settings.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon14.addPixmap(QtGui.QPixmap(":inactive/settings.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton.setIcon(icon14)
         self.pushButton.setIconSize(QtCore.QSize(50, 50))
         self.pushButton.setFlat(True)
@@ -960,7 +960,7 @@ class UiMainWindow(object):
         self.pushButton_33.setGeometry(QtCore.QRect(10, 230, 71, 61))
         self.pushButton_33.setText("")
         icon15 = QtGui.QIcon()
-        icon15.addPixmap(QtGui.QPixmap("../img/inactive/submit.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon15.addPixmap(QtGui.QPixmap(":inactive/submit.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_33.setIcon(icon15)
         self.pushButton_33.setIconSize(QtCore.QSize(50, 50))
         self.pushButton_33.setFlat(True)
@@ -1141,7 +1141,7 @@ class UiMainWindow(object):
         self.pushButton_38.setText("")
         #
         icon10 = QtGui.QIcon()
-        icon10.addPixmap(QtGui.QPixmap("../img/inactive/sequence.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon10.addPixmap(QtGui.QPixmap(":inactive/sequence.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         #
         self.pushButton_38.setIcon(icon10)
         self.pushButton_38.setIconSize(QtCore.QSize(60, 70))
@@ -1152,7 +1152,7 @@ class UiMainWindow(object):
         self.pushButton_39.setText("")
         #
         icon10 = QtGui.QIcon()
-        icon10.addPixmap(QtGui.QPixmap("../img/inactive/sequence.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon10.addPixmap(QtGui.QPixmap(":inactive/sequence.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         #
         self.pushButton_39.setIcon(icon11)
         self.pushButton_39.setIconSize(QtCore.QSize(50, 50))
@@ -1562,7 +1562,7 @@ class UiMainWindow(object):
     def onTextChanged(self):
         if self.textEdit_4.toPlainText() and self.textBrowser_3.toPlainText():
             self.pushButton_4.setEnabled(True)
-            self.pushButton_4.setIcon(QIcon("../img/inactive/result.svg"))
+            self.pushButton_4.setIcon(QIcon(":inactive/result.svg"))
         else:
             self.pushButton_4.setEnabled(False)
 
@@ -1571,9 +1571,9 @@ class UiMainWindow(object):
             self.pushButton_12.setEnabled(True)
             self.pushButton_13.setEnabled(True)
             self.pushButton_16.setEnabled(True)
-            self.pushButton_12.setIcon(QIcon("../img/inactive/sequence.svg"))
-            self.pushButton_13.setIcon(QIcon("../img/inactive/statistics.svg"))
-            self.pushButton_16.setIcon(QIcon("../img/inactive/tree.svg"))
+            self.pushButton_12.setIcon(QIcon(":inactive/sequence.svg"))
+            self.pushButton_13.setIcon(QIcon(":inactive/statistics.svg"))
+            self.pushButton_16.setIcon(QIcon(":inactive/tree.svg"))
 
         else:
             self.pushButton_12.setEnabled(False)
@@ -1584,8 +1584,8 @@ class UiMainWindow(object):
         if self.textBrowser_3.toPlainText():
             self.pushButton_24.setEnabled(True)
             self.pushButton_22.setEnabled(True)
-            self.pushButton_24.setIcon(QIcon("../img/inactive/statistics.svg"))
-            self.pushButton_22.setIcon(QIcon("../img/inactive/tree.svg"))
+            self.pushButton_24.setIcon(QIcon(":inactive/statistics.svg"))
+            self.pushButton_22.setIcon(QIcon(":inactive/tree.svg"))
 
         else:
             self.pushButton_24.setEnabled(False)
@@ -1619,27 +1619,27 @@ class UiMainWindow(object):
         if self.pushButton_3.icon().isNull():
             self.pushButton_3.setIcon(QIcon("icon2.png"))
         else:
-            self.pushButton_3.setIcon(QIcon("../img/active/climatic.svg"))
-            self.pushButton_2.setIcon(QIcon("../img/inactive/genetic.svg"))
-            self.pushButton_4.setIcon(QIcon("../img/inactive/result.svg"))
+            self.pushButton_3.setIcon(QIcon(":active/climatic.svg"))
+            self.pushButton_2.setIcon(QIcon(":inactive/genetic.svg"))
+            self.pushButton_4.setIcon(QIcon(":inactive/result.svg"))
         self.showPage4()
 
     def changeIconAndShowPage(self):
         if self.pushButton_2.icon().isNull():
             self.pushButton_2.setIcon(QIcon("icon1.png"))
         else:
-            self.pushButton_3.setIcon(QIcon("../img/inactive/climatic.svg"))
-            self.pushButton_2.setIcon(QIcon("../img/active/genetic.svg"))
-            self.pushButton_4.setIcon(QIcon("../img/inactive/result.svg"))
+            self.pushButton_3.setIcon(QIcon(":inactive/climatic.svg"))
+            self.pushButton_2.setIcon(QIcon(":active/genetic.svg"))
+            self.pushButton_4.setIcon(QIcon(":inactive/result.svg"))
         self.showPage()
 
     def changeIconAndShowPage3(self):
         if self.pushButton_4.icon().isNull():
             self.pushButton_4.setIcon(QIcon("icon3.png"))
         else:
-            self.pushButton_3.setIcon(QIcon("../img/inactive/climatic.svg"))
-            self.pushButton_2.setIcon(QIcon("../img/inactive/genetic.svg"))
-            self.pushButton_4.setIcon(QIcon("../img/active/result.svg"))
+            self.pushButton_3.setIcon(QIcon(":inactive/climatic.svg"))
+            self.pushButton_2.setIcon(QIcon(":inactive/genetic.svg"))
+            self.pushButton_4.setIcon(QIcon(":active/result.svg"))
         self.showPage7()
 
     # press the button to delete data
