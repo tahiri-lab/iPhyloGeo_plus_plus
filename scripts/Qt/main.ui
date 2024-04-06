@@ -518,8 +518,8 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>../img/other/help.svg</normaloff>../img/other/help.svg</iconset>
+      <iconset resource="../../img/resources.qrc">
+       <normaloff>:/other/help.svg</normaloff>:/other/help.svg</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -555,8 +555,8 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>../img/inactive/climatic.svg</normaloff>../img/inactive/climatic.svg</iconset>
+      <iconset resource="../../img/resources.qrc">
+       <normaloff>:/inactive/climatic.svg</normaloff>:/inactive/climatic.svg</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -584,7 +584,7 @@
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap>../../../Desktop/newdesign/icons/archive (2)/WSiN0h01.svg</pixmap>
+      <pixmap resource="../../img/resources.qrc">:/other/aPhylogeo.svg</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -611,8 +611,8 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>../img/disabled/result.svg</normaloff>../img/disabled/result.svg</iconset>
+      <iconset resource="../../img/resources.qrc">
+       <normaloff>:/disabled/result.svg</normaloff>:/disabled/result.svg</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -648,8 +648,8 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>../img/active/genetic.svg</normaloff>../img/active/genetic.svg</iconset>
+      <iconset resource="../../img/resources.qrc">
+       <normaloff>:/active/genetic.svg</normaloff>:/active/genetic.svg</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -715,8 +715,8 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>../img/disabled/sequence.svg</normaloff>../img/disabled/sequence.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/disabled/sequence.svg</normaloff>:/disabled/sequence.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -741,8 +741,8 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>../img/disabled/statistics.svg</normaloff>../img/disabled/statistics.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/disabled/statistics.svg</normaloff>:/disabled/statistics.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -799,8 +799,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/Browse.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/Browse.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/other/Browse.svg</normaloff>:/other/Browse.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -833,8 +833,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/erase.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/erase.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/other/erase.svg</normaloff>:/other/erase.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -888,8 +888,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>../img/disabled/tree.svg</normaloff>../img/disabled/tree.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/disabled/tree.svg</normaloff>:/disabled/tree.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -3326,6 +3326,8 @@ Alignment</string>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../img/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
