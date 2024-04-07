@@ -33,7 +33,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../img/sherbrooke.png</normaloff>../img/sherbrooke.png</iconset>
+    <normaloff>C:/Users/hazem/.designer/img/sherbrooke.png</normaloff>C:/Users/hazem/.designer/img/sherbrooke.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="sizePolicy">
@@ -684,7 +684,7 @@
      </sizepolicy>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="page">
      <widget class="QFrame" name="frame">
@@ -703,6 +703,9 @@
        <enum>QFrame::Raised</enum>
       </property>
       <widget class="QPushButton" name="pushButton_12">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -729,6 +732,9 @@
        </property>
       </widget>
       <widget class="QPushButton" name="pushButton_13">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -816,6 +822,9 @@ Alignment</string>
        </property>
       </widget>
       <widget class="QPushButton" name="pushButton_7">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -876,6 +885,9 @@ Alignment</string>
        </property>
       </widget>
       <widget class="QPushButton" name="pushButton_16">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="geometry">
         <rect>
          <x>-10</x>
@@ -977,8 +989,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/seq.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/seq.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/disabled/sequence.svg</normaloff>:/disabled/sequence.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1003,8 +1015,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/analytics.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/analytics.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/inactive/statistics.svg</normaloff>:/inactive/statistics.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1061,8 +1073,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/Browse.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/Browse.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/other/Browse.svg</normaloff>:/other/Browse.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1095,8 +1107,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/erase.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/erase.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/other/erase.svg</normaloff>:/other/erase.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1163,8 +1175,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>../img/inactive/tree.svg</normaloff>../img/inactive/tree.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/inactive/tree.svg</normaloff>:/inactive/tree.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1333,7 +1345,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/seq.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/seq.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/seq.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/seq.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1359,7 +1371,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/analytics.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/analytics.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/analytics.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/analytics.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1417,7 +1429,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/Browse.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/Browse.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/Browse.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/Browse.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1451,7 +1463,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/erase.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/erase.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1506,7 +1518,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/draw climatic.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/draw climatic.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/draw climatic.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/draw climatic.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1625,7 +1637,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/erase.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/erase.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1641,6 +1653,9 @@ Alignment</string>
        </property>
       </widget>
       <widget class="QPushButton" name="pushButton_22">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -1654,7 +1669,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../img/disabled/tree.svg</normaloff>../img/disabled/tree.svg</iconset>
+         <normaloff>C:/Users/hazem/.designer/img/disabled/tree.svg</normaloff>C:/Users/hazem/.designer/img/disabled/tree.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1685,7 +1700,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/Browse.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/Browse.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/Browse.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/Browse.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1766,7 +1781,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../img/disabled/statistics.svg</normaloff>../img/disabled/statistics.svg</iconset>
+         <normaloff>C:/Users/hazem/.designer/img/disabled/statistics.svg</normaloff>C:/Users/hazem/.designer/img/disabled/statistics.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1851,7 +1866,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/erase.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/erase.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1880,7 +1895,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/draw climatic.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/draw climatic.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/draw climatic.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/draw climatic.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1911,7 +1926,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/Browse.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/Browse.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/Browse.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/Browse.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1992,7 +2007,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/analytics.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/analytics.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/analytics.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/analytics.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -2233,7 +2248,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/erase.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/erase.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -2262,7 +2277,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/draw climatic.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/draw climatic.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/draw climatic.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/draw climatic.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -2293,7 +2308,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/Browse.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/Browse.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/Browse.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/Browse.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -2374,7 +2389,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/analytics.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/analytics.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/analytics.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/analytics.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -2475,7 +2490,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/settings.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/settings.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/settings.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/settings.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -2501,7 +2516,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/submit.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/submit.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/submit.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/submit.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -2566,7 +2581,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/analytics.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/analytics.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/analytics.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/analytics.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -2610,7 +2625,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/erase.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/erase.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -2701,7 +2716,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/settings.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/settings.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/settings.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/settings.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -2727,7 +2742,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/submit.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/submit.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/submit.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/submit.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -2792,7 +2807,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/analytics.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/analytics.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/analytics.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/analytics.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -2836,7 +2851,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/erase.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/erase.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -3059,7 +3074,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/seq.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/seq.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/seq.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/seq.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -3085,7 +3100,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/analytics.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/analytics.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/analytics.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/analytics.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -3143,7 +3158,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/Browse.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/Browse.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/Browse.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/Browse.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -3177,7 +3192,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/erase.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/erase.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -3232,7 +3247,7 @@ Alignment</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Desktop/newdesign/icons/archive (2)/draw climatic.svg</normaloff>../../../Desktop/newdesign/icons/archive (2)/draw climatic.svg</iconset>
+         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/draw climatic.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/draw climatic.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -3328,6 +3343,7 @@ Alignment</string>
  </widget>
  <resources>
   <include location="../../img/resources.qrc"/>
+  <include location="C:/Users/hazem/img/resources.qrc"/>
  </resources>
  <connections/>
 </ui>
