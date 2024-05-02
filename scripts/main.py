@@ -16,8 +16,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from help import UiHowToUse
 from parameters import UiDialog
 from PyQt5 import QtWidgets, uic
-
-
+import qtmodern.styles
+import qtmodern.windows
 class UiMainWindow(QtWidgets.QMainWindow):
 
     # added code from her[
@@ -651,5 +651,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
     window = UiMainWindow()
+    mw = qtmodern.windows.ModernWindow(window)
+    mw.show()
     window.show()
     sys.exit(app.exec_())
