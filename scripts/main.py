@@ -18,6 +18,8 @@ from parameters import UiDialog
 from PyQt5 import QtWidgets, uic
 import qtmodern.styles
 import qtmodern.windows
+
+
 class UiMainWindow(QtWidgets.QMainWindow):
 
     # added code from her[
@@ -43,7 +45,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.window.show()
 
     def enableButton(self):
-        if self.textEdit_4.toPlainText():
+        if self.textEditPage1.toPlainText():
             self.pushButton_4.setEnabled(True)
 
     # to her]
@@ -54,99 +56,100 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
     def setupUi(self):
         self.setObjectName("MainWindow")
-        self.pushButton_6.clicked.connect(self.press_it)
-        self.pushButton_12.clicked.connect(self.showSeqAlinFrame19)
-        self.pushButton_7.clicked.connect(self.clearIt)
-        self.pushButton_13.clicked.connect(self.showGenStatFrame4)
-        self.pushButton_16.clicked.connect(self.showGenTreeFrame6)
-        self.pushButton_2.clicked.connect(self.showPage)
-        self.pushButton_2.clicked.connect(self.enableFrame)
-        self.pushButton_3.clicked.connect(self.showPage4)
-        self.pushButton_11.clicked.connect(self.useWindow)
-        self.pushButton_4.clicked.connect(self.changeIconAndShowPage3)
-        self.pushButton_15.clicked.connect(self.showGenStatFrame4)
-        self.pushButton_15.clicked.connect(self.enableFrame4)
-        self.pushButton_8.clicked.connect(self.press_it)
-        self.pushButton_8.clicked.connect(self.changeIconAndShowPage)
-        self.pushButton_8.clicked.connect(self.enableFrame)
-        self.pushButton_9.clicked.connect(self.clearGenStat)
-        self.pushButton_9.clicked.connect(self.resetCom2)
-        self.back.clicked.connect(self.showPage)
-        self.back.clicked.connect(self.enableFrame)
-        self.pushButton_10.clicked.connect(self.press_it)
-        self.pushButton_10.clicked.connect(self.changeIconAndShowPage)
-        self.pushButton_10.clicked.connect(self.enableFrame)
-        self.pushButton_19.clicked.connect(self.clearGenTree)
-        self.back_2.clicked.connect(self.showPage)
-        self.pushButton_21.clicked.connect(self.clearCl)
-        self.pushButton_22.clicked.connect(self.openWindow)
-        self.pushButton_22.clicked.connect(self.showClimTreeFrame13)
-        self.pushButton_22.clicked.connect(self.enableFrame13)
-        self.pushButton_23.clicked.connect(self.pressIt)
-        self.pushButton_24.clicked.connect(self.showClimStatBar)
-        self.pushButton_24.clicked.connect(self.showClimStatFrame10)
-        self.pushButton_24.clicked.connect(self.enableFrame10)
-        self.textBrowser_3.textChanged.connect(self.onTextChanged)
-        self.textBrowser_3.textChanged.connect(self.onTextChangeClim)
-        self.pushButton_25.clicked.connect(self.resetCom)
-        self.pushButton_25.clicked.connect(self.clearClimStat)
-        self.pushButton_27.clicked.connect(self.pressIt)
-        self.pushButton_27.clicked.connect(self.showPage4)
-        self.back_3.clicked.connect(self.showPage4)
-        self.back_3.clicked.connect(self.enableFrame)
-        self.pushButton_29.clicked.connect(self.clearClimTree)
-        self.pushButton_31.clicked.connect(self.pressIt)
-        self.pushButton_31.clicked.connect(self.showPage4)
-        self.back_4.clicked.connect(self.showPage4)
-        self.back_4.clicked.connect(self.enableFrame)
-        self.pushButton.clicked.connect(self.paramWin)
-        self.pushButton_33.clicked.connect(self.showFilteredResults)
-        self.pushButton_35.clicked.connect(self.showResultStatFrame16)
-        self.pushButton_35.clicked.connect(self.enableFrame17)
-        self.pushButton_43.clicked.connect(self.clearResult)
-        self.pushButton_5.clicked.connect(self.paramWin)
-        self.pushButton_5.clicked.connect(self.changeIconAndShowPage3)
-        self.pushButton_44.clicked.connect(self.resetCom_4_5)
-        self.pushButton_44.clicked.connect(self.clearResultStat)
-        self.back_5.clicked.connect(self.showPage7)
-        self.pushButton_40.clicked.connect(self.press_it)
-        self.pushButton_40.clicked.connect(self.changeIconAndShowPage)
-        self.pushButton_40.clicked.connect(self.enableFrame)
-        self.pushButton_41.clicked.connect(self.clearSeq)
-        self.back_6.clicked.connect(self.showPage)
-        self.back_6.clicked.connect(self.enableFrame)
+        self.fileBrowserButtonPage1.clicked.connect(self.press_it)
+        self.sequenceAlignmentButtonPage1.clicked.connect(self.showSeqAlinFrame19)
+        self.clearButtonPage1.clicked.connect(self.clearIt)
+        self.statisticsButtonPage1.clicked.connect(self.showGenStatFrame4)
+        self.geneticTreeButtonPage1.clicked.connect(self.showGenTreeFrame6)
+        self.geneticDataButton.clicked.connect(self.showPage)
+        self.geneticDataButton.clicked.connect(self.enableFrame)
+        self.climaticDataButton.clicked.connect(self.showPage4)
+        self.helpButton.clicked.connect(self.useWindow)
+        self.resultsButton.clicked.connect(self.changeIconAndShowPage3)
+        self.statisticsButtonPage2.clicked.connect(self.showGenStatFrame4)
+        self.statisticsButtonPage2.clicked.connect(self.enableFrame4)
+        self.fileBrowserButtonPage2.clicked.connect(self.press_it)
+        self.fileBrowserButtonPage2.clicked.connect(self.changeIconAndShowPage)
+        self.fileBrowserButtonPage2.clicked.connect(self.enableFrame)
+        self.clearButtonPage2.clicked.connect(self.clearGenStat)
+        self.clearButtonPage2.clicked.connect(self.resetCom2)
+        self.backButtonPage2.clicked.connect(self.showPage)
+        self.backButtonPage2.clicked.connect(self.enableFrame)
+        self.fileBrowserButtonPage3.clicked.connect(self.press_it)
+        self.fileBrowserButtonPage3.clicked.connect(self.changeIconAndShowPage)
+        self.fileBrowserButtonPage3.clicked.connect(self.enableFrame)
+        self.clearButtonPage3.clicked.connect(self.clearGenTree)
+        self.backButtonPage3.clicked.connect(self.showPage)
+        self.clearButtonPage4.clicked.connect(self.clearCl)
+        self.climaticTreeButtonPage4.clicked.connect(self.openWindow)
+        self.climaticTreeButtonPage4.clicked.connect(self.showClimTreeFrame13)
+        self.climaticTreeButtonPage4.clicked.connect(self.enableFrame13)
+        self.fileBrowserButtonPage4.clicked.connect(self.pressIt)
+        self.statisticsButtonPage4.clicked.connect(self.showClimStatBar)
+        self.statisticsButtonPage4.clicked.connect(self.showClimStatFrame10)
+        self.statisticsButtonPage4.clicked.connect(self.enableFrame10)
+        self.textEditPage4.textChanged.connect(self.onTextChangeClim)
+        self.clearButtonPage5.clicked.connect(self.resetCom)
+        self.clearButtonPage5.clicked.connect(self.clearClimStat)
+        self.fileBrowserButtonPage5.clicked.connect(self.pressIt)
+        self.fileBrowserButtonPage5.clicked.connect(self.showPage4)
+        self.backButtonPage5.clicked.connect(self.showPage4)
+        self.backButtonPage5.clicked.connect(self.enableFrame)
+        self.clearButtonPage6.clicked.connect(self.clearClimTree)
+        self.fileBrowserButtonPage6.clicked.connect(self.pressIt)
+        self.fileBrowserButtonPage6.clicked.connect(self.showPage4)
+        self.backButtonPage6.clicked.connect(self.showPage4)
+        self.backButtonPage6.clicked.connect(self.enableFrame)
+        self.settingsButtonPage7.clicked.connect(self.paramWin)
+        self.submitButtonPage7.clicked.connect(self.showFilteredResults)
+        self.statisticsButtonPage7.clicked.connect(self.showResultStatFrame16)
+        self.statisticsButtonPage7.clicked.connect(self.enableFrame17)
+        self.clearButtonPage7.clicked.connect(self.clearResult)
+        self.settingsButtonPage8.clicked.connect(self.paramWin)
+        self.settingsButtonPage8.clicked.connect(self.changeIconAndShowPage3)
+        self.clearButtonPage8.clicked.connect(self.resetCom_4_5)
+        self.clearButtonPage8.clicked.connect(self.clearResultStat)
+        self.backButtonPage8.clicked.connect(self.showPage7)
+        self.fileBrowserButtonPage9.clicked.connect(self.press_it)
+        self.fileBrowserButtonPage9.clicked.connect(self.changeIconAndShowPage)
+        self.fileBrowserButtonPage9.clicked.connect(self.enableFrame)
+        self.clearButtonPage9.clicked.connect(self.clearSeq)
+        self.backButtonPage9.clicked.connect(self.showPage)
+        self.backButtonPage9.clicked.connect(self.enableFrame)
 
         self.translateUi()
         self.stackedWidget.setCurrentIndex(0)
-        self.pushButton_2.clicked.connect(self.showPage)
-        self.pushButton_3.clicked.connect(self.showPage4)
-        self.pushButton_4.clicked.connect(self.showPage7)
-        self.pushButton_12.clicked.connect(self.showSeqAlinFrame19)
-        self.pushButton_14.clicked.connect(self.showSeqAlinFrame19)
-        self.pushButton_17.clicked.connect(self.showSeqAlinFrame19)
-        self.pushButton_13.clicked.connect(self.showGenStatFrame4)
-        self.pushButton_18.clicked.connect(self.showGenStatFrame4)
-        self.pushButton_39.clicked.connect(self.showGenStatFrame4)
-        self.pushButton_16.clicked.connect(self.showGenTreeFrame6)
-        self.pushButton_34.clicked.connect(self.showGenTreeFrame6)
-        self.pushButton_42.clicked.connect(self.showGenTreeFrame6)
-        self.pushButton_26.clicked.connect(self.showClimTreeFrame13)
-        self.pushButton_24.clicked.connect(self.showClimStatFrame10)
-        self.pushButton_32.clicked.connect(self.showClimStatFrame10)
-        self.pushButton_35.clicked.connect(self.showResultStatFrame16)
+        self.geneticDataButton.clicked.connect(self.showPage)
+        self.climaticDataButton.clicked.connect(self.showPage4)
+        self.resultsButton.clicked.connect(self.showPage7)
+        self.sequenceAlignmentButtonPage1.clicked.connect(self.showSeqAlinFrame19)
+        self.sequenceAlignmentButtonPage2.clicked.connect(self.showSeqAlinFrame19)
+        self.sequenceAlignmentButtonPage3.clicked.connect(self.showSeqAlinFrame19)
+        self.statisticsButtonPage1.clicked.connect(self.showGenStatFrame4)
+        self.clearButtonPage3.clicked.connect(self.showGenStatFrame4)
+        self.statisticsButtonPage9.clicked.connect(self.showGenStatFrame4)
+        self.geneticTreeButtonPage1.clicked.connect(self.showGenTreeFrame6)
+        self.geneticTreeButtonPage2.clicked.connect(self.showGenTreeFrame6)
+        self.geneticTreeButtonPage9.clicked.connect(self.showGenTreeFrame6)
+        self.climaticTreeButtonPage5.clicked.connect(self.showClimTreeFrame13)
+        self.statisticsButtonPage4.clicked.connect(self.showClimStatFrame10)
+        self.statisticButtonPage6.clicked.connect(self.showClimStatFrame10)
+        self.statisticsButtonPage7.clicked.connect(self.showResultStatFrame16)
 
-        buttons = [self.pushButton, self.pushButton_2, self.pushButton_3, self.pushButton_4, self.pushButton_5,
-                   self.pushButton_6, self.pushButton_7, self.pushButton_8,
-                   self.pushButton_9, self.pushButton_10, self.pushButton_11, self.pushButton_12, self.pushButton_13,
-                   self.pushButton_14, self.pushButton_15, self.pushButton_16,
-                   self.pushButton_17, self.pushButton_18, self.pushButton_19, self.pushButton_20, self.pushButton_21,
-                   self.pushButton_22, self.pushButton_23, self.pushButton_24,
-                   self.pushButton_25, self.pushButton_26, self.pushButton_27, self.pushButton_28, self.pushButton_29,
-                   self.pushButton_30, self.pushButton_31, self.pushButton_32,
-                   self.pushButton_33, self.pushButton_34, self.pushButton_35, self.pushButton_35, self.pushButton_36,
-                   self.pushButton_37, self.pushButton_38,
-                   self.pushButton_39, self.pushButton_40, self.pushButton_41, self.pushButton_42, self.pushButton_43,
-                   self.pushButton_44, self.back,
+        buttons = [self.settingsButtonPage7, self.geneticDataButton, self.climaticDataButton, self.resultsButton,
+                   self.settingsButtonPage8,
+                   self.fileBrowserButtonPage1, self.clearButtonPage1, self.fileBrowserButtonPage2,
+                   self.clearButtonPage2, self.fileBrowserButtonPage3, self.helpButton, self.sequenceAlignmentButtonPage1,
+                   self.statisticsButtonPage1,
+                   self.sequenceAlignmentButtonPage2, self.statisticsButtonPage2, self.geneticTreeButtonPage1,
+                   self.sequenceAlignmentButtonPage3, self.clearButtonPage3, self.clearButtonPage3, self.geneticTreeButtonPage3, self.clearButtonPage4,
+                   self.climaticTreeButtonPage4, self.fileBrowserButtonPage4, self.statisticsButtonPage4,
+                   self.clearButtonPage5, self.climaticTreeButtonPage5, self.fileBrowserButtonPage5, self.statisticsButtonPage5, self.clearButtonPage6,
+                   self.climaticTreeButtonPage6, self.fileBrowserButtonPage6, self.statisticButtonPage6,
+                   self.submitButtonPage7, self.geneticTreeButtonPage2, self.statisticsButtonPage7, self.statisticsButtonPage7, self.submitButtonPage8,
+                   self.statisticsButtonPage8, self.sequenceAlignmentButtonPage9,
+                   self.statisticsButtonPage9, self.fileBrowserButtonPage9, self.clearButtonPage9, self.geneticTreeButtonPage9, self.clearButtonPage7,
+                   self.clearButtonPage8, self.backButtonPage2,
 
                    ]
 
@@ -166,7 +169,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         QtCore.QMetaObject.connectSlotsByName(self)
 
-        self.comboBox.currentIndexChanged.connect(self.showFrame)
+        self.chartTypeComboBoxPage5.currentIndexChanged.connect(self.showFrame)
         self.frame_11.setHidden(True)
 
     def press_it(self):
@@ -182,7 +185,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             with open(fileName, "r") as f:
                 self.clearIt()
                 content = f.read()
-                self.textEdit_4.setText(content)
+                self.textEditPage1.setText(content)
                 sequence = ""
                 for line in content.splitlines():
                     if not line.startswith('>'):
@@ -198,7 +201,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
                                 new_line += f'<span style="background-color: orange">{char}</span>'
                         line = new_line
                     sequence += line + "<br>"
-                self.textEdit_4.setText(sequence)
+                self.textEditPage1.setText(sequence)
 
     def callSeqAlign(self):
         '''
@@ -216,9 +219,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
     def retrieveDataNames(self, list):
         '''
         Retrieve data from a list, except for first element
-        Args: 
+        Args:
          list (from which we get data)
-        Return: 
+        Return:
          names_to_retrieve (Retrieved elements)
         '''
         names_to_retrieve = []
@@ -295,8 +298,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
                     aPhyloGeo.Alignement.userData_align.set_names(first_line)
                 aPhyloGeo.aPhyloGeo.userData.set_dataNames(clim_data_names)
                 aPhyloGeo.Alignement.userData_align.set_dataNames(clim_data_names)
-                self.textBrowser_3.clear()
-                cursor = QtGui.QTextCursor(self.textBrowser_3.textCursor())
+                self.textEditPage4.clear()
+                cursor = QtGui.QTextCursor(self.textEditPage4.textCursor())
                 clim_data_table = cursor.insertTable(num_rows, num_columns)
                 fmt = clim_data_table.format()
                 fmt.setWidth(QtGui.QTextLength(QtGui.QTextLength.PercentageLength, 100))
@@ -419,40 +422,40 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.geneticTreeDict)
         with open("output.csv", "r") as f:
             content = f.read()
-        self.textBrowser_7.setText(str(content))
+        self.textEditPage7.setText(str(content))
 
     # Enable_button():
     def onTextChanged(self):
-        if self.textEdit_4.toPlainText() and self.textBrowser_3.toPlainText():
-            self.pushButton_4.setEnabled(True)
-            self.pushButton_4.setIcon(QIcon(":inactive/result.svg"))
+        if self.textEditPage1.toPlainText() and self.textEditPage4.toPlainText():
+            self.resultsButton.setEnabled(True)
+            self.resultsButton.setIcon(QIcon(":inactive/result.svg"))
         else:
-            self.pushButton_4.setEnabled(False)
+            self.resultsButton.setEnabled(False)
 
     def onTextChangeGen(self):
-        if self.textEdit_4.toPlainText():
-            self.pushButton_12.setEnabled(True)
-            self.pushButton_13.setEnabled(True)
-            self.pushButton_16.setEnabled(True)
-            self.pushButton_12.setIcon(QIcon(":inactive/sequence.svg"))
-            self.pushButton_13.setIcon(QIcon(":inactive/statistics.svg"))
-            self.pushButton_16.setIcon(QIcon(":inactive/tree.svg"))
+        if self.textEditPage1.toPlainText():
+            self.sequenceAlignmentButtonPage1.setEnabled(True)
+            self.statisticsButtonPage1.setEnabled(True)
+            self.geneticTreeButtonPage1.setEnabled(True)
+            self.sequenceAlignmentButtonPage1.setIcon(QIcon(":inactive/sequence.svg"))
+            self.statisticsButtonPage1.setIcon(QIcon(":inactive/statistics.svg"))
+            self.geneticTreeButtonPage1.setIcon(QIcon(":inactive/tree.svg"))
 
         else:
-            self.pushButton_12.setEnabled(False)
-            self.pushButton_13.setEnabled(False)
-            self.pushButton_16.setEnabled(False)
+            self.sequenceAlignmentButtonPage1.setEnabled(False)
+            self.statisticsButtonPage1.setEnabled(False)
+            self.geneticTreeButtonPage1.setEnabled(False)
 
     def onTextChangeClim(self):
-        if self.textBrowser_3.toPlainText():
-            self.pushButton_24.setEnabled(True)
-            self.pushButton_22.setEnabled(True)
-            self.pushButton_24.setIcon(QIcon(":inactive/statistics.svg"))
-            self.pushButton_22.setIcon(QIcon(":inactive/tree.svg"))
+        if self.textEditPage4.toPlainText():
+            self.statisticsButtonPage4.setEnabled(True)
+            self.climaticTreeButtonPage4.setEnabled(True)
+            self.statisticsButtonPage4.setIcon(QIcon(":inactive/statistics.svg"))
+            self.climaticTreeButtonPage4.setIcon(QIcon(":inactive/tree.svg"))
 
         else:
-            self.pushButton_24.setEnabled(False)
-            self.pushButton_22.setEnabled(False)
+            self.statisticsButtonPage4.setEnabled(False)
+            self.climaticTreeButtonPage4.setEnabled(False)
 
     # enable the frame when the push button is clicked
     def enableFrame(self):
@@ -479,173 +482,173 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.frame_17.setEnabled(True)
 
     def changeIconAndShowPage2(self):
-        if self.pushButton_3.icon().isNull():
-            self.pushButton_3.setIcon(QIcon("icon2.png"))
+        if self.climaticDataButton.icon().isNull():
+            self.climaticDataButton.setIcon(QIcon("icon2.png"))
         else:
-            self.pushButton_3.setIcon(QIcon(":active/climatic.svg"))
-            self.pushButton_2.setIcon(QIcon(":inactive/genetic.svg"))
-            self.pushButton_4.setIcon(QIcon(":inactive/result.svg"))
+            self.climaticDataButton.setIcon(QIcon(":active/climatic.svg"))
+            self.geneticDataButton.setIcon(QIcon(":inactive/genetic.svg"))
+            self.resultsButton.setIcon(QIcon(":inactive/result.svg"))
         self.showPage4()
 
     def changeIconAndShowPage(self):
-        if self.pushButton_2.icon().isNull():
-            self.pushButton_2.setIcon(QIcon("icon1.png"))
+        if self.geneticDataButton.icon().isNull():
+            self.geneticDataButton.setIcon(QIcon("icon1.png"))
         else:
-            self.pushButton_3.setIcon(QIcon(":inactive/climatic.svg"))
-            self.pushButton_2.setIcon(QIcon(":active/genetic.svg"))
-            self.pushButton_4.setIcon(QIcon(":inactive/result.svg"))
+            self.climaticDataButton.setIcon(QIcon(":inactive/climatic.svg"))
+            self.geneticDataButton.setIcon(QIcon(":active/genetic.svg"))
+            self.resultsButton.setIcon(QIcon(":inactive/result.svg"))
         self.showPage()
 
     def changeIconAndShowPage3(self):
-        if self.pushButton_4.icon().isNull():
-            self.pushButton_4.setIcon(QIcon("icon3.png"))
+        if self.resultsButton.icon().isNull():
+            self.resultsButton.setIcon(QIcon("icon3.png"))
         else:
-            self.pushButton_3.setIcon(QIcon(":inactive/climatic.svg"))
-            self.pushButton_2.setIcon(QIcon(":inactive/genetic.svg"))
-            self.pushButton_4.setIcon(QIcon(":active/result.svg"))
+            self.climaticDataButton.setIcon(QIcon(":inactive/climatic.svg"))
+            self.geneticDataButton.setIcon(QIcon(":inactive/genetic.svg"))
+            self.resultsButton.setIcon(QIcon(":active/result.svg"))
         self.showPage7()
 
     # press the button to delete data
     def clearIt(self):
         self.textEd_4.clear()
-        self.textEdit_4.clear()
+        self.textEditPage1.clear()
 
     def clearSeq(self):
         self.textEd_4.clear()
 
     def clearGenStat(self):
-        self.textBrowser.clear()
+        self.textEditPage2.clear()
 
     def clearGenTree(self):
-        self.textBrowser_2.clear()
+        self.textEditpage3.clear()
 
     def clearCl(self):
-        self.textBrowser_3.clear()
+        self.textEditPage4.clear()
 
     def clearClimStat(self):
         self.textBrowser_4.clear()
 
     def clearClimTree(self):
-        self.textBrowser_5.clear()
+        self.textEditPage6.clear()
 
     def clearResult(self):
-        self.textBrowser_7.clear()
+        self.textEditPage7.clear()
         # tableView
 
     def clearResultStat(self):
-        self.textBrowser_6.clear()
+        self.textEditPage8.clear()
         # graphicsView_4
 
     # Set the combo box to its default value
     def resetCom2(self):
-        self.comboBox_2.setCurrentIndex(0)
+        self.speciesNamesList.setCurrentIndex(0)
         # reset_button.clicked.connect(self.resetCom2resetCom2)
 
     def resetCom(self):
-        self.comboBox.setCurrentIndex(0)
-        self.comboBox_3.setCurrentIndex(0)
+        self.chartTypeComboBoxPage5.setCurrentIndex(0)
+        self.climateConditionComboBoxPage5.setCurrentIndex(0)
 
     def resetCom_4_5(self):
-        self.comboBox_4.setCurrentIndex(0)
-        self.comboBox_5.setCurrentIndex(0)
+        self.chartTypeComboBoxPage8.setCurrentIndex(0)
+        self.conditionComboBoxPage8.setCurrentIndex(0)
 
     def translateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.pushButton_11.setToolTip(_translate("MainWindow", "How to use the application"))
-        self.pushButton_3.setToolTip(_translate("MainWindow", "Climatic Data"))
-        self.pushButton_4.setToolTip(_translate("MainWindow", "Results"))
-        self.pushButton_2.setToolTip(_translate("MainWindow", "Genetic Data"))
-        self.pushButton_2.setShortcut(_translate("MainWindow", "Down"))
-        self.label_2.setText(_translate("MainWindow", "File Browser"))
-        self.label_5.setText(_translate("MainWindow", " Sequence \n"
+        self.helpButton.setToolTip(_translate("MainWindow", "How to use the application"))
+        self.climaticDataButton.setToolTip(_translate("MainWindow", "Climatic Data"))
+        self.resultsButton.setToolTip(_translate("MainWindow", "Results"))
+        self.geneticDataButton.setToolTip(_translate("MainWindow", "Genetic Data"))
+        self.geneticDataButton.setShortcut(_translate("MainWindow", "Down"))
+        self.fileBrowserLabelPage1.setText(_translate("MainWindow", "File Browser"))
+        self.sequenceAlignmentLabelPage1.setText(_translate("MainWindow", " Sequence \n"
+                                                                          "Alignment"))
+        self.clearLabelPage1.setText(_translate("MainWindow", "Clear"))
+        self.statisticsLabelPage1.setText(_translate("MainWindow", "Statistics"))
+        self.geneticTreeLabelPage1.setText(_translate("MainWindow", "Genetic Tree"))
+        self.fileBrowserLabelPage2.setText(_translate("MainWindow", "File Browser"))
+        self.sequenceAlignmentLabelPage2.setText(_translate("MainWindow", " Sequence \n"
                                                       "Alignment"))
-        self.label_3.setText(_translate("MainWindow", "Clear"))
-        self.label_7.setText(_translate("MainWindow", "Statistics"))
-        self.label_11.setText(_translate("MainWindow", "Genetic Tree"))
-        self.label_4.setText(_translate("MainWindow", "File Browser"))
-        self.label_8.setText(_translate("MainWindow", " Sequence \n"
-                                                      "Alignment"))
-        self.label_9.setText(_translate("MainWindow", "Clear"))
-        self.label_10.setText(_translate("MainWindow", "Statistics"))
-        self.label_37.setText(_translate("MainWindow", "Genetic Tree"))
-        self.back.setText(_translate("MainWindow", "back"))
-        self.label.setText(_translate("MainWindow", "Species name"))
-        self.comboBox_2.setItemText(0, _translate("MainWindow", "All"))
-        self.comboBox_2.setItemText(1, _translate("MainWindow", "species1"))
-        self.comboBox_2.setItemText(2, _translate("MainWindow", "species2"))
-        self.comboBox_2.setItemText(3, _translate("MainWindow", "species3"))
-        self.comboBox_2.setItemText(4, _translate("MainWindow", "species4"))
-        self.label_38.setText(_translate("MainWindow", "Statistics"))
-        self.label_12.setText(_translate("MainWindow", "File Browser"))
-        self.label_13.setText(_translate("MainWindow", " Sequence \n"
+        self.clearLabelPage2.setText(_translate("MainWindow", "Clear"))
+        self.statisticsLabelPage2.setText(_translate("MainWindow", "Statistics"))
+        self.geneticTreeLabelPage2.setText(_translate("MainWindow", "Genetic Tree"))
+        self.backButtonPage2.setText(_translate("MainWindow", "back"))
+        self.speciesNamesLabel.setText(_translate("MainWindow", "Species name"))
+        self.speciesNamesList.setItemText(0, _translate("MainWindow", "All"))
+        self.speciesNamesList.setItemText(1, _translate("MainWindow", "species1"))
+        self.speciesNamesList.setItemText(2, _translate("MainWindow", "species2"))
+        self.speciesNamesList.setItemText(3, _translate("MainWindow", "species3"))
+        self.speciesNamesList.setItemText(4, _translate("MainWindow", "species4"))
+        self.speciesTitleLabel.setText(_translate("MainWindow", "Statistics"))
+        self.fileBrowserLabelPage3.setText(_translate("MainWindow", "File Browser"))
+        self.sequenceAlignmentLabelPage3.setText(_translate("MainWindow", " Sequence \n"
                                                        "Alignment"))
-        self.label_14.setText(_translate("MainWindow", "Clear"))
-        self.label_15.setText(_translate("MainWindow", "Statistics"))
-        self.label_16.setText(_translate("MainWindow", "Genetic Tree"))
-        self.label_17.setText(_translate("MainWindow", "Genetic Tree"))
-        self.back_2.setText(_translate("MainWindow", "back"))
-        self.label_18.setText(_translate("MainWindow", "File Browser"))
-        self.label_19.setText(_translate("MainWindow", "Climatic Tree"))
-        self.label_20.setText(_translate("MainWindow", "Clear"))
-        self.label_21.setText(_translate("MainWindow", "Statistics"))
-        self.label_22.setText(_translate("MainWindow", "File Browser"))
-        self.label_23.setText(_translate("MainWindow", "Climatic Tree"))
-        self.label_24.setText(_translate("MainWindow", "Clear"))
-        self.label_25.setText(_translate("MainWindow", "Statistics"))
-        self.comboBox_3.setItemText(0, _translate("MainWindow", "All"))
-        self.comboBox_3.setItemText(1, _translate("MainWindow", "Temperature"))
-        self.comboBox_3.setItemText(2, _translate("MainWindow", "Wind"))
-        self.comboBox_3.setItemText(3, _translate("MainWindow", "Humidity"))
-        self.comboBox_3.setItemText(4, _translate("MainWindow", "Altitude"))
-        self.label_26.setText(_translate("MainWindow", "  Climate condition"))
-        self.comboBox.setItemText(0, _translate("MainWindow", "None"))
-        self.comboBox.setItemText(1, _translate("MainWindow", "Bar Chart"))
-        self.comboBox.setItemText(2, _translate("MainWindow", "Line Chart"))
-        self.comboBox.setItemText(3, _translate("MainWindow", "Pie Chart"))
-        self.comboBox.setItemText(4, _translate("MainWindow", "Area Chart"))
-        self.comboBox.setItemText(5, _translate("MainWindow", "Scatter Chart"))
-        self.label_27.setText(_translate("MainWindow", "Chart Type "))
-        self.back_3.setText(_translate("MainWindow", "back"))
-        self.label_39.setText(_translate("MainWindow", "Statistics"))
-        self.label_28.setText(_translate("MainWindow", "File Browser"))
-        self.label_29.setText(_translate("MainWindow", "Climatic Tree"))
-        self.label_30.setText(_translate("MainWindow", "Clear"))
-        self.label_31.setText(_translate("MainWindow", "Statistics"))
-        self.label_32.setText(_translate("MainWindow", "Climatic Tree"))
-        self.back_4.setText(_translate("MainWindow", "back"))
-        self.label_33.setText(_translate("MainWindow", "Settings"))
-        self.label_34.setText(_translate("MainWindow", "Submit"))
-        self.label_40.setText(_translate("MainWindow", "Statistics"))
-        self.label_52.setText(_translate("MainWindow", "Clear"))
-        self.label_36.setText(_translate("MainWindow", "Result  "))
-        self.label_41.setText(_translate("MainWindow", "Settings"))
-        self.label_42.setText(_translate("MainWindow", "Submit"))
-        self.label_43.setText(_translate("MainWindow", "Statistics"))
-        self.label_53.setText(_translate("MainWindow", "Clear"))
-        self.back_5.setText(_translate("MainWindow", "back"))
-        self.comboBox_4.setItemText(0, _translate("MainWindow", "None"))
-        self.comboBox_4.setItemText(1, _translate("MainWindow", "Bar Chart"))
-        self.comboBox_4.setItemText(2, _translate("MainWindow", "Line Chart"))
-        self.comboBox_4.setItemText(3, _translate("MainWindow", "Pie Chart"))
-        self.comboBox_4.setItemText(4, _translate("MainWindow", "Area Chart"))
-        self.comboBox_4.setItemText(5, _translate("MainWindow", "Scatter Chart"))
-        self.label_44.setText(_translate("MainWindow", "   condition"))
-        self.label_45.setText(_translate("MainWindow", "Chart Type "))
-        self.comboBox_5.setItemText(0, _translate("MainWindow", "All"))
-        self.comboBox_5.setItemText(1, _translate("MainWindow", "Temperature"))
-        self.comboBox_5.setItemText(2, _translate("MainWindow", "Wind"))
-        self.comboBox_5.setItemText(3, _translate("MainWindow", "Humidity"))
-        self.comboBox_5.setItemText(4, _translate("MainWindow", "Altitude"))
-        self.label_51.setText(_translate("MainWindow", "Statistics"))
-        self.label_35.setText(_translate("MainWindow", "File Browser"))
-        self.label_46.setText(_translate("MainWindow", " Sequence \n"
+        self.clearLabelPage3.setText(_translate("MainWindow", "Clear"))
+        self.statisticsLabelPage3.setText(_translate("MainWindow", "Statistics"))
+        self.geneticTreeLabelPage3.setText(_translate("MainWindow", "Genetic Tree"))
+        self.geneticTreeLabel.setText(_translate("MainWindow", "Genetic Tree"))
+        self.backButtonPage3.setText(_translate("MainWindow", "back"))
+        self.fileBrowserLabelPage4.setText(_translate("MainWindow", "File Browser"))
+        self.climaticTreeLabelPage4.setText(_translate("MainWindow", "Climatic Tree"))
+        self.clearLabelPage4.setText(_translate("MainWindow", "Clear"))
+        self.statisticsLabelPage4.setText(_translate("MainWindow", "Statistics"))
+        self.fileBrowserLabelPage5.setText(_translate("MainWindow", "File Browser"))
+        self.fileBrowserLabelPage5.setText(_translate("MainWindow", "Climatic Tree"))
+        self.clearLabelPage5.setText(_translate("MainWindow", "Clear"))
+        self.statisticsTitleLabelPage5.setText(_translate("MainWindow", "Statistics"))
+        self.climateConditionComboBoxPage5.setItemText(0, _translate("MainWindow", "All"))
+        self.climateConditionComboBoxPage5.setItemText(1, _translate("MainWindow", "Temperature"))
+        self.climateConditionComboBoxPage5.setItemText(2, _translate("MainWindow", "Wind"))
+        self.climateConditionComboBoxPage5.setItemText(3, _translate("MainWindow", "Humidity"))
+        self.climateConditionComboBoxPage5.setItemText(4, _translate("MainWindow", "Altitude"))
+        self.climateConditionLabelPage5.setText(_translate("MainWindow", "  Climate condition"))
+        self.chartTypeComboBoxPage5.setItemText(0, _translate("MainWindow", "None"))
+        self.chartTypeComboBoxPage5.setItemText(1, _translate("MainWindow", "Bar Chart"))
+        self.chartTypeComboBoxPage5.setItemText(2, _translate("MainWindow", "Line Chart"))
+        self.chartTypeComboBoxPage5.setItemText(3, _translate("MainWindow", "Pie Chart"))
+        self.chartTypeComboBoxPage5.setItemText(4, _translate("MainWindow", "Area Chart"))
+        self.chartTypeComboBoxPage5.setItemText(5, _translate("MainWindow", "Scatter Chart"))
+        self.chartTypeLabelPage5.setText(_translate("MainWindow", "Chart Type "))
+        self.backButtonPage5.setText(_translate("MainWindow", "back"))
+        self.statisticsTitleLabelPage5.setText(_translate("MainWindow", "Statistics"))
+        self.fileBrowserLabelPage6.setText(_translate("MainWindow", "File Browser"))
+        self.climaticTreeLabelPage6.setText(_translate("MainWindow", "Climatic Tree"))
+        self.clearLabelPage6.setText(_translate("MainWindow", "Clear"))
+        self.statisticsLabelPage6.setText(_translate("MainWindow", "Statistics"))
+        self.climaticTreeTitlePage6.setText(_translate("MainWindow", "Climatic Tree"))
+        self.backButtonPage6.setText(_translate("MainWindow", "back"))
+        self.settingsLabelPage7.setText(_translate("MainWindow", "Settings"))
+        self.submitLabelPage7.setText(_translate("MainWindow", "Submit"))
+        self.statisticsLabelPage7.setText(_translate("MainWindow", "Statistics"))
+        self.clearLabelPage7.setText(_translate("MainWindow", "Clear"))
+        self.resultTitlePage7.setText(_translate("MainWindow", "Result  "))
+        self.settingsLabelPage8.setText(_translate("MainWindow", "Settings"))
+        self.submitLabelPage8.setText(_translate("MainWindow", "Submit"))
+        self.statisticsLabelPage8.setText(_translate("MainWindow", "Statistics"))
+        self.clearLabelPage8.setText(_translate("MainWindow", "Clear"))
+        self.backButtonPage8.setText(_translate("MainWindow", "back"))
+        self.chartTypeComboBoxPage8.setItemText(0, _translate("MainWindow", "None"))
+        self.chartTypeComboBoxPage8.setItemText(1, _translate("MainWindow", "Bar Chart"))
+        self.chartTypeComboBoxPage8.setItemText(2, _translate("MainWindow", "Line Chart"))
+        self.chartTypeComboBoxPage8.setItemText(3, _translate("MainWindow", "Pie Chart"))
+        self.chartTypeComboBoxPage8.setItemText(4, _translate("MainWindow", "Area Chart"))
+        self.chartTypeComboBoxPage8.setItemText(5, _translate("MainWindow", "Scatter Chart"))
+        self.conditionLabelPage8.setText(_translate("MainWindow", "   condition"))
+        self.chartTypeLabelPage8.setText(_translate("MainWindow", "Chart Type "))
+        self.conditionComboBoxPage8.setItemText(0, _translate("MainWindow", "All"))
+        self.conditionComboBoxPage8.setItemText(1, _translate("MainWindow", "Temperature"))
+        self.conditionComboBoxPage8.setItemText(2, _translate("MainWindow", "Wind"))
+        self.conditionComboBoxPage8.setItemText(3, _translate("MainWindow", "Humidity"))
+        self.conditionComboBoxPage8.setItemText(4, _translate("MainWindow", "Altitude"))
+        self.statisticsTitleLabelPage8.setText(_translate("MainWindow", "Statistics"))
+        self.fileBrowserLabelPage9.setText(_translate("MainWindow", "File Browser"))
+        self.sequenceAlignmentLabelPage9.setText(_translate("MainWindow", " Sequence \n"
                                                        "Alignment"))
-        self.label_47.setText(_translate("MainWindow", "Clear"))
-        self.label_48.setText(_translate("MainWindow", "Statistics"))
-        self.label_49.setText(_translate("MainWindow", "Genetic Tree"))
-        self.label_50.setText(_translate("MainWindow", "Sequence Alignment"))
-        self.back_6.setText(_translate("MainWindow", "back"))
+        self.clearLabelPage9.setText(_translate("MainWindow", "Clear"))
+        self.statisticsLabelPage9.setText(_translate("MainWindow", "Statistics"))
+        self.geneticTreeLabelPage9.setText(_translate("MainWindow", "Genetic Tree"))
+        self.sequenceAlignmentTitlePage9.setText(_translate("MainWindow", "Sequence Alignment"))
+        self.backButtonPage9.setText(_translate("MainWindow", "back"))
 
 
 if __name__ == "__main__":

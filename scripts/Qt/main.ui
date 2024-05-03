@@ -502,7 +502,7 @@
     <property name="frameShadow">
      <enum>QFrame::Sunken</enum>
     </property>
-    <widget class="QPushButton" name="pushButton_11">
+    <widget class="QPushButton" name="helpButton">
      <property name="geometry">
       <rect>
        <x>1040</x>
@@ -534,7 +534,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_3">
+    <widget class="QPushButton" name="climaticDataButton">
      <property name="geometry">
       <rect>
        <x>580</x>
@@ -571,7 +571,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="label_6">
+    <widget class="QLabel" name="appLogo">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -590,7 +590,10 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_4">
+    <widget class="QPushButton" name="resultsButton">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>770</x>
@@ -627,7 +630,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_2">
+    <widget class="QPushButton" name="geneticDataButton">
      <property name="geometry">
       <rect>
        <x>380</x>
@@ -684,9 +687,9 @@
      </sizepolicy>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>8</number>
     </property>
-    <widget class="QWidget" name="page">
+    <widget class="QWidget" name="page1">
      <widget class="QFrame" name="frame">
       <property name="geometry">
        <rect>
@@ -702,9 +705,9 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QPushButton" name="pushButton_12">
+      <widget class="QPushButton" name="sequenceAlignmentButtonPage1">
        <property name="enabled">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <property name="geometry">
         <rect>
@@ -731,9 +734,9 @@
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_13">
+      <widget class="QPushButton" name="statisticsButtonPage1">
        <property name="enabled">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <property name="geometry">
         <rect>
@@ -760,7 +763,7 @@
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="fileBrowserLabelPage1">
        <property name="geometry">
         <rect>
          <x>70</x>
@@ -773,7 +776,7 @@
         <string>File Browser</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_5">
+      <widget class="QLabel" name="sequenceAlignmentLabelPage1">
        <property name="geometry">
         <rect>
          <x>80</x>
@@ -787,7 +790,7 @@
 Alignment</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_6">
+      <widget class="QPushButton" name="fileBrowserButtonPage1">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -821,7 +824,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_7">
+      <widget class="QPushButton" name="clearButtonPage1">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -858,7 +861,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QLabel" name="label_3">
+      <widget class="QLabel" name="clearLabelPage1">
        <property name="geometry">
         <rect>
          <x>70</x>
@@ -871,7 +874,7 @@ Alignment</string>
         <string>Clear</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_7">
+      <widget class="QLabel" name="statisticsLabelPage1">
        <property name="geometry">
         <rect>
          <x>80</x>
@@ -884,9 +887,9 @@ Alignment</string>
         <string>Statistics</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_16">
+      <widget class="QPushButton" name="geneticTreeButtonPage1">
        <property name="enabled">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <property name="geometry">
         <rect>
@@ -913,7 +916,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QLabel" name="label_11">
+      <widget class="QLabel" name="geneticTreeLabelPage1">
        <property name="geometry">
         <rect>
          <x>70</x>
@@ -948,7 +951,7 @@ Alignment</string>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QTextEdit" name="textEdit_4">
+      <widget class="QTextEdit" name="textEditPage1">
        <property name="geometry">
         <rect>
          <x>30</x>
@@ -960,7 +963,7 @@ Alignment</string>
       </widget>
      </widget>
     </widget>
-    <widget class="QWidget" name="page_2">
+    <widget class="QWidget" name="page2">
      <widget class="QFrame" name="frame_3">
       <property name="geometry">
        <rect>
@@ -976,7 +979,7 @@ Alignment</string>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QPushButton" name="pushButton_14">
+      <widget class="QPushButton" name="sequenceAlignmentButtonPage2">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -1002,7 +1005,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_15">
+      <widget class="QPushButton" name="statisticsButtonPage2">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -1028,7 +1031,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QLabel" name="label_4">
+      <widget class="QLabel" name="fileBrowserLabelPage2">
        <property name="geometry">
         <rect>
          <x>70</x>
@@ -1041,7 +1044,7 @@ Alignment</string>
         <string>File Browser</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_8">
+      <widget class="QLabel" name="sequenceAlignmentLabelPage2">
        <property name="geometry">
         <rect>
          <x>80</x>
@@ -1055,7 +1058,7 @@ Alignment</string>
 Alignment</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_8">
+      <widget class="QPushButton" name="fileBrowserButtonPage2">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -1089,7 +1092,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_9">
+      <widget class="QPushButton" name="clearButtonPage2">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -1123,7 +1126,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QLabel" name="label_9">
+      <widget class="QLabel" name="clearLabelPage2">
        <property name="geometry">
         <rect>
          <x>70</x>
@@ -1136,7 +1139,7 @@ Alignment</string>
         <string>Clear</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_10">
+      <widget class="QLabel" name="statisticsLabelPage2">
        <property name="geometry">
         <rect>
          <x>80</x>
@@ -1149,7 +1152,7 @@ Alignment</string>
         <string>Statistics</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_37">
+      <widget class="QLabel" name="geneticTreeLabelPage2">
        <property name="geometry">
         <rect>
          <x>70</x>
@@ -1162,7 +1165,7 @@ Alignment</string>
         <string>Genetic Tree</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_34">
+      <widget class="QPushButton" name="geneticTreeButtonPage2">
        <property name="geometry">
         <rect>
          <x>-10</x>
@@ -1204,7 +1207,7 @@ Alignment</string>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QTextBrowser" name="textBrowser">
+      <widget class="QTextBrowser" name="textEditPage2">
        <property name="geometry">
         <rect>
          <x>20</x>
@@ -1214,7 +1217,7 @@ Alignment</string>
         </rect>
        </property>
       </widget>
-      <widget class="QPushButton" name="back">
+      <widget class="QPushButton" name="backButtonPage2">
        <property name="geometry">
         <rect>
          <x>860</x>
@@ -1227,12 +1230,12 @@ Alignment</string>
         <string>back</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="speciesNamesLabel">
        <property name="geometry">
         <rect>
-         <x>640</x>
+         <x>610</x>
          <y>30</y>
-         <width>101</width>
+         <width>131</width>
          <height>31</height>
         </rect>
        </property>
@@ -1242,10 +1245,10 @@ Alignment</string>
         </font>
        </property>
        <property name="text">
-        <string>Species name</string>
+        <string>Species names</string>
        </property>
       </widget>
-      <widget class="QComboBox" name="comboBox_2">
+      <widget class="QComboBox" name="speciesNamesList">
        <property name="geometry">
         <rect>
          <x>760</x>
@@ -1289,13 +1292,13 @@ Alignment</string>
         </property>
        </item>
       </widget>
-      <widget class="QLabel" name="label_38">
+      <widget class="QLabel" name="speciesTitleLabel">
        <property name="geometry">
         <rect>
          <x>400</x>
          <y>20</y>
          <width>111</width>
-         <height>17</height>
+         <height>21</height>
         </rect>
        </property>
        <property name="font">
@@ -1309,7 +1312,7 @@ Alignment</string>
       </widget>
      </widget>
     </widget>
-    <widget class="QWidget" name="page_3">
+    <widget class="QWidget" name="page3">
      <widget class="QFrame" name="frame_5">
       <property name="geometry">
        <rect>
@@ -1331,7 +1334,7 @@ Alignment</string>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QPushButton" name="pushButton_17">
+      <widget class="QPushButton" name="sequenceAlignmentButtonPage3">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -1344,8 +1347,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/seq.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/seq.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/inactive/sequence.svg</normaloff>:/inactive/sequence.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1357,7 +1360,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_18">
+      <widget class="QPushButton" name="statisticsButtonPage3">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -1370,8 +1373,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/analytics.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/analytics.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/inactive/statistics.svg</normaloff>:/inactive/statistics.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1383,7 +1386,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QLabel" name="label_12">
+      <widget class="QLabel" name="fileBrowserLabelPage3">
        <property name="geometry">
         <rect>
          <x>70</x>
@@ -1396,7 +1399,7 @@ Alignment</string>
         <string>File Browser</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_13">
+      <widget class="QLabel" name="sequenceAlignmentLabelPage3">
        <property name="geometry">
         <rect>
          <x>80</x>
@@ -1410,7 +1413,7 @@ Alignment</string>
 Alignment</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_10">
+      <widget class="QPushButton" name="fileBrowserButtonPage3">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -1428,8 +1431,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/Browse.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/Browse.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/other/Browse.svg</normaloff>:/other/Browse.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1444,7 +1447,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_19">
+      <widget class="QPushButton" name="clearButtonPage3">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -1462,8 +1465,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/other/erase.svg</normaloff>:/other/erase.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1478,7 +1481,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QLabel" name="label_14">
+      <widget class="QLabel" name="clearLabelPage3">
        <property name="geometry">
         <rect>
          <x>70</x>
@@ -1491,7 +1494,7 @@ Alignment</string>
         <string>Clear</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_15">
+      <widget class="QLabel" name="statisticsLabelPage3">
        <property name="geometry">
         <rect>
          <x>80</x>
@@ -1504,11 +1507,11 @@ Alignment</string>
         <string>Statistics</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_20">
+      <widget class="QPushButton" name="geneticTreeButtonPage3">
        <property name="geometry">
         <rect>
          <x>-10</x>
-         <y>450</y>
+         <y>440</y>
          <width>91</width>
          <height>91</height>
         </rect>
@@ -1517,24 +1520,24 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/draw climatic.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/draw climatic.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/inactive/genetic.svg</normaloff>:/inactive/genetic.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
-         <width>100</width>
-         <height>100</height>
+         <width>60</width>
+         <height>70</height>
         </size>
        </property>
        <property name="flat">
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QLabel" name="label_16">
+      <widget class="QLabel" name="geneticTreeLabelPage3">
        <property name="geometry">
         <rect>
          <x>70</x>
-         <y>460</y>
+         <y>450</y>
          <width>91</width>
          <height>81</height>
         </rect>
@@ -1559,7 +1562,7 @@ Alignment</string>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QLabel" name="label_17">
+      <widget class="QLabel" name="geneticTreeLabel">
        <property name="geometry">
         <rect>
          <x>390</x>
@@ -1577,7 +1580,7 @@ Alignment</string>
         <string>Genetic Tree</string>
        </property>
       </widget>
-      <widget class="QTextBrowser" name="textBrowser_2">
+      <widget class="QTextBrowser" name="textEditpage3">
        <property name="geometry">
         <rect>
          <x>20</x>
@@ -1587,7 +1590,7 @@ Alignment</string>
         </rect>
        </property>
       </widget>
-      <widget class="QPushButton" name="back_2">
+      <widget class="QPushButton" name="backButtonPage3">
        <property name="geometry">
         <rect>
          <x>870</x>
@@ -1602,7 +1605,7 @@ Alignment</string>
       </widget>
      </widget>
     </widget>
-    <widget class="QWidget" name="page_4">
+    <widget class="QWidget" name="page4">
      <widget class="QFrame" name="frame_7">
       <property name="geometry">
        <rect>
@@ -1618,7 +1621,7 @@ Alignment</string>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QPushButton" name="pushButton_21">
+      <widget class="QPushButton" name="clearButtonPage4">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -1636,8 +1639,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/other/erase.svg</normaloff>:/other/erase.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1652,7 +1655,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_22">
+      <widget class="QPushButton" name="climaticTreeButtonPage4">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -1668,20 +1671,20 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/hazem/.designer/img/disabled/tree.svg</normaloff>C:/Users/hazem/.designer/img/disabled/tree.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/inactive/climatic.svg</normaloff>:/inactive/climatic.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
-         <width>100</width>
-         <height>100</height>
+         <width>70</width>
+         <height>60</height>
         </size>
        </property>
        <property name="flat">
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_23">
+      <widget class="QPushButton" name="fileBrowserButtonPage4">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -1699,8 +1702,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/Browse.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/Browse.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/other/Browse.svg</normaloff>:/other/Browse.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1715,7 +1718,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QLabel" name="label_18">
+      <widget class="QLabel" name="fileBrowserLabelPage4">
        <property name="geometry">
         <rect>
          <x>80</x>
@@ -1728,7 +1731,7 @@ Alignment</string>
         <string>File Browser</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_19">
+      <widget class="QLabel" name="climaticTreeLabelPage4">
        <property name="geometry">
         <rect>
          <x>80</x>
@@ -1741,7 +1744,7 @@ Alignment</string>
         <string>Climatic Tree</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_20">
+      <widget class="QLabel" name="clearLabelPage4">
        <property name="geometry">
         <rect>
          <x>80</x>
@@ -1754,7 +1757,7 @@ Alignment</string>
         <string>Clear</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_21">
+      <widget class="QLabel" name="statisticsLabelPage4">
        <property name="geometry">
         <rect>
          <x>90</x>
@@ -1767,7 +1770,7 @@ Alignment</string>
         <string>Statistics</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_24">
+      <widget class="QPushButton" name="statisticsButtonPage4">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -1780,8 +1783,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/hazem/.designer/img/disabled/statistics.svg</normaloff>C:/Users/hazem/.designer/img/disabled/statistics.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/inactive/statistics.svg</normaloff>:/inactive/statistics.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1809,7 +1812,7 @@ Alignment</string>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QTextBrowser" name="textBrowser_3">
+      <widget class="QTextBrowser" name="textEditPage4">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -1819,7 +1822,7 @@ Alignment</string>
         </rect>
        </property>
       </widget>
-      <widget class="QGraphicsView" name="graphicsView_3">
+      <widget class="QGraphicsView" name="graphicsViewPage4">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -1831,7 +1834,7 @@ Alignment</string>
       </widget>
      </widget>
     </widget>
-    <widget class="QWidget" name="page_5">
+    <widget class="QWidget" name="page5">
      <widget class="QFrame" name="frame_9">
       <property name="geometry">
        <rect>
@@ -1847,7 +1850,7 @@ Alignment</string>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QPushButton" name="pushButton_25">
+      <widget class="QPushButton" name="clearButtonPage5">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -1865,8 +1868,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/other/erase.svg</normaloff>:/other/erase.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1881,7 +1884,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_26">
+      <widget class="QPushButton" name="climaticTreeButtonPage5">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -1894,20 +1897,20 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/draw climatic.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/draw climatic.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/inactive/climatic.svg</normaloff>:/inactive/climatic.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
-         <width>100</width>
-         <height>100</height>
+         <width>70</width>
+         <height>60</height>
         </size>
        </property>
        <property name="flat">
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_27">
+      <widget class="QPushButton" name="fileBrowserButtonPage5">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -1925,8 +1928,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/Browse.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/Browse.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/other/Browse.svg</normaloff>:/other/Browse.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1941,7 +1944,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QLabel" name="label_22">
+      <widget class="QLabel" name="fileBrowserLabelPage5">
        <property name="geometry">
         <rect>
          <x>80</x>
@@ -1954,7 +1957,7 @@ Alignment</string>
         <string>File Browser</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_23">
+      <widget class="QLabel" name="climaticTreeLabelPage5">
        <property name="geometry">
         <rect>
          <x>80</x>
@@ -1967,7 +1970,7 @@ Alignment</string>
         <string>Climatic Tree</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_24">
+      <widget class="QLabel" name="clearLabelPage5">
        <property name="geometry">
         <rect>
          <x>80</x>
@@ -1980,7 +1983,7 @@ Alignment</string>
         <string>Clear</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_25">
+      <widget class="QLabel" name="statisticsLabelPage5">
        <property name="geometry">
         <rect>
          <x>90</x>
@@ -1993,7 +1996,7 @@ Alignment</string>
         <string>Statistics</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_28">
+      <widget class="QPushButton" name="statisticsButtonPage5">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -2006,8 +2009,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/analytics.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/analytics.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/inactive/statistics.svg</normaloff>:/inactive/statistics.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -2050,7 +2053,7 @@ Alignment</string>
        <property name="frameShadow">
         <enum>QFrame::Raised</enum>
        </property>
-       <widget class="QComboBox" name="comboBox_3">
+       <widget class="QComboBox" name="climateConditionComboBoxPage5">
         <property name="geometry">
          <rect>
           <x>160</x>
@@ -2094,7 +2097,7 @@ Alignment</string>
          </property>
         </item>
        </widget>
-       <widget class="QLabel" name="label_26">
+       <widget class="QLabel" name="climateConditionLabelPage5">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -2108,7 +2111,7 @@ Alignment</string>
         </property>
        </widget>
       </widget>
-      <widget class="QComboBox" name="comboBox">
+      <widget class="QComboBox" name="chartTypeComboBoxPage5">
        <property name="geometry">
         <rect>
          <x>110</x>
@@ -2157,7 +2160,7 @@ Alignment</string>
         </property>
        </item>
       </widget>
-      <widget class="QLabel" name="label_27">
+      <widget class="QLabel" name="chartTypeLabelPage5">
        <property name="geometry">
         <rect>
          <x>20</x>
@@ -2170,7 +2173,7 @@ Alignment</string>
         <string>Chart Type </string>
        </property>
       </widget>
-      <widget class="QTextBrowser" name="textBrowser_4">
+      <widget class="QTextBrowser" name="textEditPage5">
        <property name="geometry">
         <rect>
          <x>20</x>
@@ -2180,7 +2183,7 @@ Alignment</string>
         </rect>
        </property>
       </widget>
-      <widget class="QPushButton" name="back_3">
+      <widget class="QPushButton" name="backButtonPage5">
        <property name="geometry">
         <rect>
          <x>830</x>
@@ -2193,13 +2196,13 @@ Alignment</string>
         <string>back</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_39">
+      <widget class="QLabel" name="statisticsTitleLabelPage5">
        <property name="geometry">
         <rect>
          <x>400</x>
          <y>20</y>
-         <width>101</width>
-         <height>17</height>
+         <width>111</width>
+         <height>31</height>
         </rect>
        </property>
        <property name="font">
@@ -2213,7 +2216,7 @@ Alignment</string>
       </widget>
      </widget>
     </widget>
-    <widget class="QWidget" name="page_6">
+    <widget class="QWidget" name="page6">
      <widget class="QFrame" name="frame_12">
       <property name="geometry">
        <rect>
@@ -2229,7 +2232,7 @@ Alignment</string>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QPushButton" name="pushButton_29">
+      <widget class="QPushButton" name="clearButtonPage6">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -2247,8 +2250,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/other/erase.svg</normaloff>:/other/erase.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -2263,7 +2266,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_30">
+      <widget class="QPushButton" name="climaticTreeButtonPage6">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -2276,20 +2279,20 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/draw climatic.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/draw climatic.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/inactive/climatic.svg</normaloff>:/inactive/climatic.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
-         <width>100</width>
-         <height>100</height>
+         <width>70</width>
+         <height>60</height>
         </size>
        </property>
        <property name="flat">
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_31">
+      <widget class="QPushButton" name="fileBrowserButtonPage6">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -2307,8 +2310,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/Browse.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/Browse.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/other/Browse.svg</normaloff>:/other/Browse.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -2323,7 +2326,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QLabel" name="label_28">
+      <widget class="QLabel" name="fileBrowserLabelPage6">
        <property name="geometry">
         <rect>
          <x>80</x>
@@ -2336,7 +2339,7 @@ Alignment</string>
         <string>File Browser</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_29">
+      <widget class="QLabel" name="climaticTreeLabelPage6">
        <property name="geometry">
         <rect>
          <x>80</x>
@@ -2349,7 +2352,7 @@ Alignment</string>
         <string>Climatic Tree</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_30">
+      <widget class="QLabel" name="clearLabelPage6">
        <property name="geometry">
         <rect>
          <x>80</x>
@@ -2362,7 +2365,7 @@ Alignment</string>
         <string>Clear</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_31">
+      <widget class="QLabel" name="statisticsLabelPage6">
        <property name="geometry">
         <rect>
          <x>90</x>
@@ -2375,7 +2378,7 @@ Alignment</string>
         <string>Statistics</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_32">
+      <widget class="QPushButton" name="statisticButtonPage6">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -2388,8 +2391,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/analytics.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/analytics.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/inactive/statistics.svg</normaloff>:/inactive/statistics.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -2417,7 +2420,7 @@ Alignment</string>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QTextBrowser" name="textBrowser_5">
+      <widget class="QTextBrowser" name="textEditPage6">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -2427,13 +2430,13 @@ Alignment</string>
         </rect>
        </property>
       </widget>
-      <widget class="QLabel" name="label_32">
+      <widget class="QLabel" name="climaticTreeTitlePage6">
        <property name="geometry">
         <rect>
          <x>370</x>
          <y>10</y>
-         <width>141</width>
-         <height>17</height>
+         <width>161</width>
+         <height>21</height>
         </rect>
        </property>
        <property name="font">
@@ -2445,7 +2448,7 @@ Alignment</string>
         <string>Climatic Tree</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="back_4">
+      <widget class="QPushButton" name="backButtonPage6">
        <property name="geometry">
         <rect>
          <x>830</x>
@@ -2460,7 +2463,7 @@ Alignment</string>
       </widget>
      </widget>
     </widget>
-    <widget class="QWidget" name="page_7">
+    <widget class="QWidget" name="page7">
      <widget class="QFrame" name="frame_14">
       <property name="geometry">
        <rect>
@@ -2476,7 +2479,7 @@ Alignment</string>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="settingsButtonPage7">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -2489,8 +2492,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/settings.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/settings.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/inactive/settings.svg</normaloff>:/inactive/settings.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -2502,7 +2505,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_33">
+      <widget class="QPushButton" name="submitButtonPage7">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -2515,8 +2518,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/submit.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/submit.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/inactive/submit.svg</normaloff>:/inactive/submit.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -2528,7 +2531,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QLabel" name="label_33">
+      <widget class="QLabel" name="settingsLabelPage7">
        <property name="geometry">
         <rect>
          <x>90</x>
@@ -2541,7 +2544,7 @@ Alignment</string>
         <string>Settings</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_34">
+      <widget class="QLabel" name="submitLabelPage7">
        <property name="geometry">
         <rect>
          <x>90</x>
@@ -2554,7 +2557,7 @@ Alignment</string>
         <string>Submit</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_40">
+      <widget class="QLabel" name="statisticsLabelPage7">
        <property name="geometry">
         <rect>
          <x>90</x>
@@ -2567,7 +2570,7 @@ Alignment</string>
         <string>Statistics</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_35">
+      <widget class="QPushButton" name="statisticsButtonPage7">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -2580,8 +2583,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/analytics.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/analytics.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/inactive/statistics.svg</normaloff>:/inactive/statistics.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -2593,7 +2596,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QLabel" name="label_52">
+      <widget class="QLabel" name="clearLabelPage7">
        <property name="geometry">
         <rect>
          <x>90</x>
@@ -2606,7 +2609,7 @@ Alignment</string>
         <string>Clear</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_43">
+      <widget class="QPushButton" name="clearButtonPage7">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -2624,8 +2627,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/other/erase.svg</normaloff>:/other/erase.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -2656,13 +2659,13 @@ Alignment</string>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QLabel" name="label_36">
+      <widget class="QLabel" name="resultTitlePage7">
        <property name="geometry">
         <rect>
          <x>400</x>
          <y>10</y>
          <width>111</width>
-         <height>17</height>
+         <height>21</height>
         </rect>
        </property>
        <property name="font">
@@ -2674,7 +2677,7 @@ Alignment</string>
         <string>Result  </string>
        </property>
       </widget>
-      <widget class="QTextBrowser" name="textBrowser_7">
+      <widget class="QTextBrowser" name="textEditPage7">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -2686,7 +2689,7 @@ Alignment</string>
       </widget>
      </widget>
     </widget>
-    <widget class="QWidget" name="page_8">
+    <widget class="QWidget" name="page8">
      <widget class="QFrame" name="frame_16">
       <property name="geometry">
        <rect>
@@ -2702,7 +2705,7 @@ Alignment</string>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QPushButton" name="pushButton_5">
+      <widget class="QPushButton" name="settingsButtonPage8">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -2715,8 +2718,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/settings.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/settings.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/inactive/settings.svg</normaloff>:/inactive/settings.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -2728,7 +2731,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_36">
+      <widget class="QPushButton" name="submitButtonPage8">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -2741,8 +2744,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/submit.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/submit.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/inactive/submit.svg</normaloff>:/inactive/submit.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -2754,7 +2757,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QLabel" name="label_41">
+      <widget class="QLabel" name="settingsLabelPage8">
        <property name="geometry">
         <rect>
          <x>90</x>
@@ -2767,7 +2770,7 @@ Alignment</string>
         <string>Settings</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_42">
+      <widget class="QLabel" name="submitLabelPage8">
        <property name="geometry">
         <rect>
          <x>90</x>
@@ -2780,7 +2783,7 @@ Alignment</string>
         <string>Submit</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_43">
+      <widget class="QLabel" name="statisticsLabelPage8">
        <property name="geometry">
         <rect>
          <x>90</x>
@@ -2793,7 +2796,7 @@ Alignment</string>
         <string>Statistics</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_37">
+      <widget class="QPushButton" name="statisticsButtonPage8">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -2806,8 +2809,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/analytics.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/analytics.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/inactive/statistics.svg</normaloff>:/inactive/statistics.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -2819,7 +2822,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QLabel" name="label_53">
+      <widget class="QLabel" name="clearLabelPage8">
        <property name="geometry">
         <rect>
          <x>90</x>
@@ -2832,7 +2835,7 @@ Alignment</string>
         <string>Clear</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_44">
+      <widget class="QPushButton" name="clearButtonPage8">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -2850,8 +2853,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/other/erase.svg</normaloff>:/other/erase.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -2882,7 +2885,7 @@ Alignment</string>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QPushButton" name="back_5">
+      <widget class="QPushButton" name="backButtonPage8">
        <property name="geometry">
         <rect>
          <x>860</x>
@@ -2895,7 +2898,7 @@ Alignment</string>
         <string>back</string>
        </property>
       </widget>
-      <widget class="QComboBox" name="comboBox_4">
+      <widget class="QComboBox" name="chartTypeComboBoxPage8">
        <property name="geometry">
         <rect>
          <x>110</x>
@@ -2944,7 +2947,7 @@ Alignment</string>
         </property>
        </item>
       </widget>
-      <widget class="QLabel" name="label_44">
+      <widget class="QLabel" name="conditionLabelPage8">
        <property name="geometry">
         <rect>
          <x>650</x>
@@ -2957,7 +2960,7 @@ Alignment</string>
         <string>   condition</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_45">
+      <widget class="QLabel" name="chartTypeLabelPage8">
        <property name="geometry">
         <rect>
          <x>20</x>
@@ -2970,7 +2973,7 @@ Alignment</string>
         <string>Chart Type </string>
        </property>
       </widget>
-      <widget class="QComboBox" name="comboBox_5">
+      <widget class="QComboBox" name="conditionComboBoxPage8">
        <property name="geometry">
         <rect>
          <x>750</x>
@@ -3014,13 +3017,13 @@ Alignment</string>
         </property>
        </item>
       </widget>
-      <widget class="QLabel" name="label_51">
+      <widget class="QLabel" name="statisticsTitleLabelPage8">
        <property name="geometry">
         <rect>
          <x>400</x>
          <y>20</y>
-         <width>101</width>
-         <height>17</height>
+         <width>121</width>
+         <height>21</height>
         </rect>
        </property>
        <property name="font">
@@ -3032,7 +3035,7 @@ Alignment</string>
         <string>Statistics</string>
        </property>
       </widget>
-      <widget class="QTextBrowser" name="textBrowser_6">
+      <widget class="QTextBrowser" name="textEditPage8">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -3044,7 +3047,7 @@ Alignment</string>
       </widget>
      </widget>
     </widget>
-    <widget class="QWidget" name="page_9">
+    <widget class="QWidget" name="page9">
      <widget class="QFrame" name="frame_18">
       <property name="geometry">
        <rect>
@@ -3060,7 +3063,7 @@ Alignment</string>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QPushButton" name="pushButton_38">
+      <widget class="QPushButton" name="sequenceAlignmentButtonPage9">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -3073,8 +3076,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/seq.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/seq.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/inactive/sequence.svg</normaloff>:/inactive/sequence.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -3086,7 +3089,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_39">
+      <widget class="QPushButton" name="statisticsButtonPage9">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -3099,8 +3102,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/analytics.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/analytics.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/inactive/statistics.svg</normaloff>:/inactive/statistics.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -3112,7 +3115,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QLabel" name="label_35">
+      <widget class="QLabel" name="fileBrowserLabelPage9">
        <property name="geometry">
         <rect>
          <x>70</x>
@@ -3125,7 +3128,7 @@ Alignment</string>
         <string>File Browser</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_46">
+      <widget class="QLabel" name="sequenceAlignmentLabelPage9">
        <property name="geometry">
         <rect>
          <x>80</x>
@@ -3139,7 +3142,7 @@ Alignment</string>
 Alignment</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_40">
+      <widget class="QPushButton" name="fileBrowserButtonPage9">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -3157,8 +3160,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/Browse.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/Browse.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/other/Browse.svg</normaloff>:/other/Browse.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -3173,7 +3176,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_41">
+      <widget class="QPushButton" name="clearButtonPage9">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -3191,8 +3194,8 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/erase.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/other/erase.svg</normaloff>:/other/erase.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -3207,7 +3210,7 @@ Alignment</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QLabel" name="label_47">
+      <widget class="QLabel" name="clearLabelPage9">
        <property name="geometry">
         <rect>
          <x>70</x>
@@ -3220,7 +3223,7 @@ Alignment</string>
         <string>Clear</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_48">
+      <widget class="QLabel" name="statisticsLabelPage9">
        <property name="geometry">
         <rect>
          <x>80</x>
@@ -3233,7 +3236,7 @@ Alignment</string>
         <string>Statistics</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_42">
+      <widget class="QPushButton" name="geneticTreeButtonPage9">
        <property name="geometry">
         <rect>
          <x>-10</x>
@@ -3246,20 +3249,20 @@ Alignment</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/draw climatic.svg</normaloff>C:/Users/Desktop/newdesign/icons/archive (2)/draw climatic.svg</iconset>
+        <iconset resource="../../img/resources.qrc">
+         <normaloff>:/inactive/genetic.svg</normaloff>:/inactive/genetic.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
-         <width>100</width>
-         <height>100</height>
+         <width>70</width>
+         <height>60</height>
         </size>
        </property>
        <property name="flat">
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QLabel" name="label_49">
+      <widget class="QLabel" name="geneticTreeLabelPage9">
        <property name="geometry">
         <rect>
          <x>70</x>
@@ -3298,12 +3301,12 @@ Alignment</string>
         </rect>
        </property>
       </widget>
-      <widget class="QLabel" name="label_50">
+      <widget class="QLabel" name="sequenceAlignmentTitlePage9">
        <property name="geometry">
         <rect>
          <x>360</x>
          <y>10</y>
-         <width>231</width>
+         <width>261</width>
          <height>41</height>
         </rect>
        </property>
@@ -3316,7 +3319,7 @@ Alignment</string>
         <string>Sequence Alignment</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="back_6">
+      <widget class="QPushButton" name="backButtonPage9">
        <property name="geometry">
         <rect>
          <x>850</x>
@@ -3331,12 +3334,12 @@ Alignment</string>
       </widget>
      </widget>
     </widget>
-    <widget class="QWidget" name="page_10"/>
-    <widget class="QWidget" name="page_11"/>
-    <widget class="QWidget" name="page_12"/>
-    <widget class="QWidget" name="page_13"/>
-    <widget class="QWidget" name="page_14"/>
-    <widget class="QWidget" name="page_15"/>
+    <widget class="QWidget" name="page10"/>
+    <widget class="QWidget" name="page11"/>
+    <widget class="QWidget" name="page12"/>
+    <widget class="QWidget" name="page13"/>
+    <widget class="QWidget" name="page14"/>
+    <widget class="QWidget" name="page15"/>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
