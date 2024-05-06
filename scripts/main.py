@@ -54,8 +54,20 @@ class UiMainWindow(QtWidgets.QMainWindow):
         uic.loadUi("Qt/main.ui", self)
         self.setupUi()
 
+    def toggleDarkMode(self):
+        self.isDarkMode = not self.isDarkMode
+        if self.isDarkMode:
+            qtmodern.styles.dark(app)
+            self.darkModeButton.setIcon(QIcon(":other/light.png"))  # Set the 'light' icon for dark mode
+        else:
+            qtmodern.styles.light(app)
+            self.darkModeButton.setIcon(QIcon(":other/dark.png"))  # Set the 'dark' icon
+
     def setupUi(self):
         self.setObjectName("MainWindow")
+        self.darkModeButton.clicked.connect(self.toggleDarkMode)
+        self.darkModeButton.setCursor(Qt.PointingHandCursor)
+        self.isDarkMode = False  # Keep track of the state
         self.fileBrowserButtonPage1.clicked.connect(self.press_it)
         self.sequenceAlignmentButtonPage1.clicked.connect(self.showSeqAlinFrame19)
         self.clearButtonPage1.clicked.connect(self.clearIt)
@@ -139,16 +151,21 @@ class UiMainWindow(QtWidgets.QMainWindow):
         buttons = [self.settingsButtonPage7, self.geneticDataButton, self.climaticDataButton, self.resultsButton,
                    self.settingsButtonPage8,
                    self.fileBrowserButtonPage1, self.clearButtonPage1, self.fileBrowserButtonPage2,
-                   self.clearButtonPage2, self.fileBrowserButtonPage3, self.helpButton, self.sequenceAlignmentButtonPage1,
+                   self.clearButtonPage2, self.fileBrowserButtonPage3, self.helpButton,
+                   self.sequenceAlignmentButtonPage1,
                    self.statisticsButtonPage1,
                    self.sequenceAlignmentButtonPage2, self.statisticsButtonPage2, self.geneticTreeButtonPage1,
-                   self.sequenceAlignmentButtonPage3, self.clearButtonPage3, self.clearButtonPage3, self.geneticTreeButtonPage3, self.clearButtonPage4,
+                   self.sequenceAlignmentButtonPage3, self.clearButtonPage3, self.clearButtonPage3,
+                   self.geneticTreeButtonPage3, self.clearButtonPage4,
                    self.climaticTreeButtonPage4, self.fileBrowserButtonPage4, self.statisticsButtonPage4,
-                   self.clearButtonPage5, self.climaticTreeButtonPage5, self.fileBrowserButtonPage5, self.statisticsButtonPage5, self.clearButtonPage6,
+                   self.clearButtonPage5, self.climaticTreeButtonPage5, self.fileBrowserButtonPage5,
+                   self.statisticsButtonPage5, self.clearButtonPage6,
                    self.climaticTreeButtonPage6, self.fileBrowserButtonPage6, self.statisticButtonPage6,
-                   self.submitButtonPage7, self.geneticTreeButtonPage2, self.statisticsButtonPage7, self.statisticsButtonPage7, self.submitButtonPage8,
+                   self.submitButtonPage7, self.geneticTreeButtonPage2, self.statisticsButtonPage7,
+                   self.statisticsButtonPage7, self.submitButtonPage8,
                    self.statisticsButtonPage8, self.sequenceAlignmentButtonPage9,
-                   self.statisticsButtonPage9, self.fileBrowserButtonPage9, self.clearButtonPage9, self.geneticTreeButtonPage9, self.clearButtonPage7,
+                   self.statisticsButtonPage9, self.fileBrowserButtonPage9, self.clearButtonPage9,
+                   self.geneticTreeButtonPage9, self.clearButtonPage7,
                    self.clearButtonPage8, self.backButtonPage2,
 
                    ]
@@ -157,14 +174,23 @@ class UiMainWindow(QtWidgets.QMainWindow):
         for button in buttons:
             button.setCursor(Qt.PointingHandCursor)
             button.setStyleSheet("""
-            QPushButton:hover {
-            background-color: grey;
-            color: white;
-            border: none;
-            padding: 20px;
-            border-radius: 10px;
-            font-size: 13px;
-            }
+                QPushButton {
+                    color: white;
+                    border-radius: 10px;  
+                    border: none;
+                    padding: 10px 20px;
+                    font-weight: bold;
+                    transition: background-color 0.3s ease; /* Add transition */
+                }
+
+                QPushButton:hover {
+                    background-color: #2980b9; 
+                }
+
+                QPushButton:pressed {
+                    background-color: #20659e;
+                    border-bottom: 2px solid #164272; /* Inset pressed effect */
+                }
             """)
 
         QtCore.QMetaObject.connectSlotsByName(self)
@@ -568,7 +594,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.geneticTreeLabelPage1.setText(_translate("MainWindow", "Genetic Tree"))
         self.fileBrowserLabelPage2.setText(_translate("MainWindow", "File Browser"))
         self.sequenceAlignmentLabelPage2.setText(_translate("MainWindow", " Sequence \n"
-                                                      "Alignment"))
+                                                                          "Alignment"))
         self.clearLabelPage2.setText(_translate("MainWindow", "Clear"))
         self.statisticsLabelPage2.setText(_translate("MainWindow", "Statistics"))
         self.geneticTreeLabelPage2.setText(_translate("MainWindow", "Genetic Tree"))
@@ -582,7 +608,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.speciesTitleLabel.setText(_translate("MainWindow", "Statistics"))
         self.fileBrowserLabelPage3.setText(_translate("MainWindow", "File Browser"))
         self.sequenceAlignmentLabelPage3.setText(_translate("MainWindow", " Sequence \n"
-                                                       "Alignment"))
+                                                                          "Alignment"))
         self.clearLabelPage3.setText(_translate("MainWindow", "Clear"))
         self.statisticsLabelPage3.setText(_translate("MainWindow", "Statistics"))
         self.geneticTreeLabelPage3.setText(_translate("MainWindow", "Genetic Tree"))
@@ -643,7 +669,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.statisticsTitleLabelPage8.setText(_translate("MainWindow", "Statistics"))
         self.fileBrowserLabelPage9.setText(_translate("MainWindow", "File Browser"))
         self.sequenceAlignmentLabelPage9.setText(_translate("MainWindow", " Sequence \n"
-                                                       "Alignment"))
+                                                                          "Alignment"))
         self.clearLabelPage9.setText(_translate("MainWindow", "Clear"))
         self.statisticsLabelPage9.setText(_translate("MainWindow", "Statistics"))
         self.geneticTreeLabelPage9.setText(_translate("MainWindow", "Genetic Tree"))

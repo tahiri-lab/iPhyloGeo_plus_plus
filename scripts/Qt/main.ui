@@ -505,7 +505,7 @@
     <widget class="QPushButton" name="helpButton">
      <property name="geometry">
       <rect>
-       <x>1040</x>
+       <x>920</x>
        <y>10</y>
        <width>111</width>
        <height>81</height>
@@ -668,6 +668,59 @@
      </property>
      <property name="flat">
       <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="darkModeButton">
+     <property name="geometry">
+      <rect>
+       <x>1090</x>
+       <y>10</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+  color: white;          /* White text */
+  border: none;
+  border-radius: 5px;    /* Rounded corners */
+  padding: 10px 20px;    /* Button padding */
+  font-weight: bold;     /* Slightly bold text */
+  transition: background-color 0.3s ease, border-color 0.3s ease, 
+              box-shadow 0.3s ease, transform 0.3s ease; /* Transitions for smooth effects */
+}
+
+QPushButton:hover {
+  background-color: #444; /* Slightly lighter on hover */
+  border-color: #777;     /* Even lighter border on hover */
+  box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.3); /* Subtle glow effect */
+  transform: scale(1.05); /* Slightly increase size on hover */
+}
+
+/* Optional: Color Pulsing Animation */
+@keyframes pulse {
+  0% { background-color: #444; } 
+  100% { background-color: #555; }
+}
+
+QPushButton:hover {
+  /* ... other hover styles ... */
+  animation: pulse 1.5s infinite alternate;  /* Adjust speed and behavior if needed */
+}
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../../img/resources.qrc">
+       <normaloff>:/other/dark.png</normaloff>:/other/dark.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
      </property>
     </widget>
    </widget>
