@@ -1,8 +1,4 @@
-<!-- whenever a new asset is added to the img folder, add it down below,
- and then compile again using
-  'pyrcc5 resources.qrc -o ..\scripts\resources_rc.py' -->
-<!DOCTYPE RCC>
-<RCC version="1.0">
+<RCC>
     <qresource>
         <file>active/climatic.svg</file>
         <file>active/genetic.svg</file>
@@ -32,7 +28,8 @@
         <file>other/Browse.svg</file>
         <file>other/erase.svg</file>
         <file>other/help.svg</file>
-        <file>other/sherbrooke.png</file>
+        <file>other/dark.png</file>
+        <file>other/light.png</file>
         <file>readme-pic/Aphy-1.png</file>
         <file>readme-pic/Aphy-Use.png</file>
         <file>readme-pic/climaticData.gif</file>
