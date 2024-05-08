@@ -740,7 +740,7 @@ QPushButton:hover {
      </sizepolicy>
     </property>
     <property name="currentIndex">
-     <number>8</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="page1">
      <widget class="QFrame" name="frame">
@@ -760,7 +760,7 @@ QPushButton:hover {
       </property>
       <widget class="QPushButton" name="sequenceAlignmentButtonPage1">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="geometry">
         <rect>
@@ -775,7 +775,7 @@ QPushButton:hover {
        </property>
        <property name="icon">
         <iconset resource="../../img/resources.qrc">
-         <normaloff>:/disabled/sequence.svg</normaloff>:/disabled/sequence.svg</iconset>
+         <normaloff>:/inactive/sequence.svg</normaloff>:/inactive/sequence.svg</iconset>
        </property>
        <property name="iconSize">
         <size>

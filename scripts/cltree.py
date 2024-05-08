@@ -1,6 +1,5 @@
 import os
-# import aPhyloGeo/aPhyloGeo # new
-# from aPhyloGeo import aPhyloGeo
+
 import sys
 
 from PyQt5 import QtCore, QtGui, QtWidgets

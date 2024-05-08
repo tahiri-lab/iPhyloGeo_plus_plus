@@ -216,6 +216,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             obj = str(seq_al)
             self.textEd_4.setText(obj)
             self.genTree = aPhyloGeo.aPhyloGeo.createGenTree(align_obj)
+            self.resultsButton.setEnabled(True)
         return self.genTree
 
     def retrieveDataNames(self, list):
