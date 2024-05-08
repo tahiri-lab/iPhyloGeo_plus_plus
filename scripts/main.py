@@ -59,7 +59,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.darkModeButton.clicked.connect(self.toggleDarkMode)
         self.darkModeButton.setCursor(Qt.PointingHandCursor)
         self.isDarkMode = False  # Keep track of the state
-        self.fileBrowserButtonPage1.clicked.connect(self.press_it)
+        self.fileBrowserButtonPage1.clicked.connect(self.pressItFasta)
         self.sequenceAlignmentButtonPage1.clicked.connect(self.showSeqAlinFrame19)
         self.clearButtonPage1.clicked.connect(self.clearIt)
         self.statisticsButtonPage1.clicked.connect(self.showGenStatFrame4)
@@ -71,14 +71,14 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.resultsButton.clicked.connect(self.changeIconAndShowPage3)
         self.statisticsButtonPage2.clicked.connect(self.showGenStatFrame4)
         self.statisticsButtonPage2.clicked.connect(self.enableFrame4)
-        self.fileBrowserButtonPage2.clicked.connect(self.press_it)
+        self.fileBrowserButtonPage2.clicked.connect(self.pressItFasta)
         self.fileBrowserButtonPage2.clicked.connect(self.changeIconAndShowPage)
         self.fileBrowserButtonPage2.clicked.connect(self.enableFrame)
         self.clearButtonPage2.clicked.connect(self.clearGenStat)
         self.clearButtonPage2.clicked.connect(self.resetCom2)
         self.backButtonPage2.clicked.connect(self.showPage)
         self.backButtonPage2.clicked.connect(self.enableFrame)
-        self.fileBrowserButtonPage3.clicked.connect(self.press_it)
+        self.fileBrowserButtonPage3.clicked.connect(self.pressItFasta)
         self.fileBrowserButtonPage3.clicked.connect(self.changeIconAndShowPage)
         self.fileBrowserButtonPage3.clicked.connect(self.enableFrame)
         self.clearButtonPage3.clicked.connect(self.clearGenTree)
@@ -87,19 +87,19 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.climaticTreeButtonPage4.clicked.connect(self.openWindow)
         self.climaticTreeButtonPage4.clicked.connect(self.showClimTreeFrame13)
         self.climaticTreeButtonPage4.clicked.connect(self.enableFrame13)
-        self.fileBrowserButtonPage4.clicked.connect(self.pressIt)
+        self.fileBrowserButtonPage4.clicked.connect(self.pressItCSV)
         self.statisticsButtonPage4.clicked.connect(self.showClimStatBar)
         self.statisticsButtonPage4.clicked.connect(self.showClimStatFrame10)
         self.statisticsButtonPage4.clicked.connect(self.enableFrame10)
         self.textEditPage4.textChanged.connect(self.onTextChangeClim)
         self.clearButtonPage5.clicked.connect(self.resetCom)
         self.clearButtonPage5.clicked.connect(self.clearClimStat)
-        self.fileBrowserButtonPage5.clicked.connect(self.pressIt)
+        self.fileBrowserButtonPage5.clicked.connect(self.pressItCSV)
         self.fileBrowserButtonPage5.clicked.connect(self.showPage4)
         self.backButtonPage5.clicked.connect(self.showPage4)
         self.backButtonPage5.clicked.connect(self.enableFrame)
         self.clearButtonPage6.clicked.connect(self.clearClimTree)
-        self.fileBrowserButtonPage6.clicked.connect(self.pressIt)
+        self.fileBrowserButtonPage6.clicked.connect(self.pressItCSV)
         self.fileBrowserButtonPage6.clicked.connect(self.showPage4)
         self.backButtonPage6.clicked.connect(self.showPage4)
         self.backButtonPage6.clicked.connect(self.enableFrame)
@@ -113,7 +113,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.clearButtonPage8.clicked.connect(self.resetCom_4_5)
         self.clearButtonPage8.clicked.connect(self.clearResultStat)
         self.backButtonPage8.clicked.connect(self.showPage7)
-        self.fileBrowserButtonPage9.clicked.connect(self.press_it)
+        self.fileBrowserButtonPage9.clicked.connect(self.pressItFasta)
         self.fileBrowserButtonPage9.clicked.connect(self.changeIconAndShowPage)
         self.fileBrowserButtonPage9.clicked.connect(self.enableFrame)
         self.clearButtonPage9.clicked.connect(self.clearSeq)
@@ -174,7 +174,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.chartTypeComboBoxPage5.currentIndexChanged.connect(self.showFrame)
         self.frame_11.setHidden(True)
 
-    def press_it(self):
+    def pressItFasta(self):
         '''
         Retrieve data from genetic file and show it in color
         '''
@@ -263,7 +263,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.webview.setHtml(data.getvalue().decode())
         self.webview.show()
 
-    def pressIt(self):
+    def pressItCSV(self):
         '''
         Retrieve data from climatic file and show it in a table
         If the last 2 columns of the data are 'LAT' and 'LONG',
@@ -271,7 +271,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         '''
         options = QFileDialog.Options()
         options |= QFileDialog.ReadOnly
-        fileName, _ = QFileDialog.getOpenFileName(None, "Select CSV file", "", "Comma Separated Values (*.csv)",
+        fileName, _ = QFileDialog.getOpenFileName(None, "Select CSV file", "../datasets", "Comma Separated Values (*.csv)",
                                                   options=options)
 
         if fileName:
