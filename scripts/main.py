@@ -18,6 +18,25 @@ from parameters import UiDialog
 from PyQt5 import QtWidgets, uic
 import qtmodern.styles
 import qtmodern.windows
+import UserConfig
+
+userData = UserConfig.DataConfig()  # object used to store parameters provided by user
+
+bootstrapThreshold = 0
+lsThreshold = 60
+windowSize = 200
+stepSize = 100
+referenceGeneFile = '../datasets/small_seq.fasta'
+specimen = 'id'
+bootstrapList = []
+data = []
+bootstrapAmount = 100
+referenceGeneDir = '../datasets/'
+makeDebugFiles = True
+
+############################################################################
+
+userData_align = UserConfig.DataConfig()
 
 
 class UiMainWindow(QtWidgets.QMainWindow):
@@ -183,7 +202,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         fileName, _ = QFileDialog.getOpenFileName(None, "Select FASTA file", "../datasets", " (*.fasta);; (*.fasta)",
                                                   options=options)
         if fileName:
-            aPhyloGeo.Alignement.userData_align.set_referenceGeneFile(fileName)
+            userData_align.set_referenceGeneFile(fileName)
             with open(fileName, "r") as f:
                 self.clearIt()
                 content = f.read()
@@ -276,7 +295,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
                                                   options=options)
 
         if fileName:
-            aPhyloGeo.aPhyloGeo.userData.set_fileName(fileName)
+            userData.set_fileName(fileName)
             with open(fileName, "r") as c:
                 lines = c.readlines()
                 num_rows = len(lines)
@@ -292,15 +311,15 @@ class UiMainWindow(QtWidgets.QMainWindow):
                     first_line_without_loc.pop(len(first_line_without_loc) - 1)
                     first_line_without_loc.pop(len(first_line_without_loc) - 1)
                     clim_data_names = self.retrieveDataNames(first_line_without_loc)
-                    aPhyloGeo.aPhyloGeo.userData.set_names(first_line_without_loc)
-                    aPhyloGeo.Alignement.userData_align.set_names(first_line_without_loc)
+                    userData.set_names(first_line_without_loc)
+                    userData_align.set_names(first_line_without_loc)
                     loc = True
                 else:
                     clim_data_names = self.retrieveDataNames(first_line)
-                    aPhyloGeo.aPhyloGeo.userData.set_names(first_line)
-                    aPhyloGeo.Alignement.userData_align.set_names(first_line)
-                aPhyloGeo.aPhyloGeo.userData.set_dataNames(clim_data_names)
-                aPhyloGeo.Alignement.userData_align.set_dataNames(clim_data_names)
+                    userData.set_names(first_line)
+                    userData_align.set_names(first_line)
+                userData.set_dataNames(clim_data_names)
+                userData_align.set_dataNames(clim_data_names)
                 self.textEditPage4.clear()
                 cursor = QtGui.QTextCursor(self.textEditPage4.textCursor())
                 clim_data_table = cursor.insertTable(num_rows, num_columns)
@@ -375,7 +394,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         plt.xlabel('COVID-19 Variant', fontweight='bold')
         plt.ylabel("Climatic data", fontweight='bold')
         plt.xticks([r + barWidth for r in range(len(self.factors[0]))],
-                   aPhyloGeo.aPhyloGeo.userData.get_dataNames())
+                   userData.get_dataNames())
         plt.yticks(np.arange(0, 30))
         plt.title("Distribution of climatic variables for each COVID Variant")
         plt.legend()
@@ -420,8 +439,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
         Show the results filtered with a metric threshold provided by user
         '''
         aPhyloGeo.aPhyloGeo.filterResults(
-            aPhyloGeo.aPhyloGeo.climaticPipeline(aPhyloGeo.aPhyloGeo.userData.get_fileName(),
-                                                 aPhyloGeo.aPhyloGeo.userData.get_names()),
+            aPhyloGeo.aPhyloGeo.climaticPipeline(userData.get_fileName(),
+                                                 userData.get_names()),
             self.geneticTreeDict)
         with open("output.csv", "r") as f:
             content = f.read()
