@@ -56,6 +56,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
     def setupUi(self):
         self.setObjectName("MainWindow")
+        self.darkModeButton.clicked.connect(self.toggleDarkMode)
+        self.darkModeButton.setCursor(Qt.PointingHandCursor)
+        self.isDarkMode = False  # Keep track of the state
         self.fileBrowserButtonPage1.clicked.connect(self.press_it)
         self.sequenceAlignmentButtonPage1.clicked.connect(self.showSeqAlinFrame19)
         self.clearButtonPage1.clicked.connect(self.clearIt)
@@ -120,7 +123,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.translateUi()
         self.stackedWidget.setCurrentIndex(0)
         self.geneticDataButton.clicked.connect(self.showPage)
-        self.climaticDataButton.clicked.connect(self.showPage4)
         self.resultsButton.clicked.connect(self.showPage7)
         self.sequenceAlignmentButtonPage1.clicked.connect(self.showSeqAlinFrame19)
         self.sequenceAlignmentButtonPage2.clicked.connect(self.showSeqAlinFrame19)
@@ -178,7 +180,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         '''
         options = QFileDialog.Options()
         options |= QFileDialog.ReadOnly
-        fileName, _ = QFileDialog.getOpenFileName(None, "Select FASTA file", "", " (*.fasta);; (*.fasta)",
+        fileName, _ = QFileDialog.getOpenFileName(None, "Select FASTA file", "../datasets", " (*.fasta);; (*.fasta)",
                                                   options=options)
         if fileName:
             aPhyloGeo.Alignement.userData_align.set_referenceGeneFile(fileName)
@@ -499,6 +501,14 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.resultsButton.setIcon(QIcon(":inactive/result.svg"))
         self.showPage()
 
+    def toggleDarkMode(self):
+        self.isDarkMode = not self.isDarkMode
+        if self.isDarkMode:
+            qtmodern.styles.dark(app)
+            self.darkModeButton.setIcon(QIcon(":other/light.png"))  # Set the 'light' icon for dark mode
+        else:
+            qtmodern.styles.light(app)
+            self.darkModeButton.setIcon(QIcon(":other/dark.png"))  # Set the 'dark' icon
     def changeIconAndShowPage3(self):
         if self.resultsButton.icon().isNull():
             self.resultsButton.setIcon(QIcon("icon3.png"))
