@@ -7,6 +7,11 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QFileDialog
 import sys
+import pandas as pd
+from aphylogeo.alignement import AlignSequences
+from aphylogeo.params import Params
+from aphylogeo import utils
+from aphylogeo.genetic_trees import GeneticTrees
 import aPhyloGeo.Alignement
 import aPhyloGeo.aPhyloGeo
 import folium
@@ -20,6 +25,7 @@ import qtmodern.styles
 import qtmodern.windows
 import UserConfig
 
+Params.load_from_file()
 userData = UserConfig.DataConfig()  # object used to store parameters provided by user
 
 bootstrapThreshold = 0
@@ -34,13 +40,10 @@ bootstrapAmount = 100
 referenceGeneDir = '../datasets/'
 makeDebugFiles = True
 
-
 userData_align = UserConfig.DataConfig()
 
 
 class UiMainWindow(QtWidgets.QMainWindow):
-
-    # added code from her[
 
     def useWindow(self):
         self.window = QtWidgets.QMainWindow()
@@ -82,6 +85,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.darkModeButton.setIcon(QIcon(":other/dark.png"))  # Set the 'dark' icon
 
     def setupUi(self):
+        self.geneticTreeDict = None  # Initialize instance attribute
         self.setObjectName("MainWindow")
         self.darkModeButton.clicked.connect(self.toggleDarkMode)
         self.darkModeButton.setCursor(Qt.PointingHandCursor)
@@ -251,14 +255,19 @@ class UiMainWindow(QtWidgets.QMainWindow):
         Initiate sequence alignment
         Return: genetic dictionary used for the final filter
         '''
-        if self.textEd_4.toPlainText() == "":
-            align_obj = aPhyloGeo.Alignement.AlignSequences()
-            seq_al = align_obj.aligned
-            obj = str(seq_al)
-            self.textEd_4.setText(obj)
-            self.genTree = aPhyloGeo.aPhyloGeo.createGenTree(align_obj)
-            self.resultsButton.setEnabled(True)
-        return self.genTree
+        sequenceFile = utils.loadSequenceFile(Params.reference_gene_filepath)
+        align_sequence = AlignSequences(sequenceFile)
+        alignements = align_sequence.align()
+        obj = str(alignements.to_dict())
+        self.textEd_4.setText(obj)
+        self.resultsButton.setEnabled(True)
+        geneticTrees = utils.geneticPipeline(alignements.msa)
+        trees = GeneticTrees(trees_dict=geneticTrees, format="newick")
+        alignements.save_to_json(f"./results/aligned_{Params.reference_gene_file}.json")
+        trees.save_trees_to_json("./results/geneticTrees.json")
+        return geneticTrees
+
+
 
     def retrieveDataNames(self, list):
         '''
@@ -313,7 +322,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
         '''
         options = QFileDialog.Options()
         options |= QFileDialog.ReadOnly
-        fileName, _ = QFileDialog.getOpenFileName(None, "Select CSV file", "../datasets", "Comma Separated Values (*.csv)",
+        fileName, _ = QFileDialog.getOpenFileName(None, "Select CSV file", "../datasets",
+                                                  "Comma Separated Values (*.csv)",
                                                   options=options)
 
         if fileName:
@@ -460,13 +470,13 @@ class UiMainWindow(QtWidgets.QMainWindow):
         '''
         Show the results filtered with a metric threshold provided by user
         '''
-        aPhyloGeo.aPhyloGeo.filterResults(
-            aPhyloGeo.aPhyloGeo.climaticPipeline(userData.get_fileName(),
-                                                 userData.get_names()),
-            self.geneticTreeDict)
-        with open("output.csv", "r") as f:
+        df = pd.read_csv(Params.file_name)
+        climaticTrees = utils.climaticPipeline(df)
+        utils.filterResults(climaticTrees, self.geneticTreeDict, df)
+        with open("./results/output.csv", "r") as f:
             content = f.read()
-        self.textEditPage7.setText(str(content))
+            print(content)
+
 
     # Enable_button():
     def onTextChanged(self):
@@ -551,6 +561,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         else:
             qtmodern.styles.light(app)
             self.darkModeButton.setIcon(QIcon(":other/dark.png"))  # Set the 'dark' icon
+
     def changeIconAndShowPage3(self):
         if self.resultsButton.icon().isNull():
             self.resultsButton.setIcon(QIcon("icon3.png"))

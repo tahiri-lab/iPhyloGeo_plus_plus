@@ -6,7 +6,7 @@
       <excludeFolder url="file://$MODULE_DIR$/.venv/Scripts" />
       <excludeFolder url="file://$MODULE_DIR$/.venv/share" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Python 3.12 (aPhyloGeo_plus_plus)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">

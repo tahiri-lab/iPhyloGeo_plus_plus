@@ -1,6 +1,4 @@
 arrow
-bio
-biopython
 biothings-client
 branca
 certifi
@@ -21,16 +19,12 @@ kiwisolver
 MarkupSafe
 matplotlib
 multipledispatch
-multiprocess
 mygene
-numpy
 packaging
-pandas
 pillow
 pip
 platformdirs
 pooch
-psutil
 pyparsing
 PyPDF2
 pypng
@@ -52,3 +46,13 @@ types-python-dateutil
 tzdata
 urllib3
 xyzservices
+bio
+multiprocess
+pandas
+psutil
+PyYAML
+pytest
+numpy
+cython
+aphylogeo
+qtmodern
