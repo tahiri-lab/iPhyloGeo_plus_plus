@@ -91,7 +91,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.darkModeButton.setCursor(Qt.PointingHandCursor)
         self.isDarkMode = False  # Keep track of the state
         self.fileBrowserButtonPage1.clicked.connect(self.pressItFasta)
-        self.sequenceAlignmentButtonPage1.clicked.connect(self.showSeqAlinFrame19)
         self.clearButtonPage1.clicked.connect(self.clearIt)
         self.statisticsButtonPage1.clicked.connect(self.showGenStatFrame4)
         self.geneticTreeButtonPage1.clicked.connect(self.showGenTreeFrame6)
@@ -156,6 +155,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.geneticDataButton.clicked.connect(self.showPage)
         self.resultsButton.clicked.connect(self.showPage7)
         self.sequenceAlignmentButtonPage1.clicked.connect(self.showSeqAlinFrame19)
+        self.sequenceAlignmentButtonPage9.clicked.connect(self.showSeqAlinFrame19)
         self.sequenceAlignmentButtonPage2.clicked.connect(self.showSeqAlinFrame19)
         self.sequenceAlignmentButtonPage3.clicked.connect(self.showSeqAlinFrame19)
         self.statisticsButtonPage1.clicked.connect(self.showGenStatFrame4)
