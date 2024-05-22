@@ -46,7 +46,8 @@ config_dict = {
     'method_similarity': '1'
 }
 
-Params.validate_and_set_params(config_dict)
+Params.load_from_file("params.yaml")
+
 userData = UserConfig.DataConfig()  # object used to store parameters provided by user
 
 userData_align = UserConfig.DataConfig()
