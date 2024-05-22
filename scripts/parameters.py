@@ -3,7 +3,6 @@ import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 sys.path.append('..')
-import aPhyloGeo.aPhyloGeo as aPhylo
 
 
 class UiDialog(object):

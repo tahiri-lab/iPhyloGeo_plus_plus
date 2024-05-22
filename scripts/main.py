@@ -1,44 +1,53 @@
 import io
 import re
+import sys
+import pandas as pd
+from PyQt5.QtWidgets import QTextEdit, QApplication, QMainWindow, QVBoxLayout, QWidget
 from decimal import Decimal
 import resources_rc
+import folium
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import qtmodern.styles
+import qtmodern.windows
+from PyQt5 import QtCore, QtGui
+from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QFileDialog
-import sys
-import pandas as pd
-from aphylogeo.alignement import AlignSequences
-from aphylogeo.params import Params
 from aphylogeo import utils
+from aphylogeo.alignement import AlignSequences
 from aphylogeo.genetic_trees import GeneticTrees
-import aPhyloGeo.Alignement
-import aPhyloGeo.aPhyloGeo
-import folium
-import matplotlib.pyplot as plt
-import numpy as np
-from PyQt5 import QtCore, QtGui, QtWidgets
+from aphylogeo.params import Params
+
+import UserConfig
 from help import UiHowToUse
 from parameters import UiDialog
-from PyQt5 import QtWidgets, uic
-import qtmodern.styles
-import qtmodern.windows
-import UserConfig
+config_dict = {
+    'file_name': '../datasets/geo_with_loc.csv',
+    'specimen': 'id',
+    'names': ['id', 'ALLSKY_SFC_SW_DWN', 'T2M', 'PRECTOTCORR', 'QV2M', 'WS10M'],
+    'bootstrap_threshold': 0,
+    'dist_threshold': 60,
+    'window_size': 200,
+    'step_size': 100,
+    'bootstrap_amount': 100,
+    'data_names': ['ALLSKY_SFC_SW_DWN_newick', 'T2M_newick', 'QV2M_newick', 'PRECTOTCORR_newick', 'WS10M_newick'],
+    'reference_gene_dir': '../datasets',
+    'reference_gene_file': 'small_seq.fasta',
+    'makeDebugFiles': True,
+    'alignment_method': '3',
+    'distance_method': '2',
+    'fit_method': '2',
+    'tree_type': '1',
+    'rate_similarity': 50,
+    'method_similarity': '1'
+}
 
-Params.load_from_file()
+Params.validate_and_set_params(config_dict)
 userData = UserConfig.DataConfig()  # object used to store parameters provided by user
-
-bootstrapThreshold = 0
-lsThreshold = 60
-windowSize = 200
-stepSize = 100
-referenceGeneFile = '../datasets/small_seq.fasta'
-specimen = 'id'
-bootstrapList = []
-data = []
-bootstrapAmount = 100
-referenceGeneDir = '../datasets/'
-makeDebugFiles = True
 
 userData_align = UserConfig.DataConfig()
 
@@ -267,8 +276,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         trees.save_trees_to_json("./results/geneticTrees.json")
         return geneticTrees
 
-
-
     def retrieveDataNames(self, list):
         '''
         Retrieve data from a list, except for first element
@@ -473,10 +480,13 @@ class UiMainWindow(QtWidgets.QMainWindow):
         df = pd.read_csv(Params.file_name)
         climaticTrees = utils.climaticPipeline(df)
         utils.filterResults(climaticTrees, self.geneticTreeDict, df)
-        with open("./results/output.csv", "r") as f:
-            content = f.read()
-            print(content)
+        df_results = pd.read_csv("./results/output.csv")
 
+        # Convert to HTML table with basic styling
+        html_table = df_results.to_html(index=False, border=1, classes="dataframe")  # Basic styling
+
+        # Display in QTextEdit (assuming self.textEditPage7 exists)
+        self.textEditPage7.setHtml(html_table)
 
     # Enable_button():
     def onTextChanged(self):
