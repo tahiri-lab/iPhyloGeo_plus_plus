@@ -25,26 +25,7 @@ from aphylogeo.params import Params
 import UserConfig
 from help import UiHowToUse
 from parameters import UiDialog
-config_dict = {
-    'file_name': '../datasets/geo_with_loc.csv',
-    'specimen': 'id',
-    'names': ['id', 'ALLSKY_SFC_SW_DWN', 'T2M', 'PRECTOTCORR', 'QV2M', 'WS10M'],
-    'bootstrap_threshold': 0,
-    'dist_threshold': 60,
-    'window_size': 200,
-    'step_size': 100,
-    'bootstrap_amount': 100,
-    'data_names': ['ALLSKY_SFC_SW_DWN_newick', 'T2M_newick', 'QV2M_newick', 'PRECTOTCORR_newick', 'WS10M_newick'],
-    'reference_gene_dir': '../datasets',
-    'reference_gene_file': 'small_seq.fasta',
-    'makeDebugFiles': True,
-    'alignment_method': '3',
-    'distance_method': '2',
-    'fit_method': '2',
-    'tree_type': '1',
-    'rate_similarity': 50,
-    'method_similarity': '1'
-}
+
 
 Params.load_from_file("params.yaml")
 
@@ -265,16 +246,45 @@ class UiMainWindow(QtWidgets.QMainWindow):
         Initiate sequence alignment
         Return: genetic dictionary used for the final filter
         '''
+        import time
+        loading_screen = uic.loadUi("Qt/loading.ui")
+        loading_screen.setWindowModality(Qt.ApplicationModal)
+        loading_screen.show()
+
+        def update_label_text(text):
+            loading_screen.operationsLabel.setText(text)
+            QApplication.processEvents()
+        # Step 1: Load sequences
+        update_label_text("Step 1/5: Reading sequence data...")
         sequenceFile = utils.loadSequenceFile(Params.reference_gene_filepath)
         align_sequence = AlignSequences(sequenceFile)
+        time.sleep(1)
+
+        # Step 2: Align sequences
+        update_label_text("Step 2/5: Aligning sequences...")
         alignements = align_sequence.align()
+
+        # Step 3: Display results
+        time.sleep(1)  # (Optional) Brief pause for visual effect
+        update_label_text("Step 3/5: Preparing results...")
         obj = str(alignements.to_dict())
         self.textEd_4.setText(obj)
         self.resultsButton.setEnabled(True)
+
+        # Step 4: Create genetic trees
+        time.sleep(1)
+        update_label_text("Step 4/5: Constructing genetic trees...\n This could take some time...")
         geneticTrees = utils.geneticPipeline(alignements.msa)
         trees = GeneticTrees(trees_dict=geneticTrees, format="newick")
+
+        # Step 5: Save results
+        time.sleep(1)
+        update_label_text("Step 5/5: Saving results...")
         alignements.save_to_json(f"./results/aligned_{Params.reference_gene_file}.json")
         trees.save_trees_to_json("./results/geneticTrees.json")
+
+        time.sleep(1)
+        loading_screen.close()
         return geneticTrees
 
     def retrieveDataNames(self, list):
