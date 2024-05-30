@@ -739,6 +739,17 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication([])
     window = UiMainWindow()
     mw = qtmodern.windows.ModernWindow(window)
+
+    # Get screen geometry
+    screen_geometry = app.primaryScreen().availableGeometry()
+
+    # Calculate center position
+    center_point = screen_geometry.center()
+    x = center_point.x() - mw.width() // 2
+    y = center_point.y() - mw.height() // 2
+
+    # Move window to center
+    mw.move(x, y)
+
     mw.show()
-    window.show()
     sys.exit(app.exec_())
