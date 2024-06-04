@@ -1,37 +1,37 @@
+import time
 import io
 import re
 import sys
-import pandas as pd
-from PyQt5.QtWidgets import QTextEdit, QApplication, QMainWindow, QVBoxLayout, QWidget
+import time
 from decimal import Decimal
 import resources_rc
 import folium
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
 import qtmodern.styles
 import qtmodern.windows
+import pandas as pd
 from PyQt5 import QtCore, QtGui
-from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWebEngineWidgets import QWebEngineView
-from PyQt5.QtWidgets import QFileDialog
 from aphylogeo import utils
 from aphylogeo.alignement import AlignSequences
 from aphylogeo.genetic_trees import GeneticTrees
 from aphylogeo.params import Params
 
-import UserConfig
 from help import UiHowToUse
 from parameters import UiDialog
-
+from PyQt5 import QtWidgets, uic
+import qtmodern.styles
+import qtmodern.windows
+import UserConfig
+from PyQt5.QtGui import QIcon, QColor
+from PyQt5.QtWidgets import QFileDialog, QGraphicsDropShadowEffect
+from PyQt5.QtWebEngineWidgets import QWebEngineView
 Params.load_from_file("params.yaml")
-
+Params.load_from_file("params.yaml")
 userData = UserConfig.DataConfig()  # object used to store parameters provided by user
 
 userData_align = UserConfig.DataConfig()
-
 
 class UiMainWindow(QtWidgets.QMainWindow):
 
@@ -48,16 +48,16 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.window.show()
 
     # open cl tree window
-    def openWindow(self):
+    def openClimTree(self):
         from cltree import Ui_ct
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_ct()
         self.ui.setupUi(self.window)
         self.window.show()
 
-    def enableButton(self):
-        if self.textEditPage1.toPlainText():
-            self.pushButton_4.setEnabled(True)
+        self.stackedWidget.setCurrentIndex(2)
+        self.tabWidget2.setCurrentIndex(3)
+
 
     # to her]
     def __init__(self):
@@ -75,139 +75,130 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.darkModeButton.setIcon(QIcon(":other/dark.png"))  # Set the 'dark' icon
 
     def setupUi(self):
-        self.geneticTreeDict = None  # Initialize instance attribute
         self.setObjectName("MainWindow")
+
+        self.homeButton.clicked.connect(self.showHomePage)
+        self.geneticDataButton.clicked.connect(self.showGenDatPage)
+        self.climaticDataButton.clicked.connect(self.showClimDatPage)
+        self.helpButton.clicked.connect(self.useWindow)
         self.darkModeButton.clicked.connect(self.toggleDarkMode)
         self.darkModeButton.setCursor(Qt.PointingHandCursor)
         self.isDarkMode = False  # Keep track of the state
+
         self.fileBrowserButtonPage1.clicked.connect(self.pressItFasta)
-        self.clearButtonPage1.clicked.connect(self.clearIt)
-        self.statisticsButtonPage1.clicked.connect(self.showGenStatFrame4)
-        self.geneticTreeButtonPage1.clicked.connect(self.showGenTreeFrame6)
-        self.geneticDataButton.clicked.connect(self.showPage)
-        self.geneticDataButton.clicked.connect(self.enableFrame)
-        self.climaticDataButton.clicked.connect(self.showPage4)
-        self.helpButton.clicked.connect(self.useWindow)
-        self.resultsButton.clicked.connect(self.changeIconAndShowPage3)
-        self.statisticsButtonPage2.clicked.connect(self.showGenStatFrame4)
-        self.statisticsButtonPage2.clicked.connect(self.enableFrame4)
-        self.fileBrowserButtonPage2.clicked.connect(self.pressItFasta)
-        self.fileBrowserButtonPage2.clicked.connect(self.changeIconAndShowPage)
-        self.fileBrowserButtonPage2.clicked.connect(self.enableFrame)
-        self.clearButtonPage2.clicked.connect(self.clearGenStat)
-        self.clearButtonPage2.clicked.connect(self.resetCom2)
-        self.backButtonPage2.clicked.connect(self.showPage)
-        self.backButtonPage2.clicked.connect(self.enableFrame)
-        self.fileBrowserButtonPage3.clicked.connect(self.pressItFasta)
-        self.fileBrowserButtonPage3.clicked.connect(self.changeIconAndShowPage)
-        self.fileBrowserButtonPage3.clicked.connect(self.enableFrame)
-        self.clearButtonPage3.clicked.connect(self.clearGenTree)
-        self.backButtonPage3.clicked.connect(self.showPage)
-        self.clearButtonPage4.clicked.connect(self.clearCl)
-        self.climaticTreeButtonPage4.clicked.connect(self.openWindow)
-        self.climaticTreeButtonPage4.clicked.connect(self.showClimTreeFrame13)
-        self.climaticTreeButtonPage4.clicked.connect(self.enableFrame13)
-        self.fileBrowserButtonPage4.clicked.connect(self.pressItCSV)
-        self.statisticsButtonPage4.clicked.connect(self.showClimStatBar)
-        self.statisticsButtonPage4.clicked.connect(self.showClimStatFrame10)
-        self.statisticsButtonPage4.clicked.connect(self.enableFrame10)
-        self.textEditPage4.textChanged.connect(self.onTextChangeClim)
-        self.clearButtonPage5.clicked.connect(self.resetCom)
-        self.clearButtonPage5.clicked.connect(self.clearClimStat)
-        self.fileBrowserButtonPage5.clicked.connect(self.pressItCSV)
-        self.fileBrowserButtonPage5.clicked.connect(self.showPage4)
-        self.backButtonPage5.clicked.connect(self.showPage4)
-        self.backButtonPage5.clicked.connect(self.enableFrame)
-        self.clearButtonPage6.clicked.connect(self.clearClimTree)
-        self.fileBrowserButtonPage6.clicked.connect(self.pressItCSV)
-        self.fileBrowserButtonPage6.clicked.connect(self.showPage4)
-        self.backButtonPage6.clicked.connect(self.showPage4)
-        self.backButtonPage6.clicked.connect(self.enableFrame)
-        self.settingsButtonPage7.clicked.connect(self.paramWin)
-        self.submitButtonPage7.clicked.connect(self.showFilteredResults)
-        self.statisticsButtonPage7.clicked.connect(self.showResultStatFrame16)
-        self.statisticsButtonPage7.clicked.connect(self.enableFrame17)
-        self.clearButtonPage7.clicked.connect(self.clearResult)
-        self.settingsButtonPage8.clicked.connect(self.paramWin)
-        self.settingsButtonPage8.clicked.connect(self.changeIconAndShowPage3)
-        self.clearButtonPage8.clicked.connect(self.resetCom_4_5)
-        self.clearButtonPage8.clicked.connect(self.clearResultStat)
-        self.backButtonPage8.clicked.connect(self.showPage7)
-        self.fileBrowserButtonPage9.clicked.connect(self.pressItFasta)
-        self.fileBrowserButtonPage9.clicked.connect(self.changeIconAndShowPage)
-        self.fileBrowserButtonPage9.clicked.connect(self.enableFrame)
-        self.clearButtonPage9.clicked.connect(self.clearSeq)
-        self.backButtonPage9.clicked.connect(self.showPage)
-        self.backButtonPage9.clicked.connect(self.enableFrame)
+        self.sequenceAlignmentButtonPage1.clicked.connect(self.SeqAlign)
+        self.clearButtonPage1.clicked.connect(self.clearGen)
+        self.statisticsButtonPage1.clicked.connect(self.showClimStatBarAllFact)
 
-        self.translateUi()
+        self.clearButtonPage2.clicked.connect(self.clearClim)
+        self.climaticTreeButtonPage2.clicked.connect(self.openClimTree)
+        self.fileBrowserButtonPage2.clicked.connect(self.pressItCSV)
+        self.statisticsButtonPage2.clicked.connect(self.showClimStatBarAllFact)
+        self.resultsButtonPage2.clicked.connect(self.showResultsPage)
+
+        self.settingsButtonPage4.clicked.connect(self.paramWin)
+        self.submitButtonPage3.clicked.connect(self.showFilteredResults)
+        self.clearButtonPage4.clicked.connect(self.clearResult)
+        self.statisticsButtonPage4.clicked.connect(self.showResultsStatsPage)
+
+        self.clearButtonPage4.clicked.connect(self.clearResultStat)
+
         self.stackedWidget.setCurrentIndex(0)
-        self.geneticDataButton.clicked.connect(self.showPage)
-        self.resultsButton.clicked.connect(self.showPage7)
-        self.sequenceAlignmentButtonPage1.clicked.connect(self.showSeqAlinFrame19)
-        self.sequenceAlignmentButtonPage9.clicked.connect(self.showSeqAlinFrame19)
-        self.sequenceAlignmentButtonPage2.clicked.connect(self.showSeqAlinFrame19)
-        self.sequenceAlignmentButtonPage3.clicked.connect(self.showSeqAlinFrame19)
-        self.statisticsButtonPage1.clicked.connect(self.showGenStatFrame4)
-        self.clearButtonPage3.clicked.connect(self.showGenStatFrame4)
-        self.statisticsButtonPage9.clicked.connect(self.showGenStatFrame4)
-        self.geneticTreeButtonPage1.clicked.connect(self.showGenTreeFrame6)
-        self.geneticTreeButtonPage2.clicked.connect(self.showGenTreeFrame6)
-        self.geneticTreeButtonPage9.clicked.connect(self.showGenTreeFrame6)
-        self.climaticTreeButtonPage5.clicked.connect(self.showClimTreeFrame13)
-        self.statisticsButtonPage4.clicked.connect(self.showClimStatFrame10)
-        self.statisticButtonPage6.clicked.connect(self.showClimStatFrame10)
-        self.statisticsButtonPage7.clicked.connect(self.showResultStatFrame16)
 
-        buttons = [self.settingsButtonPage7, self.geneticDataButton, self.climaticDataButton, self.resultsButton,
-                   self.settingsButtonPage8,
-                   self.fileBrowserButtonPage1, self.clearButtonPage1, self.fileBrowserButtonPage2,
-                   self.clearButtonPage2, self.fileBrowserButtonPage3, self.helpButton,
-                   self.sequenceAlignmentButtonPage1,
-                   self.statisticsButtonPage1,
-                   self.sequenceAlignmentButtonPage2, self.statisticsButtonPage2, self.geneticTreeButtonPage1,
-                   self.sequenceAlignmentButtonPage3, self.clearButtonPage3, self.clearButtonPage3,
-                   self.geneticTreeButtonPage3, self.clearButtonPage4,
-                   self.climaticTreeButtonPage4, self.fileBrowserButtonPage4, self.statisticsButtonPage4,
-                   self.clearButtonPage5, self.climaticTreeButtonPage5, self.fileBrowserButtonPage5,
-                   self.statisticsButtonPage5, self.clearButtonPage6,
-                   self.climaticTreeButtonPage6, self.fileBrowserButtonPage6, self.statisticButtonPage6,
-                   self.submitButtonPage7, self.geneticTreeButtonPage2, self.statisticsButtonPage7,
-                   self.statisticsButtonPage7, self.submitButtonPage8,
-                   self.statisticsButtonPage8, self.sequenceAlignmentButtonPage9,
-                   self.statisticsButtonPage9, self.fileBrowserButtonPage9, self.clearButtonPage9,
-                   self.geneticTreeButtonPage9, self.clearButtonPage7,
-                   self.clearButtonPage8, self.backButtonPage2,
-
-                   ]
+        buttons = [self.geneticDataButton, self.climaticDataButton, self.helpButton, self.homeButton]
+        
+        buttons_Vertical = [self.fileBrowserButtonPage1, self.sequenceAlignmentButtonPage1,
+                   self.clearButtonPage1, self.statisticsButtonPage1, self.geneticTreeButtonPage1,                   
+                   self.fileBrowserButtonPage2, self.clearButtonPage2, self.resultsButtonPage2,
+                   self.climaticTreeButtonPage2, self.statisticsButtonPage2,
+                   self.settingsButtonPage3,
+                   self.settingsButtonPage4,
+                   self.submitButtonPage3, 
+                   self.statisticsButtonPage3,
+                   self.submitButtonPage4, 
+                   self.statisticsButtonPage4, 
+                   self.clearButtonPage3,  
+                   self.clearButtonPage4 ]
 
         # Définir le curseur et la feuille de style pour tous les boutons
         for button in buttons:
             button.setCursor(Qt.PointingHandCursor)
             button.setStyleSheet("""
+                QPushButton { 
+                    padding: 10px 20px;
+                    font-weight: bold;
+                    background-color: #DEDDDA;
+                    border-radius: 14px;
+                    transition: background-color 0.3s ease; /* Add transition */
+                }
+                QPushButton:hover {
+                    background-color: #B7B7B6; 
+                }
+                QPushButton:pressed {
+                    background-color: #DEDDDA;
+                }
+            """)
+            # Créer l'effet d'ombre
+            shadow_effect = QGraphicsDropShadowEffect()
+            shadow_effect.setBlurRadius(10)  # Ajuster le flou de l'ombre
+            shadow_effect.setColor(QColor(0, 0, 0, 140))  # Couleur de l'ombre (noir avec transparence)
+            shadow_effect.setOffset(3, 3)  # Décalage de l'ombre
+
+            # Appliquer l'effet d'ombre au bouton
+            button.setGraphicsEffect(shadow_effect)
+
+        # Définir le curseur et la feuille de style pour tous les boutons
+        for buttonV in buttons_Vertical:
+            buttonV.setCursor(Qt.PointingHandCursor)
+            buttonV.setStyleSheet("""
                 QPushButton {
-                    color: white;
-                    border-radius: 10px;  
-                    border: none;
+                    border-radius: 14px;
+                    background-color: #EEEEEE;
                     padding: 10px 20px;
                     font-weight: bold;
                     transition: background-color 0.3s ease; /* Add transition */
                 }
-
                 QPushButton:hover {
-                    background-color: #2980b9; 
+                    background-color: #D7D7D7; 
                 }
-
                 QPushButton:pressed {
-                    background-color: #20659e;
-                    border-bottom: 2px solid #164272; /* Inset pressed effect */
+                    background-color: #EEEEEE;
                 }
             """)
+            # Créer l'effet d'ombre
+            shadow_effect = QGraphicsDropShadowEffect()
+            shadow_effect.setBlurRadius(10)  # Ajuster le flou de l'ombre
+            shadow_effect.setColor(QColor(0, 0, 0, 110))  # Couleur de l'ombre (noir avec transparence)
+            shadow_effect.setOffset(3, 3)  # Décalage de l'ombre
 
+            # Appliquer l'effet d'ombre au bouton
+            buttonV.setGraphicsEffect(shadow_effect)
+
+        self.darkModeButton.setCursor(Qt.PointingHandCursor)
+        self.darkModeButton.setStyleSheet("""
+                QPushButton { 
+                    padding: 10px 20px;
+                    font-weight: bold;
+                    background-color: #DEDDDA;
+                    border-radius: 14px;
+                    transition: background-color 0.3s ease; /* Add transition */
+                }
+                QPushButton:hover {
+                    background-color: #B7B7B6; 
+                }
+                QPushButton:pressed {
+                    background-color: #DEDDDA;
+                }
+            """)
+        # Créer l'effet d'ombre
+        shadow_effect = QGraphicsDropShadowEffect()
+        shadow_effect.setBlurRadius(10)  # Ajuster le flou de l'ombre
+        shadow_effect.setColor(QColor(0, 0, 0, 140))  # Couleur de l'ombre (noir avec transparence)
+        shadow_effect.setOffset(3, 3)  # Décalage de l'ombre
+
+        # Appliquer l'effet d'ombre au bouton
+        self.darkModeButton.setGraphicsEffect(shadow_effect)
         QtCore.QMetaObject.connectSlotsByName(self)
-
-        self.chartTypeComboBoxPage5.currentIndexChanged.connect(self.showFrame)
-        self.frame_11.setHidden(True)
 
     def pressItFasta(self):
         '''
@@ -220,9 +211,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
         if fileName:
             userData_align.set_referenceGeneFile(fileName)
             with open(fileName, "r") as f:
-                self.clearIt()
+                self.clearGen()
                 content = f.read()
-                self.textEditPage1.setText(content)
+                self.textEditFasta.setText(content)
                 sequence = ""
                 for line in content.splitlines():
                     if not line.startswith('>'):
@@ -238,13 +229,20 @@ class UiMainWindow(QtWidgets.QMainWindow):
                                 new_line += f'<span style="background-color: orange">{char}</span>'
                         line = new_line
                     sequence += line + "<br>"
-                self.textEditPage1.setText(sequence)
+                self.textEditFasta.setText(sequence)
+                self.tabWidget.setCurrentIndex(1)
+                self.sequenceAlignmentButtonPage1.setEnabled(True)
+                self.climaticDataButton.setIcon(QIcon(":inactive/climatic.svg"))
+                self.sequenceAlignmentButtonPage1.setIcon(QIcon(":inactive/sequence.svg"))
+
+
+    def SeqAlign(self):
+        self.geneticTreeDict = self.callSeqAlign()
 
     def callSeqAlign(self):
         import time
-        from PyQt5 import QtWidgets, uic, QtCore, QtGui
+        from PyQt5 import QtCore
         def update_progress(loading_screen, step):
-
             if step < loading_screen.checkListWidget.count():
                 item = loading_screen.checkListWidget.item(step)
                 item.setCheckState(QtCore.Qt.Checked)
@@ -285,8 +283,11 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
             # Step 3: Preparing results
             obj = str(alignements.to_dict())
-            self.textEd_4.setText(obj)
-            self.resultsButton.setEnabled(True)
+            self.textEditSeqAlign.setText(obj)
+            self.tabWidget.setCurrentIndex(2)
+            self.statisticsButtonPage1.setEnabled(True)
+            self.statisticsButtonPage1.setIcon(QIcon(":inactive/statistics.svg"))
+            self.resultsButtonPage2.setEnabled(True)
             update_progress(loading_screen, 4)
             QtWidgets.QApplication.processEvents()
 
@@ -298,6 +299,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             time.sleep(0.8)
         finally:
             loading_screen.close()
+
 
         return geneticTrees
 
@@ -334,6 +336,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
     def finalize_alignment(self):
         return self.geneticTrees
+
 
     def retrieveDataNames(self, list):
         '''
@@ -418,11 +421,11 @@ class UiMainWindow(QtWidgets.QMainWindow):
                     userData_align.set_names(first_line)
                 userData.set_dataNames(clim_data_names)
                 userData_align.set_dataNames(clim_data_names)
-                self.textEditPage4.clear()
-                cursor = QtGui.QTextCursor(self.textEditPage4.textCursor())
+                self.textEditClimData.clear()
+                cursor = QtGui.QTextCursor(self.textEditClimData.textCursor())
                 clim_data_table = cursor.insertTable(num_rows, num_columns)
                 fmt = clim_data_table.format()
-                fmt.setWidth(QtGui.QTextLength(QtGui.QTextLength.PercentageLength, 100))
+                fmt.setWidth(QtGui.QTextLength(QtGui.QTextLength.PercentageLength, 98))
                 clim_data_table.setFormat(fmt)
                 format = QtGui.QTextCharFormat()
                 format.setForeground(QtGui.QColor('#006400'))
@@ -456,96 +459,101 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 self.ui = UiHowToUse()
                 self.ui.setupUi(self.child_window)
                 self.child_window.setWindowModality(QtCore.Qt.NonModal)
-
-    def showClimStatBar(self):
-        # Condition should be added to show plot
-        # according to user choice
-        self.showClimStatBarAllFact()
+        self.tabWidget2.setCurrentIndex(1)
+        self.resultsButtonPage2.setEnabled(True)
+        self.resultsButtonPage2.setIcon(QIcon(":inactive/result.svg"))
+        self.climaticTreeButtonPage2.setEnabled(True)
+        self.climaticTreeButtonPage2.setIcon(QIcon(":inactive/climatic.svg"))
+        self.statisticsButtonPage2.setEnabled(True)
+        self.statisticsButtonPage2.setIcon(QIcon(":inactive/statistics.svg"))
 
     def showClimStatBarAllFact(self):
         '''
         Generate a bar graph that includes every factor for every species
         '''
-        self.factors[0] = [float(v) for v in self.factors[0]]
-        self.factors[1] = [float(v) for v in self.factors[1]]
-        self.factors[2] = [float(v) for v in self.factors[2]]
-        self.factors[3] = [float(v) for v in self.factors[3]]
-        self.factors[4] = [float(v) for v in self.factors[4]]
-
-        barWidth = 0.15
-        fig = plt.subplots(figsize=(15, 10))
-        br1 = np.arange(len(self.factors[0]))
-        br2 = [x + barWidth for x in br1]
-        br3 = [x + barWidth for x in br2]
-        br4 = [x + barWidth for x in br3]
-        br5 = [x + barWidth for x in br4]
-        plt.bar(br1, self.factors[0], color='black', width=barWidth,
-                edgecolor='grey', label=self.species[0])
-        plt.bar(br2, self.factors[1], color='red', width=barWidth,
-                edgecolor='grey', label=self.species[1])
-        plt.bar(br3, self.factors[2], color='green', width=barWidth,
-                edgecolor='grey', label=self.species[2])
-        plt.bar(br4, self.factors[3], color='blue', width=barWidth,
-                edgecolor='grey', label=self.species[3])
-        plt.bar(br5, self.factors[4], color='cyan', width=barWidth,
-                edgecolor='grey', label=self.species[4])
-        plt.xlabel('COVID-19 Variant', fontweight='bold')
-        plt.ylabel("Climatic data", fontweight='bold')
-        plt.xticks([r + barWidth for r in range(len(self.factors[0]))],
-                   userData.get_dataNames())
-        plt.yticks(np.arange(0, 30))
-        plt.title("Distribution of climatic variables for each COVID Variant")
-        plt.legend()
-        plt.show()
-
-    def showFrame(self, value):
-        if value is not None:
-            self.frame_11.setHidden(False)
+        try:
+            print(self.factors)
+        except AttributeError:
+            self.textEditGenStats.setText("Valeurs non existantes, veuillez choisir un fichier !")
+            self.tabWidget.setCurrentIndex(3)
+        
         else:
-            self.frame_11.setHidden(True)
+            self.tabWidget.setCurrentIndex(3)
+            self.factors[0] = [float(v) for v in self.factors[0]]
+            self.factors[1] = [float(v) for v in self.factors[1]]
+            self.factors[2] = [float(v) for v in self.factors[2]]
+            self.factors[3] = [float(v) for v in self.factors[3]]
+            self.factors[4] = [float(v) for v in self.factors[4]]
 
-    def showPage(self):
+            barWidth = 0.15
+            fig = plt.subplots(figsize=(15, 10))
+            br1 = np.arange(len(self.factors[0]))
+            br2 = [x + barWidth for x in br1]
+            br3 = [x + barWidth for x in br2]
+            br4 = [x + barWidth for x in br3]
+            br5 = [x + barWidth for x in br4]
+            plt.bar(br1, self.factors[0], color='black', width=barWidth,
+                edgecolor='grey', label=self.species[0])
+            plt.bar(br2, self.factors[1], color='red', width=barWidth,
+                edgecolor='grey', label=self.species[1])
+            plt.bar(br3, self.factors[2], color='green', width=barWidth,
+                edgecolor='grey', label=self.species[2])
+            plt.bar(br4, self.factors[3], color='blue', width=barWidth,
+                edgecolor='grey', label=self.species[3])
+            plt.bar(br5, self.factors[4], color='cyan', width=barWidth,
+                edgecolor='grey', label=self.species[4])
+            plt.xlabel('COVID-19 Variant', fontweight='bold')
+            plt.ylabel("Climatic data", fontweight='bold')
+            plt.xticks([r + barWidth for r in range(len(self.factors[0]))],
+                   userData.get_dataNames())
+            plt.yticks(np.arange(0, 30))
+            plt.title("Distribution of climatic variables for each COVID Variant")
+            plt.legend()
+            plt.show()
+
+    def showHomePage(self):
+        self.climaticDataButton.setIcon(QIcon(":inactive/climatic.svg"))
+        self.geneticDataButton.setIcon(QIcon(":inactive/genetic.svg"))
         self.stackedWidget.setCurrentIndex(0)
 
-    def showGenStatFrame4(self):
+    def showGenDatPage(self):
+        self.climaticDataButton.setIcon(QIcon(":inactive/climatic.svg"))
+        self.geneticDataButton.setIcon(QIcon(":active/genetic.svg"))
         self.stackedWidget.setCurrentIndex(1)
-
-    def showGenTreeFrame6(self):
+        self.tabWidget.setCurrentIndex(0)
+        
+    def showClimDatPage(self):
+        self.climaticDataButton.setIcon(QIcon(":active/climatic.svg"))
+        self.geneticDataButton.setIcon(QIcon(":inactive/genetic.svg"))
         self.stackedWidget.setCurrentIndex(2)
+        self.tabWidget2.setCurrentIndex(0)
 
-    def showPage4(self):
+    def showResultsPage(self):
         self.stackedWidget.setCurrentIndex(3)
 
-    def showClimStatFrame10(self):
+    def showResultsStatsPage(self):
         self.stackedWidget.setCurrentIndex(4)
-
-    def showClimTreeFrame13(self):
-        self.stackedWidget.setCurrentIndex(5)
-
-    def showPage7(self):
-        self.stackedWidget.setCurrentIndex(6)
-
-    def showResultStatFrame16(self):
-        self.stackedWidget.setCurrentIndex(7)
-
-    def showSeqAlinFrame19(self):
-        self.geneticTreeDict = self.callSeqAlign()
-        self.stackedWidget.setCurrentIndex(8)
 
     def showFilteredResults(self):
         '''
         Show the results filtered with a metric threshold provided by user
         '''
-        df = pd.read_csv(Params.file_name)
-        climaticTrees = utils.climaticPipeline(df)
-        utils.filterResults(climaticTrees, self.geneticTreeDict, df)
-        df_results = pd.read_csv("./results/output.csv")
+        try:
+            df = pd.read_csv(Params.file_name)
+            climaticTrees = utils.climaticPipeline(df)
+            utils.filterResults(climaticTrees, self.geneticTreeDict, df)
+            df_results = pd.read_csv("./results/output.csv")
 
-        # Convert to HTML table with basic styling
-        html_table = df_results.to_html(index=False, border=1, classes="dataframe")  # Basic styling
+            # Convert to HTML table with basic styling
+            html_table = df_results.to_html(index=False, border=1, classes="dataframe")  # Basic styling
 
-        # Display in QTextEdit (assuming self.textEditPage7 exists)
-        self.textEditPage7.setHtml(html_table)
+            # Display in QTextEdit (assuming self.textEditPage7 exists)
+            self.textEditResults.setHtml(html_table)
+        except AttributeError:
+            self.textEditClimTree.setText("Please do the sequence alignment before attempting to generate the tree !")
+            self.stackedWidget.setCurrentIndex(2)
+            self.tabWidget2.setCurrentIndex(2)
+
 
     # Enable_button():
     def onTextChanged(self):
@@ -553,234 +561,158 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.resultsButton.setEnabled(True)
             self.resultsButton.setIcon(QIcon(":inactive/result.svg"))
         else:
-            self.resultsButton.setEnabled(False)
-
-    def onTextChangeGen(self):
-        if self.textEditPage1.toPlainText():
-            self.sequenceAlignmentButtonPage1.setEnabled(True)
-            self.statisticsButtonPage1.setEnabled(True)
-            self.geneticTreeButtonPage1.setEnabled(True)
-            self.sequenceAlignmentButtonPage1.setIcon(QIcon(":inactive/sequence.svg"))
-            self.statisticsButtonPage1.setIcon(QIcon(":inactive/statistics.svg"))
-            self.geneticTreeButtonPage1.setIcon(QIcon(":inactive/tree.svg"))
-
-        else:
-            self.sequenceAlignmentButtonPage1.setEnabled(False)
-            self.statisticsButtonPage1.setEnabled(False)
-            self.geneticTreeButtonPage1.setEnabled(False)
-
-    def onTextChangeClim(self):
-        if self.textEditPage4.toPlainText():
-            self.statisticsButtonPage4.setEnabled(True)
-            self.climaticTreeButtonPage4.setEnabled(True)
-            self.statisticsButtonPage4.setIcon(QIcon(":inactive/statistics.svg"))
-            self.climaticTreeButtonPage4.setIcon(QIcon(":inactive/tree.svg"))
-
-        else:
-            self.statisticsButtonPage4.setEnabled(False)
-            self.climaticTreeButtonPage4.setEnabled(False)
-
-    # enable the frame when the push button is clicked
-    def enableFrame(self):
-        self.frame_2.setEnabled(True)
-        self.frame.setEnabled(True)
-
-    def enableFrame8(self):
-        self.frame_8.setEnabled(False)
-        self.frame_7.setEnabled(False)
-
-    def enableFrame4(self):
-        self.frame_4.setEnabled(True)
-        self.showGenStatFrame4()
-
-    def enableFrame10(self):
-        self.frame_10.setEnabled(True)
-        self.showGenStatFrame4()
-
-    def enableFrame13(self):
-        self.frame_13.setEnabled(True)
-        # self.showGenStatFrame4()
-
-    def enableFrame17(self):
-        self.frame_17.setEnabled(True)
-
-    def changeIconAndShowPage2(self):
-        if self.climaticDataButton.icon().isNull():
-            self.climaticDataButton.setIcon(QIcon("icon2.png"))
-        else:
-            self.climaticDataButton.setIcon(QIcon(":active/climatic.svg"))
-            self.geneticDataButton.setIcon(QIcon(":inactive/genetic.svg"))
-            self.resultsButton.setIcon(QIcon(":inactive/result.svg"))
-        self.showPage4()
-
-    def changeIconAndShowPage(self):
-        if self.geneticDataButton.icon().isNull():
-            self.geneticDataButton.setIcon(QIcon("icon1.png"))
-        else:
-            self.climaticDataButton.setIcon(QIcon(":inactive/climatic.svg"))
-            self.geneticDataButton.setIcon(QIcon(":active/genetic.svg"))
-            self.resultsButton.setIcon(QIcon(":inactive/result.svg"))
-        self.showPage()
+            df = pd.read_csv(Params.file_name)
+            climaticTrees = utils.climaticPipeline(df)
+            utils.filterResults(climaticTrees, self.geneticTreeDict, df)
+            with open("./results/output.csv", "r") as f:
+                content = f.read()
+                print(content)
 
     def toggleDarkMode(self):
         self.isDarkMode = not self.isDarkMode
+        buttons_Vertical = [self.fileBrowserButtonPage1, self.sequenceAlignmentButtonPage1,
+                   self.clearButtonPage1, self.statisticsButtonPage1, self.geneticTreeButtonPage1,                   
+                   self.fileBrowserButtonPage2, self.clearButtonPage2, self.resultsButtonPage2,
+                   self.climaticTreeButtonPage2, self.statisticsButtonPage2,
+                   self.settingsButtonPage3,
+                   self.settingsButtonPage4,
+                   self.submitButtonPage3, 
+                   self.statisticsButtonPage3,
+                   self.submitButtonPage4, 
+                   self.statisticsButtonPage4, 
+                   self.clearButtonPage3,  
+                   self.clearButtonPage4 ]
+        
         if self.isDarkMode:
             qtmodern.styles.dark(app)
             self.darkModeButton.setIcon(QIcon(":other/light.png"))  # Set the 'light' icon for dark mode
+            self.darkModeButton.setCursor(Qt.PointingHandCursor)
+            self.darkModeButton.setStyleSheet("""
+                QPushButton { 
+                    padding: 10px 20px;
+                    font-weight: bold;
+                    background-color: #464645;
+                    border-radius: 14px;
+                    transition: background-color 0.3s ease; /* Add transition */
+                }
+                QPushButton:hover {
+                    background-color: #B7B7B6; 
+                }
+                QPushButton:pressed {
+                    background-color: #DEDDDA;
+                }
+            """)
+            # Créer l'effet d'ombre
+            shadow_effect = QGraphicsDropShadowEffect()
+            shadow_effect.setBlurRadius(10)  # Ajuster le flou de l'ombre
+            shadow_effect.setColor(QColor(0, 0, 0, 140))  # Couleur de l'ombre (noir avec transparence)
+            shadow_effect.setOffset(3, 3)  # Décalage de l'ombre
+
+            # Appliquer l'effet d'ombre au bouton
+            self.darkModeButton.setGraphicsEffect(shadow_effect)
+            #######################################################
+            for buttonV in buttons_Vertical:
+                buttonV.setCursor(Qt.PointingHandCursor)
+                buttonV.setStyleSheet("""
+                    QPushButton {
+                        color: #EFEFEF;
+                        border-radius: 14px;
+                        background-color: #464645;
+                        padding: 10px 20px;
+                        font-weight: bold;
+                        transition: background-color 0.3s ease; /* Add transition */
+                    }
+                    QPushButton:hover {
+                        background-color: #9F9F9F; 
+                    }
+                    QPushButton:pressed {
+                        background-color: #EEEEEE;
+                    }
+                """)
+                # Créer l'effet d'ombre
+                shadow_effect = QGraphicsDropShadowEffect()
+                shadow_effect.setBlurRadius(10)  # Ajuster le flou de l'ombre
+                shadow_effect.setColor(QColor(0, 0, 0, 110))  # Couleur de l'ombre (noir avec transparence)
+                shadow_effect.setOffset(3, 3)  # Décalage de l'ombre
+
+                # Appliquer l'effet d'ombre au bouton
+                buttonV.setGraphicsEffect(shadow_effect)
+
         else:
             qtmodern.styles.light(app)
             self.darkModeButton.setIcon(QIcon(":other/dark.png"))  # Set the 'dark' icon
+            self.darkModeButton.setCursor(Qt.PointingHandCursor)
+            self.darkModeButton.setStyleSheet("""
+                    QPushButton { 
+                        padding: 10px 20px;
+                        font-weight: bold;
+                        background-color: #DEDDDA;
+                        border-radius: 14px;
+                        transition: background-color 0.3s ease; /* Add transition */
+                    }
+                    QPushButton:hover {
+                        background-color: #B7B7B6; 
+                    }
+                    QPushButton:pressed {
+                        background-color: #DEDDDA;
+                    }
+                """)
+            # Créer l'effet d'ombre
+            shadow_effect = QGraphicsDropShadowEffect()
+            shadow_effect.setBlurRadius(10)  # Ajuster le flou de l'ombre
+            shadow_effect.setColor(QColor(0, 0, 0, 140))  # Couleur de l'ombre (noir avec transparence)
+            shadow_effect.setOffset(3, 3)  # Décalage de l'ombre
 
-    def changeIconAndShowPage3(self):
-        if self.resultsButton.icon().isNull():
-            self.resultsButton.setIcon(QIcon("icon3.png"))
-        else:
-            self.climaticDataButton.setIcon(QIcon(":inactive/climatic.svg"))
-            self.geneticDataButton.setIcon(QIcon(":inactive/genetic.svg"))
-            self.resultsButton.setIcon(QIcon(":active/result.svg"))
-        self.showPage7()
+            # Appliquer l'effet d'ombre au bouton
+            self.darkModeButton.setGraphicsEffect(shadow_effect)
+            ##########################################################
+            for buttonV in buttons_Vertical:
+                buttonV.setCursor(Qt.PointingHandCursor)
+                buttonV.setStyleSheet("""
+                    QPushButton {
+                        border-radius: 14px;
+                        background-color: #EEEEEE;
+                        padding: 10px 20px;
+                        font-weight: bold;
+                        transition: background-color 0.3s ease; /* Add transition */
+                    }
+                    QPushButton:hover {
+                        background-color: #D7D7D7; 
+                    }
+                    QPushButton:pressed {
+                        background-color: #EEEEEE;
+                    }
+                """)
+                # Créer l'effet d'ombre
+                shadow_effect = QGraphicsDropShadowEffect()
+                shadow_effect.setBlurRadius(10)  # Ajuster le flou de l'ombre
+                shadow_effect.setColor(QColor(0, 0, 0, 110))  # Couleur de l'ombre (noir avec transparence)
+                shadow_effect.setOffset(3, 3)  # Décalage de l'ombre
+
+                # Appliquer l'effet d'ombre au bouton
+                buttonV.setGraphicsEffect(shadow_effect)
 
     # press the button to delete data
-    def clearIt(self):
-        self.textEd_4.clear()
-        self.textEditPage1.clear()
+    def clearGen(self):
+        self.textEditFasta.clear()
+        self.textEditSeqAlign.clear()
+        self.textEditGenTree.clear()
+        self.GenStatsList.setCurrentIndex(0)
 
-    def clearSeq(self):
-        self.textEd_4.clear()
-
-    def clearGenStat(self):
-        self.textEditPage2.clear()
-
-    def clearGenTree(self):
-        self.textEditpage3.clear()
-
-    def clearCl(self):
-        self.textEditPage4.clear()
-
-    def clearClimStat(self):
-        self.textBrowser_4.clear()
-
-    def clearClimTree(self):
-        self.textEditPage6.clear()
+    def clearClim(self):
+        self.textEditClimData.clear()
+        self.textEditClimStats.clear()
+        self.textEditClimTree.clear()
+        self.graphicsViewClimData.clear()
+        self.ClimStatsListCondition.setCurrentIndex(0)
+        self.ClimStatsListChart.setCurrentIndex(0)
 
     def clearResult(self):
-        self.textEditPage7.clear()
-        # tableView
+        self.textEditResults.clear()
 
     def clearResultStat(self):
-        self.textEditPage8.clear()
-        # graphicsView_4
-
-    # Set the combo box to its default value
-    def resetCom2(self):
-        self.speciesNamesList.setCurrentIndex(0)
-        # reset_button.clicked.connect(self.resetCom2resetCom2)
-
-    def resetCom(self):
-        self.chartTypeComboBoxPage5.setCurrentIndex(0)
-        self.climateConditionComboBoxPage5.setCurrentIndex(0)
-
-    def resetCom_4_5(self):
-        self.chartTypeComboBoxPage8.setCurrentIndex(0)
-        self.conditionComboBoxPage8.setCurrentIndex(0)
-
-    def translateUi(self):
-        _translate = QtCore.QCoreApplication.translate
-        self.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.helpButton.setToolTip(_translate("MainWindow", "How to use the application"))
-        self.climaticDataButton.setToolTip(_translate("MainWindow", "Climatic Data"))
-        self.resultsButton.setToolTip(_translate("MainWindow", "Results"))
-        self.geneticDataButton.setToolTip(_translate("MainWindow", "Genetic Data"))
-        self.geneticDataButton.setShortcut(_translate("MainWindow", "Down"))
-        self.fileBrowserLabelPage1.setText(_translate("MainWindow", "File Browser"))
-        self.sequenceAlignmentLabelPage1.setText(_translate("MainWindow", " Sequence \n"
-                                                                          "Alignment"))
-        self.clearLabelPage1.setText(_translate("MainWindow", "Clear"))
-        self.statisticsLabelPage1.setText(_translate("MainWindow", "Statistics"))
-        self.geneticTreeLabelPage1.setText(_translate("MainWindow", "Genetic Tree"))
-        self.fileBrowserLabelPage2.setText(_translate("MainWindow", "File Browser"))
-        self.sequenceAlignmentLabelPage2.setText(_translate("MainWindow", " Sequence \n"
-                                                                          "Alignment"))
-        self.clearLabelPage2.setText(_translate("MainWindow", "Clear"))
-        self.statisticsLabelPage2.setText(_translate("MainWindow", "Statistics"))
-        self.geneticTreeLabelPage2.setText(_translate("MainWindow", "Genetic Tree"))
-        self.backButtonPage2.setText(_translate("MainWindow", "back"))
-        self.speciesNamesLabel.setText(_translate("MainWindow", "Species name"))
-        self.speciesNamesList.setItemText(0, _translate("MainWindow", "All"))
-        self.speciesNamesList.setItemText(1, _translate("MainWindow", "species1"))
-        self.speciesNamesList.setItemText(2, _translate("MainWindow", "species2"))
-        self.speciesNamesList.setItemText(3, _translate("MainWindow", "species3"))
-        self.speciesNamesList.setItemText(4, _translate("MainWindow", "species4"))
-        self.speciesTitleLabel.setText(_translate("MainWindow", "Statistics"))
-        self.fileBrowserLabelPage3.setText(_translate("MainWindow", "File Browser"))
-        self.sequenceAlignmentLabelPage3.setText(_translate("MainWindow", " Sequence \n"
-                                                                          "Alignment"))
-        self.clearLabelPage3.setText(_translate("MainWindow", "Clear"))
-        self.statisticsLabelPage3.setText(_translate("MainWindow", "Statistics"))
-        self.geneticTreeLabelPage3.setText(_translate("MainWindow", "Genetic Tree"))
-        self.geneticTreeLabel.setText(_translate("MainWindow", "Genetic Tree"))
-        self.backButtonPage3.setText(_translate("MainWindow", "back"))
-        self.fileBrowserLabelPage4.setText(_translate("MainWindow", "File Browser"))
-        self.climaticTreeLabelPage4.setText(_translate("MainWindow", "Climatic Tree"))
-        self.clearLabelPage4.setText(_translate("MainWindow", "Clear"))
-        self.statisticsLabelPage4.setText(_translate("MainWindow", "Statistics"))
-        self.fileBrowserLabelPage5.setText(_translate("MainWindow", "File Browser"))
-        self.fileBrowserLabelPage5.setText(_translate("MainWindow", "Climatic Tree"))
-        self.clearLabelPage5.setText(_translate("MainWindow", "Clear"))
-        self.statisticsTitleLabelPage5.setText(_translate("MainWindow", "Statistics"))
-        self.climateConditionComboBoxPage5.setItemText(0, _translate("MainWindow", "All"))
-        self.climateConditionComboBoxPage5.setItemText(1, _translate("MainWindow", "Temperature"))
-        self.climateConditionComboBoxPage5.setItemText(2, _translate("MainWindow", "Wind"))
-        self.climateConditionComboBoxPage5.setItemText(3, _translate("MainWindow", "Humidity"))
-        self.climateConditionComboBoxPage5.setItemText(4, _translate("MainWindow", "Altitude"))
-        self.climateConditionLabelPage5.setText(_translate("MainWindow", "  Climate condition"))
-        self.chartTypeComboBoxPage5.setItemText(0, _translate("MainWindow", "None"))
-        self.chartTypeComboBoxPage5.setItemText(1, _translate("MainWindow", "Bar Chart"))
-        self.chartTypeComboBoxPage5.setItemText(2, _translate("MainWindow", "Line Chart"))
-        self.chartTypeComboBoxPage5.setItemText(3, _translate("MainWindow", "Pie Chart"))
-        self.chartTypeComboBoxPage5.setItemText(4, _translate("MainWindow", "Area Chart"))
-        self.chartTypeComboBoxPage5.setItemText(5, _translate("MainWindow", "Scatter Chart"))
-        self.chartTypeLabelPage5.setText(_translate("MainWindow", "Chart Type "))
-        self.backButtonPage5.setText(_translate("MainWindow", "back"))
-        self.statisticsTitleLabelPage5.setText(_translate("MainWindow", "Statistics"))
-        self.fileBrowserLabelPage6.setText(_translate("MainWindow", "File Browser"))
-        self.climaticTreeLabelPage6.setText(_translate("MainWindow", "Climatic Tree"))
-        self.clearLabelPage6.setText(_translate("MainWindow", "Clear"))
-        self.statisticsLabelPage6.setText(_translate("MainWindow", "Statistics"))
-        self.climaticTreeTitlePage6.setText(_translate("MainWindow", "Climatic Tree"))
-        self.backButtonPage6.setText(_translate("MainWindow", "back"))
-        self.settingsLabelPage7.setText(_translate("MainWindow", "Settings"))
-        self.submitLabelPage7.setText(_translate("MainWindow", "Submit"))
-        self.statisticsLabelPage7.setText(_translate("MainWindow", "Statistics"))
-        self.clearLabelPage7.setText(_translate("MainWindow", "Clear"))
-        self.resultTitlePage7.setText(_translate("MainWindow", "Result  "))
-        self.settingsLabelPage8.setText(_translate("MainWindow", "Settings"))
-        self.submitLabelPage8.setText(_translate("MainWindow", "Submit"))
-        self.statisticsLabelPage8.setText(_translate("MainWindow", "Statistics"))
-        self.clearLabelPage8.setText(_translate("MainWindow", "Clear"))
-        self.backButtonPage8.setText(_translate("MainWindow", "back"))
-        self.chartTypeComboBoxPage8.setItemText(0, _translate("MainWindow", "None"))
-        self.chartTypeComboBoxPage8.setItemText(1, _translate("MainWindow", "Bar Chart"))
-        self.chartTypeComboBoxPage8.setItemText(2, _translate("MainWindow", "Line Chart"))
-        self.chartTypeComboBoxPage8.setItemText(3, _translate("MainWindow", "Pie Chart"))
-        self.chartTypeComboBoxPage8.setItemText(4, _translate("MainWindow", "Area Chart"))
-        self.chartTypeComboBoxPage8.setItemText(5, _translate("MainWindow", "Scatter Chart"))
-        self.conditionLabelPage8.setText(_translate("MainWindow", "   condition"))
-        self.chartTypeLabelPage8.setText(_translate("MainWindow", "Chart Type "))
-        self.conditionComboBoxPage8.setItemText(0, _translate("MainWindow", "All"))
-        self.conditionComboBoxPage8.setItemText(1, _translate("MainWindow", "Temperature"))
-        self.conditionComboBoxPage8.setItemText(2, _translate("MainWindow", "Wind"))
-        self.conditionComboBoxPage8.setItemText(3, _translate("MainWindow", "Humidity"))
-        self.conditionComboBoxPage8.setItemText(4, _translate("MainWindow", "Altitude"))
-        self.statisticsTitleLabelPage8.setText(_translate("MainWindow", "Statistics"))
-        self.fileBrowserLabelPage9.setText(_translate("MainWindow", "File Browser"))
-        self.sequenceAlignmentLabelPage9.setText(_translate("MainWindow", " Sequence \n"
-                                                                          "Alignment"))
-        self.clearLabelPage9.setText(_translate("MainWindow", "Clear"))
-        self.statisticsLabelPage9.setText(_translate("MainWindow", "Statistics"))
-        self.geneticTreeLabelPage9.setText(_translate("MainWindow", "Genetic Tree"))
-        self.sequenceAlignmentTitlePage9.setText(_translate("MainWindow", "Sequence Alignment"))
-        self.backButtonPage9.setText(_translate("MainWindow", "back"))
+        self.ResultsStatsListCondition.setCurrentIndex(0)
+        self.ResultsStatsListChart.setCurrentIndex(0)        
 
 
 if __name__ == "__main__":

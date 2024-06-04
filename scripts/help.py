@@ -9,20 +9,23 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QApplication, QTextEdit, QMainWindow
 
 
 class UiHowToUse(object):
     def setupUi(self, how_to_use):
         how_to_use.setObjectName("how_to_use")
         #
-        how_to_use.resize(1243, 1100)
+        length = 800
+        height = 660
+        how_to_use.resize(length, height)
+        how_to_use.setFixedSize(length, height)
+
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(how_to_use.sizePolicy().hasHeightForWidth())
         how_to_use.setSizePolicy(sizePolicy)
-        how_to_use.setMinimumSize(QtCore.QSize(1243, 1100))
-        how_to_use.setMaximumSize(QtCore.QSize(1243, 1100))
         #        
         self.centralwidget = QtWidgets.QWidget(how_to_use)
         self.centralwidget.setObjectName("centralwidget")
@@ -49,11 +52,12 @@ class UiHowToUse(object):
         QtCore.QMetaObject.connectSlotsByName(how_to_use)
 
     def retranslateUi(self, how_to_use):
+        
         _translate = QtCore.QCoreApplication.translate
         how_to_use.setWindowTitle(_translate("how_to_use", "How To Use"))
         with open("help.txt", "r") as f:
             help_txt = f.read()
-            self.textBrowser.setText(help_txt)
+        self.textBrowser.setText(help_txt)
         self.toolBar.setWindowTitle(_translate("how_to_use", "toolBar"))
         self.actionprint.setText(_translate("how_to_use", "print"))
         self.actionPrint.setText(_translate("how_to_use", "Print"))
