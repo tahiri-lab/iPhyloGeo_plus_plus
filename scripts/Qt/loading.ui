@@ -1,80 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>LoadingScreen</class>
- <widget class="QWidget" name="LoadingScreen">
-  <property name="enabled">
-   <bool>true</bool>
-  </property>
+ <class>LoadingDialog</class>
+ <widget class="QDialog" name="LoadingDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>200</height>
+    <width>450</width>
+    <height>262</height>
    </rect>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>400</width>
-    <height>200</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>400</width>
-    <height>200</height>
-   </size>
   </property>
   <property name="windowTitle">
    <string>Loading...</string>
   </property>
-  <property name="layoutDirection">
-   <enum>Qt::LeftToRight</enum>
-  </property>
   <property name="styleSheet">
-   <string notr="true">QWidget {
-    background-color: #f5f5f5; /* Light gray background */
-    border-radius: 10px; /* Rounded corners */
-}
-
-QLabel {
-    color: #424242; /* Dark gray text */
-    font-family: &quot;Segoe UI&quot;, &quot;Roboto&quot;, sans-serif; /* Modern font stack */
-}
-
-QLabel#labelLoading {
-    font-size: 20px;
-    font-weight: bold;
-    margin-top: 20px;
-}
-
-QLabel#operationsLabel {
-    font-size: 14px;
-    margin-bottom: 10px;
-}
-
-#animationContainer {
-    background-color: #e0e0e0; /* Light gray container */
-    border-radius: 25px; /* Circular container */
-}</string>
+   <string>
+    QDialog {
+        background-color: #f2f2f2;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+    }
+   </string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="leftMargin">
-    <number>0</number>
-   </property>
-   <property name="topMargin">
-    <number>0</number>
-   </property>
-   <property name="rightMargin">
-    <number>0</number>
-   </property>
-   <property name="bottomMargin">
-    <number>0</number>
-   </property>
    <item>
-    <widget class="QLabel" name="labelLoading">
+    <widget class="QLabel" name="loadingLabel">
+     <property name="styleSheet">
+      <string notr="true">font-size: 18pt; font-weight: bold; color: #555;</string>
+     </property>
      <property name="text">
-      <string>Loading... Please wait.</string>
+      <string>Loading, please wait...</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -82,19 +37,79 @@ QLabel#operationsLabel {
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="operationsLabel">
-     <property name="text">
-      <string/>
+    <widget class="QListWidget" name="checkListWidget">
+     <property name="styleSheet">
+      <string notr="true">
+        QListWidget::item {
+            font-size: 14pt;
+            color: #333;
+            padding: 5px;
+        }
+        QListWidget::item::checked {
+            color: #2A9D8F;
+            text-decoration: line-through;
+        }
+      </string>
      </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
+     <item>
+      <property name="text">
+       <string>Reading sequence data</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Aligning sequences</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Constructing genetic trees</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Displaying results</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Saving results</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item>
+    <widget class="QProgressBar" name="progressBar">
+     <property name="styleSheet">
+      <string notr="true">
+       QProgressBar {
+           border: 1px solid #bbb;
+           border-radius: 5px;
+           background-color: #eee;
+           text-align: center;
+       }
+       QProgressBar::chunk {
+           background-color: #2A9D8F;
+           width: 20px;
+       }
+      </string>
+     </property>
+     <property name="minimum">
+      <number>0</number>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+     <property name="textVisible">
+      <bool>false</bool>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../../img/resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

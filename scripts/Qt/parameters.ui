@@ -155,12 +155,7 @@
       </item>
       <item>
        <property name="text">
-        <string>Quartic</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Bipartition distance</string>
+        <string>Euclidean distance</string>
        </property>
       </item>
      </widget>

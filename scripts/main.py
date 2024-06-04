@@ -26,7 +26,6 @@ import UserConfig
 from help import UiHowToUse
 from parameters import UiDialog
 
-
 Params.load_from_file("params.yaml")
 
 userData = UserConfig.DataConfig()  # object used to store parameters provided by user
@@ -242,50 +241,99 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 self.textEditPage1.setText(sequence)
 
     def callSeqAlign(self):
+        import time
+        from PyQt5 import QtWidgets, uic, QtCore, QtGui
+        def update_progress(loading_screen, step):
+
+            if step < loading_screen.checkListWidget.count():
+                item = loading_screen.checkListWidget.item(step)
+                item.setCheckState(QtCore.Qt.Checked)
+                progress_value = int((step + 1) * (100 / loading_screen.checkListWidget.count()))
+                loading_screen.progressBar.setValue(progress_value)
+            else:
+                loading_screen.progressBar.setValue(100)
+            time.sleep(0.8)
+
         '''
         Initiate sequence alignment
         Return: genetic dictionary used for the final filter
         '''
-        import time
         loading_screen = uic.loadUi("Qt/loading.ui")
-        loading_screen.setWindowModality(Qt.ApplicationModal)
+        loading_screen.setWindowModality(QtCore.Qt.ApplicationModal)
+
         loading_screen.show()
 
-        def update_label_text(text):
-            loading_screen.operationsLabel.setText(text)
-            QApplication.processEvents()
-        # Step 1: Load sequences
-        update_label_text("Step 1/5: Reading sequence data...")
-        sequenceFile = utils.loadSequenceFile(Params.reference_gene_filepath)
-        align_sequence = AlignSequences(sequenceFile)
-        time.sleep(1)
+        QtWidgets.QApplication.processEvents()
+        update_progress(loading_screen, 0)
+        QtWidgets.QApplication.processEvents()
+        try:
+            # Step 1: Load sequences
+            sequenceFile = utils.loadSequenceFile(Params.reference_gene_filepath)
+            update_progress(loading_screen, 1)
+            QtWidgets.QApplication.processEvents()
 
-        # Step 2: Align sequences
-        update_label_text("Step 2/5: Aligning sequences...")
-        alignements = align_sequence.align()
+            # Step 2: Align sequences
+            align_sequence = AlignSequences(sequenceFile)
+            alignements = align_sequence.align()
+            update_progress(loading_screen, 2)
+            QtWidgets.QApplication.processEvents()
 
-        # Step 3: Display results
-        time.sleep(1)  # (Optional) Brief pause for visual effect
-        update_label_text("Step 3/5: Preparing results...")
-        obj = str(alignements.to_dict())
+            geneticTrees = utils.geneticPipeline(alignements.msa)
+            trees = GeneticTrees(trees_dict=geneticTrees, format="newick")
+            update_progress(loading_screen, 3)
+            QtWidgets.QApplication.processEvents()
+
+            # Step 3: Preparing results
+            obj = str(alignements.to_dict())
+            self.textEd_4.setText(obj)
+            self.resultsButton.setEnabled(True)
+            update_progress(loading_screen, 4)
+            QtWidgets.QApplication.processEvents()
+
+            # Step 4: Save results
+            alignements.save_to_json(f"./results/aligned_{Params.reference_gene_file}.json")
+            trees.save_trees_to_json("./results/geneticTrees.json")
+            update_progress(loading_screen, 5)
+            QtWidgets.QApplication.processEvents()
+            time.sleep(0.8)
+        finally:
+            loading_screen.close()
+
+        return geneticTrees
+
+    def load_sequences(self):
+        # Simulate loading sequences
+        self.sequenceFile = utils.loadSequenceFile(Params.reference_gene_filepath)
+        print("Sequences loaded")
+
+    def align_sequences(self):
+        # Simulate aligning sequences
+        align_sequence = AlignSequences(self.sequenceFile)
+        self.alignements = align_sequence.align()
+        print("Sequences aligned")
+
+    def construct_genetic_trees(self):
+        # Simulate constructing genetic trees
+        geneticTrees = utils.geneticPipeline(self.alignements.msa)
+        self.trees = GeneticTrees(trees_dict=geneticTrees, format="newick")
+        self.geneticTrees = geneticTrees
+        print("Genetic trees constructed")
+
+    def prepare_results(self):
+        # Simulate preparing results
+        obj = str(self.alignements.to_dict())
         self.textEd_4.setText(obj)
         self.resultsButton.setEnabled(True)
+        print("Results prepared")
 
-        # Step 4: Create genetic trees
-        time.sleep(1)
-        update_label_text("Step 4/5: Constructing genetic trees...\n This could take some time...")
-        geneticTrees = utils.geneticPipeline(alignements.msa)
-        trees = GeneticTrees(trees_dict=geneticTrees, format="newick")
+    def save_results(self):
+        # Simulate saving results
+        self.alignements.save_to_json(f"./results/aligned_{Params.reference_gene_file}.json")
+        self.trees.save_trees_to_json("./results/geneticTrees.json")
+        print("Results saved")
 
-        # Step 5: Save results
-        time.sleep(1)
-        update_label_text("Step 5/5: Saving results...")
-        alignements.save_to_json(f"./results/aligned_{Params.reference_gene_file}.json")
-        trees.save_trees_to_json("./results/geneticTrees.json")
-
-        time.sleep(1)
-        loading_screen.close()
-        return geneticTrees
+    def finalize_alignment(self):
+        return self.geneticTrees
 
     def retrieveDataNames(self, list):
         '''
