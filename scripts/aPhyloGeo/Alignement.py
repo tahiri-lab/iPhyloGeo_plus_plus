@@ -9,7 +9,7 @@ from Bio import SeqIO
 from Bio import pairwise2
 from Bio.Seq import Seq
 
-from scripts.aPhyloGeo.MultiProcessor import Multi
+from aPhyloGeo.MultiProcessor import Multi
 
 userData_align = UserConfig.DataConfig()
 

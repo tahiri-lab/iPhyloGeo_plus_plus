@@ -299,7 +299,7 @@ class Multi:
             p.join()
 
         time.sleep(1)  # wait for the processes to close; do not remove
-        finishedTime = round(time.time() - self.startTime) * 10 / 10
+        finishedTime = round(time.time() - self.startTime, 1) * 10 / 10
 
         alfred.terminate()
         print("\r", end="")

@@ -11,8 +11,8 @@ from Bio.Phylo.TreeConstruction import DistanceCalculator
 from Bio.Phylo.TreeConstruction import DistanceTreeConstructor
 from Bio.Phylo.TreeConstruction import _DistanceMatrix
 
-from scripts.aPhyloGeo.Alignement import AlignSequences
-from scripts.aPhyloGeo.MultiProcessor import Multi
+from aPhyloGeo.Alignement import AlignSequences
+from aPhyloGeo.MultiProcessor import Multi
 
 userData = UserConfig.DataConfig()  # object used to store parameters provided by user
 
