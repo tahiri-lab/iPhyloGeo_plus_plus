@@ -1,37 +1,73 @@
-import time
 import io
+import os
 import re
 import sys
-import time
 from decimal import Decimal
-import resources_rc
 import folium
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
+import qtmodern.styles
 import qtmodern.styles
 import qtmodern.windows
-import pandas as pd
+import qtmodern.windows
+import yaml
 from PyQt5 import QtCore, QtGui
+from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QIcon, QColor
+from PyQt5.QtWebEngineWidgets import QWebEngineView
+from PyQt5.QtWidgets import QFileDialog, QGraphicsDropShadowEffect
 from aphylogeo import utils
 from aphylogeo.alignement import AlignSequences
 from aphylogeo.genetic_trees import GeneticTrees
 from aphylogeo.params import Params
-
+import resources_rc
 from help import UiHowToUse
 from parameters import UiDialog
-from PyQt5 import QtWidgets, uic
-import qtmodern.styles
-import qtmodern.windows
-import UserConfig
-from PyQt5.QtGui import QIcon, QColor
-from PyQt5.QtWidgets import QFileDialog, QGraphicsDropShadowEffect
-from PyQt5.QtWebEngineWidgets import QWebEngineView
-Params.load_from_file("params.yaml")
-Params.load_from_file("params.yaml")
-userData = UserConfig.DataConfig()  # object used to store parameters provided by user
 
-userData_align = UserConfig.DataConfig()
+
+class MyDumper(yaml.Dumper):
+    def increase_indent(self, flow=False, indentless=False):
+        return super(MyDumper, self).increase_indent(flow, False)
+
+    def represent_list(self, data):
+        return self.represent_sequence('tag:yaml.org,2002:seq', data, flow_style=True)
+
+
+yaml.add_representer(list, MyDumper.represent_list, Dumper=MyDumper)
+
+
+def update_yaml_param(params, file_path, property_name, new_value):
+    """
+    Updates a specified property within a YAML file with a new value.
+
+    Args:
+        file_path (str): The path to the YAML file.
+        property_name (str): The name of the property to modify (e.g., 'file_name').
+        new_value: The new value to set for the property (can be any valid YAML type).
+    """
+    if isinstance(new_value, list):
+        new_value = [element.strip() for element in new_value]
+    params.update_from_dict({property_name: new_value})
+
+    # 1. Load existing YAML data
+    with open(file_path, "r") as yaml_file:
+        data = yaml.safe_load(yaml_file)  # Use safe_load for security
+
+    # 2. Update the specified property
+    if property_name in data:
+        data[property_name] = new_value
+    else:
+        print(f"Warning: Property '{property_name}' not found in '{file_path}'.")
+
+    # 3. Write the updated data back to the file
+    with open(file_path, "w") as yaml_file:
+        yaml.dump(data, yaml_file, default_flow_style=None, Dumper=MyDumper, sort_keys=False)
+
+
+Params.load_from_file("params.yaml")
+
 
 class UiMainWindow(QtWidgets.QMainWindow):
 
@@ -57,7 +93,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         self.stackedWidget.setCurrentIndex(2)
         self.tabWidget2.setCurrentIndex(3)
-
 
     # to her]
     def __init__(self):
@@ -106,19 +141,19 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.stackedWidget.setCurrentIndex(0)
 
         buttons = [self.geneticDataButton, self.climaticDataButton, self.helpButton, self.homeButton]
-        
+
         buttons_Vertical = [self.fileBrowserButtonPage1, self.sequenceAlignmentButtonPage1,
-                   self.clearButtonPage1, self.statisticsButtonPage1, self.geneticTreeButtonPage1,                   
-                   self.fileBrowserButtonPage2, self.clearButtonPage2, self.resultsButtonPage2,
-                   self.climaticTreeButtonPage2, self.statisticsButtonPage2,
-                   self.settingsButtonPage3,
-                   self.settingsButtonPage4,
-                   self.submitButtonPage3, 
-                   self.statisticsButtonPage3,
-                   self.submitButtonPage4, 
-                   self.statisticsButtonPage4, 
-                   self.clearButtonPage3,  
-                   self.clearButtonPage4 ]
+                            self.clearButtonPage1, self.statisticsButtonPage1, self.geneticTreeButtonPage1,
+                            self.fileBrowserButtonPage2, self.clearButtonPage2, self.resultsButtonPage2,
+                            self.climaticTreeButtonPage2, self.statisticsButtonPage2,
+                            self.settingsButtonPage3,
+                            self.settingsButtonPage4,
+                            self.submitButtonPage3,
+                            self.statisticsButtonPage3,
+                            self.submitButtonPage4,
+                            self.statisticsButtonPage4,
+                            self.clearButtonPage3,
+                            self.clearButtonPage4]
 
         # Définir le curseur et la feuille de style pour tous les boutons
         for button in buttons:
@@ -206,11 +241,13 @@ class UiMainWindow(QtWidgets.QMainWindow):
         '''
         options = QFileDialog.Options()
         options |= QFileDialog.ReadOnly
-        fileName, _ = QFileDialog.getOpenFileName(None, "Select FASTA file", "../datasets", " (*.fasta);; (*.fasta)",
-                                                  options=options)
-        if fileName:
-            userData_align.set_referenceGeneFile(fileName)
-            with open(fileName, "r") as f:
+        fullFileName, _ = QFileDialog.getOpenFileName(None, "Select FASTA file", "../datasets",
+                                                      " (*.fasta);; (*.fasta)",
+                                                      options=options)
+        if fullFileName:
+            update_yaml_param(Params, "params.yaml", "reference_gene_file", os.path.basename(fullFileName))
+            update_yaml_param(Params, "params.yaml", "reference_gene_dir", os.path.dirname(fullFileName))
+            with open(fullFileName, "r") as f:
                 self.clearGen()
                 content = f.read()
                 self.textEditFasta.setText(content)
@@ -234,7 +271,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 self.sequenceAlignmentButtonPage1.setEnabled(True)
                 self.climaticDataButton.setIcon(QIcon(":inactive/climatic.svg"))
                 self.sequenceAlignmentButtonPage1.setIcon(QIcon(":inactive/sequence.svg"))
-
 
     def SeqAlign(self):
         self.geneticTreeDict = self.callSeqAlign()
@@ -300,7 +336,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         finally:
             loading_screen.close()
 
-
         return geneticTrees
 
     def load_sequences(self):
@@ -336,7 +371,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
     def finalize_alignment(self):
         return self.geneticTrees
-
 
     def retrieveDataNames(self, list):
         '''
@@ -391,13 +425,14 @@ class UiMainWindow(QtWidgets.QMainWindow):
         '''
         options = QFileDialog.Options()
         options |= QFileDialog.ReadOnly
-        fileName, _ = QFileDialog.getOpenFileName(None, "Select CSV file", "../datasets",
-                                                  "Comma Separated Values (*.csv)",
-                                                  options=options)
+        fullFilePath, _ = QFileDialog.getOpenFileName(None, "Select CSV file", "../datasets",
+                                                      "Comma Separated Values (*.csv)",
+                                                      options=options)
 
-        if fileName:
-            userData.set_fileName(fileName)
-            with open(fileName, "r") as c:
+        if fullFilePath:
+            update_yaml_param(Params, "params.yaml", "file_name", fullFilePath)
+
+            with open(fullFilePath, "r") as c:
                 lines = c.readlines()
                 num_rows = len(lines)
                 first_line = lines[0].split(",")
@@ -412,15 +447,12 @@ class UiMainWindow(QtWidgets.QMainWindow):
                     first_line_without_loc.pop(len(first_line_without_loc) - 1)
                     first_line_without_loc.pop(len(first_line_without_loc) - 1)
                     clim_data_names = self.retrieveDataNames(first_line_without_loc)
-                    userData.set_names(first_line_without_loc)
-                    userData_align.set_names(first_line_without_loc)
+                    update_yaml_param(Params, "params.yaml", "names", first_line_without_loc)
                     loc = True
                 else:
                     clim_data_names = self.retrieveDataNames(first_line)
-                    userData.set_names(first_line)
-                    userData_align.set_names(first_line)
-                userData.set_dataNames(clim_data_names)
-                userData_align.set_dataNames(clim_data_names)
+                    update_yaml_param(Params, "params.yaml", "names", first_line)
+                update_yaml_param(Params, "params.yaml", "data_names", clim_data_names)
                 self.textEditClimData.clear()
                 cursor = QtGui.QTextCursor(self.textEditClimData.textCursor())
                 clim_data_table = cursor.insertTable(num_rows, num_columns)
@@ -476,7 +508,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except AttributeError:
             self.textEditGenStats.setText("Valeurs non existantes, veuillez choisir un fichier !")
             self.tabWidget.setCurrentIndex(3)
-        
+
         else:
             self.tabWidget.setCurrentIndex(3)
             self.factors[0] = [float(v) for v in self.factors[0]]
@@ -493,19 +525,19 @@ class UiMainWindow(QtWidgets.QMainWindow):
             br4 = [x + barWidth for x in br3]
             br5 = [x + barWidth for x in br4]
             plt.bar(br1, self.factors[0], color='black', width=barWidth,
-                edgecolor='grey', label=self.species[0])
+                    edgecolor='grey', label=self.species[0])
             plt.bar(br2, self.factors[1], color='red', width=barWidth,
-                edgecolor='grey', label=self.species[1])
+                    edgecolor='grey', label=self.species[1])
             plt.bar(br3, self.factors[2], color='green', width=barWidth,
-                edgecolor='grey', label=self.species[2])
+                    edgecolor='grey', label=self.species[2])
             plt.bar(br4, self.factors[3], color='blue', width=barWidth,
-                edgecolor='grey', label=self.species[3])
+                    edgecolor='grey', label=self.species[3])
             plt.bar(br5, self.factors[4], color='cyan', width=barWidth,
-                edgecolor='grey', label=self.species[4])
+                    edgecolor='grey', label=self.species[4])
             plt.xlabel('COVID-19 Variant', fontweight='bold')
             plt.ylabel("Climatic data", fontweight='bold')
             plt.xticks([r + barWidth for r in range(len(self.factors[0]))],
-                   userData.get_dataNames())
+                       Params.data_names)
             plt.yticks(np.arange(0, 30))
             plt.title("Distribution of climatic variables for each COVID Variant")
             plt.legend()
@@ -521,7 +553,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.geneticDataButton.setIcon(QIcon(":active/genetic.svg"))
         self.stackedWidget.setCurrentIndex(1)
         self.tabWidget.setCurrentIndex(0)
-        
+
     def showClimDatPage(self):
         self.climaticDataButton.setIcon(QIcon(":active/climatic.svg"))
         self.geneticDataButton.setIcon(QIcon(":inactive/genetic.svg"))
@@ -554,7 +586,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.stackedWidget.setCurrentIndex(2)
             self.tabWidget2.setCurrentIndex(2)
 
-
     # Enable_button():
     def onTextChanged(self):
         if self.textEditPage1.toPlainText() and self.textEditPage4.toPlainText():
@@ -571,18 +602,18 @@ class UiMainWindow(QtWidgets.QMainWindow):
     def toggleDarkMode(self):
         self.isDarkMode = not self.isDarkMode
         buttons_Vertical = [self.fileBrowserButtonPage1, self.sequenceAlignmentButtonPage1,
-                   self.clearButtonPage1, self.statisticsButtonPage1, self.geneticTreeButtonPage1,                   
-                   self.fileBrowserButtonPage2, self.clearButtonPage2, self.resultsButtonPage2,
-                   self.climaticTreeButtonPage2, self.statisticsButtonPage2,
-                   self.settingsButtonPage3,
-                   self.settingsButtonPage4,
-                   self.submitButtonPage3, 
-                   self.statisticsButtonPage3,
-                   self.submitButtonPage4, 
-                   self.statisticsButtonPage4, 
-                   self.clearButtonPage3,  
-                   self.clearButtonPage4 ]
-        
+                            self.clearButtonPage1, self.statisticsButtonPage1, self.geneticTreeButtonPage1,
+                            self.fileBrowserButtonPage2, self.clearButtonPage2, self.resultsButtonPage2,
+                            self.climaticTreeButtonPage2, self.statisticsButtonPage2,
+                            self.settingsButtonPage3,
+                            self.settingsButtonPage4,
+                            self.submitButtonPage3,
+                            self.statisticsButtonPage3,
+                            self.submitButtonPage4,
+                            self.statisticsButtonPage4,
+                            self.clearButtonPage3,
+                            self.clearButtonPage4]
+
         if self.isDarkMode:
             qtmodern.styles.dark(app)
             self.darkModeButton.setIcon(QIcon(":other/light.png"))  # Set the 'light' icon for dark mode
@@ -712,7 +743,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
     def clearResultStat(self):
         self.ResultsStatsListCondition.setCurrentIndex(0)
-        self.ResultsStatsListChart.setCurrentIndex(0)        
+        self.ResultsStatsListChart.setCurrentIndex(0)
 
 
 if __name__ == "__main__":
