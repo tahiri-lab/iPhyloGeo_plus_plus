@@ -3,3 +3,4 @@ scripts/__pycache__/*
 scripts/aPhyloGeo++_env/*
 scripts/output.csv
 .venv
+scripts/results
