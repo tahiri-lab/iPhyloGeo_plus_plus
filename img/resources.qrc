@@ -8,6 +8,7 @@
         <file>active/statistics.svg</file>
         <file>active/submit.svg</file>
         <file>active/tree.svg</file>
+        <file>active/home.png</file>
         <file>disabled/climatic.svg</file>
         <file>disabled/genetic.svg</file>
         <file>disabled/result.svg</file>
@@ -30,6 +31,7 @@
         <file>other/help.svg</file>
         <file>other/dark.png</file>
         <file>other/light.png</file>
+        <file>other/home.svg</file>
         <file>readme-pic/Aphy-1.png</file>
         <file>readme-pic/Aphy-Use.png</file>
         <file>readme-pic/climaticData.gif</file>

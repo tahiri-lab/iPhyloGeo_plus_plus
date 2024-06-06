@@ -619,6 +619,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
         """
         self.climaticDataButton.setIcon(QIcon(":inactive/climatic.svg"))
         self.geneticDataButton.setIcon(QIcon(":inactive/genetic.svg"))
+        self.homeButton.setIcon(QIcon(":active/home.png"))
+
         self.stackedWidget.setCurrentIndex(0)
 
     def showGenDatPage(self):
@@ -629,6 +631,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         """
         self.climaticDataButton.setIcon(QIcon(":inactive/climatic.svg"))
         self.geneticDataButton.setIcon(QIcon(":active/genetic.svg"))
+        self.homeButton.setIcon(QIcon(":other/home.svg"))
         self.stackedWidget.setCurrentIndex(1)
         self.tabWidget.setCurrentIndex(0)
 
@@ -640,6 +643,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         """
         self.climaticDataButton.setIcon(QIcon(":active/climatic.svg"))
         self.geneticDataButton.setIcon(QIcon(":inactive/genetic.svg"))
+        self.homeButton.setIcon(QIcon(":other/home.svg"))
         self.stackedWidget.setCurrentIndex(2)
         self.tabWidget2.setCurrentIndex(0)
 

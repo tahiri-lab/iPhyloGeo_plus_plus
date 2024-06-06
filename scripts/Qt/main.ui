@@ -712,8 +712,8 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>../../img/other/home.svg</normaloff>../../img/other/home.svg</iconset>
+      <iconset resource="../../img/resources.qrc">
+       <normaloff>:/active/home.png</normaloff>:/active/home.png</iconset>
      </property>
      <property name="iconSize">
       <size>
