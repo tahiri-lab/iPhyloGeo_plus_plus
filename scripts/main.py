@@ -338,39 +338,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         return geneticTrees
 
-    def load_sequences(self):
-        # Simulate loading sequences
-        self.sequenceFile = utils.loadSequenceFile(Params.reference_gene_filepath)
-        print("Sequences loaded")
-
-    def align_sequences(self):
-        # Simulate aligning sequences
-        align_sequence = AlignSequences(self.sequenceFile)
-        self.alignements = align_sequence.align()
-        print("Sequences aligned")
-
-    def construct_genetic_trees(self):
-        # Simulate constructing genetic trees
-        geneticTrees = utils.geneticPipeline(self.alignements.msa)
-        self.trees = GeneticTrees(trees_dict=geneticTrees, format="newick")
-        self.geneticTrees = geneticTrees
-        print("Genetic trees constructed")
-
-    def prepare_results(self):
-        # Simulate preparing results
-        obj = str(self.alignements.to_dict())
-        self.textEd_4.setText(obj)
-        self.resultsButton.setEnabled(True)
-        print("Results prepared")
-
-    def save_results(self):
-        # Simulate saving results
-        self.alignements.save_to_json(f"./results/aligned_{Params.reference_gene_file}.json")
-        self.trees.save_trees_to_json("./results/geneticTrees.json")
-        print("Results saved")
-
-    def finalize_alignment(self):
-        return self.geneticTrees
 
     def retrieveDataNames(self, list):
         '''
