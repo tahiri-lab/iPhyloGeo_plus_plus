@@ -226,16 +226,12 @@ class UiMainWindow(QtWidgets.QMainWindow):
                     background-color: #DEDDDA;
                 }
             """)
-            # Créer l'effet d'ombre
             shadow_effect = QGraphicsDropShadowEffect()
-            shadow_effect.setBlurRadius(10)  # Ajuster le flou de l'ombre
-            shadow_effect.setColor(QColor(0, 0, 0, 140))  # Couleur de l'ombre (noir avec transparence)
-            shadow_effect.setOffset(3, 3)  # Décalage de l'ombre
-
-            # Appliquer l'effet d'ombre au bouton
+            shadow_effect.setBlurRadius(10)
+            shadow_effect.setColor(QColor(0, 0, 0, 140))
+            shadow_effect.setOffset(3, 3)
             button.setGraphicsEffect(shadow_effect)
 
-        # Définir le curseur et la feuille de style pour tous les boutons
         for buttonV in buttons_Vertical:
             buttonV.setCursor(Qt.PointingHandCursor)
             buttonV.setStyleSheet("""
@@ -253,13 +249,11 @@ class UiMainWindow(QtWidgets.QMainWindow):
                     background-color: #EEEEEE;
                 }
             """)
-            # Créer l'effet d'ombre
             shadow_effect = QGraphicsDropShadowEffect()
-            shadow_effect.setBlurRadius(10)  # Ajuster le flou de l'ombre
-            shadow_effect.setColor(QColor(0, 0, 0, 110))  # Couleur de l'ombre (noir avec transparence)
-            shadow_effect.setOffset(3, 3)  # Décalage de l'ombre
+            shadow_effect.setBlurRadius(10)
+            shadow_effect.setColor(QColor(0, 0, 0, 110))
+            shadow_effect.setOffset(3, 3)
 
-            # Appliquer l'effet d'ombre au bouton
             buttonV.setGraphicsEffect(shadow_effect)
 
         self.darkModeButton.setCursor(Qt.PointingHandCursor)
@@ -290,7 +284,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
         """
         Open a dialog to select a FASTA file, update parameters, and display the content with color-coded sequences.
 
-        This method allows the user to select a FASTA file from the file system. It updates the relevant YAML parameters with the file's path and name, reads the file content, and displays the sequences with color-coded nucleotides in a text edit widget.
+        This method allows the user to select a FASTA file from the file system. It updates the relevant YAML parameters
+        with the file's path and name, reads the file content, and displays the sequences with color-coded nucleotides
+        in a text edit widget.
 
         Actions:
             - Opens a file dialog to select a FASTA file.
@@ -307,26 +303,35 @@ class UiMainWindow(QtWidgets.QMainWindow):
         if fullFileName:
             update_yaml_param(Params, "params.yaml", "reference_gene_file", os.path.basename(fullFileName))
             update_yaml_param(Params, "params.yaml", "reference_gene_dir", os.path.dirname(fullFileName))
+
             with open(fullFileName, "r") as f:
                 self.clearGen()
                 content = f.read()
-                self.textEditFasta.setText(content)
                 sequence = ""
                 for line in content.splitlines():
-                    if not line.startswith('>'):
-                        new_line = ''
+                    if line.startswith('>'):
+                        line = f'<span style="color: green; font-weight: bold; font-size: 20px;">{line}</span>'
+                        sequence += "<br>" + line + "<br>"
+                    else:
+                        nucleotide_colors = {
+                            'A': 'yellow',
+                            'C': 'blue',
+                            'G': 'red',
+                            'T': 'orange'
+                        }
+                        colored_line = ''
                         for char in line:
-                            if char == 'A':
-                                new_line += f'<span style="background-color: yellow">{char}</span>'
-                            elif char == 'C':
-                                new_line += f'<span style="background-color: blue">{char}</span>'
-                            elif char == 'G':
-                                new_line += f'<span style="background-color: red">{char}</span>'
-                            elif char == 'T':
-                                new_line += f'<span style="background-color: orange">{char}</span>'
-                        line = new_line
-                    sequence += line + "<br>"
-                self.textEditFasta.setText(sequence)
+                            color = nucleotide_colors.get(char, '')
+                            if color:
+                                colored_line += f'<span style="color: {color}; font-weight: bold; font-size: 20px;">{char}</span>'
+                            else:
+                                colored_line += char
+                        line = colored_line
+                        sequence += line
+
+                self.textEditFasta.setHtml(
+                    f"<div style='background-color: #000000; color: #ffffff; padding: 10px; white-space: pre-wrap; word-wrap: break-word;'>{sequence}</div>"
+                )
                 self.tabWidget.setCurrentIndex(1)
                 self.sequenceAlignmentButtonPage1.setEnabled(True)
                 self.climaticDataButton.setIcon(QIcon(":inactive/climatic.svg"))
