@@ -28,14 +28,54 @@ from parameters import UiDialog
 
 
 class MyDumper(yaml.Dumper):
+    """
+     Custom YAML Dumper to modify the default indentation and list representation behavior.
+
+     Methods:
+         increase_indent(flow=False, indentless=False):
+             Increase the indentation level in the YAML output.
+
+         represent_list(data):
+             Represent Python lists in a flow style in the YAML output.
+     """
+
     def increase_indent(self, flow=False, indentless=False):
+        """
+        Increase the indentation level in the YAML output.
+
+        Args:
+            flow (bool): Indicates whether the current context is a flow style. Defaults to False.
+            indentless (bool): Indicates whether to use an indentless format. This argument is ignored. Defaults to False.
+
+        Returns:
+            The result from the superclass's increase_indent method with modified behavior.
+        """
         return super(MyDumper, self).increase_indent(flow, False)
 
     def represent_list(self, data):
+        """
+        Represent Python lists in a flow style in the YAML output.
+
+        Args:
+            data (list): The list to represent in the YAML output.
+
+        Returns:
+            The YAML representation of the list in a flow style.
+        """
         return self.represent_sequence('tag:yaml.org,2002:seq', data, flow_style=True)
 
 
 yaml.add_representer(list, MyDumper.represent_list, Dumper=MyDumper)
+"""
+Add a representer for the list type to the YAML dumper.
+
+This ensures that lists are represented in a flow style using the MyDumper class.
+
+Args:
+    list (type): The Python list type to represent.
+    MyDumper.represent_list (method): The method that defines how to represent lists.
+    Dumper (yaml.Dumper): The custom dumper class to use, in this case, MyDumper.
+"""
 
 
 def update_yaml_param(params, file_path, property_name, new_value):
@@ -43,9 +83,14 @@ def update_yaml_param(params, file_path, property_name, new_value):
     Updates a specified property within a YAML file with a new value.
 
     Args:
+        params: An object with an update_from_dict method, typically used for updating parameters.
         file_path (str): The path to the YAML file.
         property_name (str): The name of the property to modify (e.g., 'file_name').
         new_value: The new value to set for the property (can be any valid YAML type).
+
+    Raises:
+        FileNotFoundError: If the specified YAML file does not exist.
+        KeyError: If the specified property name is not found in the YAML file.
     """
     if isinstance(new_value, list):
         new_value = [element.strip() for element in new_value]
@@ -72,19 +117,32 @@ Params.load_from_file("params.yaml")
 class UiMainWindow(QtWidgets.QMainWindow):
 
     def useWindow(self):
+        """
+        Initialize and display the 'How to Use' window.
+
+        This method creates a new QMainWindow instance, sets up its UI using the UiHowToUse class, and displays the window.
+        """
         self.window = QtWidgets.QMainWindow()
         self.ui = UiHowToUse()
         self.ui.setupUi(self.window)
         self.window.show()
 
     def paramWin(self):
+        """
+        Initialize and display the parameters window.
+        This method creates a new QMainWindow instance, sets up its UI using the UiDialog class, and displays the window.
+        """
         self.window = QtWidgets.QMainWindow()
         self.ui = UiDialog()
         self.ui.setupUi(self.window)
         self.window.show()
 
-    # open cl tree window
     def openClimTree(self):
+        """
+        Initialize and display the climatic tree window.
+
+        This method imports the Ui_ct class, creates a new QMainWindow instance, sets up its UI using the Ui_ct class, and displays the window. It also sets the current index for stackedWidget and tabWidget2.
+        """
         from cltree import Ui_ct
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_ct()
@@ -94,22 +152,17 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.stackedWidget.setCurrentIndex(2)
         self.tabWidget2.setCurrentIndex(3)
 
-    # to her]
     def __init__(self):
         super(UiMainWindow, self).__init__()
         uic.loadUi("Qt/main.ui", self)
         self.setupUi()
 
-    def toggleDarkMode(self):
-        self.isDarkMode = not self.isDarkMode
-        if self.isDarkMode:
-            qtmodern.styles.dark(app)
-            self.darkModeButton.setIcon(QIcon(":other/light.png"))  # Set the 'light' icon for dark mode
-        else:
-            qtmodern.styles.light(app)
-            self.darkModeButton.setIcon(QIcon(":other/dark.png"))  # Set the 'dark' icon
-
     def setupUi(self):
+        """
+         Setup the UI components and initialize the main window.
+
+         This method connects various UI buttons to their corresponding event handlers, sets up styles and effects for UI elements, and initializes the state of the application.
+         """
         self.setObjectName("MainWindow")
 
         self.homeButton.clicked.connect(self.showHomePage)
@@ -227,18 +280,25 @@ class UiMainWindow(QtWidgets.QMainWindow):
             """)
         # Créer l'effet d'ombre
         shadow_effect = QGraphicsDropShadowEffect()
-        shadow_effect.setBlurRadius(10)  # Ajuster le flou de l'ombre
-        shadow_effect.setColor(QColor(0, 0, 0, 140))  # Couleur de l'ombre (noir avec transparence)
-        shadow_effect.setOffset(3, 3)  # Décalage de l'ombre
-
-        # Appliquer l'effet d'ombre au bouton
+        shadow_effect.setBlurRadius(10)
+        shadow_effect.setColor(QColor(0, 0, 0, 140))
+        shadow_effect.setOffset(3, 3)
         self.darkModeButton.setGraphicsEffect(shadow_effect)
         QtCore.QMetaObject.connectSlotsByName(self)
 
     def pressItFasta(self):
-        '''
-        Retrieve data from genetic file and show it in color
-        '''
+        """
+        Open a dialog to select a FASTA file, update parameters, and display the content with color-coded sequences.
+
+        This method allows the user to select a FASTA file from the file system. It updates the relevant YAML parameters with the file's path and name, reads the file content, and displays the sequences with color-coded nucleotides in a text edit widget.
+
+        Actions:
+            - Opens a file dialog to select a FASTA file.
+            - Updates 'reference_gene_file' and 'reference_gene_dir' parameters in the YAML file.
+            - Reads and displays the content of the selected FASTA file.
+            - Color-codes nucleotides (A, C, G, T) in the displayed sequence.
+            - Enables the sequence alignment button and updates icons.
+        """
         options = QFileDialog.Options()
         options |= QFileDialog.ReadOnly
         fullFileName, _ = QFileDialog.getOpenFileName(None, "Select FASTA file", "../datasets",
@@ -273,9 +333,30 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 self.sequenceAlignmentButtonPage1.setIcon(QIcon(":inactive/sequence.svg"))
 
     def SeqAlign(self):
+        """
+        Perform sequence alignment and store the resulting genetic tree dictionary.
+
+        This method calls the callSeqAlign method to perform sequence alignment and stores the resulting genetic tree dictionary in the geneticTreeDict attribute.
+        """
         self.geneticTreeDict = self.callSeqAlign()
 
     def callSeqAlign(self):
+        """
+        Execute the sequence alignment pipeline and display progress.
+
+        This method performs the following steps:
+        1. Loads sequences from the reference gene file.
+        2. Aligns the loaded sequences.
+        3. Generates genetic trees based on the aligned sequences.
+        4. Prepares and displays the results in the UI.
+        5. Saves the alignment and genetic tree results to JSON files.
+
+        Returns:
+            dict: A dictionary containing the genetic trees.
+
+        Raises:
+            Exception: Any exception that occurs during the alignment process will be handled, and the loading screen will close.
+        """
         import time
         from PyQt5 import QtCore
         def update_progress(loading_screen, step):
@@ -288,10 +369,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 loading_screen.progressBar.setValue(100)
             time.sleep(0.8)
 
-        '''
-        Initiate sequence alignment
-        Return: genetic dictionary used for the final filter
-        '''
         loading_screen = uic.loadUi("Qt/loading.ui")
         loading_screen.setWindowModality(QtCore.Qt.ApplicationModal)
 
@@ -338,15 +415,16 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         return geneticTrees
 
-
     def retrieveDataNames(self, list):
-        '''
-        Retrieve data from a list, except for first element
+        """
+        Retrieve data from a list, excluding the first element.
+
         Args:
-         list (from which we get data)
-        Return:
-         names_to_retrieve (Retrieved elements)
-        '''
+            list (list): The list to retrieve data from.
+
+        Returns:
+            list: A list of data excluding the first element.
+        """
         names_to_retrieve = []
         for data in list:
             if data != list[0]:
@@ -354,11 +432,16 @@ class UiMainWindow(QtWidgets.QMainWindow):
         return names_to_retrieve
 
     def populateMap(self, lat, long):
-        '''
-        Create folium map
+        """
+        Create and display a folium map with given latitude and longitude.
+
+        This method generates a map centered on the mean latitude and longitude of the provided coordinates.
+        It places markers on the map for each coordinate pair and displays the map in a QWebEngineView.
+
         Args:
-         lat (latitude), long (longitude)
-        '''
+            lat (list): List of latitudes.
+            long (list): List of longitudes.
+        """
         mean_lat = 0
         mean_long = 0
         for y in lat:
@@ -385,11 +468,19 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.webview.show()
 
     def pressItCSV(self):
-        '''
-        Retrieve data from climatic file and show it in a table
-        If the last 2 columns of the data are 'LAT' and 'LONG',
-        generate a folium map with these columns
-        '''
+        """
+        Retrieve data from a climatic file and display it in a table.
+
+        This method allows the user to select a CSV file from the file system. It updates the relevant YAML parameters with the file's path, reads the file content, and displays the data in a table widget. It also processes location data (latitude and longitude) if available and populates a map.
+
+        Actions:
+            - Opens a file dialog to select a CSV file.
+            - Updates 'file_name' parameter in the YAML file.
+            - Reads and displays the content of the selected CSV file.
+            - Processes and stores species and factor data.
+            - Populates a map with location data if available.
+            - Updates the UI to reflect the loaded data.
+        """
         options = QFileDialog.Options()
         options |= QFileDialog.ReadOnly
         fullFilePath, _ = QFileDialog.getOpenFileName(None, "Select CSV file", "../datasets",
@@ -467,9 +558,14 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.statisticsButtonPage2.setIcon(QIcon(":inactive/statistics.svg"))
 
     def showClimStatBarAllFact(self):
-        '''
-        Generate a bar graph that includes every factor for every species
-        '''
+        """
+        Generate a bar graph that includes every factor for every species.
+
+        This method processes the climatic factors for each species and generates a bar graph to visualize the distribution of climatic variables. It handles cases where the data is not available and updates the UI accordingly.
+
+        Raises:
+            AttributeError: If the factors attribute does not exist, an error message is displayed, and the UI is updated.
+        """
         try:
             print(self.factors)
         except AttributeError:
@@ -511,41 +607,69 @@ class UiMainWindow(QtWidgets.QMainWindow):
             plt.show()
 
     def showHomePage(self):
+        """
+        Display the home page of the application.
+
+        This method sets the icons for the climatic data and genetic data buttons to their inactive states and displays the home page by setting the stacked widget's current index to 0.
+        """
         self.climaticDataButton.setIcon(QIcon(":inactive/climatic.svg"))
         self.geneticDataButton.setIcon(QIcon(":inactive/genetic.svg"))
         self.stackedWidget.setCurrentIndex(0)
 
     def showGenDatPage(self):
+        """
+        Display the genetic data page of the application.
+
+        This method sets the icons for the climatic data and genetic data buttons, displays the genetic data page by setting the stacked widget's current index to 1, and sets the tab widget's current index to 0.
+        """
         self.climaticDataButton.setIcon(QIcon(":inactive/climatic.svg"))
         self.geneticDataButton.setIcon(QIcon(":active/genetic.svg"))
         self.stackedWidget.setCurrentIndex(1)
         self.tabWidget.setCurrentIndex(0)
 
     def showClimDatPage(self):
+        """
+        Display the climatic data page of the application.
+
+        This method sets the icons for the climatic data and genetic data buttons, displays the climatic data page by setting the stacked widget's current index to 2, and sets the tab widget's current index to 0.
+        """
         self.climaticDataButton.setIcon(QIcon(":active/climatic.svg"))
         self.geneticDataButton.setIcon(QIcon(":inactive/genetic.svg"))
         self.stackedWidget.setCurrentIndex(2)
         self.tabWidget2.setCurrentIndex(0)
 
     def showResultsPage(self):
+        """
+        Display the results page of the application.
+
+        This method sets the stacked widget's current index to 3 to display the results page.
+        """
         self.stackedWidget.setCurrentIndex(3)
 
     def showResultsStatsPage(self):
+        """
+        Display the results statistics page of the application.
+
+        This method sets the stacked widget's current index to 4 to display the results statistics page.
+        """
         self.stackedWidget.setCurrentIndex(4)
 
     def showFilteredResults(self):
-        '''
-        Show the results filtered with a metric threshold provided by user
-        '''
+        """
+        Show the results filtered with a metric threshold provided by the user.
+
+        This method reads the data from a CSV file, processes it through the climatic pipeline, filters the results, and displays the filtered results in an HTML table format within a QTextEdit widget. It handles exceptions related to missing sequence alignment.
+
+        Raises:
+            AttributeError: If the sequence alignment has not been performed before attempting to generate the tree.
+        """
         try:
             df = pd.read_csv(Params.file_name)
             climaticTrees = utils.climaticPipeline(df)
             utils.filterResults(climaticTrees, self.geneticTreeDict, df)
             df_results = pd.read_csv("./results/output.csv")
-
             # Convert to HTML table with basic styling
             html_table = df_results.to_html(index=False, border=1, classes="dataframe")  # Basic styling
-
             # Display in QTextEdit (assuming self.textEditPage7 exists)
             self.textEditResults.setHtml(html_table)
         except AttributeError:
@@ -553,8 +677,16 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.stackedWidget.setCurrentIndex(2)
             self.tabWidget2.setCurrentIndex(2)
 
-    # Enable_button():
     def onTextChanged(self):
+        """
+        Handle text change events in the text edit widgets.
+
+        This method enables or disables the results button based on whether both textEditPage1 and textEditPage4 have content. If the text edit widgets have content, the results button is enabled and its icon is set. If not, it processes the CSV file, generates climatic trees, filters results, and prints the content of the output CSV file.
+
+        Actions:
+            - Enable the results button if both text edit widgets have content.
+            - Process the CSV file, generate climatic trees, filter results, and print output if the text edit widgets do not have content.
+        """
         if self.textEditPage1.toPlainText() and self.textEditPage4.toPlainText():
             self.resultsButton.setEnabled(True)
             self.resultsButton.setIcon(QIcon(":inactive/result.svg"))
@@ -567,6 +699,19 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 print(content)
 
     def toggleDarkMode(self):
+        """
+        Toggle the application's dark mode setting.
+
+        This method switches the application's theme between dark mode and light mode. It updates the isDarkMode attribute, applies the corresponding style, and changes the icon of the darkModeButton.
+
+        Attributes:
+            isDarkMode (bool): A flag indicating whether dark mode is currently enabled.
+
+        Actions:
+            If dark mode is enabled, apply the dark style and set the darkModeButton icon to the 'light' icon.
+            If dark mode is disabled, apply the light style and set the darkModeButton icon to the 'dark' icon.
+        """
+
         self.isDarkMode = not self.isDarkMode
         buttons_Vertical = [self.fileBrowserButtonPage1, self.sequenceAlignmentButtonPage1,
                             self.clearButtonPage1, self.statisticsButtonPage1, self.geneticTreeButtonPage1,
@@ -692,12 +837,20 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
     # press the button to delete data
     def clearGen(self):
+        """
+        Clear the genetic data fields.
+
+        This method clears the content of the text edit widgets related to FASTA sequences, sequence alignments, and genetic trees. It also resets the current index of the genetic statistics list to 0.
+        """
         self.textEditFasta.clear()
         self.textEditSeqAlign.clear()
         self.textEditGenTree.clear()
         self.GenStatsList.setCurrentIndex(0)
 
     def clearClim(self):
+        """
+            Clear the text fields related to climatic data.
+            """
         self.textEditClimData.clear()
         self.textEditClimStats.clear()
         self.textEditClimTree.clear()
@@ -706,28 +859,46 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.ClimStatsListChart.setCurrentIndex(0)
 
     def clearResult(self):
+        """
+        Clear the text fields related to climatic data.
+
+        This method clears the content of the text edit widgets for climatic data, climatic statistics, and climatic trees. It also clears the graphics view for climatic data and resets the current index of the climatic statistics and chart lists to 0.
+        """
         self.textEditResults.clear()
 
     def clearResultStat(self):
+        """
+        Clear the statistics result lists.
+
+        This method resets the current index of the results statistics condition list and the results statistics chart list to 0.
+        """
         self.ResultsStatsListCondition.setCurrentIndex(0)
         self.ResultsStatsListChart.setCurrentIndex(0)
 
 
 if __name__ == "__main__":
+    # Create the application instance
     app = QtWidgets.QApplication([])
+
+    # Create the main window instance
     window = UiMainWindow()
+
+    # Wrap the main window with the ModernWindow style
     mw = qtmodern.windows.ModernWindow(window)
 
-    # Get screen geometry
+    # Get screen geometry to determine the available screen space
     screen_geometry = app.primaryScreen().availableGeometry()
 
-    # Calculate center position
+    # Calculate the center position of the screen
     center_point = screen_geometry.center()
     x = center_point.x() - mw.width() // 2
     y = center_point.y() - mw.height() // 2
 
-    # Move window to center
+    # Move the main window to the center of the screen
     mw.move(x, y)
 
+    # Show the main window
     mw.show()
+
+    # Execute the application's event loop
     sys.exit(app.exec_())
