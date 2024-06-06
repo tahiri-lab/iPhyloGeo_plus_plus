@@ -728,6 +728,12 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         if self.isDarkMode:
             qtmodern.styles.dark(app)
+            self.top_frame.setStyleSheet("background-color: #646464;")
+            self.homeButton.setStyleSheet("background-color: #838383;")
+            self.geneticDataButton.setStyleSheet("background-color: #838383;")
+            self.climaticDataButton.setStyleSheet("background-color: #838383;")
+            self.helpButton.setStyleSheet("background-color: #838383;")
+
             self.darkModeButton.setIcon(QIcon(":other/light.png"))  # Set the 'light' icon for dark mode
             self.darkModeButton.setCursor(Qt.PointingHandCursor)
             self.darkModeButton.setStyleSheet("""
@@ -783,6 +789,11 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         else:
             qtmodern.styles.light(app)
+            self.top_frame.setStyleSheet("background-color: rgb(222, 221, 218);")
+            self.homeButton.setStyleSheet("background-color: rgb(222, 221, 218);")
+            self.geneticDataButton.setStyleSheet("background-color: rgb(222, 221, 218);")
+            self.climaticDataButton.setStyleSheet("background-color: rgb(222, 221, 218);")
+            self.helpButton.setStyleSheet("background-color: rgb(222, 221, 218);")
             self.darkModeButton.setIcon(QIcon(":other/dark.png"))  # Set the 'dark' icon
             self.darkModeButton.setCursor(Qt.PointingHandCursor)
             self.darkModeButton.setStyleSheet("""
@@ -902,3 +913,4 @@ if __name__ == "__main__":
 
     # Execute the application's event loop
     sys.exit(app.exec_())
+
