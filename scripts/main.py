@@ -436,41 +436,12 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 names_to_retrieve.append(data)
         return names_to_retrieve
 
-    def populateMap(self, lat, long):
-        """
-        Create and display a folium map with given latitude and longitude.
-
-        This method generates a map centered on the mean latitude and longitude of the provided coordinates.
-        It places markers on the map for each coordinate pair and displays the map in a QWebEngineView.
-
-        Args:
-            lat (list): List of latitudes.
-            long (list): List of longitudes.
-        """
-        mean_lat = 0
-        mean_long = 0
-        for y in lat:
-            mean_lat = mean_lat + Decimal(y)
-        mean_lat = mean_lat / len(lat)
-        for x in long:
-            mean_long = mean_long + Decimal(x)
-        mean_long = mean_long / len(long)
-        m = folium.Map(location=[mean_lat, mean_long],
-                       zoom_start=14,
-                       tiles="OpenStreetMap")
-        i = 0
-        while i < len(lat):
-            folium.Marker([Decimal(lat[i]), Decimal(long[i])]).add_to(m)
-            i = i + 1
-        # m.save('m.html')                  #folium map does not appear correctly on MAC with webbrowser.open(),
-        # web browser.open('m.html')         #but it does not appear correctly on Linux with webview.show()
-        # will have to be fixed
-        data = io.BytesIO()
-        m.save(data, close_file=False)
-        self.webview = QWebEngineView()
-        self.webview.setWindowTitle("Climate Map")
-        self.webview.setHtml(data.getvalue().decode())
-        self.webview.show()
+    from decimal import Decimal
+    from PyQt5.QtWebEngineWidgets import QWebEngineView
+    import io
+    import folium
+    from PyQt5 import QtWidgets, QtGui
+    from PyQt5.QtWidgets import QFileDialog
 
     def pressItCSV(self):
         """
@@ -486,6 +457,14 @@ class UiMainWindow(QtWidgets.QMainWindow):
             - Populates a map with location data if available.
             - Updates the UI to reflect the loaded data.
         """
+
+        def is_valid_decimal(value):
+            try:
+                Decimal(value)
+                return True
+            except:
+                return False
+
         options = QFileDialog.Options()
         options |= QFileDialog.ReadOnly
         fullFilePath, _ = QFileDialog.getOpenFileName(None, "Select CSV file", "../datasets",
@@ -506,9 +485,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 loc = False
                 num_columns = len(first_line)
                 if first_line[len(first_line) - 2] == 'LAT':
-                    first_line_without_loc = first_line
-                    first_line_without_loc.pop(len(first_line_without_loc) - 1)
-                    first_line_without_loc.pop(len(first_line_without_loc) - 1)
+                    first_line_without_loc = first_line[:-2]
                     clim_data_names = self.retrieveDataNames(first_line_without_loc)
                     update_yaml_param(Params, "params.yaml", "names", first_line_without_loc)
                     loc = True
@@ -524,43 +501,55 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 clim_data_table.setFormat(fmt)
                 format = QtGui.QTextCharFormat()
                 format.setForeground(QtGui.QColor('#006400'))
-                i = 0
-                for line in lines:
+                self.tabWidget2.setCurrentIndex(1)
+                for i, line in enumerate(lines):
                     line_split = line.split(",")
-                    if line != lines[0] and loc == True:
-                        lat.append(line_split[len(line_split) - 2])
-                        long.append(line_split[len(line_split) - 1])
-                        self.species.append(line_split[0])
-                        for j in [1, 2, 3, 4, 5]:
-                            self.factors[i].append(line_split[j])
-                        i += 1
-                    if line != lines[0] and loc == False:
-                        self.species.append(line_split[0])
-                        for j in [1, 2, 3, 4, 5]:
-                            self.factors[i].append(line_split[j])
-                        i += 1
                     for value in line_split:
-                        if line == lines[0]:
+                        if i == 0:
                             cursor.setCharFormat(format)
-                        if re.search("^[0-9\\-]*\\.[0-9]*", value) is not None:
-                            cursor.insertText(str(round(Decimal(value), 3)))
-                            cursor.movePosition(QtGui.QTextCursor.NextCell)
+                        cursor.insertText(value.strip())
+                        cursor.movePosition(QtGui.QTextCursor.NextCell)
+                    if i > 0 and loc:
+                        lat_value = line_split[-2].strip()
+                        long_value = line_split[-1].strip()
+                        if is_valid_decimal(lat_value) and is_valid_decimal(long_value):
+                            lat.append(Decimal(lat_value))
+                            long.append(Decimal(long_value))
                         else:
-                            cursor.insertText(value)
-                            cursor.movePosition(QtGui.QTextCursor.NextCell)
-                if loc == True:
+                            print(f"Invalid coordinate data at row {i}: {lat_value}, {long_value}")
+
+                if loc and lat and long:
                     self.populateMap(lat, long)
-                self.child_window = QtWidgets.QMainWindow()
-                self.ui = UiHowToUse()
-                self.ui.setupUi(self.child_window)
-                self.child_window.setWindowModality(QtCore.Qt.NonModal)
-        self.tabWidget2.setCurrentIndex(1)
-        self.resultsButtonPage2.setEnabled(True)
-        self.resultsButtonPage2.setIcon(QIcon(":inactive/result.svg"))
-        self.climaticTreeButtonPage2.setEnabled(True)
-        self.climaticTreeButtonPage2.setIcon(QIcon(":inactive/climatic.svg"))
-        self.statisticsButtonPage2.setEnabled(True)
-        self.statisticsButtonPage2.setIcon(QIcon(":inactive/statistics.svg"))
+
+
+    def populateMap(self, lat, long):
+        """
+        Create and display a folium map with given latitude and longitude.
+
+        This method generates a map centered on the mean latitude and longitude of the provided coordinates.
+        It places markers on the map for each coordinate pair and displays the map in a QWebEngineView.
+
+        Args:
+            lat (list): List of latitudes.
+            long (list): List of longitudes.
+        """
+        mean_lat = sum(lat) / len(lat)
+        mean_long = sum(long) / len(long)
+
+        m = folium.Map(location=[mean_lat, mean_long],
+                       zoom_start=14,
+                       tiles="OpenStreetMap")
+        for latitude, longitude in zip(lat, long):
+            folium.Marker([latitude, longitude]).add_to(m)
+
+        data = io.BytesIO()
+        m.save(data, close_file=False)
+
+        web_view = QWebEngineView(self.graphicsViewClimData)  # Embed the map inside graphicsViewClimData
+        web_view.setHtml(data.getvalue().decode())
+        layout = QtWidgets.QVBoxLayout(self.graphicsViewClimData)
+        layout.addWidget(web_view)
+        self.graphicsViewClimData.setLayout(layout)
 
     def showClimStatBarAllFact(self):
         """
