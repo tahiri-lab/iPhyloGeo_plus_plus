@@ -124,8 +124,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
         """
         self.window = QtWidgets.QMainWindow()
         self.ui = UiHowToUse()
-        self.ui.setupUi(self.window)
-        self.window.show()
+        self.ui.initUI()
+        self.ui.show()
 
     def paramWin(self):
         """
