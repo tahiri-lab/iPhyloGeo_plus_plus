@@ -1,22 +1,35 @@
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QListWidget, QListWidgetItem, QSizePolicy, QScrollArea
-from PyQt5.QtGui import QFont, QColor
-from PyQt5.QtCore import Qt
 import sys
-class UiHowToUse(QWidget):
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QLabel, QScrollArea, QTextBrowser
+from PyQt5.QtGui import QFont
+from PyQt5.QtCore import Qt
+
+class UiHowToUse(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.setWindowTitle('Help - aPhyloGeo')
+        self.setGeometry(100, 100, 800, 600)
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle('Instructions')
-        self.setGeometry(100, 100, 600, 800)
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
+        layout = QVBoxLayout(central_widget)
+        layout.setContentsMargins(10, 10, 10, 10)
 
-        scroll_area = QScrollArea(self)
+        scroll_area = QScrollArea()
         scroll_area.setWidgetResizable(True)
-        scroll_content = QWidget(scroll_area)
-        scroll_area.setWidget(scroll_content)
+        layout.addWidget(scroll_area)
 
-        layout = QVBoxLayout(scroll_content)
+        content_widget = QWidget()
+        scroll_area.setWidget(content_widget)
+        content_layout = QVBoxLayout(content_widget)
+        content_layout.setContentsMargins(10, 10, 10, 10)
+
+        title_label = QLabel('Help - aPhyloGeo')
+        title_label.setFont(QFont('Helvetica', 26, QFont.Bold))
+        title_label.setAlignment(Qt.AlignCenter)
+        title_label.setStyleSheet('color: #3A3F44; margin-bottom: 20px;')
+        content_layout.addWidget(title_label)
 
         sections = [
             {
@@ -62,42 +75,41 @@ class UiHowToUse(QWidget):
         ]
 
         for section in sections:
-            section_layout = QVBoxLayout()
-            section_label = QLabel(section['title'])
-            section_label.setFont(QFont('Arial', 16, QFont.Bold))
-            section_label.setStyleSheet('color: #333; border-bottom: 2px solid #4CAF50; padding-bottom: 5px; text-transform: uppercase;')
+            section_widget = QWidget()
+            section_layout = QVBoxLayout(section_widget)
+            section_layout.setContentsMargins(0, 0, 0, 20)
 
-            description_label = QLabel(section['description'])
-            description_label.setFont(QFont('Arial', 12, QFont.StyleItalic))
-            description_label.setStyleSheet('color: #666;')
+            section_title = QLabel(section['title'])
+            section_title.setFont(QFont('Helvetica', 20, QFont.Bold))
+            section_title.setStyleSheet('color: #3A3F44; margin-bottom: 10px;')
+            section_title.setWordWrap(True)
+            section_layout.addWidget(section_title)
 
-            section_layout.addWidget(section_label)
-            section_layout.addWidget(description_label)
+            section_description = QLabel(section['description'])
+            section_description.setFont(QFont('Helvetica', 14))
+            section_description.setStyleSheet('color: #6D6D6D; margin-bottom: 10px;')
+            section_description.setWordWrap(True)
+            section_layout.addWidget(section_description)
 
-            instruction_list = QListWidget()
             for instruction in section['instructions']:
-                item = QListWidgetItem(f"➔ {instruction}")
-                item.setFont(QFont('Arial', 12))
-                item.setBackground(QColor('#e0f7fa'))
-                item.setTextAlignment(Qt.AlignLeft)
-                instruction_list.addItem(item)
+                instruction_label = QLabel(f'- {instruction}')
+                instruction_label.setFont(QFont('Helvetica', 12))
+                instruction_label.setStyleSheet('color: #000000; margin-left: 20px;')
+                instruction_label.setWordWrap(True)
+                section_layout.addWidget(instruction_label)
 
-            instruction_list.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-            section_layout.addWidget(instruction_list)
-            layout.addLayout(section_layout)
+            content_layout.addWidget(section_widget)
 
-        footer_label = QLabel('You will obtain more information here: <a href="https://github.com/tahiri-lab/aPhyloGeo_plus_plus/blob/main/README.md">README.md</a>')
-        footer_label.setOpenExternalLinks(True)
-        footer_label.setAlignment(Qt.AlignCenter)
-        footer_label.setStyleSheet('font-size: 0.9em; color: #777;')
-        layout.addWidget(footer_label)
+        additional_info = QTextBrowser()
+        additional_info.setOpenExternalLinks(True)
+        additional_info.setHtml('You will obtain more information here: <a href="https://github.com/tahiri-lab/aPhyloGeo_plus_plus/blob/main/README.md">README.md</a>')
+        additional_info.setStyleSheet('margin-top: 20px;')
+        content_layout.addWidget(additional_info)
 
-        main_layout = QVBoxLayout(self)
-        main_layout.addWidget(scroll_area)
-        self.setLayout(main_layout)
+        content_layout.addStretch()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    mainWin = UiHowToUse()
-    mainWin.show()
+    window = HelpWindow()
+    window.show()
     sys.exit(app.exec_())
