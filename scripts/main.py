@@ -1,17 +1,18 @@
 import io
 import os
-import re
 import sys
 from decimal import Decimal
+import resources_rc
+from PyQt5.QtGui import QPixmap
 import folium
 import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 import qtmodern.styles
 import qtmodern.styles
 import qtmodern.windows
 import qtmodern.windows
 import yaml
+from Bio import SeqIO
 from PyQt5 import QtCore, QtGui
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import Qt
@@ -22,7 +23,7 @@ from aphylogeo import utils
 from aphylogeo.alignement import AlignSequences
 from aphylogeo.genetic_trees import GeneticTrees
 from aphylogeo.params import Params
-import resources_rc
+
 from help import UiHowToUse
 from parameters import UiDialog
 
@@ -172,18 +173,19 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.darkModeButton.clicked.connect(self.toggleDarkMode)
         self.darkModeButton.setCursor(Qt.PointingHandCursor)
         self.isDarkMode = False  # Keep track of the state
-
         self.fileBrowserButtonPage1.clicked.connect(self.pressItFasta)
         self.sequenceAlignmentButtonPage1.clicked.connect(self.SeqAlign)
         self.clearButtonPage1.clicked.connect(self.clearGen)
-        self.statisticsButtonPage1.clicked.connect(self.showClimStatBarAllFact)
-
+        self.statisticsButtonPage1.clicked.connect(self.extract_species_names_from_fasta)
         self.clearButtonPage2.clicked.connect(self.clearClim)
         self.climaticTreeButtonPage2.clicked.connect(self.openClimTree)
         self.fileBrowserButtonPage2.clicked.connect(self.pressItCSV)
-        self.statisticsButtonPage2.clicked.connect(self.showClimStatBarAllFact)
+        self.statisticsButtonPage2.clicked.connect(self.update_climate_chart)
+        self.ClimStatsListCondition.currentIndexChanged.connect(self.update_climate_chart)
+        self.ClimStatsListChart.currentIndexChanged.connect(self.update_climate_chart)
         self.resultsButtonPage2.clicked.connect(self.showResultsPage)
-
+        self.GenStatsList.currentIndexChanged.connect(self.displayGeneticStats)
+        self.diagramsComboBox.currentIndexChanged.connect(self.displayGeneticStats)
         self.settingsButtonPage4.clicked.connect(self.paramWin)
         self.submitButtonPage3.clicked.connect(self.showFilteredResults)
         self.clearButtonPage4.clicked.connect(self.clearResult)
@@ -280,6 +282,190 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.darkModeButton.setGraphicsEffect(shadow_effect)
         QtCore.QMetaObject.connectSlotsByName(self)
 
+    def extract_species_names_from_fasta(self):
+        self.tabWidget.setCurrentIndex(3)
+        species_names = []
+        with open(Params.reference_gene_filepath, 'r') as file:
+            for line in file:
+                if line.startswith('>'):
+                    species_name = line[1:].strip()
+                    species_names.append(species_name)
+        self.GenStatsList.addItems(species_names)
+        if species_names:
+            self.GenStatsList.setCurrentIndex(0)
+        return species_names
+
+    def calculate_gc_content(self, sequence):
+        return 100.0 * (sequence.count("G") + sequence.count("C")) / len(sequence)
+
+    def calculate_nucleotide_composition(self, sequences):
+        total_length = sum(len(seq) for seq in sequences)
+        a_count = sum(seq.count("A") for seq in sequences)
+        t_count = sum(seq.count("T") for seq in sequences)
+        g_count = sum(seq.count("G") for seq in sequences)
+        c_count = sum(seq.count("C") for seq in sequences)
+
+        return {
+            "A": (a_count / total_length) * 100,
+            "T": (t_count / total_length) * 100,
+            "G": (g_count / total_length) * 100,
+            "C": (c_count / total_length) * 100
+        }
+
+    def plot_nucleotide_composition(self, composition):
+        labels = composition.keys()
+        sizes = composition.values()
+        colors = ['#ff9999', '#66b3ff', '#99ff99', '#ffcc99']
+        explode = (0.1, 0, 0, 0)  # explode 1st slice
+
+        fig1, ax1 = plt.subplots(figsize=(6, 4))  # Adjusting size to 600x400 pixels
+        ax1.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%',
+                shadow=True, startangle=140)
+        ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+        output_dir = "./results"
+        os.makedirs(output_dir, exist_ok=True)
+        plt.savefig(os.path.join(output_dir, "nucleotide_composition.png"), bbox_inches='tight')
+        plt.close()
+
+    def plot_sequence_length_distribution(self, lengths):
+        plt.figure(figsize=(6, 4))  # Adjusting size to 600x400 pixels
+        plt.hist(lengths, bins=20, color='skyblue', edgecolor='black')
+        plt.title('Sequence Length Distribution')
+        plt.xlabel('Sequence Length')
+        plt.ylabel('Frequency')
+
+        output_dir = "./results"
+        os.makedirs(output_dir, exist_ok=True)
+        plt.savefig(os.path.join(output_dir, "sequence_length_distribution.png"), bbox_inches='tight')
+        plt.close()
+
+    def plot_gc_content_distribution(self, gc_contents):
+        plt.figure(figsize=(6, 4))  # Adjusting size to 600x400 pixels
+        plt.hist(gc_contents, bins=20, color='lightgreen', edgecolor='black')
+        plt.title('GC Content Distribution')
+        plt.xlabel('GC Content (%)')
+        plt.ylabel('Frequency')
+
+        output_dir = "./results"
+        os.makedirs(output_dir, exist_ok=True)
+        plt.savefig(os.path.join(output_dir, "gc_content_distribution.png"), bbox_inches='tight')
+        plt.close()
+
+    def plot_nucleotide_frequency(self, composition):
+        labels = composition.keys()
+        sizes = composition.values()
+
+        plt.figure(figsize=(6, 4))  # Adjusting size to 600x400 pixels
+        plt.bar(labels, sizes, color=['#ff9999', '#66b3ff', '#99ff99', '#ffcc99'])
+        plt.title('Nucleotide Frequency')
+        plt.xlabel('Nucleotides')
+        plt.ylabel('Frequency (%)')
+
+        output_dir = "./results"
+        os.makedirs(output_dir, exist_ok=True)
+        plt.savefig(os.path.join(output_dir, "nucleotide_frequency.png"), bbox_inches='tight')
+        plt.close()
+
+    def plot_codon_usage(self, sequences):
+        codon_count = {}
+        for seq in sequences:
+            for i in range(0, len(seq) - 2, 3):
+                codon = str(seq[i:i + 3])
+                if codon in codon_count:
+                    codon_count[codon] += 1
+                else:
+                    codon_count[codon] = 1
+
+        codons = list(codon_count.keys())
+        counts = list(codon_count.values())
+
+        plt.figure(figsize=(6, 4))  # Adjusting size to 600x400 pixels
+        plt.bar(codons, counts, color='mediumpurple')
+        plt.title('Codon Usage')
+        plt.xlabel('Codons')
+        plt.ylabel('Frequency')
+        plt.xticks(rotation=90)
+
+        output_dir = "./results"
+        os.makedirs(output_dir, exist_ok=True)
+        plt.savefig(os.path.join(output_dir, "codon_usage.png"), bbox_inches='tight')
+        plt.close()
+
+    def displayGeneticStats(self):
+        species_name = self.GenStatsList.currentText()
+        sequences = []
+        lengths = []
+        gc_contents = []
+
+        fasta_file = Params.reference_gene_filepath  # Update this path to your FASTA file
+        for record in SeqIO.parse(fasta_file, "fasta"):
+            if species_name in record.description:
+                sequences.append(record.seq)
+                lengths.append(len(record.seq))
+                gc_contents.append(self.calculate_gc_content(record.seq))
+
+        if not sequences:
+            self.textEditGenStats.setText(f"<p style='color:red;'>No sequences found for species: {species_name}</p>")
+            return
+
+        nucleotide_composition = self.calculate_nucleotide_composition(sequences)
+
+        image_path = ""
+        diagram_type = self.diagramsComboBox.currentText()
+        if diagram_type == "Nucleotide Composition":
+            self.plot_nucleotide_composition(nucleotide_composition)
+            image_path = "./results/nucleotide_composition.png"
+        elif diagram_type == "Sequence Length Distribution":
+            self.plot_sequence_length_distribution(lengths)
+            image_path = "./results/sequence_length_distribution.png"
+        elif diagram_type == "GC Content Distribution":
+            self.plot_gc_content_distribution(gc_contents)
+            image_path = "./results/gc_content_distribution.png"
+        elif diagram_type == "Nucleotide Frequency":
+            self.plot_nucleotide_frequency(nucleotide_composition)
+            image_path = "./results/nucleotide_frequency.png"
+        elif diagram_type == "Codon Usage":
+            self.plot_codon_usage(sequences)
+            image_path = "./results/codon_usage.png"
+
+        stats = {
+            "total_sequences": len(sequences),
+            "avg_length": sum(lengths) / len(lengths),
+            "min_length": min(lengths),
+            "max_length": max(lengths),
+            "avg_gc_content": sum(gc_contents) / len(gc_contents),
+            "std_dev_length": (sum((x - (sum(lengths) / len(lengths))) ** 2 for x in lengths) / len(lengths)) ** 0.5,
+        }
+
+        stats_text = (
+            f"<br>"
+            f"<h2 style='color:darkblue;'>Species: {species_name}</h2>"
+            f"<h3><b>Total sequences:</b> {stats['total_sequences']}</h3>"
+            f"<h3><b>Avg length:</b> {stats['avg_length']:.2f}</h3>"
+            f"<h3><b>Min length:</b> {stats['min_length']}</h3>"
+            f"<h3><b>Max length:</b> {stats['max_length']}</h3>"
+            f"<h3><b>Avg GC content:</b> {stats['avg_gc_content']:.2f}%</h3>"
+            f"<h3><b>Std Dev length:</b> {stats['std_dev_length']:.2f}</h3>"
+            f"<h3 style='color:darkgreen;'>Nucleotide composition:</h3>"
+            f"<ul>"
+            f"  <li><b>A:</b> {nucleotide_composition['A']:.2f}%</li>"
+            f"  <li><b>T:</b> {nucleotide_composition['T']:.2f}%</li>"
+            f"  <li><b>G:</b> {nucleotide_composition['G']:.2f}%</li>"
+            f"  <li><b>C:</b> {nucleotide_composition['C']:.2f}%</li>"
+            f"</ul>"
+        )
+
+        # Set the text in the QTextEdit
+        self.textEditGenStats.setText(stats_text)
+        self.textEditGenStats.setAlignment(QtCore.Qt.AlignTop)  # Align text at the top
+
+        # Set the image in the QLabel
+        if image_path:
+            pixmap = QtGui.QPixmap(image_path)
+            self.textEditGenStats_2.setPixmap(pixmap)
+            self.textEditGenStats_2.setAlignment(QtCore.Qt.AlignCenter)
+
     def pressItFasta(self):
         """
         Open a dialog to select a FASTA file, update parameters, and display the content with color-coded sequences.
@@ -334,8 +520,10 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 )
                 self.tabWidget.setCurrentIndex(1)
                 self.sequenceAlignmentButtonPage1.setEnabled(True)
-                self.climaticDataButton.setIcon(QIcon(":inactive/climatic.svg"))
+                self.statisticsButtonPage1.setEnabled(True)
+                self.statisticsButtonPage1.setIcon(QIcon(":inactive/statistics.svg"))
                 self.sequenceAlignmentButtonPage1.setIcon(QIcon(":inactive/sequence.svg"))
+
 
     def SeqAlign(self):
         """
@@ -345,6 +533,39 @@ class UiMainWindow(QtWidgets.QMainWindow):
         """
         self.geneticTreeDict = self.callSeqAlign()
 
+    def update_climate_chart(self):
+
+        data = pd.read_csv(Params.file_name)
+        condition = self.ClimStatsListCondition.currentText()
+        chart_type = self.ClimStatsListChart.currentText()
+
+        if condition == 'Temperature':
+            values = data['T2M']
+        elif condition == 'Wind':
+            values = data['WS10M']
+        elif condition == 'Humidity':
+            values = data['QV2M']
+        elif condition == 'Altitude':
+            values = data['ALLSKY_SFC_SW_DWN']  # Assuming altitude is represented by this column
+
+        plt.figure(figsize=(9.11, 3.91))
+
+        if chart_type == 'Bar Chart':
+            values.plot(kind='bar')
+        elif chart_type == 'Line Chart':
+            values.plot(kind='line')
+        elif chart_type == 'Pie Chart':
+            values.value_counts().plot(kind='pie')
+        elif chart_type == 'Area Chart':
+            values.plot(kind='area')
+        elif chart_type == 'Scatter Chart':
+            plt.scatter(data.index, values)
+
+        plt.title(f'{condition} - {chart_type}')
+        plt.savefig('chart.png')
+        pixmap = QPixmap('chart.png')
+        self.ClimaticChart.setPixmap(pixmap)
+        self.tabWidget2.setCurrentIndex(3)
     def callSeqAlign(self):
         """
         Execute the sequence alignment pipeline and display progress.
@@ -394,8 +615,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
             update_progress(loading_screen, 2)
             QtWidgets.QApplication.processEvents()
 
-            geneticTrees = utils.geneticPipeline(alignements.msa)
-            trees = GeneticTrees(trees_dict=geneticTrees, format="newick")
+            self.geneticTrees = utils.geneticPipeline(alignements.msa)
+            self.trees = GeneticTrees(trees_dict=self.geneticTrees, format="newick")
             update_progress(loading_screen, 3)
             QtWidgets.QApplication.processEvents()
 
@@ -411,14 +632,14 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
             # Step 4: Save results
             alignements.save_to_json(f"./results/aligned_{Params.reference_gene_file}.json")
-            trees.save_trees_to_json("./results/geneticTrees.json")
+            self.trees.save_trees_to_json("./results/geneticTrees.json")
             update_progress(loading_screen, 5)
             QtWidgets.QApplication.processEvents()
             time.sleep(0.8)
         finally:
             loading_screen.close()
 
-        return geneticTrees
+        return self.geneticTrees
 
     def retrieveDataNames(self, list):
         """
@@ -435,13 +656,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             if data != list[0]:
                 names_to_retrieve.append(data)
         return names_to_retrieve
-
-    from decimal import Decimal
-    from PyQt5.QtWebEngineWidgets import QWebEngineView
-    import io
-    import folium
-    from PyQt5 import QtWidgets, QtGui
-    from PyQt5.QtWidgets import QFileDialog
 
     def pressItCSV(self):
         """
@@ -473,7 +687,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         if fullFilePath:
             update_yaml_param(Params, "params.yaml", "file_name", fullFilePath)
-
+            self.statisticsButtonPage2.setEnabled(True)
             with open(fullFilePath, "r") as c:
                 lines = c.readlines()
                 num_rows = len(lines)
@@ -521,7 +735,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 if loc and lat and long:
                     self.populateMap(lat, long)
 
-
     def populateMap(self, lat, long):
         """
         Create and display a folium map with given latitude and longitude.
@@ -550,55 +763,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         layout = QtWidgets.QVBoxLayout(self.graphicsViewClimData)
         layout.addWidget(web_view)
         self.graphicsViewClimData.setLayout(layout)
-
-    def showClimStatBarAllFact(self):
-        """
-        Generate a bar graph that includes every factor for every species.
-
-        This method processes the climatic factors for each species and generates a bar graph to visualize the distribution of climatic variables. It handles cases where the data is not available and updates the UI accordingly.
-
-        Raises:
-            AttributeError: If the factors attribute does not exist, an error message is displayed, and the UI is updated.
-        """
-        try:
-            print(self.factors)
-        except AttributeError:
-            self.textEditGenStats.setText("Valeurs non existantes, veuillez choisir un fichier !")
-            self.tabWidget.setCurrentIndex(3)
-
-        else:
-            self.tabWidget.setCurrentIndex(3)
-            self.factors[0] = [float(v) for v in self.factors[0]]
-            self.factors[1] = [float(v) for v in self.factors[1]]
-            self.factors[2] = [float(v) for v in self.factors[2]]
-            self.factors[3] = [float(v) for v in self.factors[3]]
-            self.factors[4] = [float(v) for v in self.factors[4]]
-
-            barWidth = 0.15
-            fig = plt.subplots(figsize=(15, 10))
-            br1 = np.arange(len(self.factors[0]))
-            br2 = [x + barWidth for x in br1]
-            br3 = [x + barWidth for x in br2]
-            br4 = [x + barWidth for x in br3]
-            br5 = [x + barWidth for x in br4]
-            plt.bar(br1, self.factors[0], color='black', width=barWidth,
-                    edgecolor='grey', label=self.species[0])
-            plt.bar(br2, self.factors[1], color='red', width=barWidth,
-                    edgecolor='grey', label=self.species[1])
-            plt.bar(br3, self.factors[2], color='green', width=barWidth,
-                    edgecolor='grey', label=self.species[2])
-            plt.bar(br4, self.factors[3], color='blue', width=barWidth,
-                    edgecolor='grey', label=self.species[3])
-            plt.bar(br5, self.factors[4], color='cyan', width=barWidth,
-                    edgecolor='grey', label=self.species[4])
-            plt.xlabel('COVID-19 Variant', fontweight='bold')
-            plt.ylabel("Climatic data", fontweight='bold')
-            plt.xticks([r + barWidth for r in range(len(self.factors[0]))],
-                       Params.data_names)
-            plt.yticks(np.arange(0, 30))
-            plt.title("Distribution of climatic variables for each COVID Variant")
-            plt.legend()
-            plt.show()
 
     def showHomePage(self):
         """
@@ -911,4 +1075,3 @@ if __name__ == "__main__":
 
     # Execute the application's event loop
     sys.exit(app.exec_())
-

@@ -110,6 +110,6 @@ class UiHowToUse(QMainWindow):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    window = HelpWindow()
+    window = UiHowToUse()
     window.show()
     sys.exit(app.exec_())

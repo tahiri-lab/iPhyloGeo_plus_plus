@@ -4,7 +4,7 @@ names: [id, ALLSKY_SFC_SW_DWN, T2M, QV2M, PRECTOTCORR, WS10M]
 bootstrap_threshold: 0
 dist_threshold: 60
 window_size: 200
-step_size: 100
+step_size: 500
 bootstrap_amount: 100
 data_names: [ALLSKY_SFC_SW_DWN, T2M, QV2M, PRECTOTCORR, WS10M]
 reference_gene_dir: F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets

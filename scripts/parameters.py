@@ -9,6 +9,7 @@ class UiDialog(object):
     selected_index = 0
 
     def setupUi(self, Dialog):
+
         Dialog.setObjectName("Dialog")
         Dialog.resize(431, 444)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
