@@ -528,8 +528,8 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="../../img/resources.qrc">
-       <normaloff>:/inactive/climatic.svg</normaloff>:/inactive/climatic.svg</iconset>
+      <iconset>
+       <normaloff>../../img/inactive/climaticData.svg</normaloff>../../img/inactive/climaticData.svg</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -547,10 +547,10 @@
     <widget class="QLabel" name="appLogo">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>271</width>
-       <height>81</height>
+       <x>0</x>
+       <y>0</y>
+       <width>291</width>
+       <height>91</height>
       </rect>
      </property>
      <property name="text">
@@ -721,7 +721,7 @@
      </sizepolicy>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="HomePage">
      <widget class="QFrame" name="HomeTab">
@@ -995,7 +995,7 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="currentIndex">
-        <number>3</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="GenTab1">
         <attribute name="title">
@@ -1293,8 +1293,8 @@ p, li { white-space: pre-wrap; }
         <string>Climatic Tree</string>
        </property>
        <property name="icon">
-        <iconset resource="../../img/resources.qrc">
-         <normaloff>:/disabled/climatic.svg</normaloff>:/disabled/climatic.svg</iconset>
+        <iconset>
+         <normaloff>../../img/inactive/climatic.svg</normaloff>../../img/inactive/climatic.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1424,7 +1424,7 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="currentIndex">
-        <number>3</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="ClimTab1">
         <attribute name="title">
@@ -1481,9 +1481,9 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>260</y>
+           <y>240</y>
            <width>931</width>
-           <height>251</height>
+           <height>271</height>
           </rect>
          </property>
         </widget>

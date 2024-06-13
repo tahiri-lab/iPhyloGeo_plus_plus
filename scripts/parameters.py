@@ -1,6 +1,7 @@
 import sys
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from aphylogeo.params import Params
 
 sys.path.append('..')
 
@@ -55,7 +56,7 @@ class UiDialog(object):
         self.spinBox_window.setMinimum(0)
         self.spinBox_window.setMaximum(1000)
         self.spinBox_window.setSingleStep(1)
-        self.spinBox_window.setProperty("value", aPhylo.userData.get_windowSize())  # userData.get_windowSize()
+        self.spinBox_window.setProperty("value", Params.window_size)  # userData.get_windowSize()
         self.spinBox_window.setObjectName("spinBox_window")
         self.gridLayout.addWidget(self.spinBox_window, 2, 1, 1, 1)
         self.comboBox = QtWidgets.QComboBox(self.groupBox)
@@ -77,7 +78,7 @@ class UiDialog(object):
         self.spinBox_step.setMinimum(0)
         self.spinBox_step.setMaximum(200)
         self.spinBox_step.setSingleStep(1)
-        self.spinBox_step.setProperty("value", aPhylo.userData.get_stepSize())  # userData.get_stepSize()
+        self.spinBox_step.setProperty("value", Params.window_size)  # userData.get_stepSize()
         self.spinBox_step.setObjectName("spinBox_step")
         self.gridLayout.addWidget(self.spinBox_step, 3, 1, 1, 1)
         self.label_4 = QtWidgets.QLabel(self.groupBox)
@@ -86,7 +87,7 @@ class UiDialog(object):
         self.gridLayout.addWidget(self.label_4, 3, 0, 1, 1)
         self.spinBox = QtWidgets.QSpinBox(self.groupBox)
         self.spinBox.setProperty("value",
-                                 aPhylo.userData.get_lsThreshold())  # userData.get_ls threshold /// metric_threshold?
+                                 Params.dist_threshold)  # userData.get_ls threshold /// metric_threshold?
         self.spinBox.setObjectName("spinBox")
         self.gridLayout.addWidget(self.spinBox, 6, 1, 1, 1)
         self.spinBox_bootstrap = QtWidgets.QSpinBox(self.groupBox)
@@ -94,7 +95,7 @@ class UiDialog(object):
         self.spinBox_bootstrap.setMaximum(1000)
         self.spinBox_bootstrap.setSingleStep(1)
         self.spinBox_bootstrap.setProperty("value",
-                                           aPhylo.userData.get_bootstrapThreshold())  # userData.get_bootstrapValue()
+                                           Params.bootstrap_threshold)  # userData.get_bootstrapValue()
         self.spinBox_bootstrap.setObjectName("spinBox_bootstrap")
         self.gridLayout.addWidget(self.spinBox_bootstrap, 0, 1, 1, 1)
         self.cancel_button = QtWidgets.QPushButton(Dialog)
@@ -132,10 +133,10 @@ class UiDialog(object):
         step_size = self.spinBox_step.value()
         bootstrap_value = self.spinBox_bootstrap.value()
         metric_threshold = self.spinBox.value()
-        aPhylo.userData.set_windowSize(window_size)
-        aPhylo.userData.set_stepSize(step_size)
-        aPhylo.userData.set_bootstrapThreshold(bootstrap_value)
-        aPhylo.userData.set_lsThreshold(metric_threshold)
+        Params.window_size = (window_size)
+        Params.window_size = (step_size)
+        Params.window_size = (bootstrap_value)
+        Params.window_size = (metric_threshold)
 
     def comboBoxSelected(self, index):
         if index != 0:

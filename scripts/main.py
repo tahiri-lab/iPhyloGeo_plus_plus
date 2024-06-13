@@ -2,7 +2,6 @@ import time
 import io
 import re
 import sys
-import time
 from decimal import Decimal
 import resources_rc
 import folium
@@ -11,22 +10,21 @@ import numpy as np
 import qtmodern.styles
 import qtmodern.windows
 import pandas as pd
-from PyQt5 import QtCore, QtGui
-from PyQt5.QtCore import Qt
 from aphylogeo import utils
 from aphylogeo.alignement import AlignSequences
 from aphylogeo.genetic_trees import GeneticTrees
 from aphylogeo.params import Params
-
 from help import UiHowToUse
 from parameters import UiDialog
+
 from PyQt5 import QtWidgets, uic
-import qtmodern.styles
-import qtmodern.windows
+from PyQt5 import QtCore, QtGui
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QIcon, QColor, QPixmap, QImage
+from PyQt5.QtWidgets import QFileDialog, QGraphicsDropShadowEffect, QGraphicsScene, QGraphicsView, QApplication, QMainWindow
+
+
 import UserConfig
-from PyQt5.QtGui import QIcon, QColor
-from PyQt5.QtWidgets import QFileDialog, QGraphicsDropShadowEffect
-from PyQt5.QtWebEngineWidgets import QWebEngineView
 Params.load_from_file("params.yaml")
 Params.load_from_file("params.yaml")
 userData = UserConfig.DataConfig()  # object used to store parameters provided by user
@@ -96,7 +94,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.statisticsButtonPage2.clicked.connect(self.showClimStatBarAllFact)
         self.resultsButtonPage2.clicked.connect(self.showResultsPage)
 
-        self.settingsButtonPage4.clicked.connect(self.paramWin)
+        self.settingsButtonPage3.clicked.connect(self.paramWin)
         self.submitButtonPage3.clicked.connect(self.showFilteredResults)
         self.clearButtonPage4.clicked.connect(self.clearResult)
         self.statisticsButtonPage4.clicked.connect(self.showResultsStatsPage)
@@ -351,37 +349,42 @@ class UiMainWindow(QtWidgets.QMainWindow):
             if data != list[0]:
                 names_to_retrieve.append(data)
         return names_to_retrieve
-
+    
     def populateMap(self, lat, long):
-        '''
-        Create folium map
-        Args:
-         lat (latitude), long (longitude)
-        '''
-        mean_lat = 0
-        mean_long = 0
-        for y in lat:
-            mean_lat = mean_lat + Decimal(y)
-        mean_lat = mean_lat / len(lat)
-        for x in long:
-            mean_long = mean_long + Decimal(x)
-        mean_long = mean_long / len(long)
-        m = folium.Map(location=[mean_lat, mean_long],
-                       zoom_start=14,
-                       tiles="OpenStreetMap")
-        i = 0
-        while i < len(lat):
+        mean_lat = sum(Decimal(y) for y in lat) / len(lat)
+        mean_long = sum(Decimal(x) for x in long) / len(long)
+
+        m = folium.Map(location=[mean_lat, mean_long], zoom_start=14, tiles="OpenStreetMap")
+        for i in range(len(lat)):
             folium.Marker([Decimal(lat[i]), Decimal(long[i])]).add_to(m)
-            i = i + 1
-        # m.save('m.html')                  #folium map does not appear correctly on MAC with webbrowser.open(),
-        # web browser.open('m.html')         #but it does not appear correctly on Linux with webview.show()
-        # will have to be fixed
+
+        # Save the map to HTML and render it to an image
         data = io.BytesIO()
         m.save(data, close_file=False)
+        html = data.getvalue().decode()
+
+        # Use a temporary file to store the HTML content
+        temp_file_path = 'temp_map.html'
+        with open(temp_file_path, 'w') as f:
+            f.write(html)
+
+        # Load the HTML file in QWebEngineView and capture as an image
+        from PyQt5.QtWebEngineWidgets import QWebEngineView
         self.webview = QWebEngineView()
-        self.webview.setWindowTitle("Climate Map")
         self.webview.setHtml(data.getvalue().decode())
-        self.webview.show()
+        self.webview.loadFinished.connect(self.capture_image)
+
+    def capture_image(self):
+        self.webview.page().grab().then(self.display_image)
+
+    def display_image(self, image):
+        qimage = QImage(image)
+        pixmap = QPixmap.fromImage(qimage)
+
+        scene = QGraphicsScene()
+        scene.addPixmap(pixmap)
+
+        self.graphicsViewClimData.setScene(scene)
 
     def pressItCSV(self):
         '''
@@ -392,8 +395,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
         options = QFileDialog.Options()
         options |= QFileDialog.ReadOnly
         fileName, _ = QFileDialog.getOpenFileName(None, "Select CSV file", "../datasets",
-                                                  "Comma Separated Values (*.csv)",
-                                                  options=options)
+                                                "Comma Separated Values (*.csv)",
+                                                options=options)
 
         if fileName:
             userData.set_fileName(fileName)
@@ -404,11 +407,11 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 lat = []
                 long = []
                 self.species = []
-                self.factors = [[], [], [], [], []]
+                self.factors = []
                 loc = False
                 num_columns = len(first_line)
                 if first_line[len(first_line) - 2] == 'LAT':
-                    first_line_without_loc = first_line
+                    first_line_without_loc = first_line[:]
                     first_line_without_loc.pop(len(first_line_without_loc) - 1)
                     first_line_without_loc.pop(len(first_line_without_loc) - 1)
                     clim_data_names = self.retrieveDataNames(first_line_without_loc)
@@ -419,6 +422,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
                     clim_data_names = self.retrieveDataNames(first_line)
                     userData.set_names(first_line)
                     userData_align.set_names(first_line)
+
                 userData.set_dataNames(clim_data_names)
                 userData_align.set_dataNames(clim_data_names)
                 self.textEditClimData.clear()
@@ -428,37 +432,53 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 fmt.setWidth(QtGui.QTextLength(QtGui.QTextLength.PercentageLength, 98))
                 clim_data_table.setFormat(fmt)
                 format = QtGui.QTextCharFormat()
-                format.setForeground(QtGui.QColor('#006400'))
-                i = 0
-                for line in lines:
+
+                table_format = clim_data_table.format()
+                table_format.setBorder(1.5)  # Set border width
+                table_format.setBorderBrush(QtGui.QBrush(QtGui.QColor("gray")))  # Set border color
+                clim_data_table.setFormat(table_format)
+
+                # Create a QTextBlockFormat for center alignment
+                center_format = QtGui.QTextBlockFormat()
+                center_format.setAlignment(QtCore.Qt.AlignCenter)
+                
+                header_format = QtGui.QTextCharFormat()
+                header_format.setFontWeight(QtGui.QFont.Bold)
+
+
+                for i, line in enumerate(lines):
                     line_split = line.split(",")
-                    if line != lines[0] and loc == True:
-                        lat.append(line_split[len(line_split) - 2])
-                        long.append(line_split[len(line_split) - 1])
+                    if line != lines[0]:
+                        line_data = []
                         self.species.append(line_split[0])
-                        for j in [1, 2, 3, 4, 5]:
-                            self.factors[i].append(line_split[j])
-                        i += 1
-                    if line != lines[0] and loc == False:
-                        self.species.append(line_split[0])
-                        for j in [1, 2, 3, 4, 5]:
-                            self.factors[i].append(line_split[j])
-                        i += 1
-                    for value in line_split:
-                        if line == lines[0]:
-                            cursor.setCharFormat(format)
+                        for j in range(1, len(line_split) - (2 if loc else 0)):
+                            line_data.append(line_split[j])
+                        self.factors.append(line_data)
+
+                        if loc:
+                            lat.append(line_split[len(line_split) - 2])
+                            long.append(line_split[len(line_split) - 1])
+
+                    for j, value in enumerate(line_split):
+                        if i == 0:  # If it's the first line, apply center alignment and bold format
+                            cursor.setBlockFormat(center_format)
+                            cursor.setCharFormat(header_format)  # Apply bold and black color format to header
+                        else:
+                            cursor.setCharFormat(format)  # Apply black color format to all text
                         if re.search("^[0-9\\-]*\\.[0-9]*", value) is not None:
                             cursor.insertText(str(round(Decimal(value), 3)))
-                            cursor.movePosition(QtGui.QTextCursor.NextCell)
                         else:
                             cursor.insertText(value)
-                            cursor.movePosition(QtGui.QTextCursor.NextCell)
-                if loc == True:
+                        cursor.movePosition(QtGui.QTextCursor.NextCell)
+
+                if loc:
                     self.populateMap(lat, long)
+
                 self.child_window = QtWidgets.QMainWindow()
                 self.ui = UiHowToUse()
                 self.ui.setupUi(self.child_window)
                 self.child_window.setWindowModality(QtCore.Qt.NonModal)
+            
         self.tabWidget2.setCurrentIndex(1)
         self.resultsButtonPage2.setEnabled(True)
         self.resultsButtonPage2.setIcon(QIcon(":inactive/result.svg"))
@@ -512,18 +532,18 @@ class UiMainWindow(QtWidgets.QMainWindow):
             plt.show()
 
     def showHomePage(self):
-        self.climaticDataButton.setIcon(QIcon(":inactive/climatic.svg"))
+        self.climaticDataButton.setIcon(QIcon("../img/inactive/climaticData.svg"))
         self.geneticDataButton.setIcon(QIcon(":inactive/genetic.svg"))
         self.stackedWidget.setCurrentIndex(0)
 
     def showGenDatPage(self):
-        self.climaticDataButton.setIcon(QIcon(":inactive/climatic.svg"))
+        self.climaticDataButton.setIcon(QIcon("../img/inactive/climaticData.svg"))
         self.geneticDataButton.setIcon(QIcon(":active/genetic.svg"))
         self.stackedWidget.setCurrentIndex(1)
         self.tabWidget.setCurrentIndex(0)
         
     def showClimDatPage(self):
-        self.climaticDataButton.setIcon(QIcon(":active/climatic.svg"))
+        self.climaticDataButton.setIcon(QIcon("../img/active/climaticData.png"))
         self.geneticDataButton.setIcon(QIcon(":inactive/genetic.svg"))
         self.stackedWidget.setCurrentIndex(2)
         self.tabWidget2.setCurrentIndex(0)
@@ -585,6 +605,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
         
         if self.isDarkMode:
             qtmodern.styles.dark(app)
+            header_format = QtGui.QTextCharFormat()
+            header_format.setForeground(QtGui.QColor('white'))
             self.darkModeButton.setIcon(QIcon(":other/light.png"))  # Set the 'light' icon for dark mode
             self.darkModeButton.setCursor(Qt.PointingHandCursor)
             self.darkModeButton.setStyleSheet("""
