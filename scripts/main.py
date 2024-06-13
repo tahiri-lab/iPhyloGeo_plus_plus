@@ -4,7 +4,7 @@ import sys
 from decimal import Decimal
 import resources_rc
 import re
-
+import parameters
 import folium
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -27,8 +27,6 @@ from aphylogeo.params import Params
 
 from help import UiHowToUse
 from parameters import UiDialog
-
-Params.load_from_file("params.yaml")
 
 
 class MyDumper(yaml.Dumper):
@@ -136,10 +134,10 @@ class UiMainWindow(QtWidgets.QMainWindow):
         Initialize and display the parameters window.
         This method creates a new QMainWindow instance, sets up its UI using the UiDialog class, and displays the window.
         """
-        self.window = QtWidgets.QMainWindow()
-        self.ui = UiDialog()
-        self.ui.setupUi(self.window)
-        self.window.show()
+        dialog = QtWidgets.QDialog()
+        ui = UiDialog()
+        ui.setupUi(dialog)
+        dialog.exec_()
 
     def openClimTree(self):
         """
@@ -193,7 +191,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.submitButtonPage3.clicked.connect(self.showFilteredResults)
         self.clearButtonPage4.clicked.connect(self.clearResult)
         self.statisticsButtonPage4.clicked.connect(self.showResultsStatsPage)
-
         self.clearButtonPage4.clicked.connect(self.clearResultStat)
 
         self.stackedWidget.setCurrentIndex(0)
@@ -221,7 +218,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
                     padding: 10px 20px;
                     font-weight: bold;
                     background-color: #DEDDDA;
-                    border-radius: 14px;
+                    border-radius: 20px;
                     transition: background-color 0.3s ease; /* Add transition */
                 }
                 QPushButton:hover {
@@ -468,7 +465,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             pixmap = QtGui.QPixmap(image_path)
             self.textEditGenStats_2.setPixmap(pixmap)
             self.textEditGenStats_2.setAlignment(QtCore.Qt.AlignCenter)
-
     def pressItFasta(self):
         """
         Open a dialog to select a FASTA file, update parameters, and display the content with color-coded sequences.
@@ -618,8 +614,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
             update_progress(loading_screen, 2)
             QtWidgets.QApplication.processEvents()
 
-            self.geneticTrees = utils.geneticPipeline(alignements.msa)
-            self.trees = GeneticTrees(trees_dict=self.geneticTrees, format="newick")
+            geneticTrees = utils.geneticPipeline(alignements.msa)
+            trees = GeneticTrees(trees_dict=geneticTrees, format="newick")
             update_progress(loading_screen, 3)
             QtWidgets.QApplication.processEvents()
 
@@ -635,15 +631,14 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
             # Step 4: Save results
             alignements.save_to_json(f"./results/aligned_{Params.reference_gene_file}.json")
-            self.trees.save_trees_to_json("./results/geneticTrees.json")
+            trees.save_trees_to_json("./results/geneticTrees.json")
             update_progress(loading_screen, 5)
             QtWidgets.QApplication.processEvents()
             time.sleep(0.8)
         finally:
             loading_screen.close()
 
-        return self.geneticTrees
-
+        return geneticTrees
     def retrieveDataNames(self, list):
         """
         Retrieve data from a list, excluding the first element.

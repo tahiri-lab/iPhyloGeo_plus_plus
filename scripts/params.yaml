@@ -3,16 +3,16 @@ specimen: id
 names: [id, ALLSKY_SFC_SW_DWN, T2M, QV2M, PRECTOTCORR, WS10M]
 bootstrap_threshold: 0
 dist_threshold: 60
-window_size: 200
-step_size: 500
-bootstrap_amount: 100
+window_size: 99
+step_size: 99
+bootstrap_amount: 99
 data_names: [ALLSKY_SFC_SW_DWN, T2M, QV2M, PRECTOTCORR, WS10M]
 reference_gene_dir: F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets
 reference_gene_file: small_seq.fasta
 makeDebugFiles: true
 alignment_method: '3'
-distance_method: '2'
+distance_method: 2
 fit_method: '2'
-tree_type: '1'
+tree_type: '444'
 rate_similarity: 50
 method_similarity: '1'
