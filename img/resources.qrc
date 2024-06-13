@@ -5,19 +5,22 @@
         <file>active/result.svg</file>
         <file>active/sequence.svg</file>
         <file>active/settings.svg</file>
+        <file>active/climaticData.png</file>
         <file>active/statistics.svg</file>
         <file>active/submit.svg</file>
         <file>active/tree.svg</file>
         <file>active/home.png</file>
-        <file>disabled/climatic.svg</file>
+        <file>inactive/climatic.svg</file>
         <file>disabled/genetic.svg</file>
         <file>disabled/result.svg</file>
         <file>disabled/sequence.svg</file>
         <file>disabled/settings.svg</file>
+        <file>disabled/climaticData.svg</file>
         <file>disabled/statistics.svg</file>
         <file>disabled/submit.svg</file>
         <file>disabled/tree.svg</file>
         <file>inactive/climatic.svg</file>
+        <file>inactive/climaticData.svg</file>
         <file>inactive/genetic.svg</file>
         <file>inactive/result.svg</file>
         <file>inactive/sequence.svg</file>
@@ -25,7 +28,7 @@
         <file>inactive/statistics.svg</file>
         <file>inactive/submit.svg</file>
         <file>inactive/tree.svg</file>
-        <file>other/aPhylogeo.svg</file>
+        <file>other/Logo_decoupe.png</file>
         <file>other/Browse.svg</file>
         <file>other/erase.svg</file>
         <file>other/help.svg</file>

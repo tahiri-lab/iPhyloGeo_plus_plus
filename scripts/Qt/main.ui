@@ -559,7 +559,7 @@
      </property>
      <property name="icon">
       <iconset resource="../../img/resources.qrc">
-       <normaloff>:/inactive/climatic.svg</normaloff>:/inactive/climatic.svg</iconset>
+       <normaloff>:/inactive/climaticData.svg</normaloff>:/inactive/climaticData.svg</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -1402,7 +1402,7 @@ p, li { white-space: pre-wrap; }
        </property>
        <property name="icon">
         <iconset resource="../../img/resources.qrc">
-         <normaloff>:/disabled/climatic.svg</normaloff>:/disabled/climatic.svg</iconset>
+         <normaloff>:/inactive/climatic.svg</normaloff>:/inactive/climatic.svg</iconset>
        </property>
        <property name="iconSize">
         <size>

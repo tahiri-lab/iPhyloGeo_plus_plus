@@ -3,7 +3,8 @@ import os
 import sys
 from decimal import Decimal
 import resources_rc
-from PyQt5.QtGui import QPixmap
+import re
+
 import folium
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -16,9 +17,9 @@ from Bio import SeqIO
 from PyQt5 import QtCore, QtGui
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QIcon, QColor
+from PyQt5.QtGui import QIcon, QColor, QPixmap, QImage
 from PyQt5.QtWebEngineWidgets import QWebEngineView
-from PyQt5.QtWidgets import QFileDialog, QGraphicsDropShadowEffect
+from PyQt5.QtWidgets import QFileDialog, QGraphicsDropShadowEffect, QGraphicsScene
 from aphylogeo import utils
 from aphylogeo.alignement import AlignSequences
 from aphylogeo.genetic_trees import GeneticTrees
@@ -26,6 +27,8 @@ from aphylogeo.params import Params
 
 from help import UiHowToUse
 from parameters import UiDialog
+
+Params.load_from_file("params.yaml")
 
 
 class MyDumper(yaml.Dumper):
@@ -186,7 +189,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.resultsButtonPage2.clicked.connect(self.showResultsPage)
         self.GenStatsList.currentIndexChanged.connect(self.displayGeneticStats)
         self.diagramsComboBox.currentIndexChanged.connect(self.displayGeneticStats)
-        self.settingsButtonPage4.clicked.connect(self.paramWin)
+        self.settingsButtonPage3.clicked.connect(self.paramWin)
         self.submitButtonPage3.clicked.connect(self.showFilteredResults)
         self.clearButtonPage4.clicked.connect(self.clearResult)
         self.statisticsButtonPage4.clicked.connect(self.showResultsStatsPage)
@@ -524,7 +527,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 self.statisticsButtonPage1.setIcon(QIcon(":inactive/statistics.svg"))
                 self.sequenceAlignmentButtonPage1.setIcon(QIcon(":inactive/sequence.svg"))
 
-
     def SeqAlign(self):
         """
         Perform sequence alignment and store the resulting genetic tree dictionary.
@@ -566,6 +568,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         pixmap = QPixmap('chart.png')
         self.ClimaticChart.setPixmap(pixmap)
         self.tabWidget2.setCurrentIndex(3)
+
     def callSeqAlign(self):
         """
         Execute the sequence alignment pipeline and display progress.
@@ -657,6 +660,42 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 names_to_retrieve.append(data)
         return names_to_retrieve
 
+    def populateMap(self, lat, long):
+        mean_lat = sum(Decimal(y) for y in lat) / len(lat)
+        mean_long = sum(Decimal(x) for x in long) / len(long)
+
+        m = folium.Map(location=[mean_lat, mean_long], zoom_start=14, tiles="OpenStreetMap")
+        for i in range(len(lat)):
+            folium.Marker([Decimal(lat[i]), Decimal(long[i])]).add_to(m)
+
+        # Save the map to HTML and render it to an image
+        data = io.BytesIO()
+        m.save(data, close_file=False)
+        html = data.getvalue().decode()
+
+        # Use a temporary file to store the HTML content
+        temp_file_path = 'temp_map.html'
+        with open(temp_file_path, 'w') as f:
+            f.write(html)
+
+        # Load the HTML file in QWebEngineView and capture as an image
+        from PyQt5.QtWebEngineWidgets import QWebEngineView
+        self.webview = QWebEngineView()
+        self.webview.setHtml(data.getvalue().decode())
+        self.webview.loadFinished.connect(self.capture_image)
+
+    def capture_image(self):
+        self.webview.page().grab().then(self.display_image)
+
+    def display_image(self, image):
+        qimage = QImage(image)
+        pixmap = QPixmap.fromImage(qimage)
+
+        scene = QGraphicsScene()
+        scene.addPixmap(pixmap)
+
+        self.graphicsViewClimData.setScene(scene)
+
     def pressItCSV(self):
         """
         Retrieve data from a climatic file and display it in a table.
@@ -714,27 +753,46 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 fmt.setWidth(QtGui.QTextLength(QtGui.QTextLength.PercentageLength, 98))
                 clim_data_table.setFormat(fmt)
                 format = QtGui.QTextCharFormat()
-                format.setForeground(QtGui.QColor('#006400'))
-                self.tabWidget2.setCurrentIndex(1)
+
+                table_format = clim_data_table.format()
+                table_format.setBorder(1.5)  # Set border width
+                table_format.setBorderBrush(QtGui.QBrush(QtGui.QColor("gray")))  # Set border color
+                clim_data_table.setFormat(table_format)
+
+                # Create a QTextBlockFormat for center alignment
+                center_format = QtGui.QTextBlockFormat()
+                center_format.setAlignment(QtCore.Qt.AlignCenter)
+
+                header_format = QtGui.QTextCharFormat()
+                header_format.setFontWeight(QtGui.QFont.Bold)
+
                 for i, line in enumerate(lines):
                     line_split = line.split(",")
-                    for value in line_split:
-                        if i == 0:
-                            cursor.setCharFormat(format)
-                        cursor.insertText(value.strip())
-                        cursor.movePosition(QtGui.QTextCursor.NextCell)
-                    if i > 0 and loc:
-                        lat_value = line_split[-2].strip()
-                        long_value = line_split[-1].strip()
-                        if is_valid_decimal(lat_value) and is_valid_decimal(long_value):
-                            lat.append(Decimal(lat_value))
-                            long.append(Decimal(long_value))
-                        else:
-                            print(f"Invalid coordinate data at row {i}: {lat_value}, {long_value}")
+                    if line != lines[0]:
+                        line_data = []
+                        self.species.append(line_split[0])
+                        for j in range(1, len(line_split) - (2 if loc else 0)):
+                            line_data.append(line_split[j])
+                        self.factors.append(line_data)
 
+                        if loc:
+                            lat.append(line_split[len(line_split) - 2])
+                            long.append(line_split[len(line_split) - 1])
+
+                    for j, value in enumerate(line_split):
+                        if i == 0:  # If it's the first line, apply center alignment and bold format
+                            cursor.setBlockFormat(center_format)
+                            cursor.setCharFormat(header_format)  # Apply bold and black color format to header
+                        else:
+                            cursor.setCharFormat(format)  # Apply black color format to all text
+                        if re.search("^[0-9\\-]*\\.[0-9]*", value) is not None:
+                            cursor.insertText(str(round(Decimal(value), 3)))
+                        else:
+                            cursor.insertText(value)
+                        cursor.movePosition(QtGui.QTextCursor.NextCell)
+                        self.tabWidget2.setCurrentIndex(1)
                 if loc and lat and long:
                     self.populateMap(lat, long)
-
     def populateMap(self, lat, long):
         """
         Create and display a folium map with given latitude and longitude.
@@ -770,10 +828,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         This method sets the icons for the climatic data and genetic data buttons to their inactive states and displays the home page by setting the stacked widget's current index to 0.
         """
-        self.climaticDataButton.setIcon(QIcon(":inactive/climatic.svg"))
+        self.climaticDataButton.setIcon(QIcon(":inactive/climaticData.svg"))
         self.geneticDataButton.setIcon(QIcon(":inactive/genetic.svg"))
         self.homeButton.setIcon(QIcon(":active/home.png"))
-
         self.stackedWidget.setCurrentIndex(0)
 
     def showGenDatPage(self):
@@ -782,7 +839,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         This method sets the icons for the climatic data and genetic data buttons, displays the genetic data page by setting the stacked widget's current index to 1, and sets the tab widget's current index to 0.
         """
-        self.climaticDataButton.setIcon(QIcon(":inactive/climatic.svg"))
+        self.climaticDataButton.setIcon(QIcon(":inactive/climaticData.svg"))
         self.geneticDataButton.setIcon(QIcon(":active/genetic.svg"))
         self.homeButton.setIcon(QIcon(":other/home.svg"))
         self.stackedWidget.setCurrentIndex(1)
@@ -794,7 +851,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         This method sets the icons for the climatic data and genetic data buttons, displays the climatic data page by setting the stacked widget's current index to 2, and sets the tab widget's current index to 0.
         """
-        self.climaticDataButton.setIcon(QIcon(":active/climatic.svg"))
+        self.climaticDataButton.setIcon(QIcon(":active/climaticData.png"))
         self.geneticDataButton.setIcon(QIcon(":inactive/genetic.svg"))
         self.homeButton.setIcon(QIcon(":other/home.svg"))
         self.stackedWidget.setCurrentIndex(2)
@@ -895,7 +952,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.geneticDataButton.setStyleSheet("background-color: #838383;")
             self.climaticDataButton.setStyleSheet("background-color: #838383;")
             self.helpButton.setStyleSheet("background-color: #838383;")
-
             self.darkModeButton.setIcon(QIcon(":other/light.png"))  # Set the 'light' icon for dark mode
             self.darkModeButton.setCursor(Qt.PointingHandCursor)
             self.darkModeButton.setStyleSheet("""
