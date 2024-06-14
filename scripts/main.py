@@ -1,5 +1,20 @@
 import io
+import sys
+import pandas as pd
+import matplotlib.pyplot as plt
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QComboBox, QPushButton, QRadioButton
+from PyQt5.QtGui import QPixmap
+from PyQt5 import uic, QtWidgets
+from io import BytesIO
+import yaml
 import os
+import time
+from PyQt5 import QtCore
+import pandas as pd
+from aphylogeo.alignement import AlignSequences
+from aphylogeo.params import Params
+from aphylogeo import utils
+from aphylogeo.genetic_trees import GeneticTrees
 import sys
 from decimal import Decimal
 import resources_rc
@@ -20,7 +35,6 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon, QColor, QPixmap, QImage
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QFileDialog, QGraphicsDropShadowEffect, QGraphicsScene
-from aphylogeo import utils
 from aphylogeo.alignement import AlignSequences
 from aphylogeo.genetic_trees import GeneticTrees
 from aphylogeo.params import Params
@@ -181,12 +195,11 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.clearButtonPage2.clicked.connect(self.clearClim)
         self.climaticTreeButtonPage2.clicked.connect(self.openClimTree)
         self.fileBrowserButtonPage2.clicked.connect(self.pressItCSV)
-        self.statisticsButtonPage2.clicked.connect(self.update_climate_chart)
-        self.ClimStatsListCondition.currentIndexChanged.connect(self.update_climate_chart)
-        self.ClimStatsListChart.currentIndexChanged.connect(self.update_climate_chart)
+        self.statisticsButtonPage2.clicked.connect(self.load_data)
         self.resultsButtonPage2.clicked.connect(self.showResultsPage)
         self.GenStatsList.currentIndexChanged.connect(self.displayGeneticStats)
         self.diagramsComboBox.currentIndexChanged.connect(self.displayGeneticStats)
+        self.CreateGraphButton.clicked.connect(self.generate_graph)
         self.settingsButtonPage3.clicked.connect(self.paramWin)
         self.submitButtonPage3.clicked.connect(self.showFilteredResults)
         self.clearButtonPage4.clicked.connect(self.clearResult)
@@ -391,6 +404,42 @@ class UiMainWindow(QtWidgets.QMainWindow):
         os.makedirs(output_dir, exist_ok=True)
         plt.savefig(os.path.join(output_dir, "codon_usage.png"), bbox_inches='tight')
         plt.close()
+
+    def load_data(self):
+        # Load the data without the first column
+        self.data = pd.read_csv(Params.file_name, usecols=lambda column: column != 'id')
+        self.columns = self.data.columns
+        self.ClimaticChartSettingsAxisX.addItems(self.columns)
+        self.ClimaticChartSettingsAxisY.addItems(self.columns)
+        self.tabWidget2.setCurrentIndex(3)
+
+    def generate_graph(self):
+        x_data = self.ClimaticChartSettingsAxisX.currentText()
+        y_data = self.ClimaticChartSettingsAxisY.currentText()
+
+        fig, ax = plt.subplots(figsize=(5.2, 5))  # Set figure size to 520x500 pixels (each inch is 100 pixels)
+
+        if self.radioButtonBarGraph.isChecked():
+            plot_type = 'Bar Graph'
+            self.data.plot(kind='bar', x=x_data, y=y_data, ax=ax)
+        elif self.radioButtonScatterPlot.isChecked():
+            plot_type = 'Scatter Plot'
+            self.data.plot(kind='scatter', x=x_data, y=y_data, ax=ax)
+        elif self.radioButtonLinePlot.isChecked():
+            plot_type = 'Line Plot'
+            self.data.plot(kind='line', x=x_data, y=y_data, ax=ax)
+        elif self.radioButtonPiePlot.isChecked():
+            plot_type = 'Pie Plot'
+            self.data.set_index(x_data).plot(kind='pie', y=y_data, ax=ax)
+
+
+        buf = BytesIO()
+        plt.savefig(buf, format='png')
+        buf.seek(0)
+        pixmap = QPixmap()
+        pixmap.loadFromData(buf.getvalue())
+        self.tabWidget2.setCurrentIndex(3)
+        self.ClimaticChart_2.setPixmap(pixmap)
 
     def displayGeneticStats(self):
         species_name = self.GenStatsList.currentText()
@@ -799,6 +848,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
             lat (list): List of latitudes.
             long (list): List of longitudes.
         """
+        lat = [float(x) for x in lat]  # Convert all elements in lat to float
+        long = [float(x) for x in long]  # Convert all elements in long to float
+
         mean_lat = sum(lat) / len(lat)
         mean_long = sum(long) / len(long)
 
