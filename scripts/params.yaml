@@ -1,4 +1,4 @@
-file_name: F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets/geo.csv
+file_name: C:/Users/cuchet/Desktop/Stage Canada/Projet/iPhyloGeo_plus_plus/datasets/geo_with_loc.csv
 specimen: id
 names: [id, ALLSKY_SFC_SW_DWN, T2M, QV2M, PRECTOTCORR, WS10M]
 bootstrap_threshold: 0
@@ -7,7 +7,7 @@ window_size: 99
 step_size: 99
 bootstrap_amount: 99
 data_names: [ALLSKY_SFC_SW_DWN, T2M, QV2M, PRECTOTCORR, WS10M]
-reference_gene_dir: F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets
+reference_gene_dir: C:/Users/cuchet/Desktop/Stage Canada/Projet/iPhyloGeo_plus_plus/datasets
 reference_gene_file: small_seq.fasta
 makeDebugFiles: true
 alignment_method: '3'

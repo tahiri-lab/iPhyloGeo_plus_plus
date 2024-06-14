@@ -238,7 +238,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             buttonV.setCursor(Qt.PointingHandCursor)
             buttonV.setStyleSheet("""
                 QPushButton {
-                    border-radius: 14px;
+                    border-radius: 20px;
                     background-color: #EEEEEE;
                     padding: 10px 20px;
                     font-weight: bold;
@@ -264,7 +264,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
                     padding: 10px 20px;
                     font-weight: bold;
                     background-color: #DEDDDA;
-                    border-radius: 14px;
+                    border-radius: 20px;
                     transition: background-color 0.3s ease; /* Add transition */
                 }
                 QPushButton:hover {

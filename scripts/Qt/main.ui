@@ -189,15 +189,6 @@
          </color>
         </brush>
        </colorrole>
-       <colorrole role="PlaceholderText">
-        <brush brushstyle="NoBrush">
-         <color alpha="128">
-          <red>0</red>
-          <green>0</green>
-          <blue>0</blue>
-         </color>
-        </brush>
-       </colorrole>
       </active>
       <inactive>
        <colorrole role="WindowText">
@@ -335,15 +326,6 @@
          </color>
         </brush>
        </colorrole>
-       <colorrole role="PlaceholderText">
-        <brush brushstyle="NoBrush">
-         <color alpha="128">
-          <red>0</red>
-          <green>0</green>
-          <blue>0</blue>
-         </color>
-        </brush>
-       </colorrole>
       </inactive>
       <disabled>
        <colorrole role="WindowText">
@@ -475,15 +457,6 @@
        <colorrole role="ToolTipText">
         <brush brushstyle="SolidPattern">
          <color alpha="255">
-          <red>0</red>
-          <green>0</green>
-          <blue>0</blue>
-         </color>
-        </brush>
-       </colorrole>
-       <colorrole role="PlaceholderText">
-        <brush brushstyle="NoBrush">
-         <color alpha="128">
           <red>0</red>
           <green>0</green>
           <blue>0</blue>
@@ -751,7 +724,7 @@
      </sizepolicy>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="HomePage">
      <widget class="QFrame" name="HomeTab">
@@ -1822,29 +1795,295 @@ p, li { white-space: pre-wrap; }
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLabel" name="ClimaticChart">
+         <widget class="QLabel" name="ClimaticChartSetings">
           <property name="geometry">
            <rect>
-            <x>0</x>
-            <y>110</y>
-            <width>911</width>
+            <x>30</x>
+            <y>90</y>
+            <width>340</width>
             <height>391</height>
            </rect>
           </property>
           <property name="minimumSize">
            <size>
-            <width>911</width>
+            <width>340</width>
             <height>391</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>911</width>
+            <width>340</width>
             <height>391</height>
            </size>
           </property>
           <property name="text">
            <string/>
+          </property>
+         </widget>
+         <widget class="QLabel" name="ClimaticChart_2">
+          <property name="geometry">
+           <rect>
+            <x>390</x>
+            <y>90</y>
+            <width>520</width>
+            <height>391</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>520</width>
+            <height>391</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>520</width>
+            <height>391</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+         <widget class="QLabel" name="ClimaticChartSetingsTitle">
+          <property name="geometry">
+           <rect>
+            <x>50</x>
+            <y>90</y>
+            <width>301</width>
+            <height>51</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+           </font>
+          </property>
+          <property name="whatsThis">
+           <string/>
+          </property>
+          <property name="text">
+           <string>Generate your Graph</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+         <widget class="QLabel" name="ClimaticChartSetingsTextAxisX">
+          <property name="geometry">
+           <rect>
+            <x>120</x>
+            <y>150</y>
+            <width>161</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="whatsThis">
+           <string/>
+          </property>
+          <property name="text">
+           <string>Insert X axis data</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="ClimaticChartSetingsAxisX">
+          <property name="geometry">
+           <rect>
+            <x>40</x>
+            <y>180</y>
+            <width>321</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="editable">
+           <bool>false</bool>
+          </property>
+          <property name="insertPolicy">
+           <enum>QComboBox::InsertAtBottom</enum>
+          </property>
+          <property name="sizeAdjustPolicy">
+           <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
+          </property>
+          <property name="frame">
+           <bool>true</bool>
+          </property>
+         </widget>
+         <widget class="QLabel" name="ClimaticChartSetingsTextAxisY">
+          <property name="geometry">
+           <rect>
+            <x>120</x>
+            <y>230</y>
+            <width>161</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="whatsThis">
+           <string/>
+          </property>
+          <property name="text">
+           <string>Insert Y axis data</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="ClimaticChartSetingsAxisY">
+          <property name="geometry">
+           <rect>
+            <x>40</x>
+            <y>260</y>
+            <width>321</width>
+            <height>30</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="editable">
+           <bool>false</bool>
+          </property>
+          <property name="frame">
+           <bool>true</bool>
+          </property>
+         </widget>
+         <widget class="QRadioButton" name="radioButtonBarGraph">
+          <property name="geometry">
+           <rect>
+            <x>30</x>
+            <y>300</y>
+            <width>95</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Bar Graph</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="ClimaticChartSetingsTextMap">
+          <property name="geometry">
+           <rect>
+            <x>70</x>
+            <y>340</y>
+            <width>281</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="whatsThis">
+           <string/>
+          </property>
+          <property name="text">
+           <string>Select data choropleth map</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="ClimaticChartSetingsMap">
+          <property name="geometry">
+           <rect>
+            <x>40</x>
+            <y>370</y>
+            <width>321</width>
+            <height>30</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="editable">
+           <bool>false</bool>
+          </property>
+          <property name="frame">
+           <bool>true</bool>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="CreateGraphButton">
+          <property name="geometry">
+           <rect>
+            <x>120</x>
+            <y>410</y>
+            <width>181</width>
+            <height>61</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <kerning>true</kerning>
+           </font>
+          </property>
+          <property name="text">
+           <string>Create Graph</string>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>60</width>
+            <height>90</height>
+           </size>
+          </property>
+          <property name="checkable">
+           <bool>false</bool>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+         </widget>
+         <widget class="QRadioButton" name="radioButtonScatterPlot">
+          <property name="geometry">
+           <rect>
+            <x>120</x>
+            <y>300</y>
+            <width>95</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Scatter Plot</string>
+          </property>
+         </widget>
+         <widget class="QRadioButton" name="radioButtonLinePlot">
+          <property name="geometry">
+           <rect>
+            <x>220</x>
+            <y>300</y>
+            <width>95</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Line Plot</string>
+          </property>
+         </widget>
+         <widget class="QRadioButton" name="radioButtonPiePlot">
+          <property name="geometry">
+           <rect>
+            <x>300</x>
+            <y>300</y>
+            <width>71</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Pie Plot</string>
           </property>
          </widget>
         </widget>
