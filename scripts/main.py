@@ -1,6 +1,18 @@
 import io
 import os
+import tempfile
+from Bio import Phylo
+import matplotlib.pyplot as plt
 import re
+from ete3 import Tree, TreeStyle
+import json
+import io
+from PIL import Image
+import resources_rc
+import json
+from PyQt5.QtWidgets import QApplication, QLabel
+from PyQt5.QtGui import QPixmap
+from ete3 import Tree, TreeStyle, NodeStyle, faces, TextFace
 import sys
 import os
 import sys
@@ -145,17 +157,13 @@ def update_yaml_param(params, file_path, property_name, new_value):
     # 2. Update the specified property
     if property_name in data:
         data[property_name] = new_value
-    else:
-        print(f"Warning: Property '{property_name}' not found in '{file_path}'.")
-
     # 3. Write the updated data back to the file
     with open(file_path, "w") as yaml_file:
         yaml.dump(data, yaml_file, default_flow_style=None, Dumper=MyDumper, sort_keys=False)
 
 
 Params.load_from_file("params.yaml")
-window_size = 50
-starting_position = 1
+
 
 class UiMainWindow(QtWidgets.QMainWindow):
 
@@ -209,7 +217,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.setObjectName("MainWindow")
         self.window_size_spinbox.setRange(1, 1000)
         self.starting_position_spinbox.setRange(1, 1000)
-        self.button.clicked.connect(self.load_data_genetic)
+        self.starting_position_spinbox.valueChanged.connect(self.load_data_genetic)
+        self.window_size_spinbox.valueChanged.connect(self.load_data_genetic)
         self.homeButton.clicked.connect(self.showHomePage)
         self.geneticDataButton.clicked.connect(self.showGenDatPage)
         self.climaticDataButton.clicked.connect(self.showClimDatPage)
@@ -218,6 +227,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.darkModeButton.setCursor(Qt.PointingHandCursor)
         self.isDarkMode = False  # Keep track of the state
         self.fileBrowserButtonPage1.clicked.connect(self.pressItFasta)
+        self.geneticTreeButtonPage1.clicked.connect(self.display_newick_trees)
         self.sequenceAlignmentButtonPage1.clicked.connect(self.SeqAlign)
         self.clearButtonPage1.clicked.connect(self.clearGen)
         self.statisticsButtonPage1.clicked.connect(self.load_data_genetic)
@@ -226,13 +236,19 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.fileBrowserButtonPage2.clicked.connect(self.pressItCSV)
         self.statisticsButtonPage2.clicked.connect(self.load_data_climate)
         self.resultsButtonPage2.clicked.connect(self.showResultsPage)
-        self.CreateGraphButton.clicked.connect(self.generate_graph)
+        self.ClimaticChartSettingsAxisX.currentIndexChanged.connect(self.generate_graph)
+        self.ClimaticChartSettingsAxisY.currentIndexChanged.connect(self.generate_graph)
+        self.radioButtonPiePlot.toggled.connect(self.generate_graph)
+        self.radioButtonLinePlot.toggled.connect(self.generate_graph)
+        self.radioButtonScatterPlot.toggled.connect(self.generate_graph)
+        self.radioButtonBarGraph.toggled.connect(self.generate_graph)
+        self.geneticTreescomboBox.currentIndexChanged.connect(self.show_selected_tree)
         self.settingsButtonPage3.clicked.connect(self.paramWin)
         self.submitButtonPage3.clicked.connect(self.showFilteredResults)
         self.clearButtonPage4.clicked.connect(self.clearResult)
         self.statisticsButtonPage4.clicked.connect(self.showResultsStatsPage)
         self.clearButtonPage4.clicked.connect(self.clearResultStat)
-
+        self.downloadGraphButton.clicked.connect(self.download_graph)
         self.stackedWidget.setCurrentIndex(0)
 
         buttons = [self.geneticDataButton, self.climaticDataButton, self.helpButton, self.homeButton]
@@ -323,7 +339,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         QtCore.QMetaObject.connectSlotsByName(self)
 
     def load_data_genetic(self):
-        print(f"Loading data from: {Params.reference_gene_filepath}")
         genetic_data = self.read_fasta(Params.reference_gene_filepath)
         standardized_data = self.standardize_sequence_lengths(genetic_data)
         starting_position = self.starting_position_spinbox.value()
@@ -437,7 +452,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         plt.subplots_adjust(left=0.2, right=0.95, top=0.95, bottom=0.05)
         plt.savefig(output_path)
         plt.close()
-        print(f"Plot saved to: {output_path}")
 
     def calculate_conservation(self, alignment):
         conservation = []
@@ -466,16 +480,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
     def display_image(self, image_path):
         if os.path.exists(image_path):
-            print(f"Displaying image: {image_path}")
             pixmap = QPixmap(image_path)
-            if pixmap.isNull():
-                print("Failed to load image into QPixmap")
-            else:
-                print("Image loaded into QPixmap successfully")
             self.textEditGenStats_2.setPixmap(pixmap)
             self.textEditGenStats_2.repaint()  # Ensure the label is updated
-        else:
-            print(f"Image not found: {image_path}")
 
     def load_data_climate(self):
         # Load the data without the first column
@@ -577,6 +584,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         This method calls the callSeqAlign method to perform sequence alignment and stores the resulting genetic tree dictionary in the geneticTreeDict attribute.
         """
         self.geneticTreeDict = self.callSeqAlign()
+        print(self.geneticTreeDict)
 
     def update_climate_chart(self):
 
@@ -675,7 +683,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.resultsButtonPage2.setEnabled(True)
             update_progress(loading_screen, 4)
             QtWidgets.QApplication.processEvents()
-
             # Step 4: Save results
             alignements.save_to_json(f"./results/aligned_{Params.reference_gene_file}.json")
             trees.save_trees_to_json("./results/geneticTrees.json")
@@ -684,7 +691,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             time.sleep(0.8)
         finally:
             loading_screen.close()
-
+        self.geneticTreeButtonPage1.setEnabled(True)
         return geneticTrees
 
     def retrieveDataNames(self, list):
@@ -962,7 +969,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             utils.filterResults(climaticTrees, self.geneticTreeDict, df)
             with open("./results/output.csv", "r") as f:
                 content = f.read()
-                print(content)
 
     def toggleDarkMode(self):
         """
@@ -1120,7 +1126,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         """
         self.textEditFasta.clear()
         self.textEditSeqAlign.clear()
-        self.textEditGenTree.clear()
 
     def clearClim(self):
         """
@@ -1150,7 +1155,84 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.ResultsStatsListCondition.setCurrentIndex(0)
         self.ResultsStatsListChart.setCurrentIndex(0)
 
+    def display_newick_trees(self):
+        self.tabWidget.setCurrentIndex(4)
+        file_path = "results/geneticTrees.json"
+        with open(file_path, 'r') as file:
+            self.newick_json = json.load(file)
+        self.tree_keys = list(self.newick_json.keys())
+        self.total_trees = len(self.tree_keys)
+        self.current_index = 0
+        self.geneticTreescomboBox.clear()
+        self.geneticTreescomboBox.addItems(self.tree_keys)
+        self.show_tree(self.current_index)
 
+    def show_selected_tree(self, index):
+        if index >= 0:
+            self.show_tree(index)
+
+    def show_tree(self, index):
+        if 0 <= index < self.total_trees:
+            self.current_index = index  # Keep track of the current index
+            key = self.tree_keys[index]
+            newick_str = self.newick_json[key]
+
+            print(f"Displaying tree {key} at index {index}")  # Debug print
+
+            # Save the Newick string to a temporary file
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".nwk") as temp_file:
+                temp_file.write(newick_str.encode())
+                temp_file_path = temp_file.name
+
+            # Read the tree using Phylo
+            tree = Phylo.read(temp_file_path, "newick")
+
+            # Render the tree using Matplotlib
+            fig = plt.figure(figsize=(9.21, 4.5), dpi=100)
+            ax = fig.add_subplot(1, 1, 1)
+            Phylo.draw(tree, do_show=False, axes=ax)
+            ax.axis('off')  # Remove the X and Y axes
+
+            # Add tree info as text annotation
+            ax.text(0.5, 1.01, f"Tree Name: {key}\nCurrent Index: {index + 1} / {self.total_trees}",
+                    transform=ax.transAxes, ha='center', va='bottom', fontsize=10, color='black')
+
+            # Save the plot to a temporary file
+            temp_img_file = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
+            self.temp_img_path = temp_img_file.name
+            plt.savefig(self.temp_img_path, format="png")
+            temp_img_file.close()
+
+            print(f"Temporary image saved at {self.temp_img_path}")  # Debug print
+
+            plt.close(fig)
+
+            # Load the temporary file into a QPixmap
+            pixmap = QPixmap(self.temp_img_path)
+
+            # Clear the QLabel before setting the new QPixmap
+            self.GeneticTreeLabel.clear()
+            self.GeneticTreeLabel.setPixmap(pixmap)
+            self.GeneticTreeLabel.adjustSize()
+
+            # Update the QTextEdit with the tree name and current index
+
+    def download_graph(self):
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        file_path, _ = QFileDialog.getSaveFileName(self, "Save Graph As", "", "PNG Files (*.png);;All Files (*)", options=options)
+        if file_path:
+            if not file_path.lower().endswith('.png'):
+                file_path += '.png'
+            try:
+                print(f"Saving graph to {file_path}")  # Debug print
+                with open(self.temp_img_path, 'rb') as temp_file:
+                    with open(file_path, 'wb') as file:
+                        file.write(temp_file.read())
+                print(f"Graph saved to {file_path}")
+            except Exception as e:
+
+                print(f"Failed to save graph: {e}")
 if __name__ == "__main__":
     # Create the application instance
     app = QtWidgets.QApplication([])

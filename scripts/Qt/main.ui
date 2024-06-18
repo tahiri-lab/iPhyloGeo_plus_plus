@@ -966,7 +966,7 @@ p, li { white-space: pre-wrap; }
       </widget>
       <widget class="QPushButton" name="geneticTreeButtonPage1">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="geometry">
         <rect>
@@ -1025,7 +1025,7 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="currentIndex">
-        <number>3</number>
+        <number>4</number>
        </property>
        <widget class="QWidget" name="GenTab1">
         <attribute name="title">
@@ -1194,19 +1194,6 @@ p, li { white-space: pre-wrap; }
             <string>Starting position</string>
            </property>
           </widget>
-          <widget class="QPushButton" name="button">
-           <property name="geometry">
-            <rect>
-             <x>62</x>
-             <y>10</y>
-             <width>91</width>
-             <height>51</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Load Data</string>
-           </property>
-          </widget>
          </widget>
          <widget class="QLabel" name="GenStatsTitle">
           <property name="geometry">
@@ -1260,14 +1247,52 @@ p, li { white-space: pre-wrap; }
         <attribute name="title">
          <string>Genetic Tree</string>
         </attribute>
-        <widget class="QTextEdit" name="textEditGenTree">
+        <widget class="QLabel" name="GeneticTreeLabel">
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>0</y>
-           <width>926</width>
-           <height>511</height>
+           <y>60</y>
+           <width>921</width>
+           <height>450</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>921</width>
+           <height>450</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>921</width>
+           <height>450</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="geneticTreescomboBox">
+         <property name="geometry">
+          <rect>
+           <x>740</x>
+           <y>10</y>
+           <width>131</width>
+           <height>22</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="downloadGraphButton">
+         <property name="geometry">
+          <rect>
+           <x>610</x>
+           <y>0</y>
+           <width>121</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Download Graph</string>
          </property>
         </widget>
        </widget>
@@ -1806,36 +1831,6 @@ p, li { white-space: pre-wrap; }
           </property>
           <property name="text">
            <string>Bar Graph</string>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="CreateGraphButton">
-          <property name="geometry">
-           <rect>
-            <x>110</x>
-            <y>350</y>
-            <width>181</width>
-            <height>61</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <kerning>true</kerning>
-           </font>
-          </property>
-          <property name="text">
-           <string>Create Graph</string>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>60</width>
-            <height>90</height>
-           </size>
-          </property>
-          <property name="checkable">
-           <bool>false</bool>
-          </property>
-          <property name="flat">
-           <bool>false</bool>
           </property>
          </widget>
          <widget class="QRadioButton" name="radioButtonScatterPlot">
