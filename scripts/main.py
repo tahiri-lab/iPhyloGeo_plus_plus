@@ -938,8 +938,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
         """
         try:
             df = pd.read_csv(Params.file_name)
-            climaticTrees = utils.climaticPipeline(df)
-            utils.filterResults(climaticTrees, self.geneticTreeDict, df)
+            self.climaticTrees = utils.climaticPipeline(df)
+            utils.filterResults(self.climaticTrees, self.geneticTreeDict, df)
             df_results = pd.read_csv("./results/output.csv")
             # Convert to HTML table with basic styling
             html_table = df_results.to_html(index=False, border=1, classes="dataframe")  # Basic styling
@@ -965,8 +965,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.resultsButton.setIcon(QIcon(":inactive/result.svg"))
         else:
             df = pd.read_csv(Params.file_name)
-            climaticTrees = utils.climaticPipeline(df)
-            utils.filterResults(climaticTrees, self.geneticTreeDict, df)
+            self.climaticTrees = utils.climaticPipeline(df)
+            utils.filterResults(self.climaticTrees, self.geneticTreeDict, df)
             with open("./results/output.csv", "r") as f:
                 content = f.read()
 
@@ -1218,9 +1218,13 @@ class UiMainWindow(QtWidgets.QMainWindow):
             # Update the QTextEdit with the tree name and current index
 
     def download_graph(self):
+        current_key = self.tree_keys[self.current_index]
+        default_file_name = f"{current_key}.png"
+
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        file_path, _ = QFileDialog.getSaveFileName(self, "Save Graph As", "", "PNG Files (*.png);;All Files (*)", options=options)
+        file_path, _ = QFileDialog.getSaveFileName(self, "Save Graph As", default_file_name,
+                                                   "PNG Files (*.png);;All Files (*)", options=options)
         if file_path:
             if not file_path.lower().endswith('.png'):
                 file_path += '.png'
@@ -1231,8 +1235,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
                         file.write(temp_file.read())
                 print(f"Graph saved to {file_path}")
             except Exception as e:
-
                 print(f"Failed to save graph: {e}")
+
+
 if __name__ == "__main__":
     # Create the application instance
     app = QtWidgets.QApplication([])

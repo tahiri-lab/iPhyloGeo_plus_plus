@@ -751,7 +751,7 @@
      </sizepolicy>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="HomePage">
      <widget class="QFrame" name="HomeTab">
@@ -966,7 +966,7 @@ p, li { white-space: pre-wrap; }
       </widget>
       <widget class="QPushButton" name="geneticTreeButtonPage1">
        <property name="enabled">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <property name="geometry">
         <rect>
@@ -1496,7 +1496,7 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="currentIndex">
-        <number>3</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="ClimTab1">
         <attribute name="title">
@@ -1579,35 +1579,40 @@ p, li { white-space: pre-wrap; }
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <widget class="QTextBrowser" name="textEditClimTree">
+         <widget class="QLabel" name="climaticTreesLabel">
           <property name="geometry">
            <rect>
-            <x>0</x>
-            <y>80</y>
-            <width>931</width>
-            <height>431</height>
+            <x>4</x>
+            <y>65</y>
+            <width>911</width>
+            <height>441</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="climaticTreescomboBox">
+          <property name="geometry">
+           <rect>
+            <x>780</x>
+            <y>20</y>
+            <width>131</width>
+            <height>22</height>
            </rect>
           </property>
          </widget>
-         <widget class="QLabel" name="climaticTreeTitle">
+         <widget class="QPushButton" name="downloadGraphButton2">
           <property name="geometry">
            <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>931</width>
-            <height>81</height>
+            <x>630</x>
+            <y>10</y>
+            <width>121</width>
+            <height>41</height>
            </rect>
           </property>
-          <property name="font">
-           <font>
-            <pointsize>16</pointsize>
-           </font>
-          </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:22pt; text-decoration: underline;&quot;&gt;Climatic Tree&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
+           <string>Download Graph</string>
           </property>
          </widget>
         </widget>
