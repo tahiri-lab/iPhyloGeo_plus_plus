@@ -4,7 +4,10 @@ import os
 import re
 import sys
 from PyQt5.QtCore import pyqtSlot
-
+import networkx as nx
+import seaborn as sns
+import plotly.graph_objs as go
+import plotly.io as pio
 import tempfile
 from collections import Counter
 from decimal import Decimal
@@ -176,14 +179,13 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.preferences = {
             "label_color": "black",
             "edge_color": "blue",
-            "reticulation_color": "magenta",
+            "reticulation_color": "red",
             "layout": "horizontal",
             "proportional_edge_lengths": False,
             "label_internal_vertices": False,
             "use_leaf_names": True,
             "root_with_leaf_node": False,
-            "root_leaf_node": "0",
-            "graph_size": (1590, 889)
+            "root_leaf_node": "0"
         }
         self.setObjectName("MainWindow")
         self.window_size_spinbox.setRange(1, 1000)
@@ -224,7 +226,20 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.downloadGraphButton.clicked.connect(self.download_graph)
         self.preferencesButton.clicked.connect(self.open_preferences_dialog)
         self.stackedWidget.setCurrentIndex(0)
-
+        self.preferences = {
+            "label_color": "black",
+            "edge_color": "blue",
+            "reticulation_color": "red",
+            "layout": "horizontal",
+            "proportional_edge_lengths": False,
+            "label_internal_vertices": False,
+            "use_leaf_names": False,
+            "root_with_leaf_node": False,
+            "root_leaf_node": ""
+        }
+        self.tree_keys = []
+        self.total_trees = 0
+        self.current_index = 0
         buttons = [self.geneticDataButton, self.climaticDataButton, self.helpButton, self.homeButton]
 
         buttons_Vertical = [self.fileBrowserButtonPage1, self.sequenceAlignmentButtonPage1,
@@ -311,52 +326,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         shadow_effect.setOffset(3, 3)
         self.darkModeButton.setGraphicsEffect(shadow_effect)
         QtCore.QMetaObject.connectSlotsByName(self)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     def load_data_genetic(self):
         genetic_data = self.read_msa(self.msa)
@@ -503,60 +472,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.textEditGenStats_2.setPixmap(pixmap)
             self.textEditGenStats_2.repaint()  # Ensure the label is updated
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     def load_data_climate(self):
         # Load the data without the first column
         self.data = pd.read_csv(Params.file_name, usecols=lambda column: column != 'id')
@@ -659,7 +574,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.geneticTreeDict = self.callSeqAlign()
 
     def update_climate_chart(self):
-
 
         data = pd.read_csv(Params.file_name)
         condition = self.ClimStatsListCondition.currentText()
@@ -766,12 +680,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             loading_screen.close()
         self.geneticTreeButtonPage1.setEnabled(True)
         return geneticTrees
-
-
-
-
-
-
 
     def retrieveDataNames(self, list):
         """
@@ -921,6 +829,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
                         cursor.movePosition(QtGui.QTextCursor.NextCell)
                         df = pd.read_csv(Params.file_name)
                         self.climaticTrees = utils.climaticPipeline(df)
+                        self.tree_keys = list(self.climaticTrees.keys())
+                        self.total_trees = len(self.tree_keys)
+                        self.current_index = 0
                         self.climaticTreeButtonPage2.setEnabled(True)
                         self.tabWidget2.setCurrentIndex(1)
                 if loc and lat and long:
@@ -1029,7 +940,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.textEditClimTree.setText("Please do the sequence alignment before attempting to generate the tree !")
             self.stackedWidget.setCurrentIndex(2)
             self.tabWidget2.setCurrentIndex(2)
-
 
     def toggleDarkMode(self):
         """
@@ -1262,7 +1172,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             plt.savefig(self.temp_img_path, format="png")
             temp_img_file.close()
 
-
             plt.close(fig)
 
             # Load the temporary file into a QPixmap
@@ -1323,66 +1232,104 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
             # Get preferences
             preferences = self.preferences
-            label_color = preferences["label_color"]
-            edge_color = preferences["edge_color"]
-            reticulation_color = preferences["reticulation_color"]
-            layout = preferences["layout"]
-            proportional_edge_lengths = preferences["proportional_edge_lengths"]
-            label_internal_vertices = preferences["label_internal_vertices"]
-            use_leaf_names = preferences["use_leaf_names"]
-            root_with_leaf_node = preferences["root_with_leaf_node"]
-            root_leaf_node = preferences["root_leaf_node"]
+            label_color = preferences.get("label_color", "black")
+            edge_color = preferences.get("edge_color", "blue")
+            reticulation_color = preferences.get("reticulation_color", "red")
+            layout = preferences.get("layout", "horizontal")
+            proportional_edge_lengths = preferences.get("proportional_edge_lengths", False)
+            label_internal_vertices = preferences.get("label_internal_vertices", False)
+            use_leaf_names = preferences.get("use_leaf_names", True)
+            root_with_leaf_node = preferences.get("root_with_leaf_node", False)
+            root_leaf_node = preferences.get("root_leaf_node", "0")
 
-            # Render the tree using Matplotlib
-            fig = plt.figure(figsize=(9.11, 4.41), dpi=100)
-            ax = fig.add_subplot(1, 1, 1)
-            Phylo.draw(tree, do_show=False, axes=ax,
-                       label_colors={clade: label_color for clade in tree.get_terminals()})
+            # Use seaborn for color palettes
+            sns.set_palette("husl")
 
-            # Apply layout preference
-            if layout == "vertical":
-                ax.set_aspect(1.0)
-                ax.set_xlim(auto=True)
-                ax.set_ylim(auto=True)
-            elif layout == "horizontal":
-                ax.set_aspect("auto")
-                ax.set_xlim(auto=True)
-                ax.set_ylim(auto=True)
-            elif layout == "axial":
-                # Adjust to axial layout
-                pass
-            elif layout == "radial":
-                # Adjust to radial layout
-                pass
-
-            # Apply additional preferences
+            # Apply additional preferences to the tree
             if proportional_edge_lengths:
                 for clade in tree.find_clades():
                     clade.branch_length = clade.branch_length if clade.branch_length else 0.1  # Default length
+
             if label_internal_vertices:
                 for clade in tree.find_clades():
                     if clade.name is None:
                         clade.name = "Internal"
+
             if root_with_leaf_node:
-                tree.root_with_outgroup(tree.find_any(name=root_leaf_node))
+                outgroup = tree.find_any(name=root_leaf_node)
+                if outgroup:
+                    tree.root_with_outgroup(outgroup)
 
-            ax.axis('off')  # Remove the X and Y axes
+            # Render the tree using Plotly for interactive visualization
+            graph = Phylo.to_networkx(tree)
+            pos = self.get_layout(graph, layout)
+            edge_trace = self.create_edge_trace(graph, pos, edge_color)
+            node_trace = self.create_node_trace(graph, pos, label_color, use_leaf_names)
 
-            ax.text(0.5, 1.01, f"Tree Name: {key}\nCurrent Index: {index + 1} / {self.total_trees}\n"
-                               f"Root: {tree.root}\n"
-                               f"Clades: {[clade.name for clade in tree.get_terminals()]}",
-                    transform=ax.transAxes, ha='center', va='bottom', fontsize=10, color=label_color)
+            fig = go.Figure(data=[edge_trace, node_trace])
+            fig.update_layout(showlegend=False)
 
             temp_img_file = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
             self.temp_img_path = temp_img_file.name
-            plt.savefig(self.temp_img_path, format="png")
+            pio.write_image(fig, self.temp_img_path, format="png")
             temp_img_file.close()
-            plt.close(fig)
 
             pixmap = QPixmap(self.temp_img_path)
             self.climaticTreesLabel.clear()
             self.climaticTreesLabel.setPixmap(pixmap)
             self.climaticTreesLabel.adjustSize()
+
+    def create_node_trace(self, graph, pos, label_color, use_leaf_names):
+        node_trace = go.Scatter(
+            x=[],
+            y=[],
+            text=[],
+            mode='markers+text' if use_leaf_names else 'markers',
+            textposition="top center",
+            hoverinfo='text',
+            marker=dict(
+                showscale=True,
+                colorscale='YlGnBu',
+                size=10,
+                colorbar=dict(
+                    thickness=15,
+                    title='Node Connections',
+                    xanchor='left',
+                    titleside='right'
+                ),
+                line_width=2))
+        for node in graph.nodes():
+            x, y = pos[node]
+            node_trace['x'] += (x,)
+            node_trace['y'] += (y,)
+            if use_leaf_names:
+                node_trace['text'] += (node.name,)
+        return node_trace
+
+    def get_layout(self, graph, layout):
+        if layout == "horizontal":
+            return nx.spring_layout(graph, scale=2)
+        elif layout == "vertical":
+            return nx.spring_layout(graph, scale=2, iterations=50)
+        elif layout == "radial":
+            return nx.shell_layout(graph)
+        elif layout == "axial":
+            return nx.spiral_layout(graph)
+
+    def create_edge_trace(self, graph, pos, edge_color):
+        edge_trace = go.Scatter(
+            x=[],
+            y=[],
+            line=dict(width=2, color=edge_color),
+            hoverinfo='none',
+            mode='lines'
+        )
+        for edge in graph.edges():
+            x0, y0 = pos[edge[0]]
+            x1, y1 = pos[edge[1]]
+            edge_trace['x'] += (x0, x1, None)
+            edge_trace['y'] += (y0, y1, None)
+        return edge_trace
 
     def download_climatic_tree_graph(self):
         current_key = self.tree_keys[self.current_index]
@@ -1398,7 +1345,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             with open(self.temp_img_path, 'rb') as temp_file:
                 with open(file_path, 'wb') as file:
                     file.write(temp_file.read())
-
 
 if __name__ == "__main__":
     # Create the application instance

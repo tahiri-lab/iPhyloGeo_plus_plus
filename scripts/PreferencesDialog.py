@@ -1,8 +1,5 @@
-# PreferencesDialog.py
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QComboBox, QRadioButton, QCheckBox, QLineEdit, QPushButton, QHBoxLayout, QSpinBox
-
-from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QComboBox, QRadioButton, QCheckBox, QLineEdit, QPushButton, QHBoxLayout
+from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QComboBox, QRadioButton, QCheckBox, QLineEdit, QPushButton
 
 class PreferencesDialog(QDialog):
     def __init__(self, parent=None):
@@ -70,24 +67,25 @@ class PreferencesDialog(QDialog):
         self.setLayout(layout)
 
     def update_preferences(self, preferences):
-        self.label_color_combo.setCurrentText(preferences["label_color"])
-        self.edge_color_combo.setCurrentText(preferences["edge_color"])
-        self.reticulation_color_combo.setCurrentText(preferences["reticulation_color"])
+        self.label_color_combo.setCurrentText(preferences.get("label_color", "black"))
+        self.edge_color_combo.setCurrentText(preferences.get("edge_color", "blue"))
+        self.reticulation_color_combo.setCurrentText(preferences.get("reticulation_color", "red"))
 
-        if preferences["layout"] == "vertical":
+        layout = preferences.get("layout", "horizontal")
+        if layout == "vertical":
             self.vertical_radio.setChecked(True)
-        elif preferences["layout"] == "horizontal":
+        elif layout == "horizontal":
             self.horizontal_radio.setChecked(True)
-        elif preferences["layout"] == "axial":
+        elif layout == "axial":
             self.axial_radio.setChecked(True)
-        elif preferences["layout"] == "radial":
+        elif layout == "radial":
             self.radial_radio.setChecked(True)
 
-        self.proportional_edge_lengths.setChecked(preferences["proportional_edge_lengths"])
-        self.label_internal_vertices.setChecked(preferences["label_internal_vertices"])
-        self.use_leaf_names.setChecked(preferences["use_leaf_names"])
-        self.root_with_leaf_node.setChecked(preferences["root_with_leaf_node"])
-        self.root_leaf_node_input.setText(preferences["root_leaf_node"])
+        self.proportional_edge_lengths.setChecked(preferences.get("proportional_edge_lengths", False))
+        self.label_internal_vertices.setChecked(preferences.get("label_internal_vertices", False))
+        self.use_leaf_names.setChecked(preferences.get("use_leaf_names", True))
+        self.root_with_leaf_node.setChecked(preferences.get("root_with_leaf_node", False))
+        self.root_leaf_node_input.setText(preferences.get("root_leaf_node", "0"))
 
     def get_preferences(self):
         return {
