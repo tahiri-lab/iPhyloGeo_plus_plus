@@ -751,7 +751,7 @@
      </sizepolicy>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="HomePage">
      <widget class="QFrame" name="HomeTab">
@@ -1025,7 +1025,7 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="currentIndex">
-        <number>4</number>
+        <number>3</number>
        </property>
        <widget class="QWidget" name="GenTab1">
         <attribute name="title">
@@ -1165,7 +1165,7 @@ p, li { white-space: pre-wrap; }
             </rect>
            </property>
            <property name="value">
-            <number>50</number>
+            <number>10</number>
            </property>
           </widget>
           <widget class="QLabel" name="label">
@@ -1588,6 +1588,18 @@ p, li { white-space: pre-wrap; }
             <height>441</height>
            </rect>
           </property>
+          <property name="minimumSize">
+           <size>
+            <width>911</width>
+            <height>441</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>911</width>
+            <height>441</height>
+           </size>
+          </property>
           <property name="text">
            <string/>
           </property>
@@ -1595,7 +1607,7 @@ p, li { white-space: pre-wrap; }
          <widget class="QComboBox" name="climaticTreescomboBox">
           <property name="geometry">
            <rect>
-            <x>780</x>
+            <x>790</x>
             <y>20</y>
             <width>131</width>
             <height>22</height>
@@ -1605,7 +1617,7 @@ p, li { white-space: pre-wrap; }
          <widget class="QPushButton" name="downloadGraphButton2">
           <property name="geometry">
            <rect>
-            <x>630</x>
+            <x>650</x>
             <y>10</y>
             <width>121</width>
             <height>41</height>
@@ -1613,6 +1625,19 @@ p, li { white-space: pre-wrap; }
           </property>
           <property name="text">
            <string>Download Graph</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="preferencesButton">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>121</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Preferences</string>
           </property>
          </widget>
         </widget>

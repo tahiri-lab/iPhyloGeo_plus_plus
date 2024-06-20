@@ -1,61 +1,17 @@
 import io
+import json
 import os
-import tempfile
-from Bio import Phylo
-import matplotlib.pyplot as plt
 import re
-from ete3 import Tree, TreeStyle
-import json
-import io
-from PIL import Image
-import resources_rc
-import json
-from PyQt5.QtWidgets import QApplication, QLabel
-from PyQt5.QtGui import QPixmap
-from ete3 import Tree, TreeStyle, NodeStyle, faces, TextFace
 import sys
-import os
-import sys
-import os
-import json
-from collections import Counter
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QWidget, QPushButton, QSpinBox
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import Qt
-from Bio.Seq import Seq
-from Bio.SeqRecord import SeqRecord
-from Bio import AlignIO
-from Bio.Align import MultipleSeqAlignment
-import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-from collections import Counter
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QWidget, QPushButton
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import Qt
-from Bio.Seq import Seq
-from Bio.SeqRecord import SeqRecord
-from Bio import AlignIO
-from Bio.Align import MultipleSeqAlignment
-import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-import sys
-from decimal import Decimal
-import resources_rc
-from io import BytesIO
-import sys
-import os
-from collections import Counter
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QWidget, QPushButton
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import Qt
-from Bio.Seq import Seq
-from Bio.SeqRecord import SeqRecord
-from Bio import AlignIO
-from Bio.Align import MultipleSeqAlignment
-import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
+from PyQt5.QtCore import pyqtSlot
 
+import tempfile
+from collections import Counter
+from decimal import Decimal
+from io import BytesIO
+import resources_rc
 import folium
+import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
 import pandas as pd
 import qtmodern.styles
@@ -63,7 +19,8 @@ import qtmodern.styles
 import qtmodern.windows
 import qtmodern.windows
 import yaml
-from Bio import AlignIO
+from Bio import Phylo
+from Bio.Align import MultipleSeqAlignment
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 from PyQt5 import QtCore, QtGui
@@ -71,12 +28,14 @@ from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon, QColor, QPixmap, QImage
 from PyQt5.QtWebEngineWidgets import QWebEngineView
+from PyQt5.QtWidgets import (QDialog)
 from PyQt5.QtWidgets import QFileDialog, QGraphicsDropShadowEffect, QGraphicsScene
 from aphylogeo import utils
 from aphylogeo.alignement import AlignSequences
 from aphylogeo.genetic_trees import GeneticTrees
 from aphylogeo.params import Params
 
+from PreferencesDialog import PreferencesDialog  # Import PreferencesDialog
 from help import UiHowToUse
 from parameters import UiDialog
 
@@ -214,6 +173,18 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
          This method connects various UI buttons to their corresponding event handlers, sets up styles and effects for UI elements, and initializes the state of the application.
          """
+        self.preferences = {
+            "label_color": "black",
+            "edge_color": "blue",
+            "reticulation_color": "magenta",
+            "layout": "horizontal",
+            "proportional_edge_lengths": False,
+            "label_internal_vertices": False,
+            "use_leaf_names": True,
+            "root_with_leaf_node": False,
+            "root_leaf_node": "0",
+            "graph_size": (1590, 889)
+        }
         self.setObjectName("MainWindow")
         self.window_size_spinbox.setRange(1, 1000)
         self.starting_position_spinbox.setRange(1, 1000)
@@ -224,6 +195,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.climaticDataButton.clicked.connect(self.showClimDatPage)
         self.helpButton.clicked.connect(self.useWindow)
         self.darkModeButton.clicked.connect(self.toggleDarkMode)
+        self.climaticTreeButtonPage2.clicked.connect(self.displayClimaticTrees)
+        self.climaticTreescomboBox.currentIndexChanged.connect(self.show_selected_climatic_tree)
+        self.downloadGraphButton2.clicked.connect(self.download_climatic_tree_graph)
         self.darkModeButton.setCursor(Qt.PointingHandCursor)
         self.isDarkMode = False  # Keep track of the state
         self.fileBrowserButtonPage1.clicked.connect(self.pressItFasta)
@@ -232,7 +206,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.clearButtonPage1.clicked.connect(self.clearGen)
         self.statisticsButtonPage1.clicked.connect(self.load_data_genetic)
         self.clearButtonPage2.clicked.connect(self.clearClim)
-        self.climaticTreeButtonPage2.clicked.connect(self.openClimTree)
         self.fileBrowserButtonPage2.clicked.connect(self.pressItCSV)
         self.statisticsButtonPage2.clicked.connect(self.load_data_climate)
         self.resultsButtonPage2.clicked.connect(self.showResultsPage)
@@ -249,6 +222,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.statisticsButtonPage4.clicked.connect(self.showResultsStatsPage)
         self.clearButtonPage4.clicked.connect(self.clearResultStat)
         self.downloadGraphButton.clicked.connect(self.download_graph)
+        self.preferencesButton.clicked.connect(self.open_preferences_dialog)
         self.stackedWidget.setCurrentIndex(0)
 
         buttons = [self.geneticDataButton, self.climaticDataButton, self.helpButton, self.homeButton]
@@ -338,8 +312,54 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.darkModeButton.setGraphicsEffect(shadow_effect)
         QtCore.QMetaObject.connectSlotsByName(self)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     def load_data_genetic(self):
-        genetic_data = self.read_fasta(Params.reference_gene_filepath)
+        genetic_data = self.read_msa(self.msa)
         standardized_data = self.standardize_sequence_lengths(genetic_data)
         starting_position = self.starting_position_spinbox.value()
         window_size = self.window_size_spinbox.value()
@@ -348,21 +368,18 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.display_image(output_path)
         self.tabWidget.setCurrentIndex(3)
 
-    def read_fasta(self, fasta_file):
+    def read_msa(self, msa_data):
         genetic_data = {}
-        with open(fasta_file, 'r') as file:
-            sequence_id = None
-            sequence_data = []
-            for line in file:
-                if line.startswith('>'):
-                    if sequence_id is not None:
-                        genetic_data[sequence_id] = ''.join(sequence_data)
-                    sequence_id = line[1:].strip()
-                    sequence_data = []
+        for key, value in msa_data.items():
+            sequences = value.split('\n')
+            for sequence in sequences:
+                if sequence.startswith('>'):
+                    sequence_id = sequence[1:].strip()
+                    genetic_data[sequence_id] = []
                 else:
-                    sequence_data.append(line.strip())
-            if sequence_id is not None:
-                genetic_data[sequence_id] = ''.join(sequence_data)
+                    genetic_data[sequence_id].append(sequence.strip())
+        for sequence_id in genetic_data:
+            genetic_data[sequence_id] = ''.join(genetic_data[sequence_id])
         return genetic_data
 
     def standardize_sequence_lengths(self, genetic_data):
@@ -446,8 +463,10 @@ class UiMainWindow(QtWidgets.QMainWindow):
         ax2.set_ylim(-2, len(seqs))
         ax2.set_yticks(range(len(ids)))
         ax2.set_yticklabels(ids, fontsize=font_size)
+
+        # Ensure number of ticks matches the length of the sequences
         ax2.set_xticks(range(len(consensus_seq)))
-        ax2.set_xticklabels(range(starting_position, end_position), fontsize=font_size)
+        ax2.set_xticklabels(range(starting_position, starting_position + len(consensus_seq)), fontsize=font_size)
 
         plt.subplots_adjust(left=0.2, right=0.95, top=0.95, bottom=0.05)
         plt.savefig(output_path)
@@ -483,6 +502,60 @@ class UiMainWindow(QtWidgets.QMainWindow):
             pixmap = QPixmap(image_path)
             self.textEditGenStats_2.setPixmap(pixmap)
             self.textEditGenStats_2.repaint()  # Ensure the label is updated
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     def load_data_climate(self):
         # Load the data without the first column
@@ -584,9 +657,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
         This method calls the callSeqAlign method to perform sequence alignment and stores the resulting genetic tree dictionary in the geneticTreeDict attribute.
         """
         self.geneticTreeDict = self.callSeqAlign()
-        print(self.geneticTreeDict)
 
     def update_climate_chart(self):
+
 
         data = pd.read_csv(Params.file_name)
         condition = self.ClimStatsListCondition.currentText()
@@ -673,9 +746,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
             trees = GeneticTrees(trees_dict=geneticTrees, format="newick")
             update_progress(loading_screen, 3)
             QtWidgets.QApplication.processEvents()
-
             # Step 3: Preparing results
             obj = str(alignements.to_dict())
+            self.msa = alignements.to_dict().get("msa")
             self.textEditSeqAlign.setText(obj)
             self.tabWidget.setCurrentIndex(2)
             self.statisticsButtonPage1.setEnabled(True)
@@ -693,6 +766,12 @@ class UiMainWindow(QtWidgets.QMainWindow):
             loading_screen.close()
         self.geneticTreeButtonPage1.setEnabled(True)
         return geneticTrees
+
+
+
+
+
+
 
     def retrieveDataNames(self, list):
         """
@@ -840,6 +919,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
                         else:
                             cursor.insertText(value)
                         cursor.movePosition(QtGui.QTextCursor.NextCell)
+                        df = pd.read_csv(Params.file_name)
+                        self.climaticTrees = utils.climaticPipeline(df)
+                        self.climaticTreeButtonPage2.setEnabled(True)
                         self.tabWidget2.setCurrentIndex(1)
                 if loc and lat and long:
                     self.populateMap(lat, long)
@@ -937,8 +1019,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             AttributeError: If the sequence alignment has not been performed before attempting to generate the tree.
         """
         try:
-            df = pd.read_csv(Params.file_name)
-            self.climaticTrees = utils.climaticPipeline(df)
             utils.filterResults(self.climaticTrees, self.geneticTreeDict, df)
             df_results = pd.read_csv("./results/output.csv")
             # Convert to HTML table with basic styling
@@ -950,25 +1030,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.stackedWidget.setCurrentIndex(2)
             self.tabWidget2.setCurrentIndex(2)
 
-    def onTextChanged(self):
-        """
-        Handle text change events in the text edit widgets.
-
-        This method enables or disables the results button based on whether both textEditPage1 and textEditPage4 have content. If the text edit widgets have content, the results button is enabled and its icon is set. If not, it processes the CSV file, generates climatic trees, filters results, and prints the content of the output CSV file.
-
-        Actions:
-            - Enable the results button if both text edit widgets have content.
-            - Process the CSV file, generate climatic trees, filter results, and print output if the text edit widgets do not have content.
-        """
-        if self.textEditPage1.toPlainText() and self.textEditPage4.toPlainText():
-            self.resultsButton.setEnabled(True)
-            self.resultsButton.setIcon(QIcon(":inactive/result.svg"))
-        else:
-            df = pd.read_csv(Params.file_name)
-            self.climaticTrees = utils.climaticPipeline(df)
-            utils.filterResults(self.climaticTrees, self.geneticTreeDict, df)
-            with open("./results/output.csv", "r") as f:
-                content = f.read()
 
     def toggleDarkMode(self):
         """
@@ -1177,8 +1238,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             key = self.tree_keys[index]
             newick_str = self.newick_json[key]
 
-            print(f"Displaying tree {key} at index {index}")  # Debug print
-
             # Save the Newick string to a temporary file
             with tempfile.NamedTemporaryFile(delete=False, suffix=".nwk") as temp_file:
                 temp_file.write(newick_str.encode())
@@ -1203,7 +1262,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             plt.savefig(self.temp_img_path, format="png")
             temp_img_file.close()
 
-            print(f"Temporary image saved at {self.temp_img_path}")  # Debug print
 
             plt.close(fig)
 
@@ -1228,14 +1286,118 @@ class UiMainWindow(QtWidgets.QMainWindow):
         if file_path:
             if not file_path.lower().endswith('.png'):
                 file_path += '.png'
-            try:
-                print(f"Saving graph to {file_path}")  # Debug print
-                with open(self.temp_img_path, 'rb') as temp_file:
-                    with open(file_path, 'wb') as file:
-                        file.write(temp_file.read())
-                print(f"Graph saved to {file_path}")
-            except Exception as e:
-                print(f"Failed to save graph: {e}")
+            with open(self.temp_img_path, 'rb') as temp_file:
+                with open(file_path, 'wb') as file:
+                    file.write(temp_file.read())
+
+    @pyqtSlot()
+    def open_preferences_dialog(self):
+        dialog = PreferencesDialog(self)
+        dialog.update_preferences(self.preferences)
+        if dialog.exec_() == QDialog.Accepted:
+            self.preferences = dialog.get_preferences()
+            self.apply_preferences()
+
+    def apply_preferences(self):
+        # Apply preferences to the current plot
+        self.show_climatic_tree(self.current_index)
+
+    def displayClimaticTrees(self):
+        self.climaticTreescomboBox.clear()
+        self.tree_keys = list(self.climaticTrees.keys())
+        self.total_trees = len(self.tree_keys)
+        self.current_index = 0
+        self.climaticTreescomboBox.addItems(self.tree_keys)
+        self.show_climatic_tree(self.current_index)
+        self.tabWidget2.setCurrentIndex(2)
+
+    def show_selected_climatic_tree(self, index):
+        if index >= 0:
+            self.show_climatic_tree(index)
+
+    def show_climatic_tree(self, index):
+        if 0 <= index < self.total_trees:
+            self.current_index = index
+            key = self.tree_keys[index]
+            tree = self.climaticTrees[key]
+
+            # Get preferences
+            preferences = self.preferences
+            label_color = preferences["label_color"]
+            edge_color = preferences["edge_color"]
+            reticulation_color = preferences["reticulation_color"]
+            layout = preferences["layout"]
+            proportional_edge_lengths = preferences["proportional_edge_lengths"]
+            label_internal_vertices = preferences["label_internal_vertices"]
+            use_leaf_names = preferences["use_leaf_names"]
+            root_with_leaf_node = preferences["root_with_leaf_node"]
+            root_leaf_node = preferences["root_leaf_node"]
+
+            # Render the tree using Matplotlib
+            fig = plt.figure(figsize=(9.11, 4.41), dpi=100)
+            ax = fig.add_subplot(1, 1, 1)
+            Phylo.draw(tree, do_show=False, axes=ax,
+                       label_colors={clade: label_color for clade in tree.get_terminals()})
+
+            # Apply layout preference
+            if layout == "vertical":
+                ax.set_aspect(1.0)
+                ax.set_xlim(auto=True)
+                ax.set_ylim(auto=True)
+            elif layout == "horizontal":
+                ax.set_aspect("auto")
+                ax.set_xlim(auto=True)
+                ax.set_ylim(auto=True)
+            elif layout == "axial":
+                # Adjust to axial layout
+                pass
+            elif layout == "radial":
+                # Adjust to radial layout
+                pass
+
+            # Apply additional preferences
+            if proportional_edge_lengths:
+                for clade in tree.find_clades():
+                    clade.branch_length = clade.branch_length if clade.branch_length else 0.1  # Default length
+            if label_internal_vertices:
+                for clade in tree.find_clades():
+                    if clade.name is None:
+                        clade.name = "Internal"
+            if root_with_leaf_node:
+                tree.root_with_outgroup(tree.find_any(name=root_leaf_node))
+
+            ax.axis('off')  # Remove the X and Y axes
+
+            ax.text(0.5, 1.01, f"Tree Name: {key}\nCurrent Index: {index + 1} / {self.total_trees}\n"
+                               f"Root: {tree.root}\n"
+                               f"Clades: {[clade.name for clade in tree.get_terminals()]}",
+                    transform=ax.transAxes, ha='center', va='bottom', fontsize=10, color=label_color)
+
+            temp_img_file = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
+            self.temp_img_path = temp_img_file.name
+            plt.savefig(self.temp_img_path, format="png")
+            temp_img_file.close()
+            plt.close(fig)
+
+            pixmap = QPixmap(self.temp_img_path)
+            self.climaticTreesLabel.clear()
+            self.climaticTreesLabel.setPixmap(pixmap)
+            self.climaticTreesLabel.adjustSize()
+
+    def download_climatic_tree_graph(self):
+        current_key = self.tree_keys[self.current_index]
+        default_file_name = f"{current_key}.png"
+
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        file_path, _ = QFileDialog.getSaveFileName(self, "Save Graph As", default_file_name,
+                                                   "PNG Files (*.png);;All Files (*)", options=options)
+        if file_path:
+            if not file_path.lower().endswith('.png'):
+                file_path += '.png'
+            with open(self.temp_img_path, 'rb') as temp_file:
+                with open(file_path, 'wb') as file:
+                    file.write(temp_file.read())
 
 
 if __name__ == "__main__":
