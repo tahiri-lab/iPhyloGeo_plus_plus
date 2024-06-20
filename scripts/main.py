@@ -184,9 +184,10 @@ class UiMainWindow(QtWidgets.QMainWindow):
             "proportional_edge_lengths": False,
             "label_internal_vertices": False,
             "use_leaf_names": True,
-            "root_with_leaf_node": False,
-            "root_leaf_node": "0"
+            "show_branch_length": False,
+            "view_type": "network"
         }
+
         self.setObjectName("MainWindow")
         self.window_size_spinbox.setRange(1, 1000)
         self.starting_position_spinbox.setRange(1, 1000)
@@ -1239,45 +1240,100 @@ class UiMainWindow(QtWidgets.QMainWindow):
             proportional_edge_lengths = preferences.get("proportional_edge_lengths", False)
             label_internal_vertices = preferences.get("label_internal_vertices", False)
             use_leaf_names = preferences.get("use_leaf_names", True)
-            root_with_leaf_node = preferences.get("root_with_leaf_node", False)
-            root_leaf_node = preferences.get("root_leaf_node", "0")
+            show_branch_length = preferences.get("show_branch_length", False)
+            view_type = preferences.get("view_type", "network")
 
-            # Use seaborn for color palettes
-            sns.set_palette("husl")
+            if view_type == "network":
+                self.render_network_view(tree, label_color, edge_color, reticulation_color, layout, proportional_edge_lengths, label_internal_vertices, use_leaf_names, show_branch_length)
+            else:
+                self.render_tree_view(tree, label_color, edge_color, reticulation_color, layout, proportional_edge_lengths, label_internal_vertices, use_leaf_names, show_branch_length)
 
-            # Apply additional preferences to the tree
-            if proportional_edge_lengths:
-                for clade in tree.find_clades():
-                    clade.branch_length = clade.branch_length if clade.branch_length else 0.1  # Default length
+    def render_network_view(self, tree, label_color, edge_color, reticulation_color, layout, proportional_edge_lengths, label_internal_vertices, use_leaf_names, show_branch_length):
+        # Use seaborn for color palettes
+        sns.set_palette("husl")
 
-            if label_internal_vertices:
-                for clade in tree.find_clades():
-                    if clade.name is None:
-                        clade.name = "Internal"
+        # Apply additional preferences to the tree
 
-            if root_with_leaf_node:
-                outgroup = tree.find_any(name=root_leaf_node)
-                if outgroup:
-                    tree.root_with_outgroup(outgroup)
+        # Proportional Edge Lengths
+        if proportional_edge_lengths:
+            for clade in tree.find_clades():
+                if clade.branch_length is None:
+                    clade.branch_length = 0.1  # Set a default length if not specified
 
-            # Render the tree using Plotly for interactive visualization
-            graph = Phylo.to_networkx(tree)
-            pos = self.get_layout(graph, layout)
-            edge_trace = self.create_edge_trace(graph, pos, edge_color)
-            node_trace = self.create_node_trace(graph, pos, label_color, use_leaf_names)
+        # Label Internal Vertices
+        if label_internal_vertices:
+            for clade in tree.find_clades():
+                if not clade.is_terminal() and clade.name is None:
+                    clade.name = "Internal Node"
 
-            fig = go.Figure(data=[edge_trace, node_trace])
-            fig.update_layout(showlegend=False)
+        # Render the tree using Plotly for interactive visualization
+        graph = Phylo.to_networkx(tree)
+        pos = self.get_layout(graph, layout)
+        edge_trace, edge_annotations = self.create_edge_trace(tree, pos, edge_color, show_branch_length)
+        node_trace = self.create_node_trace(graph, pos, label_color, use_leaf_names)
 
-            temp_img_file = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
-            self.temp_img_path = temp_img_file.name
-            pio.write_image(fig, self.temp_img_path, format="png")
-            temp_img_file.close()
+        fig = go.Figure(data=[edge_trace, node_trace])
+        fig.update_layout(
+            showlegend=False,
+            xaxis=dict(showgrid=False, zeroline=False, visible=False),
+            yaxis=dict(showgrid=False, zeroline=False, visible=False),
+            plot_bgcolor='rgba(0,0,0,0)',
+            paper_bgcolor='rgba(0,0,0,0)',
+            width=911,
+            height=441
+        )
 
-            pixmap = QPixmap(self.temp_img_path)
-            self.climaticTreesLabel.clear()
-            self.climaticTreesLabel.setPixmap(pixmap)
-            self.climaticTreesLabel.adjustSize()
+        # Add edge annotations for branch lengths
+        for annotation in edge_annotations:
+            fig.add_annotation(annotation)
+
+        temp_img_file = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
+        self.temp_img_path = temp_img_file.name
+        pio.write_image(fig, self.temp_img_path, format="png")
+        temp_img_file.close()
+
+        pixmap = QPixmap(self.temp_img_path)
+        self.climaticTreesLabel.clear()
+        self.climaticTreesLabel.setPixmap(pixmap)
+        self.climaticTreesLabel.adjustSize()
+
+    def render_tree_view(self, tree, label_color, edge_color, reticulation_color, layout, proportional_edge_lengths, label_internal_vertices, use_leaf_names, show_branch_length):
+        fig = plt.figure(figsize=(9.11, 4.41))  # Limit size to 911x441 pixels
+        ax = fig.add_subplot(1, 1, 1)
+
+        # Apply additional preferences to the tree
+
+        # Proportional Edge Lengths
+        if proportional_edge_lengths:
+            for clade in tree.find_clades():
+                if clade.branch_length is None:
+                    clade.branch_length = 0.1  # Set a default length if not specified
+
+        # Label Internal Vertices
+        if label_internal_vertices:
+            for clade in tree.find_clades():
+                if not clade.is_terminal() and clade.name is None:
+                    clade.name = "Internal Node"
+
+        # Draw the tree using Matplotlib
+        def label_func(clade):
+            label = clade.name if use_leaf_names and clade.is_terminal() else ""
+            return f'{label}\n{clade.branch_length:.2f}' if show_branch_length and label else label
+
+        Phylo.draw(tree, do_show=False, axes=ax, label_func=label_func, label_colors={clade: label_color for clade in tree.find_clades()})
+
+        ax.axis('off')  # Remove axes
+
+        temp_img_file = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
+        self.temp_img_path = temp_img_file.name
+        plt.savefig(self.temp_img_path, format="png")
+        temp_img_file.close()
+        plt.close(fig)
+
+        pixmap = QPixmap(self.temp_img_path)
+        self.climaticTreesLabel.clear()
+        self.climaticTreesLabel.setPixmap(pixmap)
+        self.climaticTreesLabel.adjustSize()
 
     def create_node_trace(self, graph, pos, label_color, use_leaf_names):
         node_trace = go.Scatter(
@@ -1288,22 +1344,20 @@ class UiMainWindow(QtWidgets.QMainWindow):
             textposition="top center",
             hoverinfo='text',
             marker=dict(
-                showscale=True,
-                colorscale='YlGnBu',
+                showscale=False,  # Disable color scale
+                colorscale='Viridis',  # Use a valid Plotly colorscale
                 size=10,
-                colorbar=dict(
-                    thickness=15,
-                    title='Node Connections',
-                    xanchor='left',
-                    titleside='right'
-                ),
-                line_width=2))
+                line_width=2,
+                color=label_color))
+
         for node in graph.nodes():
             x, y = pos[node]
             node_trace['x'] += (x,)
             node_trace['y'] += (y,)
             if use_leaf_names:
-                node_trace['text'] += (node.name,)
+                name = node.name if hasattr(node, 'name') and node.name else ''
+                node_trace['text'] += (name,)
+
         return node_trace
 
     def get_layout(self, graph, layout):
@@ -1316,7 +1370,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         elif layout == "axial":
             return nx.spiral_layout(graph)
 
-    def create_edge_trace(self, graph, pos, edge_color):
+    def create_edge_trace(self, tree, pos, edge_color, show_branch_length):
         edge_trace = go.Scatter(
             x=[],
             y=[],
@@ -1324,12 +1378,33 @@ class UiMainWindow(QtWidgets.QMainWindow):
             hoverinfo='none',
             mode='lines'
         )
-        for edge in graph.edges():
-            x0, y0 = pos[edge[0]]
-            x1, y1 = pos[edge[1]]
-            edge_trace['x'] += (x0, x1, None)
-            edge_trace['y'] += (y0, y1, None)
-        return edge_trace
+        edge_annotations = []
+
+        for clade in tree.find_clades(order="level"):
+            if clade.is_terminal():
+                continue
+            for child in clade.clades:
+                x0, y0 = pos[clade]
+                x1, y1 = pos[child]
+                edge_trace['x'] += (x0, x1, None)
+                edge_trace['y'] += (y0, y1, None)
+
+                if show_branch_length:
+                    mid_x = (x0 + x1) / 2
+                    mid_y = (y0 + y1) / 2
+                    branch_length = child.branch_length
+                    edge_annotations.append(
+                        dict(
+                            x=mid_x,
+                            y=mid_y,
+                            text=f"{branch_length:.2f}",
+                            showarrow=False,
+                            xanchor="center",
+                            yanchor="middle",
+                            font=dict(color=edge_color)
+                        )
+                    )
+        return edge_trace, edge_annotations
 
     def download_climatic_tree_graph(self):
         current_key = self.tree_keys[self.current_index]
@@ -1345,7 +1420,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             with open(self.temp_img_path, 'rb') as temp_file:
                 with open(file_path, 'wb') as file:
                     file.write(temp_file.read())
-
 if __name__ == "__main__":
     # Create the application instance
     app = QtWidgets.QApplication([])

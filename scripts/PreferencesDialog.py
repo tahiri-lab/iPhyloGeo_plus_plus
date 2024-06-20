@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QComboBox, QRadioButton, QCheckBox, QLineEdit, QPushButton
+from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QComboBox, QRadioButton, QCheckBox, QPushButton, QButtonGroup
 
 class PreferencesDialog(QDialog):
     def __init__(self, parent=None):
@@ -33,13 +33,23 @@ class PreferencesDialog(QDialog):
         self.axial_radio = QRadioButton("Axial")
         self.radial_radio = QRadioButton("Radial")
 
+        # View Type Options
+        self.view_type_label = QLabel("View Type:")
+        self.network_view_radio = QRadioButton("Network View")
+        self.tree_view_radio = QRadioButton("Tree View")
+        self.network_view_radio.setChecked(True)
+
+        # Add view type radios to a button group to ensure only one can be selected at a time
+        self.view_type_group = QButtonGroup()
+        self.view_type_group.addButton(self.network_view_radio)
+        self.view_type_group.addButton(self.tree_view_radio)
+
         # Other Options
         self.proportional_edge_lengths = QCheckBox("Proportional edge lengths")
         self.label_internal_vertices = QCheckBox("Label internal vertices")
         self.use_leaf_names = QCheckBox("Use leaf names")
         self.use_leaf_names.setChecked(True)
-        self.root_with_leaf_node = QCheckBox("Root with leaf/node")
-        self.root_leaf_node_input = QLineEdit("0")
+        self.show_branch_length = QCheckBox("Show branch lengths")
 
         # Save Button
         self.save_button = QPushButton("Save")
@@ -57,11 +67,13 @@ class PreferencesDialog(QDialog):
         layout.addWidget(self.horizontal_radio)
         layout.addWidget(self.axial_radio)
         layout.addWidget(self.radial_radio)
+        layout.addWidget(self.view_type_label)
+        layout.addWidget(self.network_view_radio)
+        layout.addWidget(self.tree_view_radio)
         layout.addWidget(self.proportional_edge_lengths)
         layout.addWidget(self.label_internal_vertices)
         layout.addWidget(self.use_leaf_names)
-        layout.addWidget(self.root_with_leaf_node)
-        layout.addWidget(self.root_leaf_node_input)
+        layout.addWidget(self.show_branch_length)
         layout.addWidget(self.save_button)
 
         self.setLayout(layout)
@@ -81,11 +93,16 @@ class PreferencesDialog(QDialog):
         elif layout == "radial":
             self.radial_radio.setChecked(True)
 
+        view_type = preferences.get("view_type", "network")
+        if view_type == "network":
+            self.network_view_radio.setChecked(True)
+        else:
+            self.tree_view_radio.setChecked(True)
+
         self.proportional_edge_lengths.setChecked(preferences.get("proportional_edge_lengths", False))
         self.label_internal_vertices.setChecked(preferences.get("label_internal_vertices", False))
         self.use_leaf_names.setChecked(preferences.get("use_leaf_names", True))
-        self.root_with_leaf_node.setChecked(preferences.get("root_with_leaf_node", False))
-        self.root_leaf_node_input.setText(preferences.get("root_leaf_node", "0"))
+        self.show_branch_length.setChecked(preferences.get("show_branch_length", False))
 
     def get_preferences(self):
         return {
@@ -95,11 +112,11 @@ class PreferencesDialog(QDialog):
             "layout": "vertical" if self.vertical_radio.isChecked() else
                       "horizontal" if self.horizontal_radio.isChecked() else
                       "axial" if self.axial_radio.isChecked() else "radial",
+            "view_type": "network" if self.network_view_radio.isChecked() else "tree",
             "proportional_edge_lengths": self.proportional_edge_lengths.isChecked(),
             "label_internal_vertices": self.label_internal_vertices.isChecked(),
             "use_leaf_names": self.use_leaf_names.isChecked(),
-            "root_with_leaf_node": self.root_with_leaf_node.isChecked(),
-            "root_leaf_node": self.root_leaf_node_input.text(),
+            "show_branch_length": self.show_branch_length.isChecked()
         }
 
 if __name__ == "__main__":
