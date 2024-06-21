@@ -12,7 +12,7 @@ reference_gene_file: small_seq.fasta
 makeDebugFiles: true
 alignment_method: Pairwise
 distance_method: 2
-fit_method: narrow Fit Pairwise
+fit_method: star Alignment
 tree_type: '1'
 rate_similarity: 50
 method_similarity: '1'

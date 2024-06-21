@@ -33,7 +33,7 @@ from aphylogeo.alignement import AlignSequences
 from aphylogeo.genetic_trees import GeneticTrees
 from aphylogeo.params import Params
 from help import UiHowToUse
-from parameters import UiDialog
+from parameters2 import HoverLabel
 
 Params.load_from_file("params.yaml")
 
@@ -143,7 +143,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         This method creates a new QMainWindow instance, sets up its UI using the UiDialog class, and displays the window.
         """
         dialog = QtWidgets.QDialog()
-        ui = UiDialog()
+        ui = HoverLabel.Settings()
         ui.setupUi(dialog)
         dialog.exec_()
 
