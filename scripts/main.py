@@ -1,22 +1,30 @@
 import io
 import os
-import sys
-from decimal import Decimal
-import resources_rc
 import re
-import parameters
+import sys
+import json
+import yaml
+import time
 import folium
+import resources_rc
+from collections import Counter
+from PyQt5.QtCore import Qt
+from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
+from Bio import AlignIO
+from Bio.Align import MultipleSeqAlignment
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+from decimal import Decimal
+from io import BytesIO
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QWidget, QPushButton, QSpinBox
 import matplotlib.pyplot as plt
 import pandas as pd
 import qtmodern.styles
-import qtmodern.styles
 import qtmodern.windows
-import qtmodern.windows
-import yaml
-from Bio import SeqIO
+from Bio import AlignIO
 from PyQt5 import QtCore, QtGui
 from PyQt5 import QtWidgets, uic
-from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon, QColor, QPixmap, QImage
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QFileDialog, QGraphicsDropShadowEffect, QGraphicsScene
@@ -24,10 +32,10 @@ from aphylogeo import utils
 from aphylogeo.alignement import AlignSequences
 from aphylogeo.genetic_trees import GeneticTrees
 from aphylogeo.params import Params
-
 from help import UiHowToUse
 from parameters import UiDialog
 
+Params.load_from_file("params.yaml")
 
 class MyDumper(yaml.Dumper):
     """
@@ -113,8 +121,8 @@ def update_yaml_param(params, file_path, property_name, new_value):
         yaml.dump(data, yaml_file, default_flow_style=None, Dumper=MyDumper, sort_keys=False)
 
 
-Params.load_from_file("params.yaml")
-
+window_size = 50
+starting_position = 1
 
 class UiMainWindow(QtWidgets.QMainWindow):
 
@@ -166,7 +174,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
          This method connects various UI buttons to their corresponding event handlers, sets up styles and effects for UI elements, and initializes the state of the application.
          """
         self.setObjectName("MainWindow")
-
+        self.window_size_spinbox.setRange(1, 1000)
+        self.starting_position_spinbox.setRange(1, 1000)
+        self.button.clicked.connect(self.load_data_genetic)
         self.homeButton.clicked.connect(self.showHomePage)
         self.geneticDataButton.clicked.connect(self.showGenDatPage)
         self.climaticDataButton.clicked.connect(self.showClimDatPage)
@@ -175,18 +185,16 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.darkModeButton.setCursor(Qt.PointingHandCursor)
         self.isDarkMode = False  # Keep track of the state
         self.fileBrowserButtonPage1.clicked.connect(self.pressItFasta)
-        self.sequenceAlignmentButtonPage1.clicked.connect(self.SeqAlign)
+        self.StartSequenceAlignmentButton.clicked.connect(self.SeqAlign)
+        self.sequenceAlignmentButtonPage1.clicked.connect(self.showSequencePage)
         self.clearButtonPage1.clicked.connect(self.clearGen)
-        self.statisticsButtonPage1.clicked.connect(self.extract_species_names_from_fasta)
+        self.statisticsButtonPage1.clicked.connect(self.load_data_genetic)
         self.clearButtonPage2.clicked.connect(self.clearClim)
         self.climaticTreeButtonPage2.clicked.connect(self.openClimTree)
         self.fileBrowserButtonPage2.clicked.connect(self.pressItCSV)
-        self.statisticsButtonPage2.clicked.connect(self.update_climate_chart)
-        self.ClimStatsListCondition.currentIndexChanged.connect(self.update_climate_chart)
-        self.ClimStatsListChart.currentIndexChanged.connect(self.update_climate_chart)
-        self.resultsButtonPage2.clicked.connect(self.showResultsPage)
-        self.GenStatsList.currentIndexChanged.connect(self.displayGeneticStats)
-        self.diagramsComboBox.currentIndexChanged.connect(self.displayGeneticStats)
+        self.statisticsButtonPage2.clicked.connect(self.load_data_climate)
+        self.resultsButton.clicked.connect(self.showResultsPage)
+        self.CreateGraphButton.clicked.connect(self.generate_graph)
         self.settingsButtonPage3.clicked.connect(self.paramWin)
         self.submitButtonPage3.clicked.connect(self.showFilteredResults)
         self.clearButtonPage4.clicked.connect(self.clearResult)
@@ -195,18 +203,18 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         self.stackedWidget.setCurrentIndex(0)
 
-        buttons = [self.geneticDataButton, self.climaticDataButton, self.helpButton, self.homeButton]
+        buttons = [self.geneticDataButton, self.climaticDataButton, self.helpButton, self.homeButton,  self.resultsButton]
 
         buttons_Vertical = [self.fileBrowserButtonPage1, self.sequenceAlignmentButtonPage1,
                             self.clearButtonPage1, self.statisticsButtonPage1, self.geneticTreeButtonPage1,
-                            self.fileBrowserButtonPage2, self.clearButtonPage2, self.resultsButtonPage2,
+                            self.fileBrowserButtonPage2, self.clearButtonPage2,
                             self.climaticTreeButtonPage2, self.statisticsButtonPage2,
                             self.settingsButtonPage3,
                             self.settingsButtonPage4,
                             self.submitButtonPage3,
                             self.statisticsButtonPage3,
                             self.submitButtonPage4,
-                            self.statisticsButtonPage4,
+                            self.statisticsButtonPage4, self.StartSequenceAlignmentButton,
                             self.clearButtonPage3,
                             self.clearButtonPage4]
 
@@ -238,7 +246,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             buttonV.setCursor(Qt.PointingHandCursor)
             buttonV.setStyleSheet("""
                 QPushButton {
-                    border-radius: 20px;
+                    border-radius: 14px;
                     background-color: #EEEEEE;
                     padding: 10px 20px;
                     font-weight: bold;
@@ -264,7 +272,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
                     padding: 10px 20px;
                     font-weight: bold;
                     background-color: #DEDDDA;
-                    border-radius: 20px;
+                    border-radius: 14px;
                     transition: background-color 0.3s ease; /* Add transition */
                 }
                 QPushButton:hover {
@@ -282,189 +290,196 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.darkModeButton.setGraphicsEffect(shadow_effect)
         QtCore.QMetaObject.connectSlotsByName(self)
 
-    def extract_species_names_from_fasta(self):
+    def load_data_genetic(self):
+        print(f"Loading data from: {Params.reference_gene_filepath}")
+        genetic_data = self.read_fasta(Params.reference_gene_filepath)
+        standardized_data = self.standardize_sequence_lengths(genetic_data)
+        starting_position = self.starting_position_spinbox.value()
+        window_size = self.window_size_spinbox.value()
+        output_path = "./alignment_chart.png"
+        self.plot_alignment_chart(standardized_data, starting_position, window_size, output_path)
+        self.display_image(output_path)
         self.tabWidget.setCurrentIndex(3)
-        species_names = []
-        with open(Params.reference_gene_filepath, 'r') as file:
+
+    def read_fasta(self, fasta_file):
+        genetic_data = {}
+        with open(fasta_file, 'r') as file:
+            sequence_id = None
+            sequence_data = []
             for line in file:
                 if line.startswith('>'):
-                    species_name = line[1:].strip()
-                    species_names.append(species_name)
-        self.GenStatsList.addItems(species_names)
-        if species_names:
-            self.GenStatsList.setCurrentIndex(0)
-        return species_names
-
-    def calculate_gc_content(self, sequence):
-        return 100.0 * (sequence.count("G") + sequence.count("C")) / len(sequence)
-
-    def calculate_nucleotide_composition(self, sequences):
-        total_length = sum(len(seq) for seq in sequences)
-        a_count = sum(seq.count("A") for seq in sequences)
-        t_count = sum(seq.count("T") for seq in sequences)
-        g_count = sum(seq.count("G") for seq in sequences)
-        c_count = sum(seq.count("C") for seq in sequences)
-
-        return {
-            "A": (a_count / total_length) * 100,
-            "T": (t_count / total_length) * 100,
-            "G": (g_count / total_length) * 100,
-            "C": (c_count / total_length) * 100
-        }
-
-    def plot_nucleotide_composition(self, composition):
-        labels = composition.keys()
-        sizes = composition.values()
-        colors = ['#ff9999', '#66b3ff', '#99ff99', '#ffcc99']
-        explode = (0.1, 0, 0, 0)  # explode 1st slice
-
-        fig1, ax1 = plt.subplots(figsize=(6, 4))  # Adjusting size to 600x400 pixels
-        ax1.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%',
-                shadow=True, startangle=140)
-        ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-
-        output_dir = "./results"
-        os.makedirs(output_dir, exist_ok=True)
-        plt.savefig(os.path.join(output_dir, "nucleotide_composition.png"), bbox_inches='tight')
-        plt.close()
-
-    def plot_sequence_length_distribution(self, lengths):
-        plt.figure(figsize=(6, 4))  # Adjusting size to 600x400 pixels
-        plt.hist(lengths, bins=20, color='skyblue', edgecolor='black')
-        plt.title('Sequence Length Distribution')
-        plt.xlabel('Sequence Length')
-        plt.ylabel('Frequency')
-
-        output_dir = "./results"
-        os.makedirs(output_dir, exist_ok=True)
-        plt.savefig(os.path.join(output_dir, "sequence_length_distribution.png"), bbox_inches='tight')
-        plt.close()
-
-    def plot_gc_content_distribution(self, gc_contents):
-        plt.figure(figsize=(6, 4))  # Adjusting size to 600x400 pixels
-        plt.hist(gc_contents, bins=20, color='lightgreen', edgecolor='black')
-        plt.title('GC Content Distribution')
-        plt.xlabel('GC Content (%)')
-        plt.ylabel('Frequency')
-
-        output_dir = "./results"
-        os.makedirs(output_dir, exist_ok=True)
-        plt.savefig(os.path.join(output_dir, "gc_content_distribution.png"), bbox_inches='tight')
-        plt.close()
-
-    def plot_nucleotide_frequency(self, composition):
-        labels = composition.keys()
-        sizes = composition.values()
-
-        plt.figure(figsize=(6, 4))  # Adjusting size to 600x400 pixels
-        plt.bar(labels, sizes, color=['#ff9999', '#66b3ff', '#99ff99', '#ffcc99'])
-        plt.title('Nucleotide Frequency')
-        plt.xlabel('Nucleotides')
-        plt.ylabel('Frequency (%)')
-
-        output_dir = "./results"
-        os.makedirs(output_dir, exist_ok=True)
-        plt.savefig(os.path.join(output_dir, "nucleotide_frequency.png"), bbox_inches='tight')
-        plt.close()
-
-    def plot_codon_usage(self, sequences):
-        codon_count = {}
-        for seq in sequences:
-            for i in range(0, len(seq) - 2, 3):
-                codon = str(seq[i:i + 3])
-                if codon in codon_count:
-                    codon_count[codon] += 1
+                    if sequence_id is not None:
+                        genetic_data[sequence_id] = ''.join(sequence_data)
+                    sequence_id = line[1:].strip()
+                    sequence_data = []
                 else:
-                    codon_count[codon] = 1
+                    sequence_data.append(line.strip())
+            if sequence_id is not None:
+                genetic_data[sequence_id] = ''.join(sequence_data)
+        return genetic_data
 
-        codons = list(codon_count.keys())
-        counts = list(codon_count.values())
+    def standardize_sequence_lengths(self, genetic_data):
+        max_length = max(len(seq) for seq in genetic_data.values())
+        standardized_data = {}
+        for key, seq in genetic_data.items():
+            if len(seq) < max_length:
+                padded_seq = seq + '-' * (max_length - len(seq))
+            else:
+                padded_seq = seq[:max_length]
+            standardized_data[key] = padded_seq
+        return standardized_data
 
-        plt.figure(figsize=(6, 4))  # Adjusting size to 600x400 pixels
-        plt.bar(codons, counts, color='mediumpurple')
-        plt.title('Codon Usage')
-        plt.xlabel('Codons')
-        plt.ylabel('Frequency')
-        plt.xticks(rotation=90)
+    def plot_alignment_chart(self, genetic_data, starting_position, window_size, output_path):
+        end_position = starting_position + window_size
+        truncated_data = {key: value[starting_position:end_position] for key, value in genetic_data.items()}
 
-        output_dir = "./results"
-        os.makedirs(output_dir, exist_ok=True)
-        plt.savefig(os.path.join(output_dir, "codon_usage.png"), bbox_inches='tight')
-        plt.close()
+        alignment = MultipleSeqAlignment([
+            SeqRecord(Seq(seq), id=key)
+            for key, seq in truncated_data.items()
+        ])
 
-    def displayGeneticStats(self):
-        species_name = self.GenStatsList.currentText()
-        sequences = []
-        lengths = []
-        gc_contents = []
+        fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(9, 4), gridspec_kw={'height_ratios': [1, 8, 1]})
+        ax1.set_axis_off()
+        ax2.set_axis_off()
+        ax3.set_axis_off()
 
-        fasta_file = Params.reference_gene_filepath  # Update this path to your FASTA file
-        for record in SeqIO.parse(fasta_file, "fasta"):
-            if species_name in record.description:
-                sequences.append(record.seq)
-                lengths.append(len(record.seq))
-                gc_contents.append(self.calculate_gc_content(record.seq))
+        # Calculate conservation and gaps
+        conservation = self.calculate_conservation(alignment)
+        gaps = self.calculate_gaps(alignment)
 
-        if not sequences:
-            self.textEditGenStats.setText(f"<p style='color:red;'>No sequences found for species: {species_name}</p>")
-            return
+        # Plot conservation
+        bar_width = 1.0
+        ax1.bar(range(len(conservation)), conservation, color='#4CAF50', width=bar_width, align='edge')
+        ax1.set_xlim(0, len(conservation))
+        ax1.set_ylim(0, 1)
 
-        nucleotide_composition = self.calculate_nucleotide_composition(sequences)
+        # Plot gaps
+        ax3.bar(range(len(gaps)), gaps, color='#F44336', width=bar_width, align='edge')
+        ax3.set_ylabel('Gap')
+        ax3.set_xlim(0, len(gaps))
+        ax3.set_ylim(0, 1)
 
-        image_path = ""
-        diagram_type = self.diagramsComboBox.currentText()
-        if diagram_type == "Nucleotide Composition":
-            self.plot_nucleotide_composition(nucleotide_composition)
-            image_path = "./results/nucleotide_composition.png"
-        elif diagram_type == "Sequence Length Distribution":
-            self.plot_sequence_length_distribution(lengths)
-            image_path = "./results/sequence_length_distribution.png"
-        elif diagram_type == "GC Content Distribution":
-            self.plot_gc_content_distribution(gc_contents)
-            image_path = "./results/gc_content_distribution.png"
-        elif diagram_type == "Nucleotide Frequency":
-            self.plot_nucleotide_frequency(nucleotide_composition)
-            image_path = "./results/nucleotide_frequency.png"
-        elif diagram_type == "Codon Usage":
-            self.plot_codon_usage(sequences)
-            image_path = "./results/codon_usage.png"
-
-        stats = {
-            "total_sequences": len(sequences),
-            "avg_length": sum(lengths) / len(lengths),
-            "min_length": min(lengths),
-            "max_length": max(lengths),
-            "avg_gc_content": sum(gc_contents) / len(gc_contents),
-            "std_dev_length": (sum((x - (sum(lengths) / len(lengths))) ** 2 for x in lengths) / len(lengths)) ** 0.5,
+        # Plot alignment
+        seqs = [str(record.seq) for record in alignment]
+        ids = [record.id for record in alignment]
+        colors = {
+            'A': '#4CAF50',
+            'T': '#F44336',
+            'G': '#2196F3',
+            'C': '#FFEB3B',
+            '-': 'grey',
+            'N': 'black'  # Handling 'N' or any other characters if present
         }
 
-        stats_text = (
-            f"<br>"
-            f"<h2 style='color:darkblue;'>Species: {species_name}</h2>"
-            f"<h3><b>Total sequences:</b> {stats['total_sequences']}</h3>"
-            f"<h3><b>Avg length:</b> {stats['avg_length']:.2f}</h3>"
-            f"<h3><b>Min length:</b> {stats['min_length']}</h3>"
-            f"<h3><b>Max length:</b> {stats['max_length']}</h3>"
-            f"<h3><b>Avg GC content:</b> {stats['avg_gc_content']:.2f}%</h3>"
-            f"<h3><b>Std Dev length:</b> {stats['std_dev_length']:.2f}</h3>"
-            f"<h3 style='color:darkgreen;'>Nucleotide composition:</h3>"
-            f"<ul>"
-            f"  <li><b>A:</b> {nucleotide_composition['A']:.2f}%</li>"
-            f"  <li><b>T:</b> {nucleotide_composition['T']:.2f}%</li>"
-            f"  <li><b>G:</b> {nucleotide_composition['G']:.2f}%</li>"
-            f"  <li><b>C:</b> {nucleotide_composition['C']:.2f}%</li>"
-            f"</ul>"
-        )
+        font_size = 10
+        rect_height = 0.8
+        rect_width = 1.0
 
-        # Set the text in the QTextEdit
-        self.textEditGenStats.setText(stats_text)
-        self.textEditGenStats.setAlignment(QtCore.Qt.AlignTop)  # Align text at the top
+        for i, seq in enumerate(seqs):
+            ax2.text(-1, len(seqs) - i - 1 + rect_height / 2, ids[i], ha='right', va='center', fontsize=font_size)
+            for j, nucleotide in enumerate(seq):
+                color = colors.get(nucleotide, 'black')  # Default to black if not found
+                rect = mpatches.Rectangle((j, len(seqs) - i - 1), rect_width, rect_height, color=color)
+                ax2.add_patch(rect)
+                ax2.text(j + rect_width / 2, len(seqs) - i - 1 + rect_height / 2, nucleotide, ha='center', va='center',
+                         fontsize=font_size)
 
-        # Set the image in the QLabel
-        if image_path:
-            pixmap = QtGui.QPixmap(image_path)
+        consensus_seq = self.calculate_consensus(alignment)
+        for j, nucleotide in enumerate(consensus_seq):
+            color = colors.get(nucleotide, 'black')  # Default to black if not found
+            rect = mpatches.Rectangle((j, -1), rect_width, rect_height, color=color)
+            ax2.add_patch(rect)
+            ax2.text(j + rect_width / 2, -1 + rect_height / 2, nucleotide, ha='center', va='center', fontsize=font_size,
+                     fontweight='bold')
+
+        # Add Consensus title
+        ax2.text(-1, -1 + rect_height / 2, "Consensus", ha='right', va='center', fontsize=font_size, fontweight='bold')
+
+        ax2.set_xlim(0, len(consensus_seq))
+        ax2.set_ylim(-2, len(seqs))
+        ax2.set_yticks(range(len(ids)))
+        ax2.set_yticklabels(ids, fontsize=font_size)
+        ax2.set_xticks(range(len(consensus_seq)))
+        ax2.set_xticklabels(range(starting_position, end_position), fontsize=font_size)
+
+        plt.subplots_adjust(left=0.2, right=0.95, top=0.95, bottom=0.05)
+        plt.savefig(output_path)
+        plt.close()
+        print(f"Plot saved to: {output_path}")
+
+    def calculate_conservation(self, alignment):
+        conservation = []
+        for i in range(alignment.get_alignment_length()):
+            column = alignment[:, i]
+            counts = Counter(column)
+            most_common = counts.most_common(1)[0][1]
+            conservation.append(most_common / len(column))
+        return conservation
+
+    def calculate_gaps(self, alignment):
+        gaps = []
+        for i in range(alignment.get_alignment_length()):
+            column = alignment[:, i]
+            gap_count = column.count('-')
+            gaps.append(gap_count / len(column))
+        return gaps
+
+    def calculate_consensus(self, alignment):
+        consensus_seq = []
+        for i in range(alignment.get_alignment_length()):
+            column = alignment[:, i]
+            most_common = Counter(column).most_common(1)[0][0]
+            consensus_seq.append(most_common)
+        return ''.join(consensus_seq)
+
+    def display_image(self, image_path):
+        if os.path.exists(image_path):
+            print(f"Displaying image: {image_path}")
+            pixmap = QPixmap(image_path)
+            if pixmap.isNull():
+                print("Failed to load image into QPixmap")
+            else:
+                print("Image loaded into QPixmap successfully")
             self.textEditGenStats_2.setPixmap(pixmap)
-            self.textEditGenStats_2.setAlignment(QtCore.Qt.AlignCenter)
+            self.textEditGenStats_2.repaint()  # Ensure the label is updated
+        else:
+            print(f"Image not found: {image_path}")
+
+    def load_data_climate(self):
+        # Load the data without the first column
+        self.data = pd.read_csv(Params.file_name, usecols=lambda column: column != 'id')
+        self.columns = self.data.columns
+        self.ClimaticChartSettingsAxisX.addItems(self.columns)
+        self.ClimaticChartSettingsAxisY.addItems(self.columns)
+        self.tabWidget2.setCurrentIndex(2)
+
+    def generate_graph(self):
+        x_data = self.ClimaticChartSettingsAxisX.currentText()
+        y_data = self.ClimaticChartSettingsAxisY.currentText()
+
+        fig, ax = plt.subplots(figsize=(5.2, 5))  # Set figure size to 520x500 pixels (each inch is 100 pixels)
+
+        if self.radioButtonBarGraph.isChecked():
+            plot_type = 'Bar Graph'
+            self.data.plot(kind='bar', x=x_data, y=y_data, ax=ax)
+        elif self.radioButtonScatterPlot.isChecked():
+            plot_type = 'Scatter Plot'
+            self.data.plot(kind='scatter', x=x_data, y=y_data, ax=ax)
+        elif self.radioButtonLinePlot.isChecked():
+            plot_type = 'Line Plot'
+            self.data.plot(kind='line', x=x_data, y=y_data, ax=ax)
+        elif self.radioButtonPiePlot.isChecked():
+            plot_type = 'Pie Plot'
+            self.data.set_index(x_data).plot(kind='pie', y=y_data, ax=ax)
+
+        buf = BytesIO()
+        plt.savefig(buf, format='png')
+        buf.seek(0)
+        pixmap = QPixmap()
+        pixmap.loadFromData(buf.getvalue())
+        self.tabWidget2.setCurrentIndex(2)
+        self.ClimaticChart_2.setPixmap(pixmap)
+
     def pressItFasta(self):
         """
         Open a dialog to select a FASTA file, update parameters, and display the content with color-coded sequences.
@@ -529,6 +544,11 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         This method calls the callSeqAlign method to perform sequence alignment and stores the resulting genetic tree dictionary in the geneticTreeDict attribute.
         """
+        buttontest = [self.SequenceAlignmentMethod, self.SequenceFitMethod]
+        align = self.SequenceAlignmentMethod.currentText()
+        fit = self.SequenceFitMethod.currentText()
+        update_yaml_param(Params, "params.yaml", "alignment_method", align)
+        update_yaml_param(Params, "params.yaml", "fit_method", fit)
         self.geneticTreeDict = self.callSeqAlign()
 
     def update_climate_chart(self):
@@ -582,8 +602,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         Raises:
             Exception: Any exception that occurs during the alignment process will be handled, and the loading screen will close.
         """
-        import time
-        from PyQt5 import QtCore
         def update_progress(loading_screen, step):
             if step < loading_screen.checkListWidget.count():
                 item = loading_screen.checkListWidget.item(step)
@@ -625,7 +643,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.tabWidget.setCurrentIndex(2)
             self.statisticsButtonPage1.setEnabled(True)
             self.statisticsButtonPage1.setIcon(QIcon(":inactive/statistics.svg"))
-            self.resultsButtonPage2.setEnabled(True)
+            self.resultsButton.setEnabled(True)
             update_progress(loading_screen, 4)
             QtWidgets.QApplication.processEvents()
 
@@ -639,6 +657,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             loading_screen.close()
 
         return geneticTrees
+
     def retrieveDataNames(self, list):
         """
         Retrieve data from a list, excluding the first element.
@@ -680,9 +699,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.webview.loadFinished.connect(self.capture_image)
 
     def capture_image(self):
-        self.webview.page().grab().then(self.display_image)
+        self.webview.page().grab().then(self.display_image1)
 
-    def display_image(self, image):
+    def display_image1(self, image):
         qimage = QImage(image)
         pixmap = QPixmap.fromImage(qimage)
 
@@ -788,6 +807,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
                         self.tabWidget2.setCurrentIndex(1)
                 if loc and lat and long:
                     self.populateMap(lat, long)
+
     def populateMap(self, lat, long):
         """
         Create and display a folium map with given latitude and longitude.
@@ -799,6 +819,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
             lat (list): List of latitudes.
             long (list): List of longitudes.
         """
+        lat = [float(x) for x in lat]  # Convert all elements in lat to float
+        long = [float(x) for x in long]  # Convert all elements in long to float
+
         mean_lat = sum(lat) / len(lat)
         mean_long = sum(long) / len(long)
 
@@ -826,6 +849,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.climaticDataButton.setIcon(QIcon(":inactive/climaticData.svg"))
         self.geneticDataButton.setIcon(QIcon(":inactive/genetic.svg"))
         self.homeButton.setIcon(QIcon(":active/home.png"))
+        self.resultsButton.setIcon(QIcon(":inactive/result.svg"))
         self.stackedWidget.setCurrentIndex(0)
 
     def showGenDatPage(self):
@@ -837,6 +861,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.climaticDataButton.setIcon(QIcon(":inactive/climaticData.svg"))
         self.geneticDataButton.setIcon(QIcon(":active/genetic.svg"))
         self.homeButton.setIcon(QIcon(":other/home.svg"))
+        self.resultsButton.setIcon(QIcon(":inactive/result.svg"))
         self.stackedWidget.setCurrentIndex(1)
         self.tabWidget.setCurrentIndex(0)
 
@@ -849,6 +874,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.climaticDataButton.setIcon(QIcon(":active/climaticData.png"))
         self.geneticDataButton.setIcon(QIcon(":inactive/genetic.svg"))
         self.homeButton.setIcon(QIcon(":other/home.svg"))
+        self.resultsButton.setIcon(QIcon(":inactive/result.svg"))
         self.stackedWidget.setCurrentIndex(2)
         self.tabWidget2.setCurrentIndex(0)
 
@@ -858,6 +884,10 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         This method sets the stacked widget's current index to 3 to display the results page.
         """
+        self.climaticDataButton.setIcon(QIcon(":inactive/climaticData.svg"))
+        self.geneticDataButton.setIcon(QIcon(":inactive/genetic.svg"))
+        self.homeButton.setIcon(QIcon(":other/home.svg"))
+        self.resultsButton.setIcon(QIcon(":active/result.svg"))
         self.stackedWidget.setCurrentIndex(3)
 
     def showResultsStatsPage(self):
@@ -867,6 +897,13 @@ class UiMainWindow(QtWidgets.QMainWindow):
         This method sets the stacked widget's current index to 4 to display the results statistics page.
         """
         self.stackedWidget.setCurrentIndex(4)
+
+    def showSequencePage(self):
+        """
+        Display the sequence alignment page
+        """
+        self.stackedWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(2)
 
     def showFilteredResults(self):
         """
@@ -929,7 +966,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.isDarkMode = not self.isDarkMode
         buttons_Vertical = [self.fileBrowserButtonPage1, self.sequenceAlignmentButtonPage1,
                             self.clearButtonPage1, self.statisticsButtonPage1, self.geneticTreeButtonPage1,
-                            self.fileBrowserButtonPage2, self.clearButtonPage2, self.resultsButtonPage2,
+                            self.fileBrowserButtonPage2, self.clearButtonPage2,
                             self.climaticTreeButtonPage2, self.statisticsButtonPage2,
                             self.settingsButtonPage3,
                             self.settingsButtonPage4,
@@ -937,24 +974,21 @@ class UiMainWindow(QtWidgets.QMainWindow):
                             self.statisticsButtonPage3,
                             self.submitButtonPage4,
                             self.statisticsButtonPage4,
-                            self.clearButtonPage3,
+                            self.clearButtonPage3, self.StartSequenceAlignmentButton,
                             self.clearButtonPage4]
+        buttons = [self.geneticDataButton, self.climaticDataButton, self.helpButton, self.homeButton, self.resultsButton]
 
         if self.isDarkMode:
             qtmodern.styles.dark(app)
             self.top_frame.setStyleSheet("background-color: #646464;")
-            self.homeButton.setStyleSheet("background-color: #838383;")
-            self.geneticDataButton.setStyleSheet("background-color: #838383;")
-            self.climaticDataButton.setStyleSheet("background-color: #838383;")
-            self.helpButton.setStyleSheet("background-color: #838383;")
             self.darkModeButton.setIcon(QIcon(":other/light.png"))  # Set the 'light' icon for dark mode
             self.darkModeButton.setCursor(Qt.PointingHandCursor)
             self.darkModeButton.setStyleSheet("""
                 QPushButton { 
                     padding: 10px 20px;
                     font-weight: bold;
-                    background-color: #464645;
-                    border-radius: 14px;
+                    background-color: #646464;
+                    border-radius: 20px;
                     transition: background-color 0.3s ease; /* Add transition */
                 }
                 QPushButton:hover {
@@ -972,13 +1006,35 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
             # Appliquer l'effet d'ombre au bouton
             self.darkModeButton.setGraphicsEffect(shadow_effect)
+            for button in buttons:
+                button.setCursor(Qt.PointingHandCursor)
+                button.setStyleSheet("""
+                    QPushButton { 
+                        padding: 10px 20px;
+                        font-weight: bold;
+                        background-color: #6F6F6F;
+                        border-radius: 20px;
+                        transition: background-color 0.3s ease; /* Add transition */
+                    }
+                    QPushButton:hover {
+                        background-color: #B7B7B6; 
+                    }
+                    QPushButton:pressed {
+                        background-color: #DEDDDA;
+                    }
+                """)
+                shadow_effect = QGraphicsDropShadowEffect()
+                shadow_effect.setBlurRadius(10)
+                shadow_effect.setColor(QColor(0, 0, 0, 140))
+                shadow_effect.setOffset(3, 3)
+                button.setGraphicsEffect(shadow_effect)
             #######################################################
             for buttonV in buttons_Vertical:
                 buttonV.setCursor(Qt.PointingHandCursor)
                 buttonV.setStyleSheet("""
                     QPushButton {
                         color: #EFEFEF;
-                        border-radius: 14px;
+                        border-radius: 20px;
                         background-color: #464645;
                         padding: 10px 20px;
                         font-weight: bold;
@@ -1003,10 +1059,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         else:
             qtmodern.styles.light(app)
             self.top_frame.setStyleSheet("background-color: rgb(222, 221, 218);")
-            self.homeButton.setStyleSheet("background-color: rgb(222, 221, 218);")
-            self.geneticDataButton.setStyleSheet("background-color: rgb(222, 221, 218);")
-            self.climaticDataButton.setStyleSheet("background-color: rgb(222, 221, 218);")
-            self.helpButton.setStyleSheet("background-color: rgb(222, 221, 218);")
             self.darkModeButton.setIcon(QIcon(":other/dark.png"))  # Set the 'dark' icon
             self.darkModeButton.setCursor(Qt.PointingHandCursor)
             self.darkModeButton.setStyleSheet("""
@@ -1014,7 +1066,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
                         padding: 10px 20px;
                         font-weight: bold;
                         background-color: #DEDDDA;
-                        border-radius: 14px;
+                        border-radius: 20px;
                         transition: background-color 0.3s ease; /* Add transition */
                     }
                     QPushButton:hover {
@@ -1029,15 +1081,37 @@ class UiMainWindow(QtWidgets.QMainWindow):
             shadow_effect.setBlurRadius(10)  # Ajuster le flou de l'ombre
             shadow_effect.setColor(QColor(0, 0, 0, 140))  # Couleur de l'ombre (noir avec transparence)
             shadow_effect.setOffset(3, 3)  # Décalage de l'ombre
-
             # Appliquer l'effet d'ombre au bouton
             self.darkModeButton.setGraphicsEffect(shadow_effect)
+
+            for button in buttons:
+                button.setCursor(Qt.PointingHandCursor)
+                button.setStyleSheet("""
+                    QPushButton { 
+                        padding: 10px 20px;
+                        font-weight: bold;
+                        background-color: #DEDDDA;
+                        border-radius: 20px;
+                        transition: background-color 0.3s ease; /* Add transition */
+                    }
+                    QPushButton:hover {
+                        background-color: #B7B7B6; 
+                    }
+                    QPushButton:pressed {
+                        background-color: #DEDDDA;
+                    }
+                """)
+                shadow_effect = QGraphicsDropShadowEffect()
+                shadow_effect.setBlurRadius(10)
+                shadow_effect.setColor(QColor(0, 0, 0, 140))
+                shadow_effect.setOffset(3, 3)
+                button.setGraphicsEffect(shadow_effect)
             ##########################################################
             for buttonV in buttons_Vertical:
                 buttonV.setCursor(Qt.PointingHandCursor)
                 buttonV.setStyleSheet("""
                     QPushButton {
-                        border-radius: 14px;
+                        border-radius: 20px;
                         background-color: #EEEEEE;
                         padding: 10px 20px;
                         font-weight: bold;
@@ -1069,7 +1143,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.textEditFasta.clear()
         self.textEditSeqAlign.clear()
         self.textEditGenTree.clear()
-        self.GenStatsList.setCurrentIndex(0)
 
     def clearClim(self):
         """
