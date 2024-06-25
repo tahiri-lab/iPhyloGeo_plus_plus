@@ -471,7 +471,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         sequences = []
         for key, value in self.msa.items():
             parts = value.strip().split('\n')
-            header = parts[0]
+            header = parts[0].strip('>')  # Get the header without the '>'
             sequence = ''.join(parts[1:])
             sequences.append((header, sequence))
 
@@ -482,7 +482,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         padded_records = []
         for header, sequence in sequences:
             padded_seq = sequence.ljust(max_len, '-')
-            padded_records.append(SeqRecord(Seq(padded_seq), id=header.split()[0]))
+            padded_records.append(SeqRecord(Seq(padded_seq), id=header))
 
         # Create a MultipleSeqAlignment object
         alignment = MultipleSeqAlignment(padded_records)
@@ -503,7 +503,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         # Use Params.window_size directly
         window_size = Params.window_size
-        step_size = 10  # You can also parameterize this if needed
+        step_size = Params.step_size  # You can also parameterize this if needed
 
         windowed_similarities = []
         for sim in similarities:
@@ -515,7 +515,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         fig, ax = plt.subplots(figsize=(10, 6))
         x = np.arange(0, len(reference_sequence) - window_size + 1, step_size)
         for idx, record in enumerate(alignment):
-            ax.plot(x, windowed_similarities[idx], label=record.id)
+            ax.plot(x, windowed_similarities[idx], label=f'{record.id}_{idx}')
 
         ax.set_xlabel('Position')
         ax.set_ylabel('Similarity')
@@ -531,10 +531,10 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.textEditGenStats_2.setPixmap(pixmap)
         self.textEditGenStats_2.setFixedSize(900, 400)
         self.textEditGenStats_2.setScaledContents(True)
-        self.tabWidget.setCurrentIndex(3)
+
         # Optionally, remove the temporary file
         os.remove(plot_path)
-
+        self.tabWidget.setCurrentIndex(3)
 
     def load_data_climate(self):
         # Load the data without the first column
@@ -623,11 +623,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 self.textEditFasta.setHtml(
                     f"<div style='background-color: #000000; color: #ffffff; padding: 10px; white-space: pre-wrap; word-wrap: break-word;'>{sequence}</div>"
                 )
-                self.tabWidget.setCurrentIndex(1)
                 self.sequenceAlignmentButtonPage1.setEnabled(True)
-                self.statisticsButtonPage1.setEnabled(True)
-                self.statisticsButtonPage1.setIcon(QIcon(":inactive/statistics.svg"))
                 self.sequenceAlignmentButtonPage1.setIcon(QIcon(":inactive/sequence.svg"))
+                self.tabWidget.setCurrentIndex(1)
 
     def SeqAlign(self):
         """
@@ -729,7 +727,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.tabWidget.setCurrentIndex(2)
             self.statisticsButtonPage1.setEnabled(True)
             self.statisticsButtonPage1.setIcon(QIcon(":inactive/statistics.svg"))
-            self.resultsButtonPage2.setEnabled(True)
+            self.geneticTreeButtonPage1.setIcon(QIcon(":inactive/genetic.svg"))
+            self.geneticTreeButtonPage1.setEnabled(True)
             update_progress(loading_screen, 4)
             QtWidgets.QApplication.processEvents()
             # Step 4: Save results
@@ -1160,6 +1159,11 @@ class UiMainWindow(QtWidgets.QMainWindow):
         """
         self.textEditFasta.clear()
         self.seqAlignLabel.clear()
+        self.textEditGenStats_2.clear()
+        self.sequenceAlignmentButtonPage1.setEnabled(False)
+        self.statisticsButtonPage1.setEnabled(False)
+        self.geneticTreeButtonPage1.setEnabled(False)
+        self.GeneticTreeLabel.clear()
 
     def clearClim(self):
         """
@@ -1198,8 +1202,18 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.total_trees = len(self.tree_keys)
         self.current_index = 0
         self.geneticTreescomboBox.clear()
-        self.geneticTreescomboBox.addItems(self.tree_keys)
+
+        # Format the tree keys to replace underscore with ' nt '
+        formatted_tree_keys = [self.format_tree_name(key) for key in self.tree_keys]
+        self.geneticTreescomboBox.addItems(formatted_tree_keys)
+
         self.show_tree(self.current_index)
+
+    def format_tree_name(self, tree_name):
+        parts = tree_name.split('_')
+        if len(parts) == 2:
+            return f"{parts[0]} nt {parts[1]} nt"
+        return tree_name
 
     def show_selected_tree(self, index):
         if index >= 0:
@@ -1226,7 +1240,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
             ax.axis('off')  # Remove the X and Y axes
 
             # Add tree info as text annotation
-            ax.text(0.5, 1.01, f"Tree Name: {key}\nCurrent Index: {index + 1} / {self.total_trees}",
+            formatted_key = self.format_tree_name(key)
+            ax.text(0.5, 1.01, f"Tree Name: {formatted_key}\nCurrent Index: {index + 1} / {self.total_trees}",
                     transform=ax.transAxes, ha='center', va='bottom', fontsize=10, color='black')
 
             # Save the plot to a temporary file
@@ -1244,8 +1259,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.GeneticTreeLabel.clear()
             self.GeneticTreeLabel.setPixmap(pixmap)
             self.GeneticTreeLabel.adjustSize()
-
-            # Update the QTextEdit with the tree name and current index
 
     def download_graph(self):
         current_key = self.tree_keys[self.current_index]
@@ -1306,11 +1319,16 @@ class UiMainWindow(QtWidgets.QMainWindow):
             view_type = preferences.get("view_type", "network")
 
             if view_type == "network":
-                self.render_network_view(tree, label_color, edge_color, reticulation_color, layout, proportional_edge_lengths, label_internal_vertices, use_leaf_names, show_branch_length)
+                self.render_network_view(tree, label_color, edge_color, reticulation_color, layout,
+                                         proportional_edge_lengths, label_internal_vertices, use_leaf_names,
+                                         show_branch_length)
             else:
-                self.render_tree_view(tree, label_color, edge_color, reticulation_color, layout, proportional_edge_lengths, label_internal_vertices, use_leaf_names, show_branch_length)
+                self.render_tree_view(tree, label_color, edge_color, reticulation_color, layout,
+                                      proportional_edge_lengths, label_internal_vertices, use_leaf_names,
+                                      show_branch_length)
 
-    def render_network_view(self, tree, label_color, edge_color, reticulation_color, layout, proportional_edge_lengths, label_internal_vertices, use_leaf_names, show_branch_length):
+    def render_network_view(self, tree, label_color, edge_color, reticulation_color, layout, proportional_edge_lengths,
+                            label_internal_vertices, use_leaf_names, show_branch_length):
         # Use seaborn for color palettes
         sns.set_palette("husl")
 
@@ -1359,7 +1377,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.climaticTreesLabel.setPixmap(pixmap)
         self.climaticTreesLabel.adjustSize()
 
-    def render_tree_view(self, tree, label_color, edge_color, reticulation_color, layout, proportional_edge_lengths, label_internal_vertices, use_leaf_names, show_branch_length):
+    def render_tree_view(self, tree, label_color, edge_color, reticulation_color, layout, proportional_edge_lengths,
+                         label_internal_vertices, use_leaf_names, show_branch_length):
         fig = plt.figure(figsize=(9.11, 4.41))  # Limit size to 911x441 pixels
         ax = fig.add_subplot(1, 1, 1)
 
@@ -1382,7 +1401,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
             label = clade.name if use_leaf_names and clade.is_terminal() else ""
             return f'{label}\n{clade.branch_length:.2f}' if show_branch_length and label else label
 
-        Phylo.draw(tree, do_show=False, axes=ax, label_func=label_func, label_colors={clade: label_color for clade in tree.find_clades()})
+        Phylo.draw(tree, do_show=False, axes=ax, label_func=label_func,
+                   label_colors={clade: label_color for clade in tree.find_clades()})
 
         ax.axis('off')  # Remove axes
 
@@ -1482,6 +1502,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
             with open(self.temp_img_path, 'rb') as temp_file:
                 with open(file_path, 'wb') as file:
                     file.write(temp_file.read())
+
+
 if __name__ == "__main__":
     # Create the application instance
     app = QtWidgets.QApplication([])
