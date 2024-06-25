@@ -1097,15 +1097,98 @@ p, li { white-space: pre-wrap; }
         <attribute name="title">
          <string>Sequence Alignment</string>
         </attribute>
-        <widget class="QTextEdit" name="textEditSeqAlign">
+        <widget class="QLabel" name="seqAlignLabel">
          <property name="geometry">
           <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>926</width>
-           <height>511</height>
+           <x>10</x>
+           <y>110</y>
+           <width>900</width>
+           <height>400</height>
           </rect>
          </property>
+         <property name="minimumSize">
+          <size>
+           <width>900</width>
+           <height>400</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>900</width>
+           <height>400</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QFrame" name="GenStatsFilters">
+         <property name="geometry">
+          <rect>
+           <x>430</x>
+           <y>10</y>
+           <width>481</width>
+           <height>61</height>
+          </rect>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <widget class="QSpinBox" name="starting_position_spinbox_2">
+          <property name="geometry">
+           <rect>
+            <x>350</x>
+            <y>30</y>
+            <width>111</width>
+            <height>22</height>
+           </rect>
+          </property>
+          <property name="value">
+           <number>1</number>
+          </property>
+         </widget>
+         <widget class="QSpinBox" name="window_size_spinbox_2">
+          <property name="geometry">
+           <rect>
+            <x>180</x>
+            <y>30</y>
+            <width>111</width>
+            <height>22</height>
+           </rect>
+          </property>
+          <property name="value">
+           <number>10</number>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_3">
+          <property name="geometry">
+           <rect>
+            <x>190</x>
+            <y>10</y>
+            <width>81</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Window size</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_4">
+          <property name="geometry">
+           <rect>
+            <x>360</x>
+            <y>10</y>
+            <width>121</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Starting position</string>
+          </property>
+         </widget>
         </widget>
        </widget>
        <widget class="QWidget" name="GenTab4">
@@ -1127,74 +1210,6 @@ p, li { white-space: pre-wrap; }
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <widget class="QFrame" name="GenStatsFilters">
-          <property name="geometry">
-           <rect>
-            <x>440</x>
-            <y>20</y>
-            <width>481</width>
-            <height>61</height>
-           </rect>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-          <widget class="QSpinBox" name="starting_position_spinbox">
-           <property name="geometry">
-            <rect>
-             <x>350</x>
-             <y>30</y>
-             <width>111</width>
-             <height>22</height>
-            </rect>
-           </property>
-           <property name="value">
-            <number>1</number>
-           </property>
-          </widget>
-          <widget class="QSpinBox" name="window_size_spinbox">
-           <property name="geometry">
-            <rect>
-             <x>180</x>
-             <y>30</y>
-             <width>111</width>
-             <height>22</height>
-            </rect>
-           </property>
-           <property name="value">
-            <number>10</number>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label">
-           <property name="geometry">
-            <rect>
-             <x>190</x>
-             <y>10</y>
-             <width>81</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Window size</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_2">
-           <property name="geometry">
-            <rect>
-             <x>360</x>
-             <y>10</y>
-             <width>121</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Starting position</string>
-           </property>
-          </widget>
-         </widget>
          <widget class="QLabel" name="GenStatsTitle">
           <property name="geometry">
            <rect>

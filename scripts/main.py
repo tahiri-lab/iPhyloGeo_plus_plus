@@ -189,10 +189,10 @@ class UiMainWindow(QtWidgets.QMainWindow):
         }
 
         self.setObjectName("MainWindow")
-        self.window_size_spinbox.setRange(1, 1000)
-        self.starting_position_spinbox.setRange(1, 1000)
-        self.starting_position_spinbox.valueChanged.connect(self.load_data_genetic)
-        self.window_size_spinbox.valueChanged.connect(self.load_data_genetic)
+        self.window_size_spinbox_2.setRange(1, 1000)
+        self.starting_position_spinbox_2.setRange(1, 1000)
+        self.starting_position_spinbox_2.valueChanged.connect(self.update_plot)
+        self.window_size_spinbox_2.valueChanged.connect(self.update_plot)
         self.homeButton.clicked.connect(self.showHomePage)
         self.geneticDataButton.clicked.connect(self.showGenDatPage)
         self.climaticDataButton.clicked.connect(self.showClimDatPage)
@@ -207,7 +207,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.geneticTreeButtonPage1.clicked.connect(self.display_newick_trees)
         self.sequenceAlignmentButtonPage1.clicked.connect(self.SeqAlign)
         self.clearButtonPage1.clicked.connect(self.clearGen)
-        self.statisticsButtonPage1.clicked.connect(self.load_data_genetic)
+        # self.statisticsButtonPage1.clicked.connect(self.load_data_genetic)
         self.clearButtonPage2.clicked.connect(self.clearClim)
         self.fileBrowserButtonPage2.clicked.connect(self.pressItCSV)
         self.statisticsButtonPage2.clicked.connect(self.load_data_climate)
@@ -328,70 +328,52 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.darkModeButton.setGraphicsEffect(shadow_effect)
         QtCore.QMetaObject.connectSlotsByName(self)
 
-    def load_data_genetic(self):
-        genetic_data = self.read_msa(self.msa)
-        standardized_data = self.standardize_sequence_lengths(genetic_data)
-        starting_position = self.starting_position_spinbox.value()
-        window_size = self.window_size_spinbox.value()
-        output_path = "./alignment_chart.png"
-        self.plot_alignment_chart(standardized_data, starting_position, window_size, output_path)
-        self.display_image(output_path)
-        self.tabWidget.setCurrentIndex(3)
-
     def read_msa(self, msa_data):
         genetic_data = {}
         for key, value in msa_data.items():
-            sequences = value.split('\n')
-            for sequence in sequences:
-                if sequence.startswith('>'):
-                    sequence_id = sequence[1:].strip()
-                    genetic_data[sequence_id] = []
+            lines = value.strip().split('\n')
+            current_id = None
+            for line in lines:
+                if line.startswith('>'):
+                    current_id = line[1:].strip()
+                    if current_id not in genetic_data:
+                        genetic_data[current_id] = []
                 else:
-                    genetic_data[sequence_id].append(sequence.strip())
-        for sequence_id in genetic_data:
-            genetic_data[sequence_id] = ''.join(genetic_data[sequence_id])
+                    genetic_data[current_id].append(line.strip())
+        genetic_data = {sequence_id: ''.join(sequences) for sequence_id, sequences in genetic_data.items()}
+        print("Genetic Data:", genetic_data)  # Debug print
         return genetic_data
 
     def standardize_sequence_lengths(self, genetic_data):
         max_length = max(len(seq) for seq in genetic_data.values())
-        standardized_data = {}
-        for key, seq in genetic_data.items():
-            if len(seq) < max_length:
-                padded_seq = seq + '-' * (max_length - len(seq))
-            else:
-                padded_seq = seq[:max_length]
-            standardized_data[key] = padded_seq
+        standardized_data = {key: seq.ljust(max_length, '-') for key, seq in genetic_data.items()}
+        print("Standardized Data:", standardized_data)  # Debug print
         return standardized_data
 
     def plot_alignment_chart(self, genetic_data, starting_position, window_size, output_path):
         end_position = starting_position + window_size
         truncated_data = {key: value[starting_position:end_position] for key, value in genetic_data.items()}
+        print("Truncated Data:", truncated_data)  # Debug print
 
         alignment = MultipleSeqAlignment([
             SeqRecord(Seq(seq), id=key)
             for key, seq in truncated_data.items()
         ])
 
-        fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(9, 4), gridspec_kw={'height_ratios': [1, 8, 1]})
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(9, 4), gridspec_kw={'height_ratios': [1, 8]})
         ax1.set_axis_off()
         ax2.set_axis_off()
-        ax3.set_axis_off()
 
-        # Calculate conservation and gaps
-        conservation = self.calculate_conservation(alignment)
-        gaps = self.calculate_gaps(alignment)
+        # Calculate conservation
+        conservation, _ = self.calculate_conservation_and_gaps(alignment)
+        print("Conservation:", conservation)  # Debug print
 
         # Plot conservation
         bar_width = 1.0
         ax1.bar(range(len(conservation)), conservation, color='#4CAF50', width=bar_width, align='edge')
         ax1.set_xlim(0, len(conservation))
         ax1.set_ylim(0, 1)
-
-        # Plot gaps
-        ax3.bar(range(len(gaps)), gaps, color='#F44336', width=bar_width, align='edge')
-        ax3.set_ylabel('Gap')
-        ax3.set_xlim(0, len(gaps))
-        ax3.set_ylim(0, 1)
+        ax1.set_title('CONSERVATION', fontsize=12, pad=20)
 
         # Plot alignment
         seqs = [str(record.seq) for record in alignment]
@@ -419,6 +401,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
                          fontsize=font_size)
 
         consensus_seq = self.calculate_consensus(alignment)
+        print("Consensus Sequence:", consensus_seq)  # Debug print
         for j, nucleotide in enumerate(consensus_seq):
             color = colors.get(nucleotide, 'black')  # Default to black if not found
             rect = mpatches.Rectangle((j, -1), rect_width, rect_height, color=color)
@@ -442,37 +425,45 @@ class UiMainWindow(QtWidgets.QMainWindow):
         plt.savefig(output_path)
         plt.close()
 
-    def calculate_conservation(self, alignment):
+    def calculate_conservation_and_gaps(self, alignment):
+        length = alignment.get_alignment_length()
         conservation = []
-        for i in range(alignment.get_alignment_length()):
-            column = alignment[:, i]
-            counts = Counter(column)
-            most_common = counts.most_common(1)[0][1]
-            conservation.append(most_common / len(column))
-        return conservation
-
-    def calculate_gaps(self, alignment):
         gaps = []
-        for i in range(alignment.get_alignment_length()):
+
+        for i in range(length):
             column = alignment[:, i]
-            gap_count = column.count('-')
-            gaps.append(gap_count / len(column))
-        return gaps
+            counter = Counter(column)
+            most_common = counter.most_common(1)[0][1]
+            conservation.append(most_common / len(column))
+            gaps.append(counter['-'] / len(column))
+
+        return conservation, gaps
 
     def calculate_consensus(self, alignment):
-        consensus_seq = []
-        for i in range(alignment.get_alignment_length()):
+        length = alignment.get_alignment_length()
+        consensus = []
+
+        for i in range(length):
             column = alignment[:, i]
-            most_common = Counter(column).most_common(1)[0][0]
-            consensus_seq.append(most_common)
-        return ''.join(consensus_seq)
+            counter = Counter(column)
+            most_common_base = counter.most_common(1)[0][0]
+            consensus.append(most_common_base)
 
-    def display_image(self, image_path):
-        if os.path.exists(image_path):
-            pixmap = QPixmap(image_path)
-            self.textEditGenStats_2.setPixmap(pixmap)
-            self.textEditGenStats_2.repaint()  # Ensure the label is updated
+        return ''.join(consensus)
 
+    def update_plot(self):
+        starting_position = self.starting_position_spinbox_2.value()
+        window_size = self.window_size_spinbox_2.value()
+        output_path = "sequence_alignment_plot.png"
+
+        genetic_data = self.read_msa(self.msa)
+        standardized_data = self.standardize_sequence_lengths(genetic_data)
+        self.plot_alignment_chart(standardized_data, starting_position, window_size, output_path)
+
+        pixmap = QPixmap(output_path)
+        self.seqAlignLabel.setPixmap(pixmap)
+        self.tabWidget.setCurrentIndex(2)
+    #--------------------------------------------------------------
     def load_data_climate(self):
         # Load the data without the first column
         self.data = pd.read_csv(Params.file_name, usecols=lambda column: column != 'id')
@@ -662,9 +653,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
             update_progress(loading_screen, 3)
             QtWidgets.QApplication.processEvents()
             # Step 3: Preparing results
-            obj = str(alignements.to_dict())
             self.msa = alignements.to_dict().get("msa")
-            self.textEditSeqAlign.setText(obj)
+            print(self.msa)
             self.tabWidget.setCurrentIndex(2)
             self.statisticsButtonPage1.setEnabled(True)
             self.statisticsButtonPage1.setIcon(QIcon(":inactive/statistics.svg"))
@@ -680,6 +670,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         finally:
             loading_screen.close()
         self.geneticTreeButtonPage1.setEnabled(True)
+        self.update_plot()
         return geneticTrees
 
     def retrieveDataNames(self, list):
@@ -1097,7 +1088,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         This method clears the content of the text edit widgets related to FASTA sequences, sequence alignments, and genetic trees. It also resets the current index of the genetic statistics list to 0.
         """
         self.textEditFasta.clear()
-        self.textEditSeqAlign.clear()
+        self.seqAlignLabel.clear()
 
     def clearClim(self):
         """
