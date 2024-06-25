@@ -3,25 +3,27 @@ import json
 import os
 import re
 import sys
-from PyQt5.QtCore import pyqtSlot
-import networkx as nx
-import seaborn as sns
-import plotly.graph_objs as go
-import plotly.io as pio
 import tempfile
 from collections import Counter
 from decimal import Decimal
 from io import BytesIO
+from io import StringIO
 import resources_rc
 import folium
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
+import networkx as nx
+import numpy as np
 import pandas as pd
+import plotly.graph_objs as go
+import plotly.io as pio
 import qtmodern.styles
 import qtmodern.styles
 import qtmodern.windows
 import qtmodern.windows
+import seaborn as sns
 import yaml
+from Bio import AlignIO
 from Bio import Phylo
 from Bio.Align import MultipleSeqAlignment
 from Bio.Seq import Seq
@@ -29,6 +31,7 @@ from Bio.SeqRecord import SeqRecord
 from PyQt5 import QtCore, QtGui
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import Qt
+from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtGui import QIcon, QColor, QPixmap, QImage
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import (QDialog)
@@ -207,7 +210,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.geneticTreeButtonPage1.clicked.connect(self.display_newick_trees)
         self.sequenceAlignmentButtonPage1.clicked.connect(self.SeqAlign)
         self.clearButtonPage1.clicked.connect(self.clearGen)
-        # self.statisticsButtonPage1.clicked.connect(self.load_data_genetic)
+        self.statisticsButtonPage1.clicked.connect(self.plot_sequence_similarity)
         self.clearButtonPage2.clicked.connect(self.clearClim)
         self.fileBrowserButtonPage2.clicked.connect(self.pressItCSV)
         self.statisticsButtonPage2.clicked.connect(self.load_data_climate)
@@ -463,7 +466,76 @@ class UiMainWindow(QtWidgets.QMainWindow):
         pixmap = QPixmap(output_path)
         self.seqAlignLabel.setPixmap(pixmap)
         self.tabWidget.setCurrentIndex(2)
-    #--------------------------------------------------------------
+
+    def plot_sequence_similarity(self):
+        sequences = []
+        for key, value in self.msa.items():
+            parts = value.strip().split('\n')
+            header = parts[0]
+            sequence = ''.join(parts[1:])
+            sequences.append((header, sequence))
+
+        # Find the maximum sequence length
+        max_len = max(len(seq) for _, seq in sequences)
+
+        # Pad sequences to the same length
+        padded_records = []
+        for header, sequence in sequences:
+            padded_seq = sequence.ljust(max_len, '-')
+            padded_records.append(SeqRecord(Seq(padded_seq), id=header.split()[0]))
+
+        # Create a MultipleSeqAlignment object
+        alignment = MultipleSeqAlignment(padded_records)
+
+        # Compute the similarity score for each position
+        reference_sequence = str(alignment[0].seq)
+        similarities = []
+
+        for record in alignment:
+            similarity = [1 if ref == res else 0 for ref, res in zip(reference_sequence, str(record.seq))]
+            similarities.append(similarity)
+
+        similarities = np.array(similarities)
+
+        # Compute sliding window averages
+        def sliding_window_avg(arr, window_size, step_size):
+            return [np.mean(arr[i:i + window_size]) for i in range(0, len(arr) - window_size + 1, step_size)]
+
+        # Use Params.window_size directly
+        window_size = Params.window_size
+        step_size = 10  # You can also parameterize this if needed
+
+        windowed_similarities = []
+        for sim in similarities:
+            windowed_similarities.append(sliding_window_avg(sim, window_size, step_size))
+
+        windowed_similarities = np.array(windowed_similarities)
+
+        # Plot the similarities
+        fig, ax = plt.subplots(figsize=(10, 6))
+        x = np.arange(0, len(reference_sequence) - window_size + 1, step_size)
+        for idx, record in enumerate(alignment):
+            ax.plot(x, windowed_similarities[idx], label=record.id)
+
+        ax.set_xlabel('Position')
+        ax.set_ylabel('Similarity')
+        ax.set_title('Sequence Similarity Plot')
+        ax.legend()
+
+        # Save the plot to a temporary file
+        plot_path = 'similarity_plot.png'
+        fig.savefig(plot_path, bbox_inches='tight')
+
+        # Load the plot into the QLabel
+        pixmap = QPixmap(plot_path)
+        self.textEditGenStats_2.setPixmap(pixmap)
+        self.textEditGenStats_2.setFixedSize(900, 400)
+        self.textEditGenStats_2.setScaledContents(True)
+        self.tabWidget.setCurrentIndex(3)
+        # Optionally, remove the temporary file
+        os.remove(plot_path)
+
+
     def load_data_climate(self):
         # Load the data without the first column
         self.data = pd.read_csv(Params.file_name, usecols=lambda column: column != 'id')
@@ -654,7 +726,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             QtWidgets.QApplication.processEvents()
             # Step 3: Preparing results
             self.msa = alignements.to_dict().get("msa")
-            print(self.msa)
             self.tabWidget.setCurrentIndex(2)
             self.statisticsButtonPage1.setEnabled(True)
             self.statisticsButtonPage1.setIcon(QIcon(":inactive/statistics.svg"))

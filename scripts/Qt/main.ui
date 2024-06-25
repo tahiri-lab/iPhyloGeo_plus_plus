@@ -1213,7 +1213,7 @@ p, li { white-space: pre-wrap; }
          <widget class="QLabel" name="GenStatsTitle">
           <property name="geometry">
            <rect>
-            <x>-20</x>
+            <x>200</x>
             <y>0</y>
             <width>541</width>
             <height>81</height>
@@ -1248,7 +1248,7 @@ p, li { white-space: pre-wrap; }
           </property>
           <property name="maximumSize">
            <size>
-            <width>800</width>
+            <width>900</width>
             <height>400</height>
            </size>
           </property>
