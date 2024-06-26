@@ -741,7 +741,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
             loading_screen.close()
         self.geneticTreeButtonPage1.setEnabled(True)
         self.update_plot()
-        return geneticTrees
+        if self.climaticTreeButtonPage2.isEnabled():
+            self.resultsButtonPage2.setEnabled(True)
+            return geneticTrees
 
     def retrieveDataNames(self, list):
         """
@@ -898,6 +900,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
                         self.tabWidget2.setCurrentIndex(1)
                 if loc and lat and long:
                     self.populateMap(lat, long)
+                if self.statisticsButtonPage1.isEnabled():
+                    self.resultsButtonPage2.setEnabled(True)
 
     def populateMap(self, lat, long):
         """
