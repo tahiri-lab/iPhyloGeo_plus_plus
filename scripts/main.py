@@ -739,10 +739,10 @@ class UiMainWindow(QtWidgets.QMainWindow):
             time.sleep(0.8)
         finally:
             loading_screen.close()
-        self.geneticTreeButtonPage1.setEnabled(True)
-        self.update_plot()
-        if self.climaticTreeButtonPage2.isEnabled():
-            self.resultsButtonPage2.setEnabled(True)
+            self.geneticTreeButtonPage1.setEnabled(True)
+            self.update_plot()
+            if self.climaticTreeButtonPage2.isEnabled():
+                self.resultsButtonPage2.setEnabled(True)
             return geneticTrees
 
     def retrieveDataNames(self, list):
