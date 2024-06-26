@@ -1,36 +1,41 @@
-import json
-from ete3 import Tree
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel
+from PyQt5.QtCore import QTimer
 
-def process_newick_trees(file_path):
-    """
-    Reads Newick trees from a JSON file, converts them into ete3 Tree objects,
-    and provides options for visualization and analysis.
+class LoadingAnimation(QWidget):
+    def __init__(self):
+        super().__init__()
 
-    Args:
-        file_path (str): Path to the JSON file containing the Newick trees.
+        # Set up the layout
+        self.layout = QVBoxLayout()
 
-    Returns:
-        list: A list of ete3 Tree objects.
-    """
-    with open(file_path, "r") as f:
-        tree_data = json.load(f)
+        # Create a QLabel for the loading animation
+        self.loading_label = QLabel("Loading")
+        self.layout.addWidget(self.loading_label)
 
-    ete_trees = []
-    for key, newick_string in tree_data.items():
-        t = Tree(newick_string, format=1)  # format=1 for Newick
-        t.name = key  # Store the JSON key as the tree name for reference
-        ete_trees.append(t)
+        # Set the layout to the main window
+        self.setLayout(self.layout)
 
-    # Example usage:
-    for t in ete_trees:
-        print(f"Tree '{t.name}':")
-        print(t)  # Print the Newick representation
-        # Uncomment for visualization:
-        t.show()
-        # Further analysis or modification using ete3 functions can be done here
+        # Initialize the timer
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_loading_text)
 
-    return ete_trees
+        # Start the timer with an interval of 500 milliseconds
+        self.timer.start(500)
 
-# Example usage:
-file_path = "./results/geneticTrees.json"  # Replace with your file path
-trees = process_newick_trees(file_path)
+        # Initialize the loading states
+        self.loading_states = ["Loading.", "Loading..", "Loading..."]
+        self.current_state_index = 0
+
+    def update_loading_text(self):
+        # Update the text of the QLabel
+        self.loading_label.setText(self.loading_states[self.current_state_index])
+
+        # Update the index to the next state
+        self.current_state_index = (self.current_state_index + 1) % len(self.loading_states)
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = LoadingAnimation()
+    window.show()
+    sys.exit(app.exec_())
