@@ -1,14 +1,16 @@
-file_name: F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets/geo.csv
+file_name: F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets/data_geo_Cumacea.csv
 specimen: id
-names: [id, ALLSKY_SFC_SW_DWN, T2M, QV2M, PRECTOTCORR, WS10M]
+names: [Sampleid, Lat_start_dec, Lat_end_dec, Long_start_dec, Long_end_dec, Depth_start,
+  Depth_end, Windspeed_start, Windspeed_end, Watertemp_ground, O2-saturation_ground]
 bootstrap_threshold: 0
 dist_threshold: 60
 window_size: 99
 step_size: 99
 bootstrap_amount: 99
-data_names: [ALLSKY_SFC_SW_DWN, T2M, QV2M, PRECTOTCORR, WS10M]
+data_names: [Lat_start_dec, Lat_end_dec, Long_start_dec, Long_end_dec, Depth_start,
+  Depth_end, Windspeed_start, Windspeed_end, Watertemp_ground, O2-saturation_ground]
 reference_gene_dir: F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets
-reference_gene_file: small_seq.fasta
+reference_gene_file: data_sequences_Cumacea.fasta
 makeDebugFiles: true
 alignment_method: '3'
 distance_method: '2'

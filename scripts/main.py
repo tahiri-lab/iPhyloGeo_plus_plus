@@ -727,7 +727,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.tabWidget.setCurrentIndex(2)
             self.statisticsButtonPage1.setEnabled(True)
             self.statisticsButtonPage1.setIcon(QIcon(":inactive/statistics.svg"))
-            self.geneticTreeButtonPage1.setIcon(QIcon(":inactive/genetic.svg"))
             self.geneticTreeButtonPage1.setEnabled(True)
             update_progress(loading_screen, 4)
             QtWidgets.QApplication.processEvents()
