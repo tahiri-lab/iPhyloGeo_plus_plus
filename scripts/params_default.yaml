@@ -11,7 +11,7 @@ names: [ID, ALLSKY_SFC_SW_DWN, T2M, QV2M, PRECTOTCORR, WS10M] #climatic data
 
 bootstrap_threshold: 10 #results
 dist_threshold: 60 #results
-distance_method: '0' #results
+distance_method: '1' #results
 
 alignment_method: '2' #pre align
 fit_method: '1' #pre align

@@ -1,18 +1,18 @@
-file_name: C:/Users/cuchet/Desktop/Stage Canada/Projet/iPhyloGeo_plus_plus/datasets/geo.csv
+file_name: C:/Users/lolow/iPhyloGeo_plus_plus/iPhyloGeo_plus_plus/datasets/geo_with_loc.csv
 specimen: id
 names: [id, ALLSKY_SFC_SW_DWN, T2M, QV2M, PRECTOTCORR, WS10M]
-bootstrap_threshold: 0
+bootstrap_threshold: 10
 dist_threshold: 60
 window_size: 99
 step_size: 99
 bootstrap_amount: 99
 data_names: [ALLSKY_SFC_SW_DWN, T2M, QV2M, PRECTOTCORR, WS10M]
-reference_gene_dir: C:/Users/cuchet/Desktop/Stage Canada/Projet/iPhyloGeo_plus_plus/datasets
+reference_gene_dir: C:/Users/lolow/iPhyloGeo_plus_plus/iPhyloGeo_plus_plus/datasets
 reference_gene_file: small_seq.fasta
 makeDebugFiles: true
-alignment_method: Pairwise
-distance_method: 2
-fit_method: star Alignment
+alignment_method: 1
+distance_method: 0
+fit_method: 1
 tree_type: '1'
 rate_similarity: 50
 method_similarity: '1'

@@ -33,7 +33,7 @@ from aphylogeo.alignement import AlignSequences
 from aphylogeo.genetic_trees import GeneticTrees
 from aphylogeo.params import Params
 from help import UiHowToUse
-from parameters2 import HoverLabel
+from settings import HoverLabel
 
 Params.load_from_file("params.yaml")
 
@@ -458,19 +458,21 @@ class UiMainWindow(QtWidgets.QMainWindow):
         y_data = self.ClimaticChartSettingsAxisY.currentText()
 
         fig, ax = plt.subplots(figsize=(5.2, 5))  # Set figure size to 520x500 pixels (each inch is 100 pixels)
-
-        if self.radioButtonBarGraph.isChecked():
-            plot_type = 'Bar Graph'
-            self.data.plot(kind='bar', x=x_data, y=y_data, ax=ax)
-        elif self.radioButtonScatterPlot.isChecked():
-            plot_type = 'Scatter Plot'
-            self.data.plot(kind='scatter', x=x_data, y=y_data, ax=ax)
-        elif self.radioButtonLinePlot.isChecked():
-            plot_type = 'Line Plot'
-            self.data.plot(kind='line', x=x_data, y=y_data, ax=ax)
-        elif self.radioButtonPiePlot.isChecked():
-            plot_type = 'Pie Plot'
-            self.data.set_index(x_data).plot(kind='pie', y=y_data, ax=ax)
+        if (x_data != y_data):
+            if self.radioButtonBarGraph.isChecked():
+                plot_type = 'Bar Graph'
+                self.data.plot(kind='bar', x=x_data, y=y_data, ax=ax)
+            elif self.radioButtonScatterPlot.isChecked():
+                plot_type = 'Scatter Plot'
+                self.data.plot(kind='scatter', x=x_data, y=y_data, ax=ax)
+            elif self.radioButtonLinePlot.isChecked():
+                plot_type = 'Line Plot'
+                self.data.plot(kind='line', x=x_data, y=y_data, ax=ax)
+            elif self.radioButtonPiePlot.isChecked():
+                plot_type = 'Pie Plot'
+                self.data.set_index(x_data).plot(kind='pie', y=y_data, ax=ax)
+        else:
+            print("Same parameters dude...")
 
         buf = BytesIO()
         plt.savefig(buf, format='png')
@@ -545,45 +547,11 @@ class UiMainWindow(QtWidgets.QMainWindow):
         This method calls the callSeqAlign method to perform sequence alignment and stores the resulting genetic tree dictionary in the geneticTreeDict attribute.
         """
         buttontest = [self.SequenceAlignmentMethod, self.SequenceFitMethod]
-        align = self.SequenceAlignmentMethod.currentText()
-        fit = self.SequenceFitMethod.currentText()
+        align = self.SequenceAlignmentMethod.currentIndex() + 1
+        fit = self.SequenceFitMethod.currentIndex() + 1
         update_yaml_param(Params, "params.yaml", "alignment_method", align)
         update_yaml_param(Params, "params.yaml", "fit_method", fit)
         self.geneticTreeDict = self.callSeqAlign()
-
-    def update_climate_chart(self):
-
-        data = pd.read_csv(Params.file_name)
-        condition = self.ClimStatsListCondition.currentText()
-        chart_type = self.ClimStatsListChart.currentText()
-
-        if condition == 'Temperature':
-            values = data['T2M']
-        elif condition == 'Wind':
-            values = data['WS10M']
-        elif condition == 'Humidity':
-            values = data['QV2M']
-        elif condition == 'Altitude':
-            values = data['ALLSKY_SFC_SW_DWN']  # Assuming altitude is represented by this column
-
-        plt.figure(figsize=(9.11, 3.91))
-
-        if chart_type == 'Bar Chart':
-            values.plot(kind='bar')
-        elif chart_type == 'Line Chart':
-            values.plot(kind='line')
-        elif chart_type == 'Pie Chart':
-            values.value_counts().plot(kind='pie')
-        elif chart_type == 'Area Chart':
-            values.plot(kind='area')
-        elif chart_type == 'Scatter Chart':
-            plt.scatter(data.index, values)
-
-        plt.title(f'{condition} - {chart_type}')
-        plt.savefig('chart.png')
-        pixmap = QPixmap('chart.png')
-        self.ClimaticChart.setPixmap(pixmap)
-        self.tabWidget2.setCurrentIndex(3)
 
     def callSeqAlign(self):
         """
@@ -657,6 +625,40 @@ class UiMainWindow(QtWidgets.QMainWindow):
             loading_screen.close()
 
         return geneticTrees
+
+    def update_climate_chart(self):
+
+        data = pd.read_csv(Params.file_name)
+        condition = self.ClimStatsListCondition.currentText()
+        chart_type = self.ClimStatsListChart.currentText()
+
+        if condition == 'Temperature':
+            values = data['T2M']
+        elif condition == 'Wind':
+            values = data['WS10M']
+        elif condition == 'Humidity':
+            values = data['QV2M']
+        elif condition == 'Altitude':
+            values = data['ALLSKY_SFC_SW_DWN']  # Assuming altitude is represented by this column
+
+        plt.figure(figsize=(9.11, 3.91))
+
+        if chart_type == 'Bar Chart':
+            values.plot(kind='bar')
+        elif chart_type == 'Line Chart':
+            values.plot(kind='line')
+        elif chart_type == 'Pie Chart':
+            values.value_counts().plot(kind='pie')
+        elif chart_type == 'Area Chart':
+            values.plot(kind='area')
+        elif chart_type == 'Scatter Chart':
+            plt.scatter(data.index, values)
+
+        plt.title(f'{condition} - {chart_type}')
+        plt.savefig('chart.png')
+        pixmap = QPixmap('chart.png')
+        self.ClimaticChart.setPixmap(pixmap)
+        self.tabWidget2.setCurrentIndex(3)
 
     def retrieveDataNames(self, list):
         """

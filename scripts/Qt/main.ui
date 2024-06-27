@@ -852,7 +852,7 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="text">
-        <string>  Sequence</string>
+        <string> Alignment</string>
        </property>
        <property name="icon">
         <iconset resource="../../img/resources.qrc">
