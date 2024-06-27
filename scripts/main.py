@@ -4,10 +4,10 @@ import os
 import re
 import sys
 import tempfile
+import time
 from collections import Counter
 from decimal import Decimal
 from io import BytesIO
-from io import StringIO
 import resources_rc
 import folium
 import matplotlib.patches as mpatches
@@ -18,12 +18,10 @@ import pandas as pd
 import plotly.graph_objs as go
 import plotly.io as pio
 import qtmodern.styles
-import qtmodern.styles
 import qtmodern.windows
 import qtmodern.windows
 import seaborn as sns
 import yaml
-from Bio import AlignIO
 from Bio import Phylo
 from Bio.Align import MultipleSeqAlignment
 from Bio.Seq import Seq
@@ -43,8 +41,9 @@ from aphylogeo.params import Params
 
 from PreferencesDialog import PreferencesDialog  # Import PreferencesDialog
 from help import UiHowToUse
-from parameters import UiDialog
+from settings import HoverLabel
 
+Params.load_from_file("params.yaml")
 
 class MyDumper(yaml.Dumper):
     """
@@ -127,8 +126,8 @@ def update_yaml_param(params, file_path, property_name, new_value):
         yaml.dump(data, yaml_file, default_flow_style=None, Dumper=MyDumper, sort_keys=False)
 
 
-Params.load_from_file("params.yaml")
-
+window_size = 50
+starting_position = 1
 
 class UiMainWindow(QtWidgets.QMainWindow):
 
@@ -149,7 +148,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         This method creates a new QMainWindow instance, sets up its UI using the UiDialog class, and displays the window.
         """
         dialog = QtWidgets.QDialog()
-        ui = UiDialog()
+        ui = HoverLabel.Settings()
         ui.setupUi(dialog)
         dialog.exec_()
 
@@ -208,13 +207,14 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.isDarkMode = False  # Keep track of the state
         self.fileBrowserButtonPage1.clicked.connect(self.pressItFasta)
         self.geneticTreeButtonPage1.clicked.connect(self.display_newick_trees)
-        self.sequenceAlignmentButtonPage1.clicked.connect(self.SeqAlign)
+        self.sequenceAlignmentButtonPage1.clicked.connect(self.showSequencePage)
         self.clearButtonPage1.clicked.connect(self.clearGen)
         self.statisticsButtonPage1.clicked.connect(self.plot_sequence_similarity)
+
         self.clearButtonPage2.clicked.connect(self.clearClim)
         self.fileBrowserButtonPage2.clicked.connect(self.pressItCSV)
         self.statisticsButtonPage2.clicked.connect(self.load_data_climate)
-        self.resultsButtonPage2.clicked.connect(self.showResultsPage)
+        self.resultsButton.clicked.connect(self.showResultsPage)
         self.ClimaticChartSettingsAxisX.currentIndexChanged.connect(self.generate_graph)
         self.ClimaticChartSettingsAxisY.currentIndexChanged.connect(self.generate_graph)
         self.radioButtonPiePlot.toggled.connect(self.generate_graph)
@@ -222,6 +222,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.radioButtonScatterPlot.toggled.connect(self.generate_graph)
         self.radioButtonBarGraph.toggled.connect(self.generate_graph)
         self.geneticTreescomboBox.currentIndexChanged.connect(self.show_selected_tree)
+        self.StartSequenceAlignmentButton.clicked.connect(self.SeqAlign)
         self.settingsButtonPage3.clicked.connect(self.paramWin)
         self.submitButtonPage3.clicked.connect(self.showFilteredResults)
         self.clearButtonPage4.clicked.connect(self.clearResult)
@@ -230,32 +231,23 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.downloadGraphButton.clicked.connect(self.download_graph)
         self.preferencesButton.clicked.connect(self.open_preferences_dialog)
         self.stackedWidget.setCurrentIndex(0)
-        self.preferences = {
-            "label_color": "black",
-            "edge_color": "blue",
-            "reticulation_color": "red",
-            "layout": "horizontal",
-            "proportional_edge_lengths": False,
-            "label_internal_vertices": False,
-            "use_leaf_names": False,
-            "root_with_leaf_node": False,
-            "root_leaf_node": ""
-        }
         self.tree_keys = []
         self.total_trees = 0
         self.current_index = 0
-        buttons = [self.geneticDataButton, self.climaticDataButton, self.helpButton, self.homeButton]
+
+
+        buttons = [self.geneticDataButton, self.climaticDataButton, self.helpButton, self.homeButton,  self.resultsButton]
 
         buttons_Vertical = [self.fileBrowserButtonPage1, self.sequenceAlignmentButtonPage1,
                             self.clearButtonPage1, self.statisticsButtonPage1, self.geneticTreeButtonPage1,
-                            self.fileBrowserButtonPage2, self.clearButtonPage2, self.resultsButtonPage2,
+                            self.fileBrowserButtonPage2, self.clearButtonPage2,
                             self.climaticTreeButtonPage2, self.statisticsButtonPage2,
                             self.settingsButtonPage3,
                             self.settingsButtonPage4,
                             self.submitButtonPage3,
                             self.statisticsButtonPage3,
                             self.submitButtonPage4,
-                            self.statisticsButtonPage4,
+                            self.statisticsButtonPage4, self.StartSequenceAlignmentButton,
                             self.clearButtonPage3,
                             self.clearButtonPage4]
 
@@ -542,7 +534,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.columns = self.data.columns
         self.ClimaticChartSettingsAxisX.addItems(self.columns)
         self.ClimaticChartSettingsAxisY.addItems(self.columns)
-        self.tabWidget2.setCurrentIndex(3)
+        self.tabWidget2.setCurrentIndex(2)
 
     def generate_graph(self):
         x_data = self.ClimaticChartSettingsAxisX.currentText()
@@ -568,7 +560,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         buf.seek(0)
         pixmap = QPixmap()
         pixmap.loadFromData(buf.getvalue())
-        self.tabWidget2.setCurrentIndex(3)
+        self.tabWidget2.setCurrentIndex(2)
         self.ClimaticChart_2.setPixmap(pixmap)
 
     def pressItFasta(self):
@@ -633,41 +625,13 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         This method calls the callSeqAlign method to perform sequence alignment and stores the resulting genetic tree dictionary in the geneticTreeDict attribute.
         """
+        align = str(self.SequenceAlignmentMethod.currentIndex() + 1)
+        fit = str(self.SequenceFitMethod.currentIndex() + 1)
+        update_yaml_param(Params, "params.yaml", "alignment_method", align)
+        update_yaml_param(Params, "params.yaml", "fit_method", fit)
+        self.starting_position_spinbox_2.setEnabled(True)
+        self.window_size_spinbox_2.setEnabled(True)
         self.geneticTreeDict = self.callSeqAlign()
-
-    def update_climate_chart(self):
-
-        data = pd.read_csv(Params.file_name)
-        condition = self.ClimStatsListCondition.currentText()
-        chart_type = self.ClimStatsListChart.currentText()
-
-        if condition == 'Temperature':
-            values = data['T2M']
-        elif condition == 'Wind':
-            values = data['WS10M']
-        elif condition == 'Humidity':
-            values = data['QV2M']
-        elif condition == 'Altitude':
-            values = data['ALLSKY_SFC_SW_DWN']  # Assuming altitude is represented by this column
-
-        plt.figure(figsize=(9.11, 3.91))
-
-        if chart_type == 'Bar Chart':
-            values.plot(kind='bar')
-        elif chart_type == 'Line Chart':
-            values.plot(kind='line')
-        elif chart_type == 'Pie Chart':
-            values.value_counts().plot(kind='pie')
-        elif chart_type == 'Area Chart':
-            values.plot(kind='area')
-        elif chart_type == 'Scatter Chart':
-            plt.scatter(data.index, values)
-
-        plt.title(f'{condition} - {chart_type}')
-        plt.savefig('chart.png')
-        pixmap = QPixmap('chart.png')
-        self.ClimaticChart.setPixmap(pixmap)
-        self.tabWidget2.setCurrentIndex(3)
 
     def callSeqAlign(self):
         """
@@ -686,8 +650,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         Raises:
             Exception: Any exception that occurs during the alignment process will be handled, and the loading screen will close.
         """
-        import time
-        from PyQt5 import QtCore
         def update_progress(loading_screen, step):
             if step < loading_screen.checkListWidget.count():
                 item = loading_screen.checkListWidget.item(step)
@@ -741,8 +703,41 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.geneticTreeButtonPage1.setEnabled(True)
             self.update_plot()
             if self.climaticTreeButtonPage2.isEnabled():
-                self.resultsButtonPage2.setEnabled(True)
+                self.resultsButton.setEnabled(True)
             return geneticTrees
+    def update_climate_chart(self):
+
+        data = pd.read_csv(Params.file_name)
+        condition = self.ClimStatsListCondition.currentText()
+        chart_type = self.ClimStatsListChart.currentText()
+
+        if condition == 'Temperature':
+            values = data['T2M']
+        elif condition == 'Wind':
+            values = data['WS10M']
+        elif condition == 'Humidity':
+            values = data['QV2M']
+        elif condition == 'Altitude':
+            values = data['ALLSKY_SFC_SW_DWN']  # Assuming altitude is represented by this column
+
+        plt.figure(figsize=(9.11, 3.91))
+
+        if chart_type == 'Bar Chart':
+            values.plot(kind='bar')
+        elif chart_type == 'Line Chart':
+            values.plot(kind='line')
+        elif chart_type == 'Pie Chart':
+            values.value_counts().plot(kind='pie')
+        elif chart_type == 'Area Chart':
+            values.plot(kind='area')
+        elif chart_type == 'Scatter Chart':
+            plt.scatter(data.index, values)
+
+        plt.title(f'{condition} - {chart_type}')
+        plt.savefig('chart.png')
+        pixmap = QPixmap('chart.png')
+        self.ClimaticChart.setPixmap(pixmap)
+        self.tabWidget2.setCurrentIndex(2)
 
     def retrieveDataNames(self, list):
         """
@@ -900,7 +895,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 if loc and lat and long:
                     self.populateMap(lat, long)
                 if self.statisticsButtonPage1.isEnabled():
-                    self.resultsButtonPage2.setEnabled(True)
+                    self.resultsButton.setEnabled(True)
 
     def populateMap(self, lat, long):
         """
@@ -943,6 +938,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.climaticDataButton.setIcon(QIcon(":inactive/climaticData.svg"))
         self.geneticDataButton.setIcon(QIcon(":inactive/genetic.svg"))
         self.homeButton.setIcon(QIcon(":active/home.png"))
+        self.resultsButton.setIcon(QIcon(":inactive/result.svg"))
         self.stackedWidget.setCurrentIndex(0)
 
     def showGenDatPage(self):
@@ -954,6 +950,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.climaticDataButton.setIcon(QIcon(":inactive/climaticData.svg"))
         self.geneticDataButton.setIcon(QIcon(":active/genetic.svg"))
         self.homeButton.setIcon(QIcon(":other/home.svg"))
+        self.resultsButton.setIcon(QIcon(":inactive/result.svg"))
         self.stackedWidget.setCurrentIndex(1)
         self.tabWidget.setCurrentIndex(0)
 
@@ -966,6 +963,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.climaticDataButton.setIcon(QIcon(":active/climaticData.png"))
         self.geneticDataButton.setIcon(QIcon(":inactive/genetic.svg"))
         self.homeButton.setIcon(QIcon(":other/home.svg"))
+        self.resultsButton.setIcon(QIcon(":inactive/result.svg"))
         self.stackedWidget.setCurrentIndex(2)
         self.tabWidget2.setCurrentIndex(0)
 
@@ -975,6 +973,10 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         This method sets the stacked widget's current index to 3 to display the results page.
         """
+        self.climaticDataButton.setIcon(QIcon(":inactive/climaticData.svg"))
+        self.geneticDataButton.setIcon(QIcon(":inactive/genetic.svg"))
+        self.homeButton.setIcon(QIcon(":other/home.svg"))
+        self.resultsButton.setIcon(QIcon(":active/result.svg"))
         self.stackedWidget.setCurrentIndex(3)
 
     def showResultsStatsPage(self):
@@ -984,6 +986,13 @@ class UiMainWindow(QtWidgets.QMainWindow):
         This method sets the stacked widget's current index to 4 to display the results statistics page.
         """
         self.stackedWidget.setCurrentIndex(4)
+
+    def showSequencePage(self):
+        """
+        Display the sequence alignment page
+        """
+        self.stackedWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(2)
 
     def showFilteredResults(self):
         """
@@ -1024,7 +1033,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.isDarkMode = not self.isDarkMode
         buttons_Vertical = [self.fileBrowserButtonPage1, self.sequenceAlignmentButtonPage1,
                             self.clearButtonPage1, self.statisticsButtonPage1, self.geneticTreeButtonPage1,
-                            self.fileBrowserButtonPage2, self.clearButtonPage2, self.resultsButtonPage2,
+                            self.fileBrowserButtonPage2, self.clearButtonPage2,
                             self.climaticTreeButtonPage2, self.statisticsButtonPage2,
                             self.settingsButtonPage3,
                             self.settingsButtonPage4,
@@ -1032,24 +1041,21 @@ class UiMainWindow(QtWidgets.QMainWindow):
                             self.statisticsButtonPage3,
                             self.submitButtonPage4,
                             self.statisticsButtonPage4,
-                            self.clearButtonPage3,
+                            self.clearButtonPage3, self.StartSequenceAlignmentButton,
                             self.clearButtonPage4]
+        buttons = [self.geneticDataButton, self.climaticDataButton, self.helpButton, self.homeButton, self.resultsButton]
 
         if self.isDarkMode:
             qtmodern.styles.dark(app)
             self.top_frame.setStyleSheet("background-color: #646464;")
-            self.homeButton.setStyleSheet("background-color: #838383;")
-            self.geneticDataButton.setStyleSheet("background-color: #838383;")
-            self.climaticDataButton.setStyleSheet("background-color: #838383;")
-            self.helpButton.setStyleSheet("background-color: #838383;")
             self.darkModeButton.setIcon(QIcon(":other/light.png"))  # Set the 'light' icon for dark mode
             self.darkModeButton.setCursor(Qt.PointingHandCursor)
             self.darkModeButton.setStyleSheet("""
                 QPushButton { 
                     padding: 10px 20px;
                     font-weight: bold;
-                    background-color: #464645;
-                    border-radius: 14px;
+                    background-color: #646464;
+                    border-radius: 20px;
                     transition: background-color 0.3s ease; /* Add transition */
                 }
                 QPushButton:hover {
@@ -1067,13 +1073,35 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
             # Appliquer l'effet d'ombre au bouton
             self.darkModeButton.setGraphicsEffect(shadow_effect)
+            for button in buttons:
+                button.setCursor(Qt.PointingHandCursor)
+                button.setStyleSheet("""
+                    QPushButton { 
+                        padding: 10px 20px;
+                        font-weight: bold;
+                        background-color: #6F6F6F;
+                        border-radius: 20px;
+                        transition: background-color 0.3s ease; /* Add transition */
+                    }
+                    QPushButton:hover {
+                        background-color: #B7B7B6; 
+                    }
+                    QPushButton:pressed {
+                        background-color: #DEDDDA;
+                    }
+                """)
+                shadow_effect = QGraphicsDropShadowEffect()
+                shadow_effect.setBlurRadius(10)
+                shadow_effect.setColor(QColor(0, 0, 0, 140))
+                shadow_effect.setOffset(3, 3)
+                button.setGraphicsEffect(shadow_effect)
             #######################################################
             for buttonV in buttons_Vertical:
                 buttonV.setCursor(Qt.PointingHandCursor)
                 buttonV.setStyleSheet("""
                     QPushButton {
                         color: #EFEFEF;
-                        border-radius: 14px;
+                        border-radius: 20px;
                         background-color: #464645;
                         padding: 10px 20px;
                         font-weight: bold;
@@ -1098,10 +1126,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         else:
             qtmodern.styles.light(app)
             self.top_frame.setStyleSheet("background-color: rgb(222, 221, 218);")
-            self.homeButton.setStyleSheet("background-color: rgb(222, 221, 218);")
-            self.geneticDataButton.setStyleSheet("background-color: rgb(222, 221, 218);")
-            self.climaticDataButton.setStyleSheet("background-color: rgb(222, 221, 218);")
-            self.helpButton.setStyleSheet("background-color: rgb(222, 221, 218);")
             self.darkModeButton.setIcon(QIcon(":other/dark.png"))  # Set the 'dark' icon
             self.darkModeButton.setCursor(Qt.PointingHandCursor)
             self.darkModeButton.setStyleSheet("""
@@ -1109,7 +1133,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
                         padding: 10px 20px;
                         font-weight: bold;
                         background-color: #DEDDDA;
-                        border-radius: 14px;
+                        border-radius: 20px;
                         transition: background-color 0.3s ease; /* Add transition */
                     }
                     QPushButton:hover {
@@ -1124,15 +1148,37 @@ class UiMainWindow(QtWidgets.QMainWindow):
             shadow_effect.setBlurRadius(10)  # Ajuster le flou de l'ombre
             shadow_effect.setColor(QColor(0, 0, 0, 140))  # Couleur de l'ombre (noir avec transparence)
             shadow_effect.setOffset(3, 3)  # Décalage de l'ombre
-
             # Appliquer l'effet d'ombre au bouton
             self.darkModeButton.setGraphicsEffect(shadow_effect)
+
+            for button in buttons:
+                button.setCursor(Qt.PointingHandCursor)
+                button.setStyleSheet("""
+                    QPushButton { 
+                        padding: 10px 20px;
+                        font-weight: bold;
+                        background-color: #DEDDDA;
+                        border-radius: 20px;
+                        transition: background-color 0.3s ease; /* Add transition */
+                    }
+                    QPushButton:hover {
+                        background-color: #B7B7B6; 
+                    }
+                    QPushButton:pressed {
+                        background-color: #DEDDDA;
+                    }
+                """)
+                shadow_effect = QGraphicsDropShadowEffect()
+                shadow_effect.setBlurRadius(10)
+                shadow_effect.setColor(QColor(0, 0, 0, 140))
+                shadow_effect.setOffset(3, 3)
+                button.setGraphicsEffect(shadow_effect)
             ##########################################################
             for buttonV in buttons_Vertical:
                 buttonV.setCursor(Qt.PointingHandCursor)
                 buttonV.setStyleSheet("""
                     QPushButton {
-                        border-radius: 14px;
+                        border-radius: 20px;
                         background-color: #EEEEEE;
                         padding: 10px 20px;
                         font-weight: bold;
@@ -1168,17 +1214,17 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.statisticsButtonPage1.setEnabled(False)
         self.geneticTreeButtonPage1.setEnabled(False)
         self.GeneticTreeLabel.clear()
+        self.resultsButton.setEnabled(False)
+
 
     def clearClim(self):
         """
             Clear the text fields related to climatic data.
             """
-        self.textEditClimData.clear()
-        self.textEditClimStats.clear()
-        self.textEditClimTree.clear()
-        self.graphicsViewClimData.clear()
-        self.ClimStatsListCondition.setCurrentIndex(0)
-        self.ClimStatsListChart.setCurrentIndex(0)
+        self.statisticsButtonPage2.setEnabled(False)
+        self.climaticTreeButtonPage2.setEnabled(False)
+        self.resultsButton.setEnabled(False)
+
 
     def clearResult(self):
         """
@@ -1298,7 +1344,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.current_index = 0
         self.climaticTreescomboBox.addItems(self.tree_keys)
         self.show_climatic_tree(self.current_index)
-        self.tabWidget2.setCurrentIndex(2)
+        self.tabWidget2.setCurrentIndex(3)
 
     def show_selected_climatic_tree(self, index):
         if index >= 0:

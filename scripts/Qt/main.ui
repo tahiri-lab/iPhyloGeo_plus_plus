@@ -505,7 +505,7 @@
     <widget class="QPushButton" name="helpButton">
      <property name="geometry">
       <rect>
-       <x>920</x>
+       <x>970</x>
        <y>10</y>
        <width>101</width>
        <height>81</height>
@@ -540,7 +540,7 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>740</x>
+       <x>630</x>
        <y>10</y>
        <width>101</width>
        <height>81</height>
@@ -577,7 +577,7 @@
     <widget class="QLabel" name="appLogo">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>0</x>
        <y>10</y>
        <width>271</width>
        <height>81</height>
@@ -602,7 +602,7 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>560</x>
+       <x>460</x>
        <y>10</y>
        <width>101</width>
        <height>81</height>
@@ -642,10 +642,10 @@
     <widget class="QPushButton" name="darkModeButton">
      <property name="geometry">
       <rect>
-       <x>1100</x>
+       <x>1090</x>
        <y>10</y>
-       <width>31</width>
-       <height>31</height>
+       <width>41</width>
+       <height>41</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -697,7 +697,7 @@
     <widget class="QPushButton" name="homeButton">
      <property name="geometry">
       <rect>
-       <x>380</x>
+       <x>290</x>
        <y>10</y>
        <width>101</width>
        <height>81</height>
@@ -729,6 +729,37 @@
      </property>
      <property name="checkable">
       <bool>false</bool>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="resultsButton">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>800</x>
+       <y>10</y>
+       <width>101</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../../img/resources.qrc">
+       <normaloff>:/inactive/result.svg</normaloff>
+       <activeon>:/active/result.svg</activeon>
+       <selectedon>:/active/result.svg</selectedon>:/inactive/result.svg</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>60</width>
+       <height>60</height>
+      </size>
      </property>
      <property name="flat">
       <bool>false</bool>
@@ -848,7 +879,7 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="text">
-        <string>  Sequence</string>
+        <string> Alignment</string>
        </property>
        <property name="icon">
         <iconset resource="../../img/resources.qrc">
@@ -908,7 +939,7 @@ p, li { white-space: pre-wrap; }
         </font>
        </property>
        <property name="text">
-        <string>File Browser</string>
+        <string>   File Browser</string>
        </property>
        <property name="icon">
         <iconset resource="../../img/resources.qrc">
@@ -1020,12 +1051,12 @@ p, li { white-space: pre-wrap; }
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>931</width>
+         <width>921</width>
          <height>541</height>
         </rect>
        </property>
        <property name="currentIndex">
-        <number>4</number>
+        <number>3</number>
        </property>
        <widget class="QWidget" name="GenTab1">
         <attribute name="title">
@@ -1101,7 +1132,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>110</y>
+           <y>90</y>
            <width>900</width>
            <height>400</height>
           </rect>
@@ -1125,9 +1156,9 @@ p, li { white-space: pre-wrap; }
         <widget class="QFrame" name="GenStatsFilters">
          <property name="geometry">
           <rect>
-           <x>430</x>
+           <x>440</x>
            <y>10</y>
-           <width>481</width>
+           <width>491</width>
            <height>61</height>
           </rect>
          </property>
@@ -1138,6 +1169,9 @@ p, li { white-space: pre-wrap; }
           <enum>QFrame::Raised</enum>
          </property>
          <widget class="QSpinBox" name="starting_position_spinbox_2">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="geometry">
            <rect>
             <x>350</x>
@@ -1151,6 +1185,9 @@ p, li { white-space: pre-wrap; }
           </property>
          </widget>
          <widget class="QSpinBox" name="window_size_spinbox_2">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="geometry">
            <rect>
             <x>180</x>
@@ -1190,6 +1227,160 @@ p, li { white-space: pre-wrap; }
           </property>
          </widget>
         </widget>
+        <widget class="QLabel" name="SequenceAlignmentMethodText">
+         <property name="geometry">
+          <rect>
+           <x>-10</x>
+           <y>10</y>
+           <width>161</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="whatsThis">
+          <string/>
+         </property>
+         <property name="text">
+          <string>Alignment method</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="SequenceAlignmentMethod">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>40</y>
+           <width>121</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="editable">
+          <bool>false</bool>
+         </property>
+         <property name="insertPolicy">
+          <enum>QComboBox::InsertAtBottom</enum>
+         </property>
+         <property name="sizeAdjustPolicy">
+          <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
+         </property>
+         <property name="frame">
+          <bool>true</bool>
+         </property>
+         <item>
+          <property name="text">
+           <string>Pairwise</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>muscleAlign</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>clustalAlign</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>mafftAlign</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QLabel" name="SequenceFitMethodText">
+         <property name="geometry">
+          <rect>
+           <x>130</x>
+           <y>10</y>
+           <width>161</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="whatsThis">
+          <string/>
+         </property>
+         <property name="text">
+          <string>Fit method</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="SequenceFitMethod">
+         <property name="geometry">
+          <rect>
+           <x>140</x>
+           <y>40</y>
+           <width>141</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="editable">
+          <bool>false</bool>
+         </property>
+         <property name="frame">
+          <bool>true</bool>
+         </property>
+         <item>
+          <property name="text">
+           <string>narrow Fit Pairwise</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>star Alignment</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QPushButton" name="StartSequenceAlignmentButton">
+         <property name="geometry">
+          <rect>
+           <x>320</x>
+           <y>20</y>
+           <width>181</width>
+           <height>61</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <kerning>true</kerning>
+          </font>
+         </property>
+         <property name="text">
+          <string>Start</string>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>60</width>
+           <height>90</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>false</bool>
+         </property>
+         <property name="flat">
+          <bool>false</bool>
+         </property>
+        </widget>
        </widget>
        <widget class="QWidget" name="GenTab4">
         <attribute name="title">
@@ -1210,10 +1401,26 @@ p, li { white-space: pre-wrap; }
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
+         <widget class="QFrame" name="GenStatsFilters">
+          <property name="geometry">
+           <rect>
+            <x>440</x>
+            <y>20</y>
+            <width>481</width>
+            <height>61</height>
+           </rect>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+         </widget>
          <widget class="QLabel" name="GenStatsTitle">
           <property name="geometry">
            <rect>
-            <x>200</x>
+            <x>-20</x>
             <y>0</y>
             <width>541</width>
             <height>81</height>
@@ -1248,7 +1455,7 @@ p, li { white-space: pre-wrap; }
           </property>
           <property name="maximumSize">
            <size>
-            <width>900</width>
+            <width>800</width>
             <height>400</height>
            </size>
           </property>
@@ -1334,7 +1541,7 @@ p, li { white-space: pre-wrap; }
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>450</y>
+         <y>440</y>
          <width>181</width>
          <height>81</height>
         </rect>
@@ -1371,13 +1578,13 @@ p, li { white-space: pre-wrap; }
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>120</y>
+         <y>300</y>
          <width>181</width>
          <height>81</height>
         </rect>
        </property>
        <property name="text">
-        <string>Climatic Tree</string>
+        <string>   Climatic Tree</string>
        </property>
        <property name="icon">
         <iconset resource="../../img/resources.qrc">
@@ -1397,7 +1604,7 @@ p, li { white-space: pre-wrap; }
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>10</y>
+         <y>20</y>
          <width>181</width>
          <height>81</height>
         </rect>
@@ -1408,7 +1615,7 @@ p, li { white-space: pre-wrap; }
         </font>
        </property>
        <property name="text">
-        <string>File Browser</string>
+        <string>   File Browser</string>
        </property>
        <property name="icon">
         <iconset resource="../../img/resources.qrc">
@@ -1434,7 +1641,7 @@ p, li { white-space: pre-wrap; }
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>230</y>
+         <y>160</y>
          <width>181</width>
          <height>81</height>
         </rect>
@@ -1450,35 +1657,6 @@ p, li { white-space: pre-wrap; }
         <size>
          <width>50</width>
          <height>50</height>
-        </size>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="resultsButtonPage2">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>340</y>
-         <width>181</width>
-         <height>81</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>    Results</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../img/resources.qrc">
-         <normaloff>:/disabled/result.svg</normaloff>:/disabled/result.svg</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>60</width>
-         <height>60</height>
         </size>
        </property>
        <property name="flat">
@@ -1573,6 +1751,268 @@ p, li { white-space: pre-wrap; }
            <height>251</height>
           </rect>
          </property>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="ClimTab4">
+        <attribute name="title">
+         <string>Statistics</string>
+        </attribute>
+        <widget class="QFrame" name="frameClimStats">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>921</width>
+           <height>551</height>
+          </rect>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <widget class="QLabel" name="StatisticsTitle">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>541</width>
+            <height>81</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt; text-decoration: underline;&quot;&gt;Statistics&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+         <widget class="QLabel" name="ClimaticChartSettings">
+          <property name="geometry">
+           <rect>
+            <x>30</x>
+            <y>90</y>
+            <width>340</width>
+            <height>391</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>340</width>
+            <height>391</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>340</width>
+            <height>391</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+         <widget class="QLabel" name="ClimaticChart_2">
+          <property name="geometry">
+           <rect>
+            <x>390</x>
+            <y>10</y>
+            <width>520</width>
+            <height>500</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>520</width>
+            <height>500</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>520</width>
+            <height>500</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+         <widget class="QLabel" name="ClimaticChartSettingsTitle">
+          <property name="geometry">
+           <rect>
+            <x>50</x>
+            <y>90</y>
+            <width>301</width>
+            <height>51</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+           </font>
+          </property>
+          <property name="whatsThis">
+           <string/>
+          </property>
+          <property name="text">
+           <string>Generate your Graph</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+         <widget class="QLabel" name="ClimaticChartSettingsTextAxisX">
+          <property name="geometry">
+           <rect>
+            <x>120</x>
+            <y>150</y>
+            <width>161</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="whatsThis">
+           <string/>
+          </property>
+          <property name="text">
+           <string>Insert X axis data</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="ClimaticChartSettingsAxisX">
+          <property name="geometry">
+           <rect>
+            <x>40</x>
+            <y>180</y>
+            <width>321</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="editable">
+           <bool>false</bool>
+          </property>
+          <property name="insertPolicy">
+           <enum>QComboBox::InsertAtBottom</enum>
+          </property>
+          <property name="sizeAdjustPolicy">
+           <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
+          </property>
+          <property name="frame">
+           <bool>true</bool>
+          </property>
+         </widget>
+         <widget class="QLabel" name="ClimaticChartSettingsTextAxisY">
+          <property name="geometry">
+           <rect>
+            <x>120</x>
+            <y>230</y>
+            <width>161</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="whatsThis">
+           <string/>
+          </property>
+          <property name="text">
+           <string>Insert Y axis data</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="ClimaticChartSettingsAxisY">
+          <property name="geometry">
+           <rect>
+            <x>40</x>
+            <y>260</y>
+            <width>321</width>
+            <height>30</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="editable">
+           <bool>false</bool>
+          </property>
+          <property name="frame">
+           <bool>true</bool>
+          </property>
+         </widget>
+         <widget class="QRadioButton" name="radioButtonBarGraph">
+          <property name="geometry">
+           <rect>
+            <x>30</x>
+            <y>300</y>
+            <width>95</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Bar Graph</string>
+          </property>
+         </widget>
+         <widget class="QRadioButton" name="radioButtonScatterPlot">
+          <property name="geometry">
+           <rect>
+            <x>120</x>
+            <y>300</y>
+            <width>95</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Scatter Plot</string>
+          </property>
+         </widget>
+         <widget class="QRadioButton" name="radioButtonLinePlot">
+          <property name="geometry">
+           <rect>
+            <x>220</x>
+            <y>300</y>
+            <width>95</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Line Plot</string>
+          </property>
+         </widget>
+         <widget class="QRadioButton" name="radioButtonPiePlot">
+          <property name="geometry">
+           <rect>
+            <x>300</x>
+            <y>300</y>
+            <width>71</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Pie Plot</string>
+          </property>
+         </widget>
         </widget>
        </widget>
        <widget class="QWidget" name="ClimTab3">
@@ -1948,7 +2388,7 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="text">
-        <string>Settings</string>
+        <string>   Settings</string>
        </property>
        <property name="icon">
         <iconset resource="../../img/resources.qrc">
@@ -2000,7 +2440,7 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="text">
-        <string>Statistics</string>
+        <string>   Statistics</string>
        </property>
        <property name="icon">
         <iconset resource="../../img/resources.qrc">
@@ -2020,7 +2460,7 @@ p, li { white-space: pre-wrap; }
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>450</y>
+         <y>440</y>
          <width>181</width>
          <height>81</height>
         </rect>
@@ -2093,7 +2533,7 @@ p, li { white-space: pre-wrap; }
          <x>0</x>
          <y>60</y>
          <width>931</width>
-         <height>471</height>
+         <height>461</height>
         </rect>
        </property>
       </widget>
@@ -2125,7 +2565,7 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="text">
-        <string>Settings</string>
+        <string>   Settings</string>
        </property>
        <property name="icon">
         <iconset resource="../../img/resources.qrc">
@@ -2177,7 +2617,7 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="text">
-        <string>Statistics</string>
+        <string>   Statistics</string>
        </property>
        <property name="icon">
         <iconset resource="../../img/resources.qrc">
@@ -2197,7 +2637,7 @@ p, li { white-space: pre-wrap; }
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>450</y>
+         <y>440</y>
          <width>181</width>
          <height>81</height>
         </rect>
@@ -2408,7 +2848,7 @@ p, li { white-space: pre-wrap; }
           <x>0</x>
           <y>80</y>
           <width>921</width>
-          <height>461</height>
+          <height>441</height>
          </rect>
         </property>
        </widget>
