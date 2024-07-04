@@ -1,9 +1,9 @@
 Gene,Phylogeographic tree,Name of species,Position in ASM,Bootstrap mean,Robinson-Foulds Distance,Normalised RF Dist
-F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,ALLSKY_SFC_SW_DWN,ON134852,0_98,77.77777777777777,4,1.0
-F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,T2M,ON134852,0_98,77.77777777777777,4,1.0
-F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,QV2M,ON134852,0_98,77.77777777777777,4,1.0
-F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,PRECTOTCORR,ON134852,0_98,77.77777777777777,4,1.0
-F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,WS10M,ON134852,0_98,77.77777777777777,4,1.0
+F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,ALLSKY_SFC_SW_DWN,ON134852,0_98,79.79797979797979,4,1.0
+F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,T2M,ON134852,0_98,79.79797979797979,4,1.0
+F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,QV2M,ON134852,0_98,79.79797979797979,4,1.0
+F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,PRECTOTCORR,ON134852,0_98,79.79797979797979,4,1.0
+F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,WS10M,ON134852,0_98,79.79797979797979,4,1.0
 F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,ALLSKY_SFC_SW_DWN,OL989074,99_197,100.0,4,1.0
 F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,T2M,OL989074,99_197,100.0,4,1.0
 F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,QV2M,OL989074,99_197,100.0,4,1.0
@@ -64,8 +64,8 @@ F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,T2M,OL989074,
 F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,QV2M,OL989074,1188_1286,100.0,4,1.0
 F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,PRECTOTCORR,OL989074,1188_1286,100.0,4,1.0
 F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,WS10M,OL989074,1188_1286,100.0,4,1.0
-F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,ALLSKY_SFC_SW_DWN,ON134852,1287_1327,85.85858585858585,2,0.5
-F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,T2M,ON134852,1287_1327,85.85858585858585,4,1.0
-F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,QV2M,ON134852,1287_1327,85.85858585858585,4,1.0
-F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,PRECTOTCORR,ON134852,1287_1327,85.85858585858585,2,0.5
-F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,WS10M,ON134852,1287_1327,85.85858585858585,4,1.0
+F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,ALLSKY_SFC_SW_DWN,ON134852,1287_1327,81.81818181818181,2,0.5
+F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,T2M,ON134852,1287_1327,81.81818181818181,4,1.0
+F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,QV2M,ON134852,1287_1327,81.81818181818181,4,1.0
+F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,PRECTOTCORR,ON134852,1287_1327,81.81818181818181,2,0.5
+F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets\small_seq.fasta,WS10M,ON134852,1287_1327,81.81818181818181,4,1.0
