@@ -3,17 +3,17 @@ import json
 import os
 import re
 import sys
+import resources_rc
 import tempfile
 from collections import Counter
 from decimal import Decimal
 from io import BytesIO
-import resources_rc
+
 import folium
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
-
 import pandas as pd
 import plotly.graph_objs as go
 import plotly.io as pio
@@ -28,10 +28,9 @@ from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 from PyQt5 import QtCore, QtGui
 from PyQt5 import QtWidgets, uic
-from PyQt5.QtCore import Qt
-from PyQt5.QtCore import QThread, pyqtSignal, QObject, Qt
-from PyQt5.QtWidgets import QApplication, QDialog
+from PyQt5.QtCore import QThread, Qt
 from PyQt5.QtGui import QIcon, QColor, QPixmap, QImage
+from PyQt5.QtGui import QMovie
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import (QDialog)
@@ -44,8 +43,10 @@ from aphylogeo.params import Params
 from PreferencesDialog import PreferencesDialog  # Import PreferencesDialog
 from help import UiHowToUse
 from settings import HoverLabel
+from PyQt5.QtCore import pyqtSignal, QObject
 
 Params.load_from_file("params.yaml")
+
 
 
 class Worker(QObject):
@@ -859,70 +860,83 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def callSeqAlign(self):
-        """
-        Execute the sequence alignment pipeline and display progress using a worker thread.
+            """
+            Execute the sequence alignment pipeline and display progress using a worker thread.
 
-        This method performs the following steps:
-        1. Loads sequences from the reference gene file.
-        2. Aligns the loaded sequences.
-        3. Generates genetic trees based on the aligned sequences.
-        4. Prepares and displays the results in the UI.
-        5. Saves the alignment and genetic tree results to JSON files.
+            This method performs the following steps:
+            1. Loads sequences from the reference gene file.
+            2. Aligns the loaded sequences.
+            3. Generates genetic trees based on the aligned sequences.
+            4. Prepares and displays the results in the UI.
+            5. Saves the alignment and genetic tree results to JSON files.
 
-        Returns:
-            None
-        """
+            Returns:
+                None
+            """
 
-        def update_progress(step):
-            if step < loading_screen.checkListWidget.count():
-                item = loading_screen.checkListWidget.item(step)
-                item.setCheckState(Qt.Checked)
-                progress_value = int((step + 1) * (100 / loading_screen.checkListWidget.count()))
-                loading_screen.progressBar.setValue(progress_value)
+            def update_progress(step):
+                if step < loading_screen.checkListWidget.count():
+                    item = loading_screen.checkListWidget.item(step)
+                    item.setCheckState(Qt.Checked)
+                    progress_value = int((step + 1) * (100 / loading_screen.checkListWidget.count()))
+                    loading_screen.progressBar.setValue(progress_value)
+                    QApplication.processEvents()
+                else:
+                    loading_screen.progressBar.setValue(100)
+                    QApplication.processEvents()
+
+            def handle_finished(result):
+                loading_screen.close()
+                self.msa = result["msa"]
+                self.geneticTrees = result["geneticTrees"]
+                self.geneticTreeButtonPage1.setEnabled(True)
+                self.update_plot()
+                self.statisticsButtonPage1.setEnabled(True)
+                if self.climaticTreeButtonPage2.isEnabled():
+                    self.resultsButton.setEnabled(True)
+
+            def handle_error(error_message):
+                loading_screen.close()
+                self.showErrorDialog(f"An unexpected error occurred: {error_message}")
+
+            loading_screen = uic.loadUi("Qt/loading.ui")
+            loading_screen.setWindowModality(Qt.ApplicationModal)
+
+            # Set the QMovie for the movieLabel
+            movie = QMovie(":active/dna.gif")  # Use the resource path for the gif
+            loading_screen.movieLabel.setMovie(movie)
+
+            # Resize the movie to fit within the QLabel
+            movie.setScaledSize(QtCore.QSize(50, 50))  # Set the desired size here
+
+            # Ensure the QLabel is centered and the GIF is properly displayed
+            loading_screen.movieLabel.setAlignment(QtCore.Qt.AlignCenter)
+            movie.start()
+
+            # Show the loading screen
+            loading_screen.show()
+            QtWidgets.QApplication.processEvents()
+
+            self.thread = QThread()
+            self.worker = Worker(Params.reference_gene_filepath)
+            self.worker.moveToThread(self.thread)
+
+            self.worker.progress.connect(update_progress)
+            self.worker.finished.connect(handle_finished)
+            self.worker.error.connect(handle_error)
+
+            self.thread.started.connect(self.worker.run)
+            self.worker.finished.connect(self.thread.quit)
+            self.worker.finished.connect(self.worker.deleteLater)
+            self.thread.finished.connect(self.thread.deleteLater)
+
+            self.thread.start()
+
+            # Use a loop to wait until the thread finishes and the result is set
+            while self.thread.isRunning():
                 QApplication.processEvents()
-            else:
-                loading_screen.progressBar.setValue(100)
-                QApplication.processEvents()
 
-        def handle_finished(result):
-            loading_screen.close()
-            self.msa = result["msa"]
-            self.geneticTrees = result["geneticTrees"]
-            self.geneticTreeButtonPage1.setEnabled(True)
-            self.update_plot()
-            self.statisticsButtonPage1.setEnabled(True)
-            if self.climaticTreeButtonPage2.isEnabled():
-                self.resultsButton.setEnabled(True)
-
-        def handle_error(error_message):
-            loading_screen.close()
-            self.showErrorDialog(f"An unexpected error occurred: {error_message}")
-
-        loading_screen = uic.loadUi("Qt/loading.ui")
-        loading_screen.setWindowModality(Qt.ApplicationModal)
-        loading_screen.show()
-        QApplication.processEvents()
-
-        self.thread = QThread()
-        self.worker = Worker(Params.reference_gene_filepath)
-        self.worker.moveToThread(self.thread)
-
-        self.worker.progress.connect(update_progress)
-        self.worker.finished.connect(handle_finished)
-        self.worker.error.connect(handle_error)
-
-        self.thread.started.connect(self.worker.run)
-        self.worker.finished.connect(self.thread.quit)
-        self.worker.finished.connect(self.worker.deleteLater)
-        self.thread.finished.connect(self.thread.deleteLater)
-
-        self.thread.start()
-
-        # Use a loop to wait until the thread finishes and the result is set
-        while self.thread.isRunning():
-            QApplication.processEvents()
-
-        return self.geneticTrees
+            return self.geneticTrees
 
     def update_climate_chart(self):
         """
