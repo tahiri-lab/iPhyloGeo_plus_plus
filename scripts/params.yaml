@@ -1,4 +1,4 @@
-file_name: F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets/Full_Species_Data.csv
+file_name: F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets/geo.csv
 specimen: id
 names: [id, ALLSKY_SFC_SW_DWN, T2M, QV2M, PRECTOTCORR, WS10M]
 bootstrap_threshold: 0

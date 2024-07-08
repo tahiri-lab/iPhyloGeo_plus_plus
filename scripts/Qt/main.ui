@@ -782,7 +782,7 @@
      </sizepolicy>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="HomePage">
      <widget class="QFrame" name="HomeTab">
@@ -997,7 +997,7 @@ p, li { white-space: pre-wrap; }
       </widget>
       <widget class="QPushButton" name="geneticTreeButtonPage1">
        <property name="enabled">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <property name="geometry">
         <rect>
@@ -1056,7 +1056,7 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="currentIndex">
-        <number>3</number>
+        <number>4</number>
        </property>
        <widget class="QWidget" name="GenTab1">
         <attribute name="title">
@@ -1964,8 +1964,8 @@ p, li { white-space: pre-wrap; }
          <widget class="QRadioButton" name="radioButtonBarGraph">
           <property name="geometry">
            <rect>
-            <x>30</x>
-            <y>300</y>
+            <x>150</x>
+            <y>340</y>
             <width>95</width>
             <height>20</height>
            </rect>
@@ -1977,7 +1977,7 @@ p, li { white-space: pre-wrap; }
          <widget class="QRadioButton" name="radioButtonScatterPlot">
           <property name="geometry">
            <rect>
-            <x>120</x>
+            <x>150</x>
             <y>300</y>
             <width>95</width>
             <height>20</height>
@@ -1990,8 +1990,8 @@ p, li { white-space: pre-wrap; }
          <widget class="QRadioButton" name="radioButtonLinePlot">
           <property name="geometry">
            <rect>
-            <x>220</x>
-            <y>300</y>
+            <x>150</x>
+            <y>380</y>
             <width>95</width>
             <height>20</height>
            </rect>
@@ -2003,14 +2003,27 @@ p, li { white-space: pre-wrap; }
          <widget class="QRadioButton" name="radioButtonPiePlot">
           <property name="geometry">
            <rect>
-            <x>300</x>
-            <y>300</y>
+            <x>150</x>
+            <y>430</y>
             <width>71</width>
             <height>20</height>
            </rect>
           </property>
           <property name="text">
            <string>Pie Plot</string>
+          </property>
+         </widget>
+         <widget class="QRadioButton" name="radioButtonViolinPlot">
+          <property name="geometry">
+           <rect>
+            <x>150</x>
+            <y>480</y>
+            <width>71</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Violin</string>
           </property>
          </widget>
         </widget>

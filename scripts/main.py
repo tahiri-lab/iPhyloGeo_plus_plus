@@ -4,6 +4,11 @@ import os
 import re
 import sys
 import toyplot.png
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from PyQt5.QtGui import QPixmap
+from io import BytesIO
 import tempfile
 from collections import Counter
 from decimal import Decimal
@@ -726,10 +731,13 @@ class UiMainWindow(QtWidgets.QMainWindow):
             None
         """
         try:
-            # Load the data without the first column
-            self.data = pd.read_csv(Params.file_name, usecols=lambda column: column != 'id')
+            # Load the data, including the 'id' column
+            self.data = pd.read_csv(Params.file_name)
             self.columns = self.data.columns.tolist()
+            self.columns.remove('id')  # Remove 'id' from columns for axis selection
+            self.ClimaticChartSettingsAxisX.clear()
             self.ClimaticChartSettingsAxisX.addItems(self.columns)
+            self.ClimaticChartSettingsAxisY.clear()
             self.ClimaticChartSettingsAxisY.addItems(self.columns)
             self.tabWidget2.setCurrentIndex(2)
 
@@ -759,15 +767,37 @@ class UiMainWindow(QtWidgets.QMainWindow):
             if self.radioButtonBarGraph.isChecked():
                 plot_type = 'Bar Graph'
                 self.data.plot(kind='bar', x=x_data, y=y_data, ax=ax)
+                # Add 'id' as labels
+                for i, txt in enumerate(self.data['id']):
+                    ax.text(i, self.data[y_data][i], txt, ha='center', va='bottom')
             elif self.radioButtonScatterPlot.isChecked():
                 plot_type = 'Scatter Plot'
                 self.data.plot(kind='scatter', x=x_data, y=y_data, ax=ax)
+                # Add 'id' as labels
+                for i, txt in enumerate(self.data['id']):
+                    ax.annotate(txt, (self.data[x_data][i], self.data[y_data][i]))
             elif self.radioButtonLinePlot.isChecked():
                 plot_type = 'Line Plot'
                 self.data.plot(kind='line', x=x_data, y=y_data, ax=ax)
+                # Add 'id' as labels
+                for i, txt in enumerate(self.data['id']):
+                    ax.text(i, self.data[y_data][i], txt, ha='center', va='bottom')
             elif self.radioButtonPiePlot.isChecked():
                 plot_type = 'Pie Plot'
-                self.data.set_index(x_data).plot(kind='pie', y=y_data, ax=ax)
+                self.data.set_index(x_data).plot(kind='pie', y=y_data, labels=self.data['id'], ax=ax, legend=False)
+            elif self.radioButtonViolinPlot.isChecked():
+                plot_type = 'Violin Plot'
+                if pd.api.types.is_numeric_dtype(self.data[x_data]):
+                    self.data['x_binned'] = pd.cut(self.data[x_data], bins=10)
+                    sns.violinplot(x='x_binned', y=y_data, data=self.data, ax=ax)
+                    # Add 'id' as labels
+                    for i, txt in enumerate(self.data['id']):
+                        ax.annotate(txt, (self.data['x_binned'][i], self.data[y_data][i]))
+                else:
+                    sns.violinplot(x=x_data, y=y_data, data=self.data, ax=ax)
+                    # Add 'id' as labels
+                    for i, txt in enumerate(self.data['id']):
+                        ax.annotate(txt, (self.data[x_data][i], self.data[y_data][i]))
 
             buf = BytesIO()
             plt.savefig(buf, format='png')
