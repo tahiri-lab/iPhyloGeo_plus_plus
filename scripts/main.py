@@ -3,12 +3,14 @@ import json
 import os
 import re
 import sys
-import resources_rc
+import toyplot.png
 import tempfile
 from collections import Counter
 from decimal import Decimal
 from io import BytesIO
-
+import toyplot
+import toytree
+import resources_rc
 import folium
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
@@ -21,6 +23,7 @@ import qtmodern.styles
 import qtmodern.windows
 import qtmodern.windows
 import seaborn as sns
+import toytree
 import yaml
 from Bio import Phylo
 from Bio.Align import MultipleSeqAlignment
@@ -29,6 +32,7 @@ from Bio.SeqRecord import SeqRecord
 from PyQt5 import QtCore, QtGui
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import QThread, Qt
+from PyQt5.QtCore import pyqtSignal, QObject
 from PyQt5.QtGui import QIcon, QColor, QPixmap, QImage
 from PyQt5.QtGui import QMovie
 from PyQt5.QtWebEngineWidgets import QWebEngineView
@@ -43,10 +47,8 @@ from aphylogeo.params import Params
 from PreferencesDialog import PreferencesDialog  # Import PreferencesDialog
 from help import UiHowToUse
 from settings import HoverLabel
-from PyQt5.QtCore import pyqtSignal, QObject
 
 Params.load_from_file("params.yaml")
-
 
 
 class Worker(QObject):
@@ -860,83 +862,85 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def callSeqAlign(self):
-            """
-            Execute the sequence alignment pipeline and display progress using a worker thread.
+        """
+        Execute the sequence alignment pipeline and display progress using a worker thread.
 
-            This method performs the following steps:
-            1. Loads sequences from the reference gene file.
-            2. Aligns the loaded sequences.
-            3. Generates genetic trees based on the aligned sequences.
-            4. Prepares and displays the results in the UI.
-            5. Saves the alignment and genetic tree results to JSON files.
+        This method performs the following steps:
+        1. Loads sequences from the reference gene file.
+        2. Aligns the loaded sequences.
+        3. Generates genetic trees based on the aligned sequences.
+        4. Prepares and displays the results in the UI.
+        5. Saves the alignment and genetic tree results to JSON files.
 
-            Returns:
-                None
-            """
+        Returns:
+            None
+        """
 
-            def update_progress(step):
-                if step < loading_screen.checkListWidget.count():
-                    item = loading_screen.checkListWidget.item(step)
-                    item.setCheckState(Qt.Checked)
-                    progress_value = int((step + 1) * (100 / loading_screen.checkListWidget.count()))
-                    loading_screen.progressBar.setValue(progress_value)
-                    QApplication.processEvents()
-                else:
-                    loading_screen.progressBar.setValue(100)
-                    QApplication.processEvents()
-
-            def handle_finished(result):
-                loading_screen.close()
-                self.msa = result["msa"]
-                self.geneticTrees = result["geneticTrees"]
-                self.geneticTreeButtonPage1.setEnabled(True)
-                self.update_plot()
-                self.statisticsButtonPage1.setEnabled(True)
-                if self.climaticTreeButtonPage2.isEnabled():
-                    self.resultsButton.setEnabled(True)
-
-            def handle_error(error_message):
-                loading_screen.close()
-                self.showErrorDialog(f"An unexpected error occurred: {error_message}")
-
-            loading_screen = uic.loadUi("Qt/loading.ui")
-            loading_screen.setWindowModality(Qt.ApplicationModal)
-
-            # Set the QMovie for the movieLabel
-            movie = QMovie(":active/dna.gif")  # Use the resource path for the gif
-            loading_screen.movieLabel.setMovie(movie)
-
-            # Resize the movie to fit within the QLabel
-            movie.setScaledSize(QtCore.QSize(50, 50))  # Set the desired size here
-
-            # Ensure the QLabel is centered and the GIF is properly displayed
-            loading_screen.movieLabel.setAlignment(QtCore.Qt.AlignCenter)
-            movie.start()
-
-            # Show the loading screen
-            loading_screen.show()
-            QtWidgets.QApplication.processEvents()
-
-            self.thread = QThread()
-            self.worker = Worker(Params.reference_gene_filepath)
-            self.worker.moveToThread(self.thread)
-
-            self.worker.progress.connect(update_progress)
-            self.worker.finished.connect(handle_finished)
-            self.worker.error.connect(handle_error)
-
-            self.thread.started.connect(self.worker.run)
-            self.worker.finished.connect(self.thread.quit)
-            self.worker.finished.connect(self.worker.deleteLater)
-            self.thread.finished.connect(self.thread.deleteLater)
-
-            self.thread.start()
-
-            # Use a loop to wait until the thread finishes and the result is set
-            while self.thread.isRunning():
+        def update_progress(step):
+            if step < loading_screen.checkListWidget.count():
+                item = loading_screen.checkListWidget.item(step)
+                item.setCheckState(Qt.Checked)
+                progress_value = int((step + 1) * (100 / loading_screen.checkListWidget.count()))
+                loading_screen.progressBar.setValue(progress_value)
+                QApplication.processEvents()
+            else:
+                loading_screen.progressBar.setValue(100)
                 QApplication.processEvents()
 
-            return self.geneticTrees
+        def handle_finished(result):
+            loading_screen.close()
+            self.msa = result["msa"]
+            self.geneticTrees = result["geneticTrees"]
+            self.geneticTreeButtonPage1.setEnabled(True)
+            self.update_plot()
+            self.statisticsButtonPage1.setEnabled(True)
+            if self.climaticTreeButtonPage2.isEnabled():
+                self.resultsButton.setEnabled(True)
+
+        def handle_error(error_message):
+            loading_screen.close()
+            self.showErrorDialog(f"An unexpected error occurred: {error_message}")
+
+        loading_screen = uic.loadUi("Qt/loading.ui")
+        loading_screen.setWindowFlags(Qt.FramelessWindowHint)  # Remove the title bar and frame
+
+        loading_screen.setWindowModality(Qt.ApplicationModal)
+
+        # Set the QMovie for the movieLabel
+        movie = QMovie(":active/dna.gif")  # Use the resource path for the gif
+        loading_screen.movieLabel.setMovie(movie)
+
+        # Resize the movie to fit within the QLabel
+        movie.setScaledSize(QtCore.QSize(50, 50))  # Set the desired size here
+
+        # Ensure the QLabel is centered and the GIF is properly displayed
+        loading_screen.movieLabel.setAlignment(QtCore.Qt.AlignCenter)
+        movie.start()
+
+        # Show the loading screen
+        loading_screen.show()
+        QtWidgets.QApplication.processEvents()
+
+        self.thread = QThread()
+        self.worker = Worker(Params.reference_gene_filepath)
+        self.worker.moveToThread(self.thread)
+
+        self.worker.progress.connect(update_progress)
+        self.worker.finished.connect(handle_finished)
+        self.worker.error.connect(handle_error)
+
+        self.thread.started.connect(self.worker.run)
+        self.worker.finished.connect(self.thread.quit)
+        self.worker.finished.connect(self.worker.deleteLater)
+        self.thread.finished.connect(self.thread.deleteLater)
+
+        self.thread.start()
+
+        # Use a loop to wait until the thread finishes and the result is set
+        while self.thread.isRunning():
+            QApplication.processEvents()
+
+        return self.geneticTrees
 
     def update_climate_chart(self):
         """
@@ -1547,12 +1551,25 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred: {e}", "Error")
 
+    import toytree
+    import tempfile
+    import json
+    from PyQt5.QtWidgets import QFileDialog
+    from PyQt5.QtGui import QPixmap
+    import matplotlib.pyplot as plt
+
+    import tempfile
+    import json
+    import toytree
+    import matplotlib.pyplot as plt
+    from PyQt5.QtGui import QPixmap
+
     def display_newick_trees(self):
         """
-        Display Newick format trees in the application.
+        Display Newick format trees in the application using Toytree.
 
         This method loads Newick format trees from a JSON file, formats the tree names,
-        and updates the UI to display the trees.
+        and updates the UI to display the trees using Toytree.
 
         Actions:
             - Loads Newick format trees from 'results/geneticTrees.json'.
@@ -1574,6 +1591,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
             # Format the tree keys to replace underscore with ' nt '
             formatted_tree_keys = [self.format_tree_name(key) for key in self.tree_keys]
             self.geneticTreescomboBox.addItems(formatted_tree_keys)
+
+            print(f"Formatted tree keys: {formatted_tree_keys}")
 
             self.show_tree(self.current_index)
 
@@ -1618,9 +1637,15 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred while displaying the selected tree: {e}")
 
+    import tempfile
+    import toytree
+    import toyplot
+    import toyplot.png
+    from PyQt5.QtGui import QPixmap
+
     def show_tree(self, index):
         """
-        Display the phylogenetic tree at the specified index.
+        Display the phylogenetic tree at the specified index using Toytree.
 
         Args:
             index (int): The index of the tree to display.
@@ -1634,46 +1659,41 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 key = self.tree_keys[index]
                 newick_str = self.newick_json[key]
 
-                # Save the Newick string to a temporary file
-                with tempfile.NamedTemporaryFile(delete=False, suffix=".nwk") as temp_file:
-                    temp_file.write(newick_str.encode())
-                    temp_file_path = temp_file.name
+                # Read the tree using Toytree
+                tree = toytree.tree(newick_str)
 
-                # Read the tree using Phylo
-                tree = Phylo.read(temp_file_path, "newick")
+                # Customize the tip labels and their style
+                tip_labels = tree.get_tip_labels()
+                custom_tip_labels = [
+                    '{}. {}'.format(i[0], i[1:]) for i in tip_labels
+                ]
 
-                # Render the tree using Matplotlib
-                fig = plt.figure(figsize=(9.21, 4.5), dpi=100)
-                ax = fig.add_subplot(1, 1, 1)
-                Phylo.draw(tree, do_show=False, axes=ax)
-                ax.axis('off')  # Remove the X and Y axes
+                # Draw the tree with customized style
+                canvas, axes, mark = tree.draw(
+                    width=600,
+                    height=300,
+                    tip_labels=custom_tip_labels,
+                    tip_labels_style={"font-size": "11px"},
+                    fixed_order=tip_labels
+                )
 
-                # Add tree info as text annotation
-                formatted_key = self.format_tree_name(key)
-                ax.text(0.5, 1.01, f"Tree Name: {formatted_key}\nCurrent Index: {index + 1} / {self.total_trees}",
-                        transform=ax.transAxes, ha='center', va='bottom', fontsize=10, color='black')
+                # Save the canvas to a temporary file
+                temp_img_file = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
+                temp_img_path = temp_img_file.name
+                toyplot.png.render(canvas, temp_img_path)
 
-                # Save the plot to a temporary file
-                temp_img_file = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
-                self.temp_img_path = temp_img_file.name
-                plt.savefig(self.temp_img_path, format="png")
-                temp_img_file.close()
-
-                plt.close(fig)
-
-                # Load the temporary file into a QPixmap
-                pixmap = QPixmap(self.temp_img_path)
+                # Create a QPixmap from the temporary image file
+                pixmap = QPixmap(temp_img_path)
 
                 # Clear the QLabel before setting the new QPixmap
                 self.GeneticTreeLabel.clear()
                 self.GeneticTreeLabel.setPixmap(pixmap)
                 self.GeneticTreeLabel.adjustSize()
-        except FileNotFoundError as e:
-            self.showErrorDialog(f"The file {temp_file_path} was not found: {e}", "File Not Found")
-        except Phylo.NewickIO.NewickError as e:
-            self.showErrorDialog(f"An error occurred while parsing the Newick file: {e}", "Newick Format Error")
+            else:
+                print(f"Index {index} out of range. Total trees: {self.total_trees}")
+
         except Exception as e:
-            self.showErrorDialog(f"An unexpected error occurred: {e}")
+            self.showErrorDialog(f"An unexpected error occurred while rendering the tree: {e}")
 
     def download_graph(self):
         """
@@ -1703,6 +1723,11 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"The temporary image file was not found: {e}", "File Not Found")
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred while downloading the graph: {e}")
+
+
+
+
+
 
     def open_preferences_dialog(self):
         """
