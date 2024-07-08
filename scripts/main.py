@@ -1637,12 +1637,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred while displaying the selected tree: {e}")
 
-    import tempfile
-    import toytree
-    import toyplot
-    import toyplot.png
-    from PyQt5.QtGui import QPixmap
-
     def show_tree(self, index):
         """
         Display the phylogenetic tree at the specified index using Toytree.
@@ -1670,11 +1664,12 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
                 # Draw the tree with customized style
                 canvas, axes, mark = tree.draw(
-                    width=600,
-                    height=300,
+                    width=921,
+                    height=450,
                     tip_labels=custom_tip_labels,
-                    tip_labels_style={"font-size": "11px"},
-                    fixed_order=tip_labels
+                    tip_labels_style={"font-size": "15px"},
+                    fixed_order=tip_labels,
+                    edge_type='c'  # This line sets the edge type to 'c' as specified in the image
                 )
 
                 # Save the canvas to a temporary file
@@ -1723,11 +1718,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"The temporary image file was not found: {e}", "File Not Found")
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred while downloading the graph: {e}")
-
-
-
-
-
 
     def open_preferences_dialog(self):
         """
