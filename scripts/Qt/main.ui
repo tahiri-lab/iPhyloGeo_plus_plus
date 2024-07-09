@@ -736,7 +736,7 @@
     </widget>
     <widget class="QPushButton" name="resultsButton">
      <property name="enabled">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -782,7 +782,7 @@
      </sizepolicy>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="HomePage">
      <widget class="QFrame" name="HomeTab">
@@ -883,7 +883,7 @@ p, li { white-space: pre-wrap; }
        </property>
        <property name="icon">
         <iconset resource="../../img/resources.qrc">
-         <normaloff>:/disabled/sequence.svg</normaloff>:/disabled/sequence.svg</iconset>
+         <normaloff>:/inactive/sequence.svg</normaloff>:/inactive/sequence.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -912,7 +912,7 @@ p, li { white-space: pre-wrap; }
        </property>
        <property name="icon">
         <iconset resource="../../img/resources.qrc">
-         <normaloff>:/disabled/statistics.svg</normaloff>:/disabled/statistics.svg</iconset>
+         <normaloff>:/inactive/statistics.svg</normaloff>:/inactive/statistics.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -997,7 +997,7 @@ p, li { white-space: pre-wrap; }
       </widget>
       <widget class="QPushButton" name="geneticTreeButtonPage1">
        <property name="enabled">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <property name="geometry">
         <rect>
@@ -1012,7 +1012,7 @@ p, li { white-space: pre-wrap; }
        </property>
        <property name="icon">
         <iconset resource="../../img/resources.qrc">
-         <normaloff>:/disabled/tree.svg</normaloff>:/disabled/tree.svg</iconset>
+         <normaloff>:/inactive/tree.svg</normaloff>:/inactive/tree.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1651,7 +1651,7 @@ p, li { white-space: pre-wrap; }
        </property>
        <property name="icon">
         <iconset resource="../../img/resources.qrc">
-         <normaloff>:/disabled/statistics.svg</normaloff>:/disabled/statistics.svg</iconset>
+         <normaloff>:/inactive/statistics.svg</normaloff>:/inactive/statistics.svg</iconset>
        </property>
        <property name="iconSize">
         <size>

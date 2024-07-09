@@ -2,6 +2,9 @@ import io
 import json
 import os
 import re
+import matplotlib.pyplot as plt
+import seaborn as sns
+from matplotlib.ticker import MaxNLocator
 from PyQt5.QtWidgets import QVBoxLayout, QTextBrowser
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 import sys
@@ -703,20 +706,30 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
             windowed_similarities = np.array(windowed_similarities)
 
-            # Plot the similarities
-            fig, ax = plt.subplots(figsize=(10, 6))
+            # Plot the similarities with advanced styling
+            sns.set(style="whitegrid")
+            fig, ax = plt.subplots(figsize=(12, 8))
             x = np.arange(0, len(reference_sequence) - window_size + 1, step_size)
-            for idx, record in enumerate(alignment):
-                ax.plot(x, windowed_similarities[idx], label=record.id)
 
-            ax.set_xlabel('Position')
-            ax.set_ylabel('Similarity')
-            ax.set_title('Sequence Similarity Plot')
-            ax.legend()
+            for idx, record in enumerate(alignment):
+                ax.plot(x, windowed_similarities[idx], label=record.id, linewidth=2.0)
+
+            ax.set_xlabel('Position', fontsize=14)
+            ax.set_ylabel('Similarity', fontsize=14)
+            ax.set_title('Sequence Similarity Plot', fontsize=16, weight='bold')
+            ax.legend(title='Species', fontsize=12, title_fontsize='13', loc='upper right', bbox_to_anchor=(1.2, 1))
+            ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+            ax.grid(True, linestyle='--', alpha=0.6)
+
+            # Customize the look of the plot
+            ax.spines['top'].set_visible(False)
+            ax.spines['right'].set_visible(False)
+            ax.spines['left'].set_linewidth(1.2)
+            ax.spines['bottom'].set_linewidth(1.2)
 
             # Save the plot to a temporary file
             plot_path = 'similarity_plot.png'
-            fig.savefig(plot_path, bbox_inches='tight')
+            fig.savefig(plot_path, bbox_inches='tight', dpi=300)
 
             # Load the plot into the QLabel
             pixmap = QPixmap(plot_path)
@@ -734,7 +747,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"Key Error: {e}")
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred: {e}")
-
     def load_data_climate(self):
         """
         Load climate data from a CSV file, update the UI elements with the column names, and switch to the appropriate tab.
@@ -1410,9 +1422,12 @@ class UiMainWindow(QtWidgets.QMainWindow):
             AttributeError: If the sequence alignment has not been performed before attempting to generate the tree.
         """
         try:
-            df = pd.read_csv(Params.file_name)
-            utils.filterResults(self.climaticTrees, self.geneticTreeDict, df)
+            # df = pd.read_csv(Params.file_name)
+            # utils.filterResults(self.climaticTrees, self.geneticTreeDict, df)
             df_results = pd.read_csv("./results/output.csv")
+
+            # Replace the first column values with Params.file_name just before visualization
+            df_results.iloc[:, 0] = Params.reference_gene_file
 
             # Convert to HTML table with sleek, modern styling
             html_table = df_results.to_html(index=False, border=0, classes="dataframe", table_id="styled-table")
@@ -1708,7 +1723,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             formatted_tree_keys = [self.format_tree_name(key) for key in self.tree_keys]
             self.geneticTreescomboBox.addItems(formatted_tree_keys)
 
-            print(f"Formatted tree keys: {formatted_tree_keys}")
 
             self.show_tree(self.current_index)
 
@@ -1800,8 +1814,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 self.GeneticTreeLabel.clear()
                 self.GeneticTreeLabel.setPixmap(pixmap)
                 self.GeneticTreeLabel.adjustSize()
-            else:
-                print(f"Index {index} out of range. Total trees: {self.total_trees}")
 
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred while rendering the tree: {e}")
