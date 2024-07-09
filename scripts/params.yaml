@@ -1,7 +1,7 @@
 file_name: F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets/geo.csv
 specimen: id
 names: [id, ALLSKY_SFC_SW_DWN, T2M, QV2M, PRECTOTCORR, WS10M]
-bootstrap_threshold: 0
+bootstrap_threshold: 3
 dist_threshold: 60
 window_size: 99
 step_size: 99
@@ -11,7 +11,7 @@ reference_gene_dir: F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets
 reference_gene_file: small_seq.fasta
 makeDebugFiles: true
 alignment_method: '1'
-distance_method: '2'
+distance_method: '0'
 fit_method: '1'
 tree_type: '1'
 rate_similarity: 50

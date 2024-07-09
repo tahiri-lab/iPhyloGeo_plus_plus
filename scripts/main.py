@@ -2,6 +2,9 @@ import io
 import json
 import os
 import re
+from PyQt5.QtWidgets import QVBoxLayout, QTextBrowser
+
+from PyQt5.QtWebEngineWidgets import QWebEngineView
 import sys
 import toyplot.png
 import pandas as pd
@@ -1381,27 +1384,92 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
+    from PyQt5.QtWidgets import QVBoxLayout, QTextBrowser
+
     def showFilteredResults(self):
         """
         Show the results filtered with a metric threshold provided by the user.
 
         This method reads the data from a CSV file, processes it through the climatic pipeline, filters the results,
-        and displays the filtered results in an HTML table format within a QTextEdit widget. It handles exceptions
-        related to missing sequence alignment.
+        and displays the filtered results in an HTML table format within a QTextBrowser widget.
+        It handles exceptions related to missing sequence alignment.
 
         Raises:
             AttributeError: If the sequence alignment has not been performed before attempting to generate the tree.
         """
         try:
-            df = pd.read_csv(Params.file_name)
-            utils.filterResults(self.climaticTrees, self.geneticTreeDict, df)
+            # df = pd.read_csv(Params.file_name)
+            # utils.filterResults(self.climaticTrees, self.geneticTreeDict, df)
             df_results = pd.read_csv("./results/output.csv")
 
-            # Convert to HTML table with basic styling
-            html_table = df_results.to_html(index=False, border=1, classes="dataframe")
+            # Convert to HTML table with sleek, modern styling
+            html_table = df_results.to_html(index=False, border=0, classes="dataframe", table_id="styled-table")
 
-            # Display in QTextEdit (assuming self.textEditResults exists)
-            self.textEditResults.setHtml(html_table)
+            # Add CSS styles for a professional look with smooth hover animations
+            html_style = """
+            <style>
+                #styled-table {
+                    font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
+                    border-collapse: collapse;
+                    width: 100%;
+                    border-radius: 5px;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+                    overflow: hidden;
+                }
+                #styled-table td, #styled-table th {
+                    border: 1px solid #ddd;
+                    padding: 12px;
+                    transition: all 0.3s ease-in-out;
+                }
+                #styled-table tr:nth-child(even) {
+                    background-color: #f9f9f9;
+                }
+                #styled-table tr:hover {
+                    background-color: #f1f1f1;
+                    transform: scale(1.01);
+                }
+                #styled-table th {
+                    padding-top: 12px;
+                    padding-bottom: 12px;
+                    text-align: left;
+                    background-color: #4CAF50;
+                    color: white;
+                }
+                #styled-table td {
+                    position: relative;
+                    padding-left: 12px;
+                    padding-right: 12px;
+                }
+                #styled-table td:before {
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    width: 6px;
+                    height: 6px;
+                    border-radius: 50%;
+                    background-color: #4CAF50;
+                }
+            </style>
+            """
+
+            # Combine the HTML style and table
+            html_content = html_style + html_table
+
+            # Set up the QWebEngineView
+            web_engine_view = QWebEngineView()
+            web_engine_view.setHtml(html_content)
+
+            # Clear the existing content and layout of the QTextBrowser (if any)
+            layout = QVBoxLayout(self.textEditResults)
+            for i in reversed(range(layout.count())):
+                widget_to_remove = layout.itemAt(i).widget()
+                layout.removeWidget(widget_to_remove)
+                widget_to_remove.setParent(None)
+
+            # Add the QWebEngineView to the QTextBrowser
+            layout.addWidget(web_engine_view)
 
         except AttributeError as e:
             self.textEditClimTree.setText("Please do the sequence alignment before attempting to generate the tree!")
