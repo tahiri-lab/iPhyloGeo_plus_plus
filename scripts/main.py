@@ -1398,8 +1398,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
             AttributeError: If the sequence alignment has not been performed before attempting to generate the tree.
         """
         try:
-            # df = pd.read_csv(Params.file_name)
-            # utils.filterResults(self.climaticTrees, self.geneticTreeDict, df)
+            df = pd.read_csv(Params.file_name)
+            utils.filterResults(self.climaticTrees, self.geneticTreeDict, df)
             df_results = pd.read_csv("./results/output.csv")
 
             # Convert to HTML table with sleek, modern styling
