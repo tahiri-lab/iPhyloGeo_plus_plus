@@ -3,7 +3,6 @@ import json
 import os
 import re
 from PyQt5.QtWidgets import QVBoxLayout, QTextBrowser
-
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 import sys
 import toyplot.png
@@ -282,6 +281,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.window_size_spinbox_2.valueChanged.connect(self.update_plot)
             self.homeButton.clicked.connect(self.showHomePage)
             self.geneticDataButton.clicked.connect(self.showGenDatPage)
+            self.clearButtonPage3.clicked.connect(self.clearResults)
             self.climaticDataButton.clicked.connect(self.showClimDatPage)
             self.helpButton.clicked.connect(self.useWindow)
             self.darkModeButton.clicked.connect(self.toggleDarkMode)
@@ -406,6 +406,12 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An error occurred while setting up the UI: {e}", "Attribute Error")
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred: {e}", "Unexpected Error", )
+
+
+    def clearResults(self):
+        self.textEditResults.clear()
+
+
 
     def read_msa(self, msa_data):
         """
@@ -641,26 +647,32 @@ class UiMainWindow(QtWidgets.QMainWindow):
         """
         Plot the sequence similarity based on a multiple sequence alignment (MSA).
 
-        This method reads the MSA data, pads sequences to the same length, computes similarity scores,
+        This method reads the MSA data, combines sequences for each species, pads sequences to the same length, computes similarity scores,
         and plots the similarity across the alignment. The plot is then displayed in the specified label widget.
 
         Returns:
             None
         """
         try:
-            sequences = []
+            from collections import defaultdict
+
+            # Dictionary to hold combined sequences for each species
+            sequences = defaultdict(str)
+
+            # Combine sequences across all ranges for each species
             for key, value in self.msa.items():
                 parts = value.strip().split('\n')
-                header = parts[0].strip('>')  # Get the header without the '>'
-                sequence = ''.join(parts[1:])
-                sequences.append((header, sequence))
+                for i in range(0, len(parts), 2):
+                    header = parts[i].strip('>')
+                    sequence = parts[i + 1]
+                    sequences[header] += sequence
 
             # Find the maximum sequence length
-            max_len = max(len(seq) for _, seq in sequences)
+            max_len = max(len(seq) for seq in sequences.values())
 
             # Pad sequences to the same length
             padded_records = []
-            for header, sequence in sequences:
+            for header, sequence in sequences.items():
                 padded_seq = sequence.ljust(max_len, '-')
                 padded_records.append(SeqRecord(Seq(padded_seq), id=header))
 
@@ -695,7 +707,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             fig, ax = plt.subplots(figsize=(10, 6))
             x = np.arange(0, len(reference_sequence) - window_size + 1, step_size)
             for idx, record in enumerate(alignment):
-                ax.plot(x, windowed_similarities[idx], label=f'{record.id}_{idx}')
+                ax.plot(x, windowed_similarities[idx], label=record.id)
 
             ax.set_xlabel('Position')
             ax.set_ylabel('Similarity')
