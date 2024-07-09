@@ -1,4 +1,4 @@
-<h1  align="center"> 🌳 iPhyloGeo++ <p align='center'> 
+﻿﻿<h1  align="center"> 🌳 iPhyloGeo++ <p align='center'> 
         [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
         [![Contributions](https://img.shields.io/badge/contributions-welcome-blue.svg)](https://pysd.readthedocs.io/en/latest/development/development_index.html)
         [![Py version](https://img.shields.io/pypi/pyversions/pysd.svg)](https://pypi.python.org/pypi/pysd/)
