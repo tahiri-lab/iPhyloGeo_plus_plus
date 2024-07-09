@@ -736,7 +736,7 @@
     </widget>
     <widget class="QPushButton" name="resultsButton">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -997,7 +997,7 @@ p, li { white-space: pre-wrap; }
       </widget>
       <widget class="QPushButton" name="geneticTreeButtonPage1">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="geometry">
         <rect>
@@ -1689,7 +1689,7 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="ClimTab1">
         <attribute name="title">

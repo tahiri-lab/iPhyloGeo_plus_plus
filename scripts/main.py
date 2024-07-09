@@ -762,6 +762,17 @@ class UiMainWindow(QtWidgets.QMainWindow):
             x_data = self.ClimaticChartSettingsAxisX.currentText()
             y_data = self.ClimaticChartSettingsAxisY.currentText()
 
+            # Check if the user has selected a radio button and one or both combo boxes are not properly set
+            if (self.radioButtonBarGraph.isChecked() or
+                    self.radioButtonScatterPlot.isChecked() or
+                    self.radioButtonLinePlot.isChecked() or
+                    self.radioButtonPiePlot.isChecked() or
+                    self.radioButtonViolinPlot.isChecked()):
+
+                if x_data == "Select an option" or y_data == "Select an option":
+                    self.showErrorDialog("Please select valid options for both X and Y axes.")
+                    return
+
             fig, ax = plt.subplots(figsize=(5.2, 5))  # Set figure size to 520x500 pixels (each inch is 100 pixels)
 
             if self.radioButtonBarGraph.isChecked():
@@ -789,15 +800,10 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 plot_type = 'Violin Plot'
                 if pd.api.types.is_numeric_dtype(self.data[x_data]):
                     self.data['x_binned'] = pd.cut(self.data[x_data], bins=10)
+                    self.data['x_binned'] = self.data['x_binned'].astype(str)  # Convert intervals to strings
                     sns.violinplot(x='x_binned', y=y_data, data=self.data, ax=ax)
-                    # Add 'id' as labels
-                    for i, txt in enumerate(self.data['id']):
-                        ax.annotate(txt, (self.data['x_binned'][i], self.data[y_data][i]))
                 else:
                     sns.violinplot(x=x_data, y=y_data, data=self.data, ax=ax)
-                    # Add 'id' as labels
-                    for i, txt in enumerate(self.data['id']):
-                        ax.annotate(txt, (self.data[x_data][i], self.data[y_data][i]))
 
             buf = BytesIO()
             plt.savefig(buf, format='png')
