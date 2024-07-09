@@ -44,7 +44,7 @@
 <img width="441" height="1">
 <p> 
 <small>
-<img src="/img/readme-pic/Aphy-1.png"  alt="1">
+<img src="/img/readme-pic/Main.png"  alt="1">
 </small>
 </p>
 </th>
