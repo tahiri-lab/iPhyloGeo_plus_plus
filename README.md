@@ -115,10 +115,10 @@ In the genetic data tab, the user can load a sequence file (only Fasta files are
 
 ![group_page_step](/img/readme-pic/Aphy-Use.png)
 
-1. Select your sequence file in an accepted format (Fasta) through the **File browser** button.
+1. Select your sequence file in an accepted format (Fasta) through the `File browser` button.
 2. Once the file is loaded, the sequence will appear in the main window.
-3. Go to the sequence alignment page through the **Sequence Alignment** button. 
-4. select the alignment method that you want to use and press the **Start button**.
+3. Go to the sequence alignment page through the `Sequence Alignment` button. 
+4. select the alignment method that you want to use and press the `Start button`.
   - The sequence alignment process might be CPU demanding so a good PC configuration can be necessary, with an Mac M1 chip, the whole process can take 2 to 3 minutes.
   - When the process is done the sequence aligned will be displayed on the window
 
@@ -129,31 +129,36 @@ Below is a summary of the steps presented:
 ## Climatic Data
 After selecting the required file for the climatic data section, a tab and a map will automatically be generated.
 
-1. Select your climatic file in an accepted format (csv) through the **File browser** button.
+### A typical workflow would look like this:
+
+1. Select your climatic file in an accepted format (csv) through the `File browser` button.
 2. Once the file is loaded, the tab and the map will appear in the main window.
+3. You can now visualize the stats of the file by clicking on the `Statistics` button.
+4. You can generate a graph with the values of your csv file and choose the type of graph between 5 types of visualization (Scatter, Bar, Line, Pie, Violin)
+5. Independently of the statistics, by clicking the `Climatic Tree` button you can generate the tree or network relation between your data values depending on a selected parameter. You can then download the said tree / network on your computer.
 
 Below is a summary of the steps presented:
 
 ![group page gif](/img/readme-pic/climaticData.gif)
 
 ## Display results
-With both genetic and climatic data we can now move forward to the last section, the **Results** tab.
+With both genetic and climatic data we can now move forward to the last section, the `Results` tab.
 
-This feature will display the results through the **submit** button:
+This feature will display the results through the `submit` button:
 
 ![group page gif](/img/readme-pic/results1.gif)
 
 # ✔️ References
 
-1️⃣ Calculation of distance between phylogenetic tree: `Least Square metric`
+1️⃣ Calculation of distance between phylogenetic tree: **Least Square metric**
 + [Cavalli-Sforza, L. L., & Edwards, A. W. (1967). Phylogenetic analysis. Models and estimation procedures. American journal of human genetics, 19(3 Pt 1), 233.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1706274/)
 + [Felsenstein, J. (1997). An alternating least squares approach to inferring phylogenies from pairwise distances. Systematic biology, 46(1), 101-111.](https://pubmed.ncbi.nlm.nih.gov/11975348/)
 + [Makarenkov, V., & Lapointe, F. J. (2004). A weighted least-squares approach for inferring phylogenies from incomplete distance matrices. Bioinformatics, 20(13), 2113-2121.](https://pubmed.ncbi.nlm.nih.gov/15059836/)
 
-2️⃣ Calculation of distance between phylogenetic tree: `Robinson-Foulds metric`
+2️⃣ Calculation of distance between phylogenetic tree: **Robinson-Foulds metric**
 + [Robinson, D.F. and Foulds, L.R., 1981. Comparison of phylogenetic trees. Mathematical biosciences, 53(1-2), pp.131-147.](https://www.sciencedirect.com/science/article/abs/pii/0025556481900432?via%3Dihub)
     
-3️⃣ Dataset full description: `Analysis of genetic and climatic data of SARS-CoV-2`
+3️⃣ Dataset full description: **Analysis of genetic and climatic data of SARS-CoV-2**
 + [Koshkarov, A., Li, W., Luu, M. L., & Tahiri, N. (2022). Phylogeography: Analysis of genetic and climatic data of SARS-CoV-2.](https://conference.scipy.org/proceedings/scipy2022/nadia_tahiri.html)
 
 # 📧 Contact
