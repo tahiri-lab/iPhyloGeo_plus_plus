@@ -18,18 +18,18 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About the project</a>
+      <a href="#about-the-project">📝 About the project</a>
     </li>
     <li>
-      <a href="#Installation">Installation</a>
+      <a href="#Installation">⚒️ Installation</a>
       <ul>
         <li><a href="#Linux-UNIX-and-Mac-OS-versions">Linux/UNIX and Mac OS versions</a></li>
       </ul>
     </li>
     <li> How to use</li>
       <ul>
-        <li><a href="#Getting-genetic-data">Getting genetic data</a></li>
-        <li><a href="#Getting-climatic-data">Getting climatic data</a></li>
+        <li><a href="#Getting-genetic-data">Genetic Data</a></li>
+        <li><a href="#Getting-climatic-data">Climatic Data</a></li>
         <li><a href="#Display-results">Display results</a></li>
       </ul>
     <li>
