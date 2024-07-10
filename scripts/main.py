@@ -1,4 +1,16 @@
 import io
+import toytree
+import tempfile
+import json
+from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtGui import QPixmap
+import matplotlib.pyplot as plt
+
+import tempfile
+import json
+import toytree
+import matplotlib.pyplot as plt
+from PyQt5.QtGui import QPixmap
 import json
 import os
 import re
@@ -1682,18 +1694,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred: {e}", "Error")
 
-    import toytree
-    import tempfile
-    import json
-    from PyQt5.QtWidgets import QFileDialog
-    from PyQt5.QtGui import QPixmap
-    import matplotlib.pyplot as plt
 
-    import tempfile
-    import json
-    import toytree
-    import matplotlib.pyplot as plt
-    from PyQt5.QtGui import QPixmap
 
     def display_newick_trees(self):
         """
@@ -1814,7 +1815,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 self.GeneticTreeLabel.clear()
                 self.GeneticTreeLabel.setPixmap(pixmap)
                 self.GeneticTreeLabel.adjustSize()
-
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred while rendering the tree: {e}")
 
