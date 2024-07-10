@@ -100,7 +100,7 @@ The menu is composed of 6 buttons :
 ![group_page_step](/img/readme-pic/Genetic-Button.png)
 ### Climatic data button : 
 ![group_page_step](/img/readme-pic/Climatic-Button.png)
-### Result button : 
+### Results button : 
 ![group_page_step](/img/readme-pic/Result-Button.png)
 ### Help button : 
 ![group_page_step](/img/readme-pic/Help-Button.png)
