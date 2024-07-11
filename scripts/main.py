@@ -5,6 +5,7 @@ import json
 from PyQt5.QtWidgets import QFileDialog
 from PyQt5.QtGui import QPixmap
 import matplotlib.pyplot as plt
+import scipy.stats as sc
 
 import tempfile
 import json
@@ -2303,19 +2304,48 @@ class UiMainWindow(QtWidgets.QMainWindow):
             ordered_climatic_data = self.climatic_data.set_index('id').reindex(tip_labels).reset_index()
             bar_values = ordered_climatic_data[selected_column].values
 
+            # Create a canvas for the plot
             canvas = toyplot.Canvas(width=921, height=450)
-            ax0 = canvas.cartesian(bounds=(50, 400, 50, 400), padding=15)
-            ax1 = canvas.cartesian(bounds=(450, 900, 50, 400), padding=15)
 
-
-            tree.draw(axes=ax0)
+            # Add tree to canvas
+            ax0 = canvas.cartesian(bounds=(50, 400, 50, 400), ymin=0, ymax=tree.ntips, padding=15)
+            tree.draw(axes=ax0, tip_labels=True)
             ax0.show = False
 
-            ax1.bars(np.arange(len(tip_labels)), bar_values, along='y')
+            # Generate the trait distributions
+            points = np.linspace(-10, 10, 50)
+            dists = {}
+            for tip in tree.get_tip_labels():
+                dists[tip] = sc.norm.pdf(points, loc=np.random.randint(-5, 5, 1), scale=2)
 
+            # Add histograms to canvas
+            ax1 = canvas.cartesian(bounds=(450, 900, 50, 400), ymin=0, ymax=tree.ntips, padding=15)
+
+            # Iterate from top to bottom (ntips to 0)
+            for tip in range(tree.ntips)[::-1]:
+                # Select a color for hist
+                color = toytree.colors[int((tip) / 10)]
+
+                # Get tip name and get hist from dict
+                tipname = tree.get_tip_labels()[tip]
+                probs = dists[tipname]
+
+                # Fill histogram with slightly overlapping histograms
+                ax1.fill(
+                    points, probs / probs.max() * 1.25,
+                    baseline=[tip] * len(points),
+                    style={"fill": color, "stroke": "white", "stroke-width": 0.5},
+                    title=tipname,
+                )
+
+                # Add horizontal line at base
+                ax1.hlines(tip, opacity=0.5, color="grey", style={"stroke-width": 0.5})
+
+            # Hide y axis and show x axis
             ax1.show = True
             ax1.y.show = False
             ax1.x.ticks.show = True
+            ax1.x.label.text = selected_column
 
             temp_img_file = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
             temp_img_path = temp_img_file.name
@@ -2325,7 +2355,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.PhyloTreeLabel.clear()
             self.PhyloTreeLabel.setPixmap(pixmap)
             self.PhyloTreeLabel.adjustSize()
-
     def save_tree_graph(self):
         current_key = self.tree_keys[self.current_index1]
         default_file_name = f"{current_key}.png"
