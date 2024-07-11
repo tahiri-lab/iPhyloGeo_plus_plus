@@ -1,50 +1,12 @@
 import io
-import toytree
-import tempfile
-import json
-from PyQt5.QtWidgets import QFileDialog
-from PyQt5.QtGui import QPixmap
-import matplotlib.pyplot as plt
-import scipy.stats as sc
-from PyQt5.QtWidgets import QDialog, QHBoxLayout, QLabel, QComboBox, QPushButton, QVBoxLayout
-from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QComboBox, QPushButton, QHBoxLayout, QFileDialog
-from PyQt5.QtCore import Qt
-from PyQt5 import QtGui
-import pandas as pd
-from decimal import Decimal
-from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QComboBox, QPushButton, QHBoxLayout, QFileDialog, \
-    QTableWidget, QTableWidgetItem, QWidget
-from PyQt5.QtCore import Qt
-from PyQt5 import QtGui
-import pandas as pd
-from decimal import Decimal
-
-import tempfile
-import json
-import toytree
-import matplotlib.pyplot as plt
-from PyQt5.QtGui import QPixmap
 import json
 import os
 import re
-import matplotlib.pyplot as plt
-import seaborn as sns
-from matplotlib.ticker import MaxNLocator
-from PyQt5.QtWidgets import QVBoxLayout, QTextBrowser
-from PyQt5.QtWebEngineWidgets import QWebEngineView
 import sys
-import toyplot.png
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-from PyQt5.QtGui import QPixmap
-from io import BytesIO
 import tempfile
 from collections import Counter
 from decimal import Decimal
 from io import BytesIO
-import toyplot
-import toytree
 import resources_rc
 import folium
 import matplotlib.patches as mpatches
@@ -57,7 +19,10 @@ import plotly.io as pio
 import qtmodern.styles
 import qtmodern.windows
 import qtmodern.windows
+import scipy.stats as sc
 import seaborn as sns
+import toyplot
+import toyplot.png
 import toytree
 import yaml
 from Bio import Phylo
@@ -74,10 +39,13 @@ from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import (QDialog)
 from PyQt5.QtWidgets import QFileDialog, QGraphicsDropShadowEffect
+from PyQt5.QtWidgets import QLabel, QComboBox, QPushButton, QHBoxLayout, QTableWidget, QTableWidgetItem
+from PyQt5.QtWidgets import QVBoxLayout
 from aphylogeo import utils
 from aphylogeo.alignement import AlignSequences
 from aphylogeo.genetic_trees import GeneticTrees
 from aphylogeo.params import Params
+from matplotlib.ticker import MaxNLocator
 
 from PreferencesDialog import PreferencesDialog  # Import PreferencesDialog
 from help import UiHowToUse
@@ -1113,6 +1081,12 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
+    import folium
+    import io
+    from PyQt5.QtWebEngineWidgets import QWebEngineView
+    from PyQt5.QtWidgets import QVBoxLayout
+    from decimal import Decimal
+
     def populateMap(self, lat, long):
         """
         Create a folium map with markers based on provided latitude and longitude coordinates,
@@ -1132,7 +1106,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
             mean_lat = sum(Decimal(y) for y in lat) / len(lat)
             mean_long = sum(Decimal(x) for x in long) / len(long)
 
-            m = folium.Map(location=[mean_lat, mean_long], zoom_start=14, tiles="OpenStreetMap")
+            m = folium.Map(location=[mean_lat, mean_long], zoom_start=2, min_zoom=2, max_bounds=True,
+                           tiles="OpenStreetMap")
             for i in range(len(lat)):
                 folium.Marker([Decimal(lat[i]), Decimal(long[i])]).add_to(m)
 
@@ -1475,8 +1450,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
-    from PyQt5.QtWidgets import QVBoxLayout, QTextBrowser
-
     def showFilteredResults(self):
         """
         Show the results filtered with a metric threshold provided by the user.
@@ -1530,20 +1503,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
                     color: white;
                 }
                 #styled-table td {
-                    position: relative;
                     padding-left: 12px;
                     padding-right: 12px;
-                }
-                #styled-table td:before {
-                    content: "";
-                    position: absolute;
-                    left: 0;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    width: 6px;
-                    height: 6px;
-                    border-radius: 50%;
-                    background-color: #4CAF50;
                 }
             </style>
             """
