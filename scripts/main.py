@@ -288,7 +288,10 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 "show_branch_length": False,
                 "view_type": "network"
             }
-
+            self.tree_keys = []
+            self.total_trees = 0
+            self.current_index = 0
+            self.current_index1 = 0
             self.setObjectName("MainWindow")
             self.window_size_spinbox_2.setRange(1, 1000)
             self.starting_position_spinbox_2.setRange(1, 1000)
@@ -307,6 +310,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.isDarkMode = False  # Keep track of the state
             self.fileBrowserButtonPage1.clicked.connect(self.pressItFasta)
             self.geneticTreeButtonPage1.clicked.connect(self.display_newick_trees)
+            self.statisticsButtonPage3.clicked.connect(self.display_phylogeographic_trees)
             self.sequenceAlignmentButtonPage1.clicked.connect(self.showSequencePage)
             self.clearButtonPage1.clicked.connect(self.clearGen)
             self.statisticsButtonPage1.clicked.connect(self.plot_sequence_similarity)
@@ -322,6 +326,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.radioButtonScatterPlot.toggled.connect(self.generate_graph)
             self.radioButtonBarGraph.toggled.connect(self.generate_graph)
             self.geneticTreescomboBox.currentIndexChanged.connect(self.show_selected_tree)
+            self.criteriaComboBox.currentIndexChanged.connect(self.render_tree)
+            self.phyloTreescomboBox.currentIndexChanged.connect(self.render_tree)
             self.StartSequenceAlignmentButton.clicked.connect(self.SeqAlign)
             self.settingsButtonPage3.clicked.connect(self.paramWin)
             self.submitButtonPage3.clicked.connect(self.showFilteredResults)
@@ -331,9 +337,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.downloadGraphButton.clicked.connect(self.download_graph)
             self.preferencesButton.clicked.connect(self.open_preferences_dialog)
             self.stackedWidget.setCurrentIndex(0)
-            self.tree_keys = []
-            self.total_trees = 0
-            self.current_index = 0
+
+
 
             buttons = [self.geneticDataButton, self.climaticDataButton, self.helpButton, self.homeButton,
                        self.resultsButton]
@@ -2244,36 +2249,122 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 f"An unexpected error occurred while downloading the climatic tree graph: {e}")
 
 
+    ################################################
+    def display_phylogeographic_trees(self):
+        self.stackedWidget.setCurrentIndex(4)
+        file_path = "results/geneticTrees.json"
+        with open(file_path, 'r') as file:
+            self.phylo_json = json.load(file)
+
+        self.tree_keys = list(self.phylo_json.keys())
+        self.total_trees = len(self.tree_keys)
+        self.current_index1 = 0
+        self.phyloTreescomboBox.clear()
+
+        formatted_tree_keys = [self.rename_tree_key(key) for key in self.tree_keys]
+        self.phyloTreescomboBox.addItems(formatted_tree_keys)
+
+        self.climatic_data = pd.read_csv(Params.file_name)
+        self.criteriaComboBox.clear()
+        self.criteriaComboBox.addItems(self.climatic_data.columns[1:])
+
+        self.render_tree(self.current_index1)
+
+
+    def rename_tree_key(self, tree_key):
+        parts = tree_key.split('_')
+        if len(parts) == 2:
+            return f"{parts[0]} nt {parts[1]} nt"
+        return tree_key
+
+    def display_selected_tree(self, index):
+        if index >= 0:
+            self.render_tree(index)
+
+    def render_tree(self, index):
+        if 0 <= index < self.total_trees:
+            self.current_index1 = index
+            key = self.tree_keys[index]
+            newick_str = self.phylo_json[key]
+
+            tree = toytree.tree(newick_str)
+
+            tip_labels = tree.get_tip_labels()
+            custom_tip_labels = ['{}. {}'.format(i[0], i[1:]) for i in tip_labels]
+
+            if not hasattr(self, 'climatic_data'):
+                return
+
+            selected_column = self.criteriaComboBox.currentText()
+            ordered_climatic_data = self.climatic_data.set_index('id').reindex(tip_labels).reset_index()
+            bar_values = ordered_climatic_data[selected_column].values
+
+            canvas = toyplot.Canvas(width=921, height=450)
+            ax0 = canvas.cartesian(bounds=(50, 300, 50, 300), padding=15, ymin=0, ymax=20)
+            ax1 = canvas.cartesian(bounds=(325, 575, 50, 300), padding=15, ymin=0, ymax=20)
+
+            tree.draw(axes=ax0)
+            ax0.show = False
+
+            ax1.bars(np.arange(len(tip_labels)), bar_values, along='y')
+
+            ax1.show = True
+            ax1.y.show = False
+            ax1.x.ticks.show = True
+
+            temp_img_file = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
+            temp_img_path = temp_img_file.name
+            toyplot.png.render(canvas, temp_img_path)
+
+            pixmap = QPixmap(temp_img_path)
+            self.PhyloTreeLabel.clear()
+            self.PhyloTreeLabel.setPixmap(pixmap)
+            self.PhyloTreeLabel.adjustSize()
+
+
+    def save_tree_graph(self):
+        current_key = self.tree_keys[self.current_index1]
+        default_file_name = f"{current_key}.png"
+
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        file_path, _ = QFileDialog.getSaveFileName(self, "Save Graph As", default_file_name,
+                                                   "PNG Files (*.png);;All Files (*)", options=options)
+        if file_path:
+            if not file_path.lower().endswith('.png'):
+                file_path += '.png'
+            with open(self.temp_img_path, 'rb') as temp_file:
+                with open(file_path, 'wb') as file:
+                    file.write(temp_file.read())
+
+
+
 if __name__ == "__main__":
-    try:
-        # Create the application instance
-        app = QtWidgets.QApplication([])
+    # Create the application instance
+    app = QtWidgets.QApplication([])
 
-        # Apply modern styles
-        qtmodern.styles.light(app)
+    # Apply modern styles
+    qtmodern.styles.light(app)
 
-        # Create the main window instance
-        window = UiMainWindow()
+    # Create the main window instance
+    window = UiMainWindow()
 
-        # Wrap the main window with the ModernWindow style
-        mw = qtmodern.windows.ModernWindow(window)
+    # Wrap the main window with the ModernWindow style
+    mw = qtmodern.windows.ModernWindow(window)
 
-        # Get screen geometry to determine the available screen space
-        screen_geometry = app.primaryScreen().availableGeometry()
+    # Get screen geometry to determine the available screen space
+    screen_geometry = app.primaryScreen().availableGeometry()
 
-        # Calculate the center position of the screen
-        center_point = screen_geometry.center()
-        x = center_point.x() - mw.width() // 2
-        y = center_point.y() - mw.height() // 2
+    # Calculate the center position of the screen
+    center_point = screen_geometry.center()
+    x = center_point.x() - mw.width() // 2
+    y = center_point.y() - mw.height() // 2
 
-        # Move the main window to the center of the screen
-        mw.move(x, y)
+    # Move the main window to the center of the screen
+    mw.move(x, y)
 
-        # Show the main window
-        mw.show()
+    # Show the main window
+    mw.show()
 
-        # Execute the application's event loop
-        sys.exit(app.exec_())
-    except Exception as e:
-        QtWidgets.QMessageBox.critical(None, "Application Error", f"An unexpected error occurred: {e}")
-        sys.exit(1)
+    # Execute the application's event loop
+    sys.exit(app.exec_())

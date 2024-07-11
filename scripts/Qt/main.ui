@@ -736,7 +736,7 @@
     </widget>
     <widget class="QPushButton" name="resultsButton">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -997,7 +997,7 @@ p, li { white-space: pre-wrap; }
       </widget>
       <widget class="QPushButton" name="geneticTreeButtonPage1">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="geometry">
         <rect>
@@ -2726,7 +2726,7 @@ p, li { white-space: pre-wrap; }
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <widget class="QComboBox" name="ResultsStatsListCondition">
+        <widget class="QComboBox" name="criteriaComboBox">
          <property name="geometry">
           <rect>
            <x>160</x>
@@ -2744,31 +2744,6 @@ p, li { white-space: pre-wrap; }
          <property name="frame">
           <bool>true</bool>
          </property>
-         <item>
-          <property name="text">
-           <string>All</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Temperature</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Wind</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Humidity</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Altitude</string>
-          </property>
-         </item>
         </widget>
         <widget class="QLabel" name="ResultsStatsListTitle">
          <property name="geometry">
@@ -2789,11 +2764,11 @@ p, li { white-space: pre-wrap; }
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
-        <widget class="QComboBox" name="ResultsStatsListChart">
+        <widget class="QComboBox" name="phyloTreescomboBox">
          <property name="geometry">
           <rect>
            <x>160</x>
-           <y>40</y>
+           <y>50</y>
            <width>201</width>
            <height>30</height>
           </rect>
@@ -2807,63 +2782,26 @@ p, li { white-space: pre-wrap; }
          <property name="frame">
           <bool>true</bool>
          </property>
-         <item>
-          <property name="text">
-           <string>None</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Bar Chart</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Line Chart</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Pie Chart</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Area Chart</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Scatter Chart</string>
-          </property>
-         </item>
         </widget>
-        <widget class="QLabel" name="ResultsStatsListTitle2">
+        <widget class="QLabel" name="ResultsStatsListTitle_2">
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>40</y>
+           <y>50</y>
            <width>161</width>
            <height>31</height>
           </rect>
          </property>
+         <property name="whatsThis">
+          <string/>
+         </property>
          <property name="text">
-          <string>Chart Type</string>
+          <string>trees</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
-       </widget>
-       <widget class="QTextBrowser" name="textEditResultsStats">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>80</y>
-          <width>921</width>
-          <height>441</height>
-         </rect>
-        </property>
        </widget>
        <widget class="QLabel" name="ResultsStatsTitle">
         <property name="geometry">
@@ -2884,6 +2822,31 @@ p, li { white-space: pre-wrap; }
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="PhyloTreeLabel">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>80</y>
+          <width>921</width>
+          <height>450</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>921</width>
+          <height>450</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>921</width>
+          <height>450</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </widget>
