@@ -6,6 +6,18 @@ from PyQt5.QtWidgets import QFileDialog
 from PyQt5.QtGui import QPixmap
 import matplotlib.pyplot as plt
 import scipy.stats as sc
+from PyQt5.QtWidgets import QDialog, QHBoxLayout, QLabel, QComboBox, QPushButton, QVBoxLayout
+from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QComboBox, QPushButton, QHBoxLayout, QFileDialog
+from PyQt5.QtCore import Qt
+from PyQt5 import QtGui
+import pandas as pd
+from decimal import Decimal
+from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QComboBox, QPushButton, QHBoxLayout, QFileDialog, \
+    QTableWidget, QTableWidgetItem, QWidget
+from PyQt5.QtCore import Qt
+from PyQt5 import QtGui
+import pandas as pd
+from decimal import Decimal
 
 import tempfile
 import json
@@ -1177,6 +1189,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred while displaying the image: {e}")
 
+
     def pressItCSV(self):
         """
         Retrieve data from a climatic file and display it in a table.
@@ -1201,6 +1214,87 @@ class UiMainWindow(QtWidgets.QMainWindow):
             except:
                 return False
 
+        def show_lat_long_dialog(columns):
+            dialog = QDialog(self)
+            dialog.setWindowTitle("Select Latitude and Longitude Columns")
+            layout = QVBoxLayout()
+
+            info_label = QLabel("Note: The first column should belong to the species names.")
+            layout.addWidget(info_label)
+
+            layout.addWidget(QLabel("Longitude:"))
+            longitude_combo = QComboBox()
+            longitude_combo.addItems(columns)
+            layout.addWidget(longitude_combo)
+
+            layout.addWidget(QLabel("Latitude:"))
+            latitude_combo = QComboBox()
+            latitude_combo.addItems(columns)
+            layout.addWidget(latitude_combo)
+
+            button_box = QHBoxLayout()
+            ok_button = QPushButton("OK")
+            ok_button.setStyleSheet("background-color: #4CAF50; color: white; padding: 10px; border-radius: 5px;")
+            ok_button.clicked.connect(dialog.accept)
+            button_box.addWidget(ok_button)
+
+            cancel_button = QPushButton("Cancel")
+            cancel_button.setStyleSheet("background-color: #f44336; color: white; padding: 10px; border-radius: 5px;")
+            cancel_button.clicked.connect(dialog.reject)
+            button_box.addWidget(cancel_button)
+
+            layout.addLayout(button_box)
+            dialog.setLayout(layout)
+
+            if dialog.exec_() == QDialog.Accepted:
+                return longitude_combo.currentText(), latitude_combo.currentText()
+            else:
+                return None, None
+
+        def create_sleek_table(df):
+            num_rows, num_columns = df.shape
+            table_widget = QTableWidget(num_rows, num_columns)
+            table_widget.setStyleSheet("""
+                QTableWidget { 
+                    background-color: #f2f2f2; 
+                    border: 1px solid #ddd;
+                }
+                QHeaderView::section {
+                    background-color: #4CAF50;
+                    color: white;
+                    font-weight: bold;
+                    border: none;
+                    padding: 5px;
+                }
+                QTableWidget::item {
+                    border: none;
+                    padding: 5px;
+                }
+            """)
+            table_widget.horizontalHeader().setStretchLastSection(True)
+            table_widget.verticalHeader().setVisible(False)
+            table_widget.horizontalHeader().setVisible(True)
+            table_widget.horizontalHeader().setDefaultAlignment(Qt.AlignCenter)
+            table_widget.horizontalHeader().setDefaultSectionSize(150)
+
+            # Set headers
+            for col in range(num_columns):
+                item = QTableWidgetItem(df.columns[col])
+                item.setTextAlignment(Qt.AlignCenter)
+                table_widget.setHorizontalHeaderItem(col, item)
+
+            # Fill the table with data
+            for row in range(num_rows):
+                for col in range(num_columns):
+                    value = str(df.iloc[row, col])
+                    if re.search("^[0-9\\-]*\\.[0-9]*", value) is not None:
+                        value = str(round(Decimal(value), 3))
+                    item = QTableWidgetItem(value)
+                    item.setTextAlignment(Qt.AlignCenter)
+                    table_widget.setItem(row, col, item)
+
+            return table_widget
+
         try:
             options = QFileDialog.Options()
             options |= QFileDialog.ReadOnly
@@ -1211,80 +1305,35 @@ class UiMainWindow(QtWidgets.QMainWindow):
             if fullFilePath:
                 update_yaml_param(Params, "params.yaml", "file_name", fullFilePath)
                 self.statisticsButtonPage2.setEnabled(True)
-                with open(fullFilePath, "r") as c:
-                    lines = c.readlines()
-                    num_rows = len(lines)
-                    first_line = lines[0].split(",")
-                    lat = []
-                    long = []
-                    self.species = []
-                    self.factors = []
-                    loc = False
-                    num_columns = len(first_line)
-                    if first_line[-2] == 'LAT':
-                        first_line_without_loc = first_line[:-2]
-                        clim_data_names = self.retrieveDataNames(first_line_without_loc)
-                        update_yaml_param(Params, "params.yaml", "names", first_line_without_loc)
-                        loc = True
-                    else:
-                        clim_data_names = self.retrieveDataNames(first_line)
-                        update_yaml_param(Params, "params.yaml", "names", first_line)
+                df = pd.read_csv(fullFilePath)
+                columns = df.columns.tolist()
+
+                longitude_col, latitude_col = show_lat_long_dialog(columns)
+                if longitude_col and latitude_col:
+                    lat = df[latitude_col].tolist()
+                    long = df[longitude_col].tolist()
+
+                    self.species = df[columns[0]].tolist()
+                    self.factors = df.drop(columns=[longitude_col, latitude_col]).values.tolist()
+                    clim_data_names = self.retrieveDataNames(columns)
+                    update_yaml_param(Params, "params.yaml", "names", columns)
                     update_yaml_param(Params, "params.yaml", "data_names", clim_data_names)
+
                     self.textEditClimData.clear()
-                    cursor = QtGui.QTextCursor(self.textEditClimData.textCursor())
-                    clim_data_table = cursor.insertTable(num_rows, num_columns)
-                    fmt = clim_data_table.format()
-                    fmt.setWidth(QtGui.QTextLength(QtGui.QTextLength.PercentageLength, 98))
-                    clim_data_table.setFormat(fmt)
-                    format = QtGui.QTextCharFormat()
+                    sleek_table = create_sleek_table(df)
 
-                    table_format = clim_data_table.format()
-                    table_format.setBorder(1.5)  # Set border width
-                    table_format.setBorderBrush(QtGui.QBrush(QtGui.QColor("gray")))  # Set border color
-                    clim_data_table.setFormat(table_format)
+                    # Add the table widget to the textEditClimData layout
+                    layout = QVBoxLayout(self.textEditClimData)
+                    layout.addWidget(sleek_table)
 
-                    # Create a QTextBlockFormat for center alignment
-                    center_format = QtGui.QTextBlockFormat()
-                    center_format.setAlignment(QtCore.Qt.AlignCenter)
-
-                    header_format = QtGui.QTextCharFormat()
-                    header_format.setFontWeight(QtGui.QFont.Bold)
-
-                    for i, line in enumerate(lines):
-                        line_split = line.split(",")
-                        if line != lines[0]:
-                            line_data = []
-                            self.species.append(line_split[0])
-                            for j in range(1, len(line_split) - (2 if loc else 0)):
-                                line_data.append(line_split[j])
-                            self.factors.append(line_data)
-
-                            if loc:
-                                lat.append(line_split[-2])
-                                long.append(line_split[-1])
-
-                        for j, value in enumerate(line_split):
-                            if i == 0:  # If it's the first line, apply center alignment and bold format
-                                cursor.setBlockFormat(center_format)
-                                cursor.setCharFormat(header_format)  # Apply bold and black color format to header
-                            else:
-                                cursor.setCharFormat(format)  # Apply black color format to all text
-                            if re.search("^[0-9\\-]*\\.[0-9]*", value) is not None:
-                                cursor.insertText(str(round(Decimal(value), 3)))
-                            else:
-                                cursor.insertText(value)
-                            cursor.movePosition(QtGui.QTextCursor.NextCell)
-
-                    df = pd.read_csv(Params.file_name)
                     self.climaticTrees = utils.climaticPipeline(df)
                     self.tree_keys = list(self.climaticTrees.keys())
                     self.total_trees = len(self.tree_keys)
                     self.current_index = 0
                     self.climaticTreeButtonPage2.setEnabled(True)
                     self.tabWidget2.setCurrentIndex(1)
+                    self.populateMap(lat, long)
 
-                    if loc and lat and long:
-                        self.populateMap(lat, long)
                     if self.statisticsButtonPage1.isEnabled():
                         self.resultsButton.setEnabled(True)
         except FileNotFoundError as e:
