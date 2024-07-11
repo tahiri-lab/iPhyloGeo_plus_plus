@@ -745,21 +745,26 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"Key Error: {e}")
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred: {e}")
+
     def load_data_climate(self):
         """
         Load climate data from a CSV file, update the UI elements with the column names, and switch to the appropriate tab.
 
-        This method reads the climate data from a CSV file (excluding the 'id' column), updates combo boxes
+        This method reads the climate data from a CSV file (excluding the first column), updates combo boxes
         for X and Y axis settings with the column names, and switches to the climate data tab.
 
         Returns:
             None
         """
         try:
-            # Load the data, including the 'id' column
+            # Load the data
             self.data = pd.read_csv(Params.file_name)
             self.columns = self.data.columns.tolist()
-            self.columns.remove('id')  # Remove 'id' from columns for axis selection
+
+            # Remove the first column
+            if self.columns:
+                self.columns.pop(0)
+
             self.ClimaticChartSettingsAxisX.clear()
             self.ClimaticChartSettingsAxisX.addItems(self.columns)
             self.ClimaticChartSettingsAxisY.clear()
@@ -800,27 +805,31 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
             fig, ax = plt.subplots(figsize=(5.2, 5))  # Set figure size to 520x500 pixels (each inch is 100 pixels)
 
+            # Identify the first column
+            first_column_name = self.data.columns[0]
+
             if self.radioButtonBarGraph.isChecked():
                 plot_type = 'Bar Graph'
                 self.data.plot(kind='bar', x=x_data, y=y_data, ax=ax)
-                # Add 'id' as labels
-                for i, txt in enumerate(self.data['id']):
+                # Add first column values as labels
+                for i, txt in enumerate(self.data[first_column_name]):
                     ax.text(i, self.data[y_data][i], txt, ha='center', va='bottom')
             elif self.radioButtonScatterPlot.isChecked():
                 plot_type = 'Scatter Plot'
                 self.data.plot(kind='scatter', x=x_data, y=y_data, ax=ax)
-                # Add 'id' as labels
-                for i, txt in enumerate(self.data['id']):
+                # Add first column values as labels
+                for i, txt in enumerate(self.data[first_column_name]):
                     ax.annotate(txt, (self.data[x_data][i], self.data[y_data][i]))
             elif self.radioButtonLinePlot.isChecked():
                 plot_type = 'Line Plot'
                 self.data.plot(kind='line', x=x_data, y=y_data, ax=ax)
-                # Add 'id' as labels
-                for i, txt in enumerate(self.data['id']):
+                # Add first column values as labels
+                for i, txt in enumerate(self.data[first_column_name]):
                     ax.text(i, self.data[y_data][i], txt, ha='center', va='bottom')
             elif self.radioButtonPiePlot.isChecked():
                 plot_type = 'Pie Plot'
-                self.data.set_index(x_data).plot(kind='pie', y=y_data, labels=self.data['id'], ax=ax, legend=False)
+                self.data.set_index(x_data).plot(kind='pie', y=y_data, labels=self.data[first_column_name], ax=ax,
+                                                 legend=False)
             elif self.radioButtonViolinPlot.isChecked():
                 plot_type = 'Violin Plot'
                 if pd.api.types.is_numeric_dtype(self.data[x_data]):
@@ -1461,85 +1470,71 @@ class UiMainWindow(QtWidgets.QMainWindow):
         Raises:
             AttributeError: If the sequence alignment has not been performed before attempting to generate the tree.
         """
-        try:
-            # df = pd.read_csv(Params.file_name)
-            # utils.filterResults(self.climaticTrees, self.geneticTreeDict, df)
-            df_results = pd.read_csv("./results/output.csv")
 
-            # Replace the first column values with Params.file_name just before visualization
-            df_results.iloc[:, 0] = Params.reference_gene_file
+        df = pd.read_csv(Params.file_name)
+        utils.filterResults(self.climaticTrees, self.geneticTreeDict, df)
+        df_results = pd.read_csv("./results/output.csv")
 
-            # Convert to HTML table with sleek, modern styling
-            html_table = df_results.to_html(index=False, border=0, classes="dataframe", table_id="styled-table")
+        # Replace the first column values with Params.file_name just before visualization
+        df_results.iloc[:, 0] = Params.reference_gene_file
 
-            # Add CSS styles for a professional look with smooth hover animations
-            html_style = """
-            <style>
-                #styled-table {
-                    font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
-                    border-collapse: collapse;
-                    width: 100%;
-                    border-radius: 5px;
-                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-                    overflow: hidden;
-                }
-                #styled-table td, #styled-table th {
-                    border: 1px solid #ddd;
-                    padding: 12px;
-                    transition: all 0.3s ease-in-out;
-                }
-                #styled-table tr:nth-child(even) {
-                    background-color: #f9f9f9;
-                }
-                #styled-table tr:hover {
-                    background-color: #f1f1f1;
-                    transform: scale(1.01);
-                }
-                #styled-table th {
-                    padding-top: 12px;
-                    padding-bottom: 12px;
-                    text-align: left;
-                    background-color: #4CAF50;
-                    color: white;
-                }
-                #styled-table td {
-                    padding-left: 12px;
-                    padding-right: 12px;
-                }
-            </style>
-            """
+        # Convert to HTML table with sleek, modern styling
+        html_table = df_results.to_html(index=False, border=0, classes="dataframe", table_id="styled-table")
 
-            # Combine the HTML style and table
-            html_content = html_style + html_table
+        # Add CSS styles for a professional look with smooth hover animations
+        html_style = """
+        <style>
+            #styled-table {
+                font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+                border-radius: 5px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+                overflow: hidden;
+            }
+            #styled-table td, #styled-table th {
+                border: 1px solid #ddd;
+                padding: 12px;
+                transition: all 0.3s ease-in-out;
+            }
+            #styled-table tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+            #styled-table tr:hover {
+                background-color: #f1f1f1;
+                transform: scale(1.01);
+            }
+            #styled-table th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: left;
+                background-color: #4CAF50;
+                color: white;
+            }
+            #styled-table td {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+        </style>
+        """
 
-            # Set up the QWebEngineView
-            web_engine_view = QWebEngineView()
-            web_engine_view.setHtml(html_content)
+        # Combine the HTML style and table
+        html_content = html_style + html_table
 
-            # Clear the existing content and layout of the QTextBrowser (if any)
-            layout = QVBoxLayout(self.textEditResults)
-            for i in reversed(range(layout.count())):
-                widget_to_remove = layout.itemAt(i).widget()
-                layout.removeWidget(widget_to_remove)
-                widget_to_remove.setParent(None)
+        # Set up the QWebEngineView
+        web_engine_view = QWebEngineView()
+        web_engine_view.setHtml(html_content)
 
-            # Add the QWebEngineView to the QTextBrowser
-            layout.addWidget(web_engine_view)
+        # Clear the existing content and layout of the QTextBrowser (if any)
+        layout = QVBoxLayout(self.textEditResults)
+        for i in reversed(range(layout.count())):
+            widget_to_remove = layout.itemAt(i).widget()
+            layout.removeWidget(widget_to_remove)
+            widget_to_remove.setParent(None)
 
-        except AttributeError as e:
-            self.textEditClimTree.setText("Please do the sequence alignment before attempting to generate the tree!")
-            self.stackedWidget.setCurrentIndex(2)
-            self.tabWidget2.setCurrentIndex(2)
-            self.showErrorDialog(f"AttributeError: {e}")
+        # Add the QWebEngineView to the QTextBrowser
+        layout.addWidget(web_engine_view)
 
-        except FileNotFoundError as e:
-            self.showErrorDialog(f"FileNotFoundError: {e}")
-
-        except pd.errors.EmptyDataError as e:
-            self.showErrorDialog(f"EmptyDataError: {e}")
-
-        except Exception as e:
-            self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def toggleDarkMode(self):
         """
