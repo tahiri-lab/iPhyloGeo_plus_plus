@@ -1808,6 +1808,11 @@ class UiMainWindow(QtWidgets.QMainWindow):
                     edge_type='c'  # This line sets the edge type to 'c' as specified in the image
                 )
 
+                # Adjust the canvas size to ensure it fits within the specified dimensions
+                canvas = toyplot.Canvas(width=921, height=450)
+                ax = canvas.cartesian(bounds=(50, 870, 50, 400), padding=15)
+                tree.draw(axes=ax)
+
                 # Save the canvas to a temporary file
                 temp_img_file = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
                 temp_img_path = temp_img_file.name
@@ -2270,7 +2275,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         self.render_tree(self.current_index1)
 
-
     def rename_tree_key(self, tree_key):
         parts = tree_key.split('_')
         if len(parts) == 2:
@@ -2300,8 +2304,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
             bar_values = ordered_climatic_data[selected_column].values
 
             canvas = toyplot.Canvas(width=921, height=450)
-            ax0 = canvas.cartesian(bounds=(50, 300, 50, 300), padding=15, ymin=0, ymax=20)
-            ax1 = canvas.cartesian(bounds=(325, 575, 50, 300), padding=15, ymin=0, ymax=20)
+            ax0 = canvas.cartesian(bounds=(50, 400, 50, 400), padding=15)
+            ax1 = canvas.cartesian(bounds=(450, 900, 50, 400), padding=15)
+
 
             tree.draw(axes=ax0)
             ax0.show = False
@@ -2321,7 +2326,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.PhyloTreeLabel.setPixmap(pixmap)
             self.PhyloTreeLabel.adjustSize()
 
-
     def save_tree_graph(self):
         current_key = self.tree_keys[self.current_index1]
         default_file_name = f"{current_key}.png"
@@ -2336,7 +2340,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             with open(self.temp_img_path, 'rb') as temp_file:
                 with open(file_path, 'wb') as file:
                     file.write(temp_file.read())
-
 
 
 if __name__ == "__main__":
