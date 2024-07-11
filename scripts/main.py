@@ -986,7 +986,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         loading_screen.movieLabel.setMovie(movie)
 
         # Resize the movie to fit within the QLabel
-        movie.setScaledSize(QtCore.QSize(50, 50))  # Set the desired size here
+        movie.setScaledSize(QtCore.QSize(100, 100))  # Set the desired size here
 
         # Ensure the QLabel is centered and the GIF is properly displayed
         loading_screen.movieLabel.setAlignment(QtCore.Qt.AlignCenter)
