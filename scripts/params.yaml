@@ -1,14 +1,14 @@
-file_name: F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets/h_pylori_small.csv
+file_name: F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets/geo_with_loc.csv
 specimen: id
-names: [species, temperature, precipitation, humidity, longitude, latitude]
+names: [id, ALLSKY_SFC_SW_DWN, T2M, QV2M, PRECTOTCORR, WS10M, LAT, LONG]
 bootstrap_threshold: 3
 dist_threshold: 60
 window_size: 99
 step_size: 99
 bootstrap_amount: 99
-data_names: [temperature, precipitation, humidity, longitude, latitude]
+data_names: [ALLSKY_SFC_SW_DWN, T2M, QV2M, PRECTOTCORR, WS10M, LAT, LONG]
 reference_gene_dir: F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets
-reference_gene_file: h_pylori_small.fasta
+reference_gene_file: small_seq.fasta
 makeDebugFiles: true
 alignment_method: '1'
 distance_method: '0'

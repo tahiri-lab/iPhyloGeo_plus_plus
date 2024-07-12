@@ -2,7 +2,17 @@ import io
 import json
 import os
 import re
+import shutil
 import sys
+import seaborn as sns
+import pandas as pd
+
+import seaborn as sns
+import pandas as pd
+
+import seaborn as sns
+import pandas as pd
+import matplotlib.pyplot as plt
 import tempfile
 from collections import Counter
 from decimal import Decimal
@@ -289,23 +299,22 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.downloadGraphButton2.clicked.connect(self.download_climatic_tree_graph)
             self.darkModeButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
             self.isDarkMode = False  # Keep track of the state
+            self.downloadResultsPlotButton.clicked.connect(self.save_tree_graph)
             self.fileBrowserButtonPage1.clicked.connect(self.pressItFasta)
             self.geneticTreeButtonPage1.clicked.connect(self.display_newick_trees)
             self.statisticsButtonPage3.clicked.connect(self.display_phylogeographic_trees)
             self.sequenceAlignmentButtonPage1.clicked.connect(self.showSequencePage)
             self.clearButtonPage1.clicked.connect(self.clearGen)
+            self.downloadSimilarityButton.clicked.connect(self.download_plot_similarity)
             self.statisticsButtonPage1.clicked.connect(self.plot_sequence_similarity)
-
             self.clearButtonPage2.clicked.connect(self.clearClim)
             self.fileBrowserButtonPage2.clicked.connect(self.pressItCSV)
-            self.statisticsButtonPage2.clicked.connect(self.load_data_climate)
             self.resultsButton.clicked.connect(self.showResultsPage)
+            self.statisticsButtonPage2.clicked.connect(self.load_data_climate)
             self.ClimaticChartSettingsAxisX.currentIndexChanged.connect(self.generate_graph)
             self.ClimaticChartSettingsAxisY.currentIndexChanged.connect(self.generate_graph)
-            self.radioButtonPiePlot.toggled.connect(self.generate_graph)
-            self.radioButtonLinePlot.toggled.connect(self.generate_graph)
-            self.radioButtonScatterPlot.toggled.connect(self.generate_graph)
-            self.radioButtonBarGraph.toggled.connect(self.generate_graph)
+            self.PlotTypesCombobox.currentIndexChanged.connect(self.generate_graph)
+            self.climatePlotDownloadButton.clicked.connect(self.download_plot_climate)
             self.geneticTreescomboBox.currentIndexChanged.connect(self.show_selected_tree)
             self.criteriaComboBox.currentIndexChanged.connect(self.render_tree)
             self.phyloTreescomboBox.currentIndexChanged.connect(self.render_tree)
@@ -313,7 +322,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.settingsButtonPage3.clicked.connect(self.paramWin)
             self.submitButtonPage3.clicked.connect(self.showFilteredResults)
             self.clearButtonPage4.clicked.connect(self.clearResult)
-            self.statisticsButtonPage4.clicked.connect(self.showResultsStatsPage)
+            self.statisticsButtonPage4.clicked.connect(self.display_phylogeographic_trees)
             self.clearButtonPage4.clicked.connect(self.clearResultStat)
             self.downloadGraphButton.clicked.connect(self.download_graph)
             self.preferencesButton.clicked.connect(self.open_preferences_dialog)
@@ -629,7 +638,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         try:
             starting_position = self.starting_position_spinbox_2.value()
             window_size = self.window_size_spinbox_2.value()
-            output_path = "sequence_alignment_plot.png"
+            output_path = "results/sequence_alignment_plot.png"
 
             genetic_data = self.read_msa(self.msa)
             standardized_data = self.standardize_sequence_lengths(genetic_data)
@@ -654,97 +663,96 @@ class UiMainWindow(QtWidgets.QMainWindow):
         Returns:
             None
         """
-        try:
-            from collections import defaultdict
+        from collections import defaultdict
 
-            # Dictionary to hold combined sequences for each species
-            sequences = defaultdict(str)
+        # Dictionary to hold combined sequences for each species
+        sequences = defaultdict(str)
 
-            # Combine sequences across all ranges for each species
-            for key, value in self.msa.items():
-                parts = value.strip().split('\n')
-                for i in range(0, len(parts), 2):
-                    header = parts[i].strip('>')
-                    sequence = parts[i + 1]
-                    sequences[header] += sequence
+        # Combine sequences across all ranges for each species
+        for key, value in self.msa.items():
+            parts = value.strip().split('\n')
+            for i in range(0, len(parts), 2):
+                header = parts[i].strip('>')
+                sequence = parts[i + 1]
+                sequences[header] += sequence
 
-            # Find the maximum sequence length
-            max_len = max(len(seq) for seq in sequences.values())
+        # Find the maximum sequence length
+        max_len = max(len(seq) for seq in sequences.values())
 
-            # Pad sequences to the same length
-            padded_records = []
-            for header, sequence in sequences.items():
-                padded_seq = sequence.ljust(max_len, '-')
-                padded_records.append(SeqRecord(Seq(padded_seq), id=header))
+        # Pad sequences to the same length
+        padded_records = []
+        for header, sequence in sequences.items():
+            padded_seq = sequence.ljust(max_len, '-')
+            padded_records.append(SeqRecord(Seq(padded_seq), id=header))
 
-            # Create a MultipleSeqAlignment object
-            alignment = MultipleSeqAlignment(padded_records)
+        # Create a MultipleSeqAlignment object
+        alignment = MultipleSeqAlignment(padded_records)
 
-            # Compute the similarity score for each position
-            reference_sequence = str(alignment[0].seq)
-            similarities = []
+        # Compute the similarity score for each position
+        reference_sequence = str(alignment[0].seq)
+        similarities = []
 
-            for record in alignment:
-                similarity = [1 if ref == res else 0 for ref, res in zip(reference_sequence, str(record.seq))]
-                similarities.append(similarity)
+        for record in alignment:
+            similarity = [1 if ref == res else 0 for ref, res in zip(reference_sequence, str(record.seq))]
+            similarities.append(similarity)
 
-            similarities = np.array(similarities)
+        similarities = np.array(similarities)
 
-            # Compute sliding window averages
-            def sliding_window_avg(arr, window_size, step_size):
-                return [np.mean(arr[i:i + window_size]) for i in range(0, len(arr) - window_size + 1, step_size)]
+        # Compute sliding window averages
+        def sliding_window_avg(arr, window_size, step_size):
+            return [np.mean(arr[i:i + window_size]) for i in range(0, len(arr) - window_size + 1, step_size)]
 
-            # Use Params.window_size directly
-            window_size = Params.window_size
-            step_size = Params.step_size  # You can also parameterize this if needed
+        # Use Params.window_size directly
+        window_size = Params.window_size
+        step_size = Params.step_size  # You can also parameterize this if needed
 
-            windowed_similarities = []
-            for sim in similarities:
-                windowed_similarities.append(sliding_window_avg(sim, window_size, step_size))
+        windowed_similarities = []
+        for sim in similarities:
+            windowed_similarities.append(sliding_window_avg(sim, window_size, step_size))
 
-            windowed_similarities = np.array(windowed_similarities)
+        windowed_similarities = np.array(windowed_similarities)
 
-            # Plot the similarities with advanced styling
-            sns.set(style="whitegrid")
-            fig, ax = plt.subplots(figsize=(12, 8))
-            x = np.arange(0, len(reference_sequence) - window_size + 1, step_size)
+        # Plot the similarities with advanced styling
+        sns.set(style="whitegrid")
+        fig, ax = plt.subplots(figsize=(12, 8))
+        x = np.arange(0, len(reference_sequence) - window_size + 1, step_size)
 
-            for idx, record in enumerate(alignment):
-                ax.plot(x, windowed_similarities[idx], label=record.id, linewidth=2.0)
+        for idx, record in enumerate(alignment):
+            ax.plot(x, windowed_similarities[idx], label=record.id, linewidth=2.0)
 
-            ax.set_xlabel('Position', fontsize=14)
-            ax.set_ylabel('Similarity', fontsize=14)
-            ax.set_title('Sequence Similarity Plot', fontsize=16, weight='bold')
-            ax.legend(title='Species', fontsize=12, title_fontsize='13', loc='upper right', bbox_to_anchor=(1.2, 1))
-            ax.xaxis.set_major_locator(MaxNLocator(integer=True))
-            ax.grid(True, linestyle='--', alpha=0.6)
+        ax.set_xlabel('Position', fontsize=14)
+        ax.set_ylabel('Similarity', fontsize=14)
+        ax.set_title('Sequence Similarity Plot', fontsize=16, weight='bold')
+        ax.legend(title='Species', fontsize=12, title_fontsize='13', loc='upper right', bbox_to_anchor=(1.2, 1))
+        ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+        ax.grid(True, linestyle='--', alpha=0.6)
 
-            # Customize the look of the plot
-            ax.spines['top'].set_visible(False)
-            ax.spines['right'].set_visible(False)
-            ax.spines['left'].set_linewidth(1.2)
-            ax.spines['bottom'].set_linewidth(1.2)
+        # Customize the look of the plot
+        ax.spines['top'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.spines['left'].set_linewidth(1.2)
+        ax.spines['bottom'].set_linewidth(1.2)
 
-            # Save the plot to a temporary file
-            plot_path = 'similarity_plot.png'
-            fig.savefig(plot_path, bbox_inches='tight', dpi=300)
+        # Save the plot to a temporary file
+        self.plot_path = './results/similarity_plot.png'
+        fig.savefig(self.plot_path, bbox_inches='tight', dpi=300)
 
-            # Load the plot into the QLabel
-            pixmap = QPixmap(plot_path)
-            self.textEditGenStats_2.setPixmap(pixmap)
-            self.textEditGenStats_2.setFixedSize(900, 400)
-            self.textEditGenStats_2.setScaledContents(True)
+        # Load the plot into the QLabel
+        pixmap = QPixmap(self.plot_path)
+        self.textEditGenStats_2.setPixmap(pixmap)
+        self.textEditGenStats_2.setFixedSize(900, 400)
+        self.textEditGenStats_2.setScaledContents(True)
+        self.tabWidget.setCurrentIndex(3)
 
-            # Optionally, remove the temporary file
-            os.remove(plot_path)
-            self.tabWidget.setCurrentIndex(3)
 
-        except AttributeError as e:
-            self.showErrorDialog(f"Attribute Error: {e}")
-        except KeyError as e:
-            self.showErrorDialog(f"Key Error: {e}")
-        except Exception as e:
-            self.showErrorDialog(f"An unexpected error occurred: {e}")
+    def download_plot_similarity(self):
+        file_url = "results/similarity_plot.png"  # The file path
+        save_path, _ = QFileDialog.getSaveFileName(self, "Save File", "", "PNG Files (*.png);;All Files (*)")
+        if not save_path:
+            return  # User cancelled th
+        shutil.copy(file_url, save_path)# e save dialog
+
+    import seaborn as sns
 
     def load_data_climate(self):
         """
@@ -756,27 +764,19 @@ class UiMainWindow(QtWidgets.QMainWindow):
         Returns:
             None
         """
-        try:
-            # Load the data
-            self.data = pd.read_csv(Params.file_name)
-            self.columns = self.data.columns.tolist()
+        # Load the data
+        self.data = pd.read_csv(Params.file_name)
+        self.columns = self.data.columns.tolist()
 
-            # Remove the first column
-            if self.columns:
-                self.columns.pop(0)
+        # Remove the first column
+        if self.columns:
+            self.columns.pop(0)
 
-            self.ClimaticChartSettingsAxisX.clear()
-            self.ClimaticChartSettingsAxisX.addItems(self.columns)
-            self.ClimaticChartSettingsAxisY.clear()
-            self.ClimaticChartSettingsAxisY.addItems(self.columns)
-            self.tabWidget2.setCurrentIndex(2)
-
-        except FileNotFoundError as e:
-            self.showErrorDialog(f"File Not Found Error: {e}")
-        except pd.errors.EmptyDataError as e:
-            self.showErrorDialog(f"Empty Data Error: {e}")
-        except Exception as e:
-            self.showErrorDialog(f"An unexpected error occurred: {e}")
+        self.ClimaticChartSettingsAxisX.clear()
+        self.ClimaticChartSettingsAxisX.addItems(self.columns)
+        self.ClimaticChartSettingsAxisY.clear()
+        self.ClimaticChartSettingsAxisY.addItems(self.columns)
+        self.tabWidget2.setCurrentIndex(2)
 
     def generate_graph(self):
         """
@@ -788,69 +788,86 @@ class UiMainWindow(QtWidgets.QMainWindow):
         Returns:
             None
         """
-        try:
-            x_data = self.ClimaticChartSettingsAxisX.currentText()
-            y_data = self.ClimaticChartSettingsAxisY.currentText()
+        x_data = self.ClimaticChartSettingsAxisX.currentText()
+        y_data = self.ClimaticChartSettingsAxisY.currentText()
+        plot_type = self.PlotTypesCombobox.currentText()
 
-            # Check if the user has selected a radio button and one or both combo boxes are not properly set
-            if (self.radioButtonBarGraph.isChecked() or
-                    self.radioButtonScatterPlot.isChecked() or
-                    self.radioButtonLinePlot.isChecked() or
-                    self.radioButtonPiePlot.isChecked() or
-                    self.radioButtonViolinPlot.isChecked()):
+        # Check if valid options are selected
+        if plot_type == "" or x_data == "" or y_data == "":
+            return
 
-                if x_data == "Select an option" or y_data == "Select an option":
-                    self.showErrorDialog("Please select valid options for both X and Y axes.")
-                    return
+        # Check if selected columns are present in the DataFrame
+        if x_data not in self.data.columns or y_data not in self.data.columns:
+            return
 
-            fig, ax = plt.subplots(figsize=(5.2, 5))  # Set figure size to 520x500 pixels (each inch is 100 pixels)
+        fig, ax = plt.subplots(figsize=(5.2, 5))  # Set figure size to 520x500 pixels (each inch is 100 pixels)
 
-            # Identify the first column
-            first_column_name = self.data.columns[0]
+        # Identify the first column
+        first_column_name = self.data.columns[0]
 
-            if self.radioButtonBarGraph.isChecked():
-                plot_type = 'Bar Graph'
-                self.data.plot(kind='bar', x=x_data, y=y_data, ax=ax)
-                # Add first column values as labels
-                for i, txt in enumerate(self.data[first_column_name]):
-                    ax.text(i, self.data[y_data][i], txt, ha='center', va='bottom')
-            elif self.radioButtonScatterPlot.isChecked():
-                plot_type = 'Scatter Plot'
-                self.data.plot(kind='scatter', x=x_data, y=y_data, ax=ax)
-                # Add first column values as labels
-                for i, txt in enumerate(self.data[first_column_name]):
-                    ax.annotate(txt, (self.data[x_data][i], self.data[y_data][i]))
-            elif self.radioButtonLinePlot.isChecked():
-                plot_type = 'Line Plot'
-                self.data.plot(kind='line', x=x_data, y=y_data, ax=ax)
-                # Add first column values as labels
-                for i, txt in enumerate(self.data[first_column_name]):
-                    ax.text(i, self.data[y_data][i], txt, ha='center', va='bottom')
-            elif self.radioButtonPiePlot.isChecked():
-                plot_type = 'Pie Plot'
-                self.data.set_index(x_data).plot(kind='pie', y=y_data, labels=self.data[first_column_name], ax=ax,
-                                                 legend=False)
-            elif self.radioButtonViolinPlot.isChecked():
-                plot_type = 'Violin Plot'
-                if pd.api.types.is_numeric_dtype(self.data[x_data]):
-                    self.data['x_binned'] = pd.cut(self.data[x_data], bins=10)
-                    self.data['x_binned'] = self.data['x_binned'].astype(str)  # Convert intervals to strings
-                    sns.violinplot(x='x_binned', y=y_data, data=self.data, ax=ax)
-                else:
-                    sns.violinplot(x=x_data, y=y_data, data=self.data, ax=ax)
+        if plot_type == 'Bar Graph':
+            self.data.plot(kind='bar', x=x_data, y=y_data, ax=ax)
+            # Add first column values as labels
+            for i, txt in enumerate(self.data[first_column_name]):
+                ax.text(i, self.data[y_data][i], txt, ha='center', va='bottom')
+        elif plot_type == 'Scatter Plot':
+            self.data.plot(kind='scatter', x=x_data, y=y_data, ax=ax)
+            # Add first column values as labels
+            for i, txt in enumerate(self.data[first_column_name]):
+                ax.annotate(txt, (self.data[x_data][i], self.data[y_data][i]))
+        elif plot_type == 'Line Plot':
+            self.data.plot(kind='line', x=x_data, y=y_data, ax=ax)
+            # Add first column values as labels
+            for i, txt in enumerate(self.data[first_column_name]):
+                ax.text(i, self.data[y_data][i], txt, ha='center', va='bottom')
+        elif plot_type == 'Pie Plot':
+            self.data.set_index(x_data).plot(kind='pie', y=y_data, labels=self.data[first_column_name], ax=ax,
+                                             legend=False)
+        elif plot_type == 'Violin Plot':
+            if pd.api.types.is_numeric_dtype(self.data[x_data]):
+                self.data['x_binned'] = pd.cut(self.data[x_data], bins=10)
+                self.data['x_binned'] = self.data['x_binned'].astype(str)  # Convert intervals to strings
+                sns.violinplot(x='x_binned', y=y_data, data=self.data, ax=ax)
+            else:
+                sns.violinplot(x=x_data, y=y_data, data=self.data, ax=ax)
+        plot_path = os.path.join('results', f'{plot_type.lower().replace(" ", "_")}.png')
+        os.makedirs('results', exist_ok=True)
+        plt.savefig(plot_path)
+        plt.close(fig)
 
-            buf = BytesIO()
-            plt.savefig(buf, format='png')
-            buf.seek(0)
-            pixmap = QPixmap()
-            pixmap.loadFromData(buf.getvalue())
-            self.ClimaticChart_2.setPixmap(pixmap)
-            self.tabWidget2.setCurrentIndex(2)
+        # Display plot in QLabel
+        pixmap = QPixmap(plot_path)
+        self.ClimaticChart_2.setPixmap(pixmap)
+        self.tabWidget2.setCurrentIndex(2)
 
-        except KeyError as e:
-            self.showErrorDialog(f"Key Error: {e}")
-        except Exception as e:
-            self.showErrorDialog(f"An unexpected error occurred: {e}")
+    def download_plot_climate(self):
+        """
+        Download the generated plot.
+
+        This method allows the user to download the currently displayed plot.
+
+        Returns:
+            None
+        """
+        plot_type = self.PlotTypesCombobox.currentText()
+        if plot_type == "":
+            self.showErrorDialog("Please generate a plot first.")
+            return
+
+        plot_path = os.path.join('results', f'{plot_type.lower().replace(" ", "_")}.png')
+        if not os.path.exists(plot_path):
+            self.showErrorDialog("No plot found to download.")
+            return
+
+        # Prompt the user to select a location to save the plot
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        file_path, _ = QFileDialog.getSaveFileName(self, "Save Plot As", os.path.basename(plot_path),
+                                                   "PNG Files (*.png);;All Files (*)", options=options)
+        if file_path:
+            if not file_path.lower().endswith('.png'):
+                file_path += '.png'
+            shutil.copy(plot_path, file_path)
 
     def pressItFasta(self):
         """
@@ -1126,7 +1143,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             html = data.getvalue().decode()
 
             # Use a temporary file to store the HTML content
-            temp_file_path = 'temp_map.html'
+            temp_file_path = './results/temp_map.html'
             with open(temp_file_path, 'w') as f:
                 f.write(html)
 
@@ -1435,16 +1452,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
-    def showResultsStatsPage(self):
-        """
-        Display the results statistics page of the application.
-
-        This method sets the stacked widget's current index to 4 to display the results statistics page.
-        """
-        try:
-            self.stackedWidget.setCurrentIndex(4)
-        except Exception as e:
-            self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def showSequencePage(self):
         """
@@ -1705,8 +1712,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred: {e}", "Error")
 
-
-
     def display_newick_trees(self):
         """
         Display Newick format trees in the application using Toytree.
@@ -1734,7 +1739,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             # Format the tree keys to replace underscore with ' nt '
             formatted_tree_keys = [self.format_tree_name(key) for key in self.tree_keys]
             self.geneticTreescomboBox.addItems(formatted_tree_keys)
-
 
             self.show_tree(self.current_index)
 
@@ -1800,9 +1804,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
                 # Customize the tip labels and their style
                 tip_labels = tree.get_tip_labels()
-                custom_tip_labels = [
-                    '{}. {}'.format(i[0], i[1:]) for i in tip_labels
-                ]
+                custom_tip_labels = ['{}. {}'.format(i[0], i[1:]) for i in tip_labels]
 
                 # Draw the tree with customized style
                 canvas, axes, mark = tree.draw(
@@ -1819,13 +1821,13 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 ax = canvas.cartesian(bounds=(50, 870, 50, 400), padding=15)
                 tree.draw(axes=ax)
 
-                # Save the canvas to a temporary file
-                temp_img_file = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
-                temp_img_path = temp_img_file.name
-                toyplot.png.render(canvas, temp_img_path)
+                # Save the canvas to a permanent file in the .results/ directory
+                self.tree_img_path = os.path.join('results', f"{key}.png")
+                os.makedirs(os.path.dirname(self.tree_img_path), exist_ok=True)
+                toyplot.png.render(canvas, self.tree_img_path)
 
-                # Create a QPixmap from the temporary image file
-                pixmap = QPixmap(temp_img_path)
+                # Create a QPixmap from the saved image file
+                pixmap = QPixmap(self.tree_img_path)
 
                 # Clear the QLabel before setting the new QPixmap
                 self.GeneticTreeLabel.clear()
@@ -1836,9 +1838,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
     def download_graph(self):
         """
-        Download the current displayed graph as a PNG file.
+        Download the current displayed tree graph as a PNG file.
 
-        This method prompts the user to select a location to save the current graph,
+        This method prompts the user to select a location to save the current tree graph,
         and saves the graph to the specified location.
 
         Returns:
@@ -1850,18 +1852,16 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
             options = QFileDialog.Options()
             options |= QFileDialog.DontUseNativeDialog
-            file_path, _ = QFileDialog.getSaveFileName(self, "Save Graph As", default_file_name,
+            file_path, _ = QFileDialog.getSaveFileName(self, "Save Tree Image As", default_file_name,
                                                        "PNG Files (*.png);;All Files (*)", options=options)
             if file_path:
                 if not file_path.lower().endswith('.png'):
                     file_path += '.png'
-                with open(self.temp_img_path, 'rb') as temp_file:
-                    with open(file_path, 'wb') as file:
-                        file.write(temp_file.read())
+                shutil.copy(self.tree_img_path, file_path)
         except FileNotFoundError as e:
-            self.showErrorDialog(f"The temporary image file was not found: {e}", "File Not Found")
+            self.showErrorDialog(f"The tree image file was not found: {e}", "File Not Found")
         except Exception as e:
-            self.showErrorDialog(f"An unexpected error occurred while downloading the graph: {e}")
+            self.showErrorDialog(f"An unexpected error occurred while downloading the tree image: {e}")
 
     def open_preferences_dialog(self):
         """
@@ -2039,12 +2039,12 @@ class UiMainWindow(QtWidgets.QMainWindow):
             for annotation in edge_annotations:
                 fig.add_annotation(annotation)
 
-            temp_img_file = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
-            self.temp_img_path = temp_img_file.name
-            pio.write_image(fig, self.temp_img_path, format="png")
-            temp_img_file.close()
+            results_dir = "results"
+            os.makedirs(results_dir, exist_ok=True)
+            img_path = os.path.join(results_dir, f"{self.tree_keys[self.current_index]}.png")
+            pio.write_image(fig, img_path, format="png")
 
-            pixmap = QPixmap(self.temp_img_path)
+            pixmap = QPixmap(img_path)
             self.climaticTreesLabel.clear()
             self.climaticTreesLabel.setPixmap(pixmap)
             self.climaticTreesLabel.adjustSize()
@@ -2100,13 +2100,13 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
             ax.axis('off')  # Remove axes
 
-            temp_img_file = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
-            self.temp_img_path = temp_img_file.name
-            plt.savefig(self.temp_img_path, format="png")
-            temp_img_file.close()
+            results_dir = "results"
+            os.makedirs(results_dir, exist_ok=True)
+            img_path = os.path.join(results_dir, f"{self.tree_keys[self.current_index]}.png")
+            plt.savefig(img_path, format="png")
             plt.close(fig)
 
-            pixmap = QPixmap(self.temp_img_path)
+            pixmap = QPixmap(img_path)
             self.climaticTreesLabel.clear()
             self.climaticTreesLabel.setPixmap(pixmap)
             self.climaticTreesLabel.adjustSize()
@@ -2250,9 +2250,12 @@ class UiMainWindow(QtWidgets.QMainWindow):
             if file_path:
                 if not file_path.lower().endswith('.png'):
                     file_path += '.png'
-                with open(self.temp_img_path, 'rb') as temp_file:
-                    with open(file_path, 'wb') as file:
-                        file.write(temp_file.read())
+                results_dir = "results"
+                os.makedirs(results_dir, exist_ok=True)
+                img_path = os.path.join(results_dir, f"{self.tree_keys[self.current_index]}.png")
+                with open(img_path, 'rb') as file:
+                    with open(file_path, 'wb') as dest_file:
+                        dest_file.write(file.read())
         except FileNotFoundError as e:
             self.showErrorDialog(f"The temporary image file was not found: {e}", "File Not Found")
         except Exception as e:
@@ -2263,7 +2266,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
     ################################################
     def display_phylogeographic_trees(self):
         self.stackedWidget.setCurrentIndex(4)
-        file_path = "results/geneticTrees.json"
+        file_path = os.path.join(self.results_dir, "geneticTrees.json")
         with open(file_path, 'r') as file:
             self.phylo_json = json.load(file)
 
@@ -2352,14 +2355,14 @@ class UiMainWindow(QtWidgets.QMainWindow):
             ax1.x.ticks.show = True
             ax1.x.label.text = selected_column
 
-            temp_img_file = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
-            temp_img_path = temp_img_file.name
-            toyplot.png.render(canvas, temp_img_path)
+            self.temp_img_path = os.path.join(self.results_dir, f"{key}.png")
+            toyplot.png.render(canvas, self.temp_img_path)
 
-            pixmap = QPixmap(temp_img_path)
+            pixmap = QPixmap(self.temp_img_path)
             self.PhyloTreeLabel.clear()
             self.PhyloTreeLabel.setPixmap(pixmap)
             self.PhyloTreeLabel.adjustSize()
+
     def save_tree_graph(self):
         current_key = self.tree_keys[self.current_index1]
         default_file_name = f"{current_key}.png"
