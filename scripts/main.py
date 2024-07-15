@@ -1486,8 +1486,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
             AttributeError: If the sequence alignment has not been performed before attempting to generate the tree.
         """
 
-        df = pd.read_csv(Params.file_name)
-        utils.filterResults(self.climaticTrees, self.geneticTreeDict, df)
+        # df = pd.read_csv(Params.file_name)
+        # utils.filterResults(self.climaticTrees, self.geneticTreeDict, df)
         df_results = pd.read_csv("./results/output.csv")
 
         # Replace the first column values with Params.file_name just before visualization
@@ -2330,10 +2330,10 @@ class UiMainWindow(QtWidgets.QMainWindow):
             ax0.show = False
 
             # Generate the trait distributions
-            points = np.linspace(-10, 10, 50)
+            points = np.linspace(bar_values.min(), bar_values.max(), 50)
             dists = {}
             for tip in tree.get_tip_labels():
-                dists[tip] = sc.norm.pdf(points, loc=np.random.randint(-5, 5, 1), scale=2)
+                dists[tip] = sc.norm.pdf(points, loc=np.mean(bar_values), scale=np.std(bar_values))
 
             # Add histograms to canvas
             ax1 = canvas.cartesian(bounds=(450, 900, 50, 400), ymin=0, ymax=tree.ntips, padding=15)
@@ -2371,7 +2371,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.PhyloTreeLabel.clear()
             self.PhyloTreeLabel.setPixmap(pixmap)
             self.PhyloTreeLabel.adjustSize()
-
     def save_tree_graph(self):
         current_key = self.tree_keys[self.current_index1]
         default_file_name = f"{current_key}.png"
