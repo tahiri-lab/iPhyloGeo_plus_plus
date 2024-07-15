@@ -805,31 +805,39 @@ class UiMainWindow(QtWidgets.QMainWindow):
         # Identify the first column
         first_column_name = self.data.columns[0]
 
+        # Round function for better readability
+        def round_numbers(val, digits=3):
+            return round(val, digits)
+
         if plot_type == 'Bar Graph':
             self.data.plot(kind='bar', x=x_data, y=y_data, ax=ax)
             # Add first column values as labels
             for i, txt in enumerate(self.data[first_column_name]):
-                ax.text(i, self.data[y_data][i], txt, ha='center', va='bottom')
+                ax.text(i, round_numbers(self.data[y_data][i]), txt, ha='center', va='bottom')
         elif plot_type == 'Scatter Plot':
             self.data.plot(kind='scatter', x=x_data, y=y_data, ax=ax)
             # Add first column values as labels
             for i, txt in enumerate(self.data[first_column_name]):
-                ax.annotate(txt, (self.data[x_data][i], self.data[y_data][i]))
+                ax.annotate(txt, (round_numbers(self.data[x_data][i]), round_numbers(self.data[y_data][i])))
         elif plot_type == 'Line Plot':
             self.data.plot(kind='line', x=x_data, y=y_data, ax=ax)
             # Add first column values as labels
             for i, txt in enumerate(self.data[first_column_name]):
-                ax.text(i, self.data[y_data][i], txt, ha='center', va='bottom')
+                ax.text(i, round_numbers(self.data[y_data][i]), txt, ha='center', va='bottom')
         elif plot_type == 'Pie Plot':
             self.data.set_index(x_data).plot(kind='pie', y=y_data, labels=self.data[first_column_name], ax=ax,
                                              legend=False)
         elif plot_type == 'Violin Plot':
             if pd.api.types.is_numeric_dtype(self.data[x_data]):
+                # Bin the data and use midpoints for readability
                 self.data['x_binned'] = pd.cut(self.data[x_data], bins=10)
-                self.data['x_binned'] = self.data['x_binned'].astype(str)  # Convert intervals to strings
-                sns.violinplot(x='x_binned', y=y_data, data=self.data, ax=ax)
+                self.data['x_binned_mid'] = self.data['x_binned'].apply(lambda x: x.mid).astype(float)
+                self.data['x_binned_mid'] = self.data['x_binned_mid'].round(1).astype(str)  # Round to 1 decimal place
+                sns.violinplot(x='x_binned_mid', y=y_data, data=self.data, ax=ax)
+                ax.set_xlabel(x_data)  # Set the X-axis label
             else:
                 sns.violinplot(x=x_data, y=y_data, data=self.data, ax=ax)
+                ax.set_xlabel(x_data)  # Set the X-axis label
         plot_path = os.path.join('results', f'{plot_type.lower().replace(" ", "_")}.png')
         os.makedirs('results', exist_ok=True)
         plt.savefig(plot_path)
@@ -2266,6 +2274,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
     ################################################
     def display_phylogeographic_trees(self):
         self.stackedWidget.setCurrentIndex(4)
+        self.results_dir = "results"
         file_path = os.path.join(self.results_dir, "geneticTrees.json")
         with open(file_path, 'r') as file:
             self.phylo_json = json.load(file)

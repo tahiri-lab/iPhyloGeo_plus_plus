@@ -1,4 +1,4 @@
-file_name: F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets/geo_with_loc.csv
+file_name: F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets/bigCsv.csv
 specimen: id
 names: [id, ALLSKY_SFC_SW_DWN, T2M, QV2M, PRECTOTCORR, WS10M, LAT, LONG]
 bootstrap_threshold: 3
@@ -8,7 +8,7 @@ step_size: 99
 bootstrap_amount: 99
 data_names: [ALLSKY_SFC_SW_DWN, T2M, QV2M, PRECTOTCORR, WS10M, LAT, LONG]
 reference_gene_dir: F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets
-reference_gene_file: small_seq.fasta
+reference_gene_file: bigFasta.fasta
 makeDebugFiles: true
 alignment_method: '1'
 distance_method: '0'
