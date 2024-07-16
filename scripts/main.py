@@ -1,44 +1,11 @@
-import io
-import json
 import os
-import re
-import shutil
 import sys
-import seaborn as sns
-import pandas as pd
-
-import seaborn as sns
-import pandas as pd
-
-import seaborn as sns
-import pandas as pd
-import matplotlib.pyplot as plt
-import tempfile
-from collections import Counter
-from decimal import Decimal
-from io import BytesIO
 import resources_rc
-import folium
-import matplotlib.patches as mpatches
-import matplotlib.pyplot as plt
-import networkx as nx
-import numpy as np
-import pandas as pd
-import plotly.graph_objs as go
-import plotly.io as pio
 import qtmodern.styles
 import qtmodern.windows
 import qtmodern.windows
-import scipy.stats as sc
-import seaborn as sns
-import toyplot
-import toyplot.png
-import toytree
 import yaml
-from Bio import Phylo
 from Bio.Align import MultipleSeqAlignment
-from Bio.Seq import Seq
-from Bio.SeqRecord import SeqRecord
 from PyQt5 import QtCore, QtGui
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import QThread, Qt
@@ -51,15 +18,7 @@ from PyQt5.QtWidgets import (QDialog)
 from PyQt5.QtWidgets import QFileDialog, QGraphicsDropShadowEffect
 from PyQt5.QtWidgets import QLabel, QComboBox, QPushButton, QHBoxLayout, QTableWidget, QTableWidgetItem
 from PyQt5.QtWidgets import QVBoxLayout
-from aphylogeo import utils
-from aphylogeo.alignement import AlignSequences
-from aphylogeo.genetic_trees import GeneticTrees
 from aphylogeo.params import Params
-from matplotlib.ticker import MaxNLocator
-
-from PreferencesDialog import PreferencesDialog  # Import PreferencesDialog
-from help import UiHowToUse
-from settings import HoverLabel
 
 Params.load_from_file("params.yaml")
 
@@ -74,6 +33,12 @@ class Worker(QObject):
         self.filepath = filepath
 
     def run(self):
+
+        from aphylogeo import utils
+        from aphylogeo.alignement import AlignSequences
+        from aphylogeo.genetic_trees import GeneticTrees
+        from aphylogeo.params import Params
+
         try:
             # Step 1: Load sequences
             self.progress.emit(0)
@@ -157,6 +122,8 @@ Args:
 
 
 def update_yaml_param(params, file_path, property_name, new_value):
+    import yaml
+
     """
     Updates a specified property within a YAML file with a new value.
 
@@ -193,6 +160,8 @@ starting_position = 1
 class UiMainWindow(QtWidgets.QMainWindow):
 
     def useWindow(self):
+
+        from help import UiHowToUse
         """
         Initialize and display the 'How to Use' window.
 
@@ -204,6 +173,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.ui.show()
 
     def paramWin(self):
+
+        from settings import HoverLabel
         """
         Initialize and display the parameters window.
         This method creates a new QMainWindow instance, sets up its UI using the UiDialog class, and displays the window.
@@ -214,6 +185,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         dialog.exec_()
 
     def openClimTree(self):
+
         """
         Initialize and display the climatic tree window.
 
@@ -240,6 +212,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}", "Unexpected Error")
 
     def showErrorDialog(self, message, title="error"):
+
         """
         Display a professional error dialog with the given title and message.
 
@@ -256,11 +229,13 @@ class UiMainWindow(QtWidgets.QMainWindow):
         msgBox.exec_()
 
     def __init__(self):
+
         super(UiMainWindow, self).__init__()
         uic.loadUi("Qt/main.ui", self)
         self.setupUi()
 
     def setupUi(self):
+
         """
         Setup the UI components and initialize the main window.
 
@@ -424,6 +399,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
 
     def read_msa(self, msa_data):
+
         """
         Reads multiple sequence alignment (MSA) data and organizes it into a dictionary.
 
@@ -455,6 +431,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def standardize_sequence_lengths(self, genetic_data):
+
         """
         Standardizes the lengths of genetic sequences by padding shorter sequences with '-'.
 
@@ -475,6 +452,14 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def plot_alignment_chart(self, genetic_data, starting_position, window_size, output_path):
+
+        import matplotlib.patches as mpatches
+        import matplotlib.pyplot as plt
+
+        from Bio.Align import MultipleSeqAlignment
+        from Bio.Seq import Seq
+        from Bio.SeqRecord import SeqRecord
+
         """
         Plots an alignment chart with conservation and sequence alignment.
 
@@ -565,6 +550,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def calculate_conservation_and_gaps(self, alignment):
+
+        from collections import Counter
+
         """
         Calculate conservation and gap frequencies for a given multiple sequence alignment.
 
@@ -596,6 +584,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def calculate_consensus(self, alignment):
+
         """
         Calculate the consensus sequence for a given multiple sequence alignment.
 
@@ -626,6 +615,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def update_plot(self):
+
         """
         Update the plot based on the current starting position and window size.
 
@@ -654,6 +644,18 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def plot_sequence_similarity(self):
+
+        import matplotlib.pyplot as plt
+        import numpy as np
+
+        import seaborn as sns
+        from Bio.Align import MultipleSeqAlignment
+        from Bio.Seq import Seq
+        from Bio.SeqRecord import SeqRecord
+
+        from aphylogeo.params import Params
+        from matplotlib.ticker import MaxNLocator
+
         """
         Plot the sequence similarity based on a multiple sequence alignment (MSA).
 
@@ -746,15 +748,21 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
 
     def download_plot_similarity(self):
+
+        import shutil
+
         file_url = "results/similarity_plot.png"  # The file path
         save_path, _ = QFileDialog.getSaveFileName(self, "Save File", "", "PNG Files (*.png);;All Files (*)")
         if not save_path:
             return  # User cancelled th
         shutil.copy(file_url, save_path)# e save dialog
 
-    import seaborn as sns
-
     def load_data_climate(self):
+
+        import pandas as pd
+
+        from aphylogeo.params import Params
+
         """
         Load climate data from a CSV file, update the UI elements with the column names, and switch to the appropriate tab.
 
@@ -779,6 +787,12 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.tabWidget2.setCurrentIndex(2)
 
     def generate_graph(self):
+
+        import matplotlib.pyplot as plt
+        import pandas as pd
+
+        import seaborn as sns
+
         """
         Generate and display a graph based on the selected X and Y axis data and the chosen plot type.
 
@@ -849,6 +863,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.tabWidget2.setCurrentIndex(2)
 
     def download_plot_climate(self):
+
+        import shutil
+
         """
         Download the generated plot.
 
@@ -878,6 +895,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
             shutil.copy(plot_path, file_path)
 
     def pressItFasta(self):
+
+        from aphylogeo.params import Params
+
         """
         Open a dialog to select a FASTA file, update parameters, and display the content with color-coded sequences.
 
@@ -938,6 +958,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def SeqAlign(self):
+
+        from aphylogeo.params import Params
+
         """
         Perform sequence alignment and store the resulting genetic tree dictionary.
 
@@ -957,6 +980,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def callSeqAlign(self):
+
+        from aphylogeo.params import Params
+
         """
         Execute the sequence alignment pipeline and display progress using a worker thread.
 
@@ -1038,6 +1064,12 @@ class UiMainWindow(QtWidgets.QMainWindow):
         return self.geneticTrees
 
     def update_climate_chart(self):
+
+        import matplotlib.pyplot as plt
+        import pandas as pd
+
+        from aphylogeo.params import Params
+
         """
         Update the climate chart based on the selected condition and chart type.
 
@@ -1097,6 +1129,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def retrieveDataNames(self, data_list):
+
         """
         Retrieve data from a list, excluding the first element.
 
@@ -1115,13 +1148,13 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
-    import folium
-    import io
-    from PyQt5.QtWebEngineWidgets import QWebEngineView
-    from PyQt5.QtWidgets import QVBoxLayout
-    from decimal import Decimal
-
     def populateMap(self, lat, long):
+
+        import io
+
+        from decimal import Decimal
+        import folium
+
         """
         Create a folium map with markers based on provided latitude and longitude coordinates,
         and render it to an image.
@@ -1166,6 +1199,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def capture_image(self):
+
         """
         Capture the image from the QWebEngineView and process it for display.
 
@@ -1181,6 +1215,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred while capturing the image: {e}")
 
     def display_image(self, image):
+
         """
         Display the captured image in a QLabel or any other suitable widget.
 
@@ -1200,6 +1235,13 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
 
     def pressItCSV(self):
+
+        from decimal import Decimal
+        import pandas as pd
+
+        from aphylogeo import utils
+        from aphylogeo.params import Params
+
         """
         Retrieve data from a climatic file and display it in a table.
 
@@ -1224,6 +1266,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 return False
 
         def show_lat_long_dialog(columns):
+
             dialog = QDialog(self)
             dialog.setWindowTitle("Select Latitude and Longitude Columns")
             layout = QVBoxLayout()
@@ -1261,6 +1304,11 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 return None, None
 
         def create_sleek_table(df):
+
+            import re
+
+            from decimal import Decimal
+
             num_rows, num_columns = df.shape
             table_widget = QTableWidget(num_rows, num_columns)
             table_widget.setStyleSheet("""
@@ -1355,6 +1403,11 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def populateMap(self, lat, long):
+
+        import io
+
+        import folium
+
         """
         Create and display a folium map with given latitude and longitude.
 
@@ -1396,6 +1449,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def showHomePage(self):
+
         """
         Display the home page of the application.
 
@@ -1412,6 +1466,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def showGenDatPage(self):
+
         """
         Display the genetic data page of the application.
 
@@ -1429,6 +1484,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def showClimDatPage(self):
+
         """
         Display the climatic data page of the application.
 
@@ -1446,6 +1502,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def showResultsPage(self):
+
         """
         Display the results page of the application.
 
@@ -1462,6 +1519,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
 
     def showSequencePage(self):
+
         """
         Display the sequence alignment page.
 
@@ -1475,6 +1533,11 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def showFilteredResults(self):
+
+        import pandas as pd
+
+        from aphylogeo.params import Params
+
         """
         Show the results filtered with a metric threshold provided by the user.
 
@@ -1552,6 +1615,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
 
     def toggleDarkMode(self):
+
         """
         Toggle the application's dark mode setting.
 
@@ -1607,6 +1671,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def getButtonStyle(self, darkMode, isMainButton=False, isVertical=False):
+
         """
         Generate the appropriate style for buttons based on the mode (dark/light) and type (main/vertical).
 
@@ -1642,6 +1707,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         """
 
     def createShadowEffect(self, blur_radius, alpha):
+
         """
         Create a shadow effect for the buttons.
 
@@ -1660,6 +1726,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
     # press the button to delete data
     def clearGen(self):
+
         """
         Clear the genetic data fields.
 
@@ -1679,6 +1746,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def clearClim(self):
+
         """
         Clear the text fields related to climatic data.
 
@@ -1692,6 +1760,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}", "Error")
 
     def clearResult(self):
+
         """
         Clear the text fields related to climatic data.
 
@@ -1709,6 +1778,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}", "Error")
 
     def clearResultStat(self):
+
         """
         Clear the statistics result lists.
 
@@ -1721,6 +1791,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}", "Error")
 
     def display_newick_trees(self):
+
+        import json
+
         """
         Display Newick format trees in the application using Toytree.
 
@@ -1758,6 +1831,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def format_tree_name(self, tree_name):
+
         """
         Format the tree name by replacing underscores with ' nt '.
 
@@ -1776,6 +1850,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred while formatting the tree name: {e}")
 
     def show_selected_tree(self, index):
+
         """
         Display the selected tree based on the provided index.
 
@@ -1792,6 +1867,10 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred while displaying the selected tree: {e}")
 
     def show_tree(self, index):
+
+        import toyplot.png
+        import toytree
+
         """
         Display the phylogenetic tree at the specified index using Toytree.
 
@@ -1845,6 +1924,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred while rendering the tree: {e}")
 
     def download_graph(self):
+
+        import shutil
+
         """
         Download the current displayed tree graph as a PNG file.
 
@@ -1872,6 +1954,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred while downloading the tree image: {e}")
 
     def open_preferences_dialog(self):
+
+        from PreferencesDialog import PreferencesDialog  # Import PreferencesDialog
         """
         Open the preferences dialog and update the application settings based on user input.
 
@@ -1890,6 +1974,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred while opening the preferences dialog: {e}")
 
     def apply_preferences(self):
+
         """
         Apply the updated preferences to the current plot.
 
@@ -1904,6 +1989,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred while applying preferences: {e}")
 
     def displayClimaticTrees(self):
+
         """
         Display the climatic trees in the application.
 
@@ -1928,6 +2014,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def show_selected_climatic_tree(self, index):
+
         """
         Display the selected climatic tree based on the provided index.
 
@@ -1945,6 +2032,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 f"An unexpected error occurred while displaying the selected climatic tree: {e}")
 
     def show_climatic_tree(self, index):
+
         """
         Display the climatic tree at the specified index.
 
@@ -1989,6 +2077,13 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
     def render_network_view(self, tree, label_color, edge_color, reticulation_color, layout, proportional_edge_lengths,
                             label_internal_vertices, use_leaf_names, show_branch_length):
+
+        import plotly.graph_objs as go
+        import plotly.io as pio
+
+        import seaborn as sns
+        from Bio import Phylo
+
         """
         Render the network view of the phylogenetic tree.
 
@@ -2061,6 +2156,11 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
     def render_tree_view(self, tree, label_color, edge_color, reticulation_color, layout, proportional_edge_lengths,
                          label_internal_vertices, use_leaf_names, show_branch_length):
+
+        import matplotlib.pyplot as plt
+
+        from Bio import Phylo
+
         """
         Render the tree view of the phylogenetic tree.
 
@@ -2122,6 +2222,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred while rendering the tree view: {e}")
 
     def create_node_trace(self, graph, pos, label_color, use_leaf_names):
+
+        import plotly.graph_objs as go
+
         """
         Create a Plotly node trace for the phylogenetic tree network visualization.
 
@@ -2162,6 +2265,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred while creating the node trace: {e}")
 
     def get_layout(self, graph, layout):
+
+        import networkx as nx
+
         """
         Get the layout for the phylogenetic tree network visualization.
 
@@ -2187,6 +2293,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred while getting the layout: {e}")
 
     def create_edge_trace(self, tree, pos, edge_color, show_branch_length):
+
+        import plotly.graph_objs as go
+
         """
         Create a Plotly edge trace for the phylogenetic tree network visualization.
 
@@ -2238,6 +2347,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred while creating the edge trace: {e}")
 
     def download_climatic_tree_graph(self):
+
         """
         Download the current displayed climatic tree graph as a PNG file.
 
@@ -2273,6 +2383,13 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
     ################################################
     def display_phylogeographic_trees(self):
+
+        import json
+
+        import pandas as pd
+
+        from aphylogeo.params import Params
+
         self.stackedWidget.setCurrentIndex(4)
         self.results_dir = "results"
         file_path = os.path.join(self.results_dir, "geneticTrees.json")
@@ -2294,16 +2411,25 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.render_tree(self.current_index1)
 
     def rename_tree_key(self, tree_key):
+
         parts = tree_key.split('_')
         if len(parts) == 2:
             return f"{parts[0]} nt {parts[1]} nt"
         return tree_key
 
     def display_selected_tree(self, index):
+
         if index >= 0:
             self.render_tree(index)
 
     def render_tree(self, index):
+
+        import numpy as np
+
+        import scipy.stats as sc
+        import toyplot.png
+        import toytree
+
         if 0 <= index < self.total_trees:
             self.current_index1 = index
             key = self.tree_keys[index]
@@ -2372,6 +2498,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.PhyloTreeLabel.setPixmap(pixmap)
             self.PhyloTreeLabel.adjustSize()
     def save_tree_graph(self):
+
         current_key = self.tree_keys[self.current_index1]
         default_file_name = f"{current_key}.png"
 
