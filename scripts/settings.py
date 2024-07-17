@@ -232,7 +232,7 @@ class HoverLabel(QLabel):
             self.gridLayout_3.setObjectName("gridLayout_3")
             font.setPointSize(8)
 
-            self.metrics = HoverLabel("Distance method", "Three methods are available to modify the display of the results obtained : \nLeast Square : Approximation of the data values by using the square of the values and recalculating to get closer to the real data. \nRobinson & Foulds : Second method. \nEuclidian distance : Third method.", self.textEdit, HoverLabel.image_label, "../img/active/result.svg")
+            self.metrics = HoverLabel("Distance method", "Three methods are available to modify the display of the results obtained : \n\n- Robinson & Foulds (top left) \n- Least Square (bottom left) \n- Euclidian distance (right).", self.textEdit, HoverLabel.image_label, "../img/other/calculus.png")
             self.metrics.setFont(font)
             self.metrics.setIndent(10)
             self.metrics.setObjectName("metrics")
@@ -284,7 +284,7 @@ class HoverLabel(QLabel):
             self.spinBox_bootstrap.setObjectName("spinBox_bootstrap")
             self.gridLayout_4.addWidget(self.spinBox_bootstrap, 0, 1, 1, 1)
 
-            self.bootstrapValue = HoverLabel("Bootstrap threshold", "Bootstrap value hovering", self.textEdit, HoverLabel.image_label, "../img/settings/bootstrap.jpg")
+            self.bootstrapValue = HoverLabel("Bootstrap threshold", "The higher the threshold, the more precise and more reliable the results are, but the workload will be longer", self.textEdit, HoverLabel.image_label, "../img/settings/bootstrap.jpg")
             font.setPointSize(8)
             self.bootstrapValue.setFont(font)
             self.bootstrapValue.setIndent(10)
@@ -298,7 +298,7 @@ class HoverLabel(QLabel):
             self.spinBox_metricThreshold.setObjectName("spinBox_metricThreshold")
             self.gridLayout_4.addWidget(self.spinBox_metricThreshold, 6, 1, 1, 1)
 
-            self.metricThreshold = HoverLabel("Metric threshold", "Metric threshold hovering", self.textEdit, HoverLabel.image_label, "../img/active/sequence.svg")
+            self.metricThreshold = HoverLabel("Metric threshold", "The higher the threshold, the more precise and more reliable the results are, but the workload will be longer", self.textEdit, HoverLabel.image_label, "../img/active/sequence.svg")
             font.setPointSize(8)
             self.metricThreshold.setFont(font)
             self.metricThreshold.setIndent(10)
