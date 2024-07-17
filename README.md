@@ -123,10 +123,12 @@ In this window there is 4 differents pages that are available:
 ### Results button : 
 ![group_page_step](/img/readme-pic/Result-Button.png)
 
+This button redirect you into a window where you can ...
 
 ### Help button : 
 ![group_page_step](/img/readme-pic/Help-Button.png)
 
+The `Help` button display a guide about how to use the app and how every page do when used.
 
 ### Light/Dark button : 
 ![group_page_step](/img/readme-pic/LightDark-Button.png)
