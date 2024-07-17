@@ -98,21 +98,23 @@ The menu is composed of 6 buttons :
 ![group_page_step](/img/readme-pic/Home-Button.png)
 
 This is the first page that you will see when you first run the application. The Home button allow you, in any windows, to go back to the main page. In this page you can have some informations about how to use the IphyloGeo++ application.
+
 ### Genetic data button : 
 ![group_page_step](/img/readme-pic/Genetic-Button.png)
 
 On click, this button will allow you to jump on the Genetic window. In this window you will first see a description of the steps to follow to create a Genetic Tree from a .fasta file that you upload. 
 In this window there is 5 differents pages that are available:
- - "Get started !": Describe the steps to follow to create a Genetic Tree.
- - "Fasta File": This page will show you the .fasta file that you have uploaded with the "File Browser" button.
- - "Sequence alignment": You need to click on the "Sequence alignment" button to get to this page. In this page you are able to change the alignment method and to lunch it with the "Start" button. After the sequence alignment is done you can create and visualise the results in the "Species Stats" and the "Genetic Tree" pages.
- - "Species Stats": This page will show the alignment sequence statistic's result. You can change the type of diagrams that you want to plot and you can also change the species name following which one you are interesting in it.
- - "Genetic Tree": In this page the genetic tree will be plot if the alignment sequence is done. You can select different type of trees to plot.
+ - `Get started !`: Describe the steps to follow to create a Genetic Tree.
+ - `Fasta File`: This page will show you the .fasta file that you have uploaded with the `File Browser` button.
+ - `Sequence alignment`: You need to click on the "Sequence alignment" button to get to this page. In this page you are able to change the alignment method and to lunch it with the `Start` button. After the sequence alignment is done you can create and visualise the results in the `Species Stats` and the `Genetic Tree` pages.
+ - `Species Stats`: This page will show the alignment sequence statistic's result. You can change the type of diagrams that you want to plot and you can also change the species name following which one you are interesting in it.
+ - `Genetic Tree`: In this page the genetic tree will be plot if the alignment sequence is done. You can select different type of trees to plot.
         
 ### Climatic data button : 
 ![group_page_step](/img/readme-pic/Climatic-Button.png)
 
 On click this button will allow you to jump on the c
+
 ### Results button : 
 ![group_page_step](/img/readme-pic/Result-Button.png)
 
@@ -124,8 +126,9 @@ On click this button will allow you to jump on the c
 ### Light/Dark button : 
 ![group_page_step](/img/readme-pic/LightDark-Button.png)
 
+This button can change the global aspect of the application. You can change between Light and Dark mode.
 ## Genetic Data
-In the genetic data tab, the user can load a sequence file (only Fasta files are accepted) and alignment will be done when using the `Start` button in the `sequence alignment` tab.
+
 
 
 ### A typical workflow would look like this:
