@@ -106,7 +106,7 @@ In this window there is 5 differents pages that are available:
  - "Get started !": Describe the steps to follow to create a Genetic Tree.
  - "Fasta File": This page will show you the .fasta file that you have uploaded with the "File Browser" button.
  - "Sequence alignment": You need to click on the "Sequence alignment" button to get to this page. In this page you are able to change the alignment method and to lunch it with the "Start" button. After the sequence alignment is done you can create and visualise the results in the "Species Stats" and the "Genetic Tree" pages.
- - "Species Stats":
+ - "Species Stats": This page will show the alignment sequence statistic's result. You can change the type of diagrams that you want to plot and you can also change the species name following whitch one 
  - "Genetic Tree":
         
 ### Climatic data button : 
