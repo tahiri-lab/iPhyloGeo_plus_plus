@@ -96,6 +96,7 @@ The menu is composed of 6 buttons :
 
 ### Home button : 
 ![group_page_step](/img/readme-pic/Home-Button.png)
+This is the first page that you will see when you first run the application. The Home button allow you, in any windows, to go back to the main page. In this page you can have some informations about how to use the IphyloGeo++ application.
 ### Genetic data button : 
 ![group_page_step](/img/readme-pic/Genetic-Button.png)
 ### Climatic data button : 
