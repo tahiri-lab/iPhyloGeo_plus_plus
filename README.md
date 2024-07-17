@@ -123,7 +123,7 @@ In this window there is 4 differents pages that are available:
 ### Results button : 
 ![group_page_step](/img/readme-pic/Result-Button.png)
 
-This button redirect you into a window where you can ...
+This button redirect you into a window where you can visualize the result of the genetic and climatic data compiled with the sequence alignment. The result is a chart with data from climatic and genetic grouped.
 
 ### Help button : 
 ![group_page_step](/img/readme-pic/Help-Button.png)
