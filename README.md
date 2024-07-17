@@ -96,15 +96,30 @@ The menu is composed of 6 buttons :
 
 ### Home button : 
 ![group_page_step](/img/readme-pic/Home-Button.png)
+
 This is the first page that you will see when you first run the application. The Home button allow you, in any windows, to go back to the main page. In this page you can have some informations about how to use the IphyloGeo++ application.
 ### Genetic data button : 
 ![group_page_step](/img/readme-pic/Genetic-Button.png)
+
+On click, this button will allow you to jump on the Genetic window. In this window you will first see a description of the steps to follow to create a Genetic Tree from a .fasta file that you upload. 
+In this window there is 5 differents pages that are available: "Get started !", "Fasta File", "Sequence alignment", "Species Stats", "Genetic Tree".
+        - "Get started !": Describe the steps to follow to create a Genetic Tree.
+        - "Fasta File": 
+        - "Sequence alignment":
+        - "Species Stats":
+        - "Genetic Tree":
 ### Climatic data button : 
 ![group_page_step](/img/readme-pic/Climatic-Button.png)
+
+On click this button will allow you to jump on the c
 ### Results button : 
 ![group_page_step](/img/readme-pic/Result-Button.png)
+
+
 ### Help button : 
 ![group_page_step](/img/readme-pic/Help-Button.png)
+
+
 ### Light/Dark button : 
 ![group_page_step](/img/readme-pic/LightDark-Button.png)
 
