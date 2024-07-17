@@ -113,7 +113,10 @@ In this window there is 5 differents pages that are available:
 ### Climatic data button : 
 ![group_page_step](/img/readme-pic/Climatic-Button.png)
 
-On click this button will allow you to jump on the c
+On click this button will allow you to jump on the Climatic window. In this window you will first see a description of the steps to follow to create a Climatic Tree from a .csv file that you upload. 
+In this window there is 4 differents pages that are available:
+ - `Get started !`: Describe the steps to follow to create a Climatic Tree.
+ - `Climatic Data`: When you click on the `File Browser` button and you upload a .csv file with climatic data the application will automatiquely display the `Climatic Data` page. 
 
 ### Results button : 
 ![group_page_step](/img/readme-pic/Result-Button.png)
