@@ -116,7 +116,9 @@ In this window there is 5 differents pages that are available:
 On click this button will allow you to jump on the Climatic window. In this window you will first see a description of the steps to follow to create a Climatic Tree from a .csv file that you upload. 
 In this window there is 4 differents pages that are available:
  - `Get started !`: Describe the steps to follow to create a Climatic Tree.
- - `Climatic Data`: When you click on the `File Browser` button and you upload a .csv file with climatic data the application will automatiquely display the `Climatic Data` page. 
+ - `Climatic Data`: When you click on the `File Browser` button and you upload a .csv file with climatic data, the application will automatically display the `Climatic Data` page. In this page you will see a tab with the .csv data in it and a maps where you can find some point displaying data locations.
+ - `Climatic Tree`: In this page the climatic tree will be plot. In this page you can select different type of trees to plot.
+ - `Statistics`: This page will show some chart type done with the data from the .csv file. You can change the type of chart that you want to plot and you can also change the climate condition that you want to apply.
 
 ### Results button : 
 ![group_page_step](/img/readme-pic/Result-Button.png)
