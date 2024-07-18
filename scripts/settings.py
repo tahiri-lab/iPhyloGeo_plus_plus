@@ -86,8 +86,11 @@ class Params2:
         else:
             cls.reference_gene_filepath = None
 
+
 Params.load_from_file("params.yaml")
 Params2.load_from_file("params_default.yaml")
+
+
 class MyDumper(yaml.Dumper):
     def increase_indent(self, flow=False, indentless=False):
         return super(MyDumper, self).increase_indent(flow, False)
@@ -95,7 +98,9 @@ class MyDumper(yaml.Dumper):
     def represent_list(self, data):
         return self.represent_sequence('tag:yaml.org,2002:seq', data, flow_style=True)
 
+
 yaml.add_representer(list, MyDumper.represent_list, Dumper=MyDumper)
+
 
 def update_yaml_param(params, file_path, property_name, new_value):
     if isinstance(new_value, list):
@@ -129,7 +134,6 @@ class HoverLabel(QLabel):
         self.text_edit.setText(self.hover_text)
         self.image_label.setPixmap(QPixmap(self.hover_image_path))
         super().enterEvent(event)
-
 
     class Settings(object):
         def setupUi(self, Dialog):
@@ -189,7 +193,7 @@ class HoverLabel(QLabel):
             self.paramsDetails.setFont(font)
             self.paramsDetails.setAlignment(QtCore.Qt.AlignCenter)
             self.paramsDetails.setCheckable(False)
-            self.paramsDetails.setObjectName("paramsDetails")            
+            self.paramsDetails.setObjectName("paramsDetails")
             group_box_layout = QtWidgets.QVBoxLayout()
             self.paramsDetails.setLayout(group_box_layout)
             HoverLabel.image_label = QLabel()
@@ -232,7 +236,9 @@ class HoverLabel(QLabel):
             self.gridLayout_3.setObjectName("gridLayout_3")
             font.setPointSize(8)
 
-            self.metrics = HoverLabel("Distance method", "Three methods are available to modify the display of the results obtained : \nLeast Square : Approximation of the data values by using the square of the values and recalculating to get closer to the real data. \nRobinson & Foulds : Second method. \nEuclidian distance : Third method.", self.textEdit, HoverLabel.image_label, "../img/active/result.svg")
+            self.metrics = HoverLabel("Distance method",
+                                      "Three methods are available to modify the display of the results obtained : \nLeast Square : Approximation of the data values by using the square of the values and recalculating to get closer to the real data. \nRobinson & Foulds : Second method. \nEuclidian distance : Third method.",
+                                      self.textEdit, HoverLabel.image_label, "../img/active/result.svg")
             self.metrics.setFont(font)
             self.metrics.setIndent(10)
             self.metrics.setObjectName("metrics")
@@ -284,7 +290,8 @@ class HoverLabel(QLabel):
             self.spinBox_bootstrap.setObjectName("spinBox_bootstrap")
             self.gridLayout_4.addWidget(self.spinBox_bootstrap, 0, 1, 1, 1)
 
-            self.bootstrapValue = HoverLabel("Bootstrap threshold", "Bootstrap value hovering", self.textEdit, HoverLabel.image_label, "../img/settings/bootstrap.jpg")
+            self.bootstrapValue = HoverLabel("Bootstrap threshold", "Bootstrap value hovering", self.textEdit,
+                                             HoverLabel.image_label, "../img/settings/bootstrap.jpg")
             font.setPointSize(8)
             self.bootstrapValue.setFont(font)
             self.bootstrapValue.setIndent(10)
@@ -298,7 +305,8 @@ class HoverLabel(QLabel):
             self.spinBox_metricThreshold.setObjectName("spinBox_metricThreshold")
             self.gridLayout_4.addWidget(self.spinBox_metricThreshold, 6, 1, 1, 1)
 
-            self.metricThreshold = HoverLabel("Metric threshold", "Metric threshold hovering", self.textEdit, HoverLabel.image_label, "../img/active/sequence.svg")
+            self.metricThreshold = HoverLabel("Metric threshold", "Metric threshold hovering", self.textEdit,
+                                              HoverLabel.image_label, "../img/active/sequence.svg")
             font.setPointSize(8)
             self.metricThreshold.setFont(font)
             self.metricThreshold.setIndent(10)
@@ -345,7 +353,6 @@ class HoverLabel(QLabel):
             update_yaml_param(Params, "params.yaml", "distance_method", str(metrics))
             update_yaml_param(Params, "params.yaml", "bootstrap_threshold", bootstrap_value)
             update_yaml_param(Params, "params.yaml", "dist_threshold", metric_threshold)
-
         def resetValues(self):
             self.comboBox_metrics.setProperty("value", Params2.distance_method)
             self.spinBox_metricThreshold.setProperty("value", Params2.dist_threshold)

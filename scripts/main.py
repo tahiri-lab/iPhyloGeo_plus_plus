@@ -1233,9 +1233,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred while displaying the image: {e}")
 
-
     def pressItCSV(self):
-
         from decimal import Decimal
         import pandas as pd
 
@@ -1265,48 +1263,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
             except:
                 return False
 
-        def show_lat_long_dialog(columns):
-
-            dialog = QDialog(self)
-            dialog.setWindowTitle("Select Latitude and Longitude Columns")
-            layout = QVBoxLayout()
-
-            info_label = QLabel("Note: The first column should belong to the species names.")
-            layout.addWidget(info_label)
-
-            layout.addWidget(QLabel("Longitude:"))
-            longitude_combo = QComboBox()
-            longitude_combo.addItems(columns)
-            layout.addWidget(longitude_combo)
-
-            layout.addWidget(QLabel("Latitude:"))
-            latitude_combo = QComboBox()
-            latitude_combo.addItems(columns)
-            layout.addWidget(latitude_combo)
-
-            button_box = QHBoxLayout()
-            ok_button = QPushButton("OK")
-            ok_button.setStyleSheet("background-color: #4CAF50; color: white; padding: 10px; border-radius: 5px;")
-            ok_button.clicked.connect(dialog.accept)
-            button_box.addWidget(ok_button)
-
-            cancel_button = QPushButton("Cancel")
-            cancel_button.setStyleSheet("background-color: #f44336; color: white; padding: 10px; border-radius: 5px;")
-            cancel_button.clicked.connect(dialog.reject)
-            button_box.addWidget(cancel_button)
-
-            layout.addLayout(button_box)
-            dialog.setLayout(layout)
-
-            if dialog.exec_() == QDialog.Accepted:
-                return longitude_combo.currentText(), latitude_combo.currentText()
-            else:
-                return None, None
-
         def create_sleek_table(df):
-
             import re
-
             from decimal import Decimal
 
             num_rows, num_columns = df.shape
@@ -1365,34 +1323,38 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 df = pd.read_csv(fullFilePath)
                 columns = df.columns.tolist()
 
-                longitude_col, latitude_col = show_lat_long_dialog(columns)
-                if longitude_col and latitude_col:
-                    lat = df[latitude_col].tolist()
-                    long = df[longitude_col].tolist()
+                if len(columns) < 2:
+                    raise ValueError("The CSV file must contain at least two columns for latitude and longitude.")
 
-                    self.species = df[columns[0]].tolist()
-                    self.factors = df.drop(columns=[longitude_col, latitude_col]).values.tolist()
-                    clim_data_names = self.retrieveDataNames(columns)
-                    update_yaml_param(Params, "params.yaml", "names", columns)
-                    update_yaml_param(Params, "params.yaml", "data_names", clim_data_names)
+                latitude_col = columns[-1]
+                longitude_col = columns[-2]
 
-                    self.textEditClimData.clear()
-                    sleek_table = create_sleek_table(df)
+                lat = df[latitude_col].tolist()
+                long = df[longitude_col].tolist()
 
-                    # Add the table widget to the textEditClimData layout
-                    layout = QVBoxLayout(self.textEditClimData)
-                    layout.addWidget(sleek_table)
+                self.species = df[columns[0]].tolist()
+                self.factors = df.drop(columns=[longitude_col, latitude_col]).values.tolist()
+                clim_data_names = self.retrieveDataNames(columns)
+                update_yaml_param(Params, "params.yaml", "names", columns)
+                update_yaml_param(Params, "params.yaml", "data_names", clim_data_names)
 
-                    self.climaticTrees = utils.climaticPipeline(df)
-                    self.tree_keys = list(self.climaticTrees.keys())
-                    self.total_trees = len(self.tree_keys)
-                    self.current_index = 0
-                    self.climaticTreeButtonPage2.setEnabled(True)
-                    self.tabWidget2.setCurrentIndex(1)
-                    self.populateMap(lat, long)
+                self.textEditClimData.clear()
+                sleek_table = create_sleek_table(df)
 
-                    if self.statisticsButtonPage1.isEnabled():
-                        self.resultsButton.setEnabled(True)
+                # Add the table widget to the textEditClimData layout
+                layout = QVBoxLayout(self.textEditClimData)
+                layout.addWidget(sleek_table)
+
+                self.climaticTrees = utils.climaticPipeline(df)
+                self.tree_keys = list(self.climaticTrees.keys())
+                self.total_trees = len(self.tree_keys)
+                self.current_index = 0
+                self.climaticTreeButtonPage2.setEnabled(True)
+                self.tabWidget2.setCurrentIndex(1)
+                self.populateMap(lat, long)
+
+                if self.statisticsButtonPage1.isEnabled():
+                    self.resultsButton.setEnabled(True)
         except FileNotFoundError as e:
             self.showErrorDialog(f"File Not Found Error: {e}")
         except pd.errors.EmptyDataError as e:
@@ -1535,7 +1497,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
     def showFilteredResults(self):
 
         import pandas as pd
-
+        from aphylogeo import utils
         from aphylogeo.params import Params
 
         """
@@ -1549,8 +1511,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
             AttributeError: If the sequence alignment has not been performed before attempting to generate the tree.
         """
 
-        # df = pd.read_csv(Params.file_name)
-        # utils.filterResults(self.climaticTrees, self.geneticTreeDict, df)
+        df = pd.read_csv(Params.file_name)
+        utils.filterResults(self.climaticTrees, self.geneticTreeDict, df)
         df_results = pd.read_csv("./results/output.csv")
 
         # Replace the first column values with Params.file_name just before visualization
@@ -2423,12 +2385,11 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.render_tree(index)
 
     def render_tree(self, index):
-
         import numpy as np
-
-        import scipy.stats as sc
         import toyplot.png
         import toytree
+        import os
+        import pandas as pd
 
         if 0 <= index < self.total_trees:
             self.current_index1 = index
@@ -2447,49 +2408,32 @@ class UiMainWindow(QtWidgets.QMainWindow):
             ordered_climatic_data = self.climatic_data.set_index('id').reindex(tip_labels).reset_index()
             bar_values = ordered_climatic_data[selected_column].values
 
+            # Ensure bar_values have no negative values
+            bar_values = np.clip(bar_values, a_min=0, a_max=None)
+
             # Create a canvas for the plot
-            canvas = toyplot.Canvas(width=921, height=450)
+            canvas = toyplot.Canvas(width=921, height=450)  # Set canvas size to 921x450
 
             # Add tree to canvas
-            ax0 = canvas.cartesian(bounds=(50, 400, 50, 400), ymin=0, ymax=tree.ntips, padding=15)
-            tree.draw(axes=ax0, tip_labels=True)
-            ax0.show = False
+            ax0 = canvas.cartesian(bounds=(50, 300, 50, 400), ymin=0, ymax=tree.ntips, padding=15)
+            tree.draw(axes=ax0)
+            ax0.show = False  # Hide the tree plot axes
 
-            # Generate the trait distributions
-            points = np.linspace(bar_values.min(), bar_values.max(), 50)
-            dists = {}
-            for tip in tree.get_tip_labels():
-                dists[tip] = sc.norm.pdf(points, loc=np.mean(bar_values), scale=np.std(bar_values))
+            # Add bar plot to canvas
+            ax1 = canvas.cartesian(bounds=(325, 900, 50, 400), ymin=0, ymax=tree.ntips, padding=15)
+            ax1.bars(
+                np.arange(tree.ntips),
+                bar_values,
+                along='y',
+            )
 
-            # Add histograms to canvas
-            ax1 = canvas.cartesian(bounds=(450, 900, 50, 400), ymin=0, ymax=tree.ntips, padding=15)
-
-            # Iterate from top to bottom (ntips to 0)
-            for tip in range(tree.ntips)[::-1]:
-                # Select a color for hist
-                color = toytree.colors[int((tip) / 10)]
-
-                # Get tip name and get hist from dict
-                tipname = tree.get_tip_labels()[tip]
-                probs = dists[tipname]
-
-                # Fill histogram with slightly overlapping histograms
-                ax1.fill(
-                    points, probs / probs.max() * 1.25,
-                    baseline=[tip] * len(points),
-                    style={"fill": color, "stroke": "white", "stroke-width": 0.5},
-                    title=tipname,
-                )
-
-                # Add horizontal line at base
-                ax1.hlines(tip, opacity=0.5, color="grey", style={"stroke-width": 0.5})
-
-            # Hide y axis and show x axis
+            # Adjust the appearance for better visibility
             ax1.show = True
             ax1.y.show = False
             ax1.x.ticks.show = True
             ax1.x.label.text = selected_column
 
+            # Save and display the plot
             self.temp_img_path = os.path.join(self.results_dir, f"{key}.png")
             toyplot.png.render(canvas, self.temp_img_path)
 
@@ -2497,6 +2441,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.PhyloTreeLabel.clear()
             self.PhyloTreeLabel.setPixmap(pixmap)
             self.PhyloTreeLabel.adjustSize()
+
     def save_tree_graph(self):
 
         current_key = self.tree_keys[self.current_index1]
