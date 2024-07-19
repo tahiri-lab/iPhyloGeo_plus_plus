@@ -71,24 +71,46 @@ python3 main.py
 ## Loading Genetic Data
 <p align="center"><img src="./img/other/genetic.gif" alt="Genetic demonstration"></p>
 
-1. Navigate to *File Browser* on the genetic page.
-2. Select and load your Fasta file.
-3. Perform sequence alignment, statistics, and generate genetic trees as needed.
+
+1. **Navigate to File Browser on the Genetic Page:**
+- Access the genetic data interface through the File Browser tab.
+- Select and Load Your Fasta File:
+
+2. **Choose your Fasta file containing the genetic sequences. Supported formats should be specified (e.g., .fasta, .fa).**
+- Ensure the file adheres to the correct format and structure.
+- Perform Sequence Alignment, Statistics, and Generate Genetic Trees:
+
+3. **Sequence Alignment:**
+- Utilize built-in tools for aligning sequences, detailing available algorithms (e.g., MUSCLE, ClustalW).
+- Statistics: Generate statistics such as nucleotide frequencies, sequence length distribution, and GC content.
+- Genetic Trees: Construct phylogenetic trees using methods like Neighbor-Joining, Maximum Likelihood, or Bayesian inference. Visualize trees with options for customization (e.g., color-coding branches, annotating clades).
    
 ## Loading Climatic Data
 <p align="center"><img src="./img/other/climatic.gif" alt="Climatic demonstration"></p>
 
-1. Navigate to *File Browser* on the climatic page.
-2. Select and load your CSV file containing climatic data.
-3. View the generated maps, data tables, statistics, and climatic trees as needed.
+1. **Navigate to File Browser on the Climatic Page:**
+- Access the climatic data interface through the File Browser tab.
+- Select and Load Your CSV File Containing Climatic Data:
+- Choose your CSV file with climatic information. Supported data formats and required structure should be clarified.
+
+2. **View the Generated Maps, Data Tables, Statistics, and Climatic Trees as Needed:**
+   
+- Display and interact with the visual representations of the climatic data, including maps, tables, and statistical summaries.
    
 ## Displaying Results
 <p align="center"><img src="./img/other/results.gif" alt="Results demonstration"></p>
 
-1. Navigate to the results page.
-2. Adjust the parameters as needed.
-3. Click on *Submit* to view the phylogenetic results.
-4. Navigate to the *stats* button for the phylogenetic trees visualization.
+1. **Navigate to the Results Page:**
+- Access the results interface.
+
+3. **Adjust the Parameters as Needed:**
+- Modify settings to refine the analysis.
+
+4. **Click on Submit to View the Phylogenetic Results:**
+- Generate and display the results based on the input data and parameters.
+
+5. **Navigate to the Stats Button for Phylogenetic Trees Visualization:**
+- Use the stats button to visualize the phylogenetic trees and related statistics.
 
 # Project Structure
 This project is organized into several key directories to help you navigate and understand the codebase.
