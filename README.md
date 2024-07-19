@@ -85,6 +85,7 @@ python3 main.py
 <p align="center">
   <img src="./img/other/genetic.gif" alt="Genetic demonstration">
 </p>
+
 1. Navigate to *File Browser* in the genetic page.
 2. Select and load your Fasta file.
 3. Perform sequence alignment, statistics and genetic trees as needed.
@@ -93,6 +94,7 @@ python3 main.py
 <p align="center">
   <img src="./img/other/climatic.gif" alt="Climatic demonstration">
 </p>
+
 1. Navigate to *File Browser* in the climatic page.
 2. Select and load your CSV file containing climatic data.
 3. View the generated maps, corresponding data tables, statistics and climatic trees as needed.
@@ -101,6 +103,7 @@ python3 main.py
 <p align="center">
   <img src="./img/other/results.gif" alt="Results demonstration">
 </p>
+
 1. Navigate to the results page.
 2. Adjust the parameters as needed.
 3. Click on *Submit* to view the phylogenetic results
