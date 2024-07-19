@@ -284,7 +284,7 @@ class HoverLabel(QLabel):
             self.spinBox_bootstrap.setObjectName("spinBox_bootstrap")
             self.gridLayout_4.addWidget(self.spinBox_bootstrap, 0, 1, 1, 1)
 
-            self.bootstrapValue = HoverLabel("Bootstrap threshold", "The higher the threshold, the more precise and more reliable the results are, but the workload will be longer", self.textEdit, HoverLabel.image_label, "../img/settings/bootstrap.jpg")
+            self.bootstrapValue = HoverLabel("Bootstrap threshold", "The higher the threshold, the more precise and more reliable the results are, but the workload will be longer", self.textEdit, HoverLabel.image_label, "../img/other/bootstrap.png")
             font.setPointSize(8)
             self.bootstrapValue.setFont(font)
             self.bootstrapValue.setIndent(10)
@@ -298,7 +298,7 @@ class HoverLabel(QLabel):
             self.spinBox_metricThreshold.setObjectName("spinBox_metricThreshold")
             self.gridLayout_4.addWidget(self.spinBox_metricThreshold, 6, 1, 1, 1)
 
-            self.metricThreshold = HoverLabel("Metric threshold", "The higher the threshold, the more precise and more reliable the results are, but the workload will be longer", self.textEdit, HoverLabel.image_label, "../img/active/sequence.svg")
+            self.metricThreshold = HoverLabel("Metric threshold", "The higher the threshold, the more precise and more reliable the results are, but the workload will be longer", self.textEdit, HoverLabel.image_label, "../img/other/metric.png")
             font.setPointSize(8)
             self.metricThreshold.setFont(font)
             self.metricThreshold.setIndent(10)
