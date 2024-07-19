@@ -18,23 +18,17 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-the-project">📝 About the project</a>
+    About the project
     </li>
-    <li>
-      <a href="#Installation">⚒️ Installation</a>
-      <ul>
-        <li><a href="#Linux-UNIX-and-Mac-OS-versions">Linux/UNIX and Mac OS versions</a></li>
-      </ul>
+    <li>Features
     </li>
-    <li> How to use</li>
-      <ul>
-        <li><a href="#Getting-genetic-data">Genetic Data</a></li>
-        <li><a href="#Getting-climatic-data">Climatic Data</a></li>
-        <li><a href="#Display-results">Display results</a></li>
-      </ul>
-    <li>
-      <a href="#contact">Contact</a>
-    </li>
+    <li>Installation</li>
+    <li>Usage</li>
+        <li>Project Structure</li>
+   <li>Contributing</li>
+   <li>References</li>
+   <li>Contact</li>
+
   </ol>
 </details>
 </small>
@@ -52,130 +46,87 @@
 </table>
 
 
-# 📝 About the project
+# About the project
 
-`iPhyloGeo++` is a bioinformatics pipeline dedicated to the analysis of phylogeography. `iPhyloGeo++` is an open-source multi-platform application designed by the team of Professor [Nadia Tahiri](https://tahirinadia.github.io/) (University of Sherbrooke, Quebec, Canada). It is implemented in Python. This tool can be used to obtain trees from climatic data of the regions where the samples have been collected. Those climatic trees are then used for topological and evolutionary comparison against phylogenetic trees from multiple sequence alignments (MSAs) using the [Least Square (LS) metric](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1706274/). MSAs that yield trees with a significant `LS` value are then optionnally saved in folders with their respective tree. The `output.csv` file contains the informations of all the significant MSAs informations (see Worflow Section for more details).
+`iPhyloGeo++` is a sophisticated bioinformatics tool designed for integrating and analyzing phylogeographic data. This application leverages genetic and climatic data to provide comprehensive insights into the evolutionary and geographical distribution of species.
 
+# Features
+- **Cross-Platform Support:** Available on Windows, macOS, and Linux.
+- **Data Integration:** Combines genetic sequences with climatic data.
+- **User-Friendly Interface:** Built with PyQt5 for an intuitive experience.
+- **Visualization Tools:** Displays phylogenetic trees and climatic data on maps.
+- **Comparative Analysis:** Enables comparison of phylogenetic trees.
 
-# ⚒️ Installation
-
-## Linux UNIX and Mac OS versions
-`iPhyloGeo++` is available as a Python script.
-
-### Prerequisites
-💡 Before using this program, make sure that you have installed all the necessary libraries for it to work properly. To do this, simply type the following command:
-
+# Installation
+**1- Clone the repository**
+```sh
+git clone https://github.com/tahiri-lab/iPhyloGeo_plus_plus.git
+cd iPhyloGeo_plus_plus
 ```
-pip3 install -r requirements.txt
+
+**2- Set Up a Virtual Environment**
+```sh
+python3 -m venv iPhyloGeo_env
+source iPhyloGeo_env/bin/activate  # On Windows use `iPhyloGeo_env\Scripts\activate`
 ```
 
-### Python script
-A `requirements.txt` file containing all required libraries is available in the GitHub repository.
+**3- Install Dependencies:**
+```sh
+pip install -r requirements.txt
+```
 
-⚠️ Assuming Python 3.8 or higher is installed on the machine, the script should run well with the libraries installed.
+**4-Run the Application:**
+```sh
+python3 main.py
+```
 
-<u>Here is an example of how to run the script in Linux/UNIX or Mac OS:</u>
-1. After downloading the source code, go to the folder containing `main.py`.
-2. If you do not have `virtualenv` installed, run `python3 -m pip install --user virtualenv`
-3. Create a new virtual environment (venv) in your terminal using `python3 -m venv iPhyloGeo++_env`.
-4. Still in the terminal, enter the new venv using `source iPhyloGeo++_env/bin/activate`.
-5. Install the required libraries using `pip install -r requirements.txt`.
-6. Launch iPhyloGeo using `python3 main.py`.
+# Usage
+## Loading Genetic Data
+<p align="center">
+  <img src="./img/other/genetic.gif" alt="Genetic demonstration">
+</p>
+1. Navigate to *File Browser* in the genetic page.
+2. Select and load your Fasta file.
+3. Perform sequence alignment, statistics and genetic trees as needed.
+   
+## Loading Climatic Data
+<p align="center">
+  <img src="./img/other/climatic.gif" alt="Climatic demonstration">
+</p>
+1. Navigate to *File Browser* in the climatic page.
+2. Select and load your CSV file containing climatic data.
+3. View the generated maps, corresponding data tables, statistics and climatic trees as needed.
+   
+## Displaying Results
+<p align="center">
+  <img src="./img/other/results.gif" alt="Results demonstration">
+</p>
+1. Navigate to the results page.
+2. Adjust the parameters as needed.
+3. Click on *Submit* to view the phylogenetic results
+4. navigate to the *stats* button for the phylogenetic trees visualization.
 
-<!--You can also launch the package using the `make` command from your terminal when you are in the `root`. This command will use the `Makefile` to run the script. If you use the command `make clean`, it will erase the `output.csv` file previously created with the first command.-->
+# Project Structure
+This project is organized into several key directories to help you navigate and understand the codebase.
+
+- **img/:** Contains images used by the README and the application.
+- **datasets/:** Includes sample data for testing purposes.
+- **scripts/:** Houses the Python files for the project.
+- **requirements.txt:** List of dependencies
+- **scripts/main.py:** Main application entry point
 
 
-# Getting started
-
-## Menu 
-When you first launch the application you can see a window with multiple buttons at the top and some informations about how to use `iPhyloGeo++`.
-
-![group_page_step](/img/readme-pic/Iphy-Menu.png)
-
-The menu is composed of 6 buttons: 
-
-### Home button
-![group_page_step](/img/readme-pic/Home-Button.png)
-
-This is the first page that you will see when you first run the application. The Home button allow you, in any windows, to go back to the main page. In this page you can have some informations about how to use the IphyloGeo++ application.
-
-### Genetic data button 
-![group_page_step](/img/readme-pic/Genetic-Button.png)
-
-On click, this button will allow you to jump on the Genetic window. In this window you will first see a description of the steps to follow to create a Genetic Tree from a .fasta file that you upload. 
-In this window there is 5 differents pages that are available:
- - `Get started!`: Describe the steps to follow to create a Genetic Tree.
- - `Fasta File`: This page will show you the .fasta file that you have uploaded with the `File Browser` button.
- - `Sequence alignment`: You need to click on the "Sequence alignment" button to get to this page. In this page you are able to change the alignment method and to lunch it with the `Start` button. After the sequence alignment is done you can create and visualise the results in the `Species Stats` and the `Genetic Tree` pages.
- - `Species Stats`: This page will show the alignment sequence statistic's result. You can change the type of diagrams that you want to plot and you can also change the species name following which one you are interesting in it.
- - `Genetic Tree`: In this page the genetic tree will be plot if the alignment sequence is done. You can select different type of trees to plot.
-        
-### Climatic data button 
-![group_page_step](/img/readme-pic/Climatic-Button.png)
-
-On click this button will allow you to jump on the Climatic window. In this window you will first see a description of the steps to follow to create a Climatic Tree from a .csv file that you upload. 
-In this window there is 4 differents pages that are available:
- - `Get started!`: Describe the steps to follow to create a Climatic Tree.
- - `Climatic Data`: When you click on the `File Browser` button and you upload a .csv file with climatic data, the application will automatically display the `Climatic Data` page. In this page you will see a tab with the .csv data in it and a maps where you can find some point displaying data locations.
- - `Climatic Tree`: In this page the climatic tree will be plot. In this page you can select different type of trees to plot.
- - `Statistics`: This page will show some chart type done with the data from the .csv file. You can change the type of chart that you want to plot and you can also change the climate condition that you want to apply.
-
-### Results button
-![group_page_step](/img/readme-pic/Result-Button.png)
-
-This button redirect you into a window where you can visualize the result of the genetic and climatic data compiled with the sequence alignment. The result is a chart with data from climatic and genetic grouped.
-
-### Help button
-![group_page_step](/img/readme-pic/Help-Button.png)
-
-The `Help` button display a guide about how to use the app and how every page do when used.
-
-### Light/Dark button 
-![group_page_step](/img/readme-pic/LightDark-Button.png)
-
-This button can change the global aspect of the application. You can change between Light and Dark mode.
-## Genetic Data
+# Contributing
+We welcome contributions to iPhyloGeo++. Please follow these steps:
+1. Fork the repository.
+2. Create a new branch ( ```sh git checkout -b feature-branch``` ).
+3. Commit your changes ( ```sh git commit -am 'Add new feature' ``` ).
+4. Push to the branch ( ```sh git push origin feature-branch``` ).
+5. Create a new Pull Request.
 
 
 
-### A typical workflow would look like this:
-
-![group_page_step](/img/readme-pic/Aphy-Use.png)
-
-1. Select your sequence file in an accepted format (Fasta) through the `File browser` button.
-2. Once the file is loaded, the sequence will appear in the main window.
-3. Go to the sequence alignment page through the `Sequence Alignment` button. 
-4. select the alignment method that you want to use and press the `Start button`.
-  - The sequence alignment process might be CPU demanding so a good PC configuration can be necessary, with an Mac M1 chip, the whole process can take 2 to 3 minutes.
-  - When the process is done the sequence aligned will be displayed on the window
-
-Below is a summary of the steps presented:
-
-![group page gif](/img/readme-pic/geneticData-gif.gif)
-
-## Climatic Data
-After selecting the required file for the climatic data section, a tab and a map will automatically be generated.
-
-### A typical workflow would look like this:
-
-1. Select your climatic file in an accepted format (csv) through the `File browser` button.
-2. Once the file is loaded, the tab and the map will appear in the main window.
-3. You can now visualize the stats of the file by clicking on the `Statistics` button.
-4. You can generate a graph with the values of your csv file and choose the type of graph between 5 types of visualization (Scatter, Bar, Line, Pie, Violin)
-5. Independently of the statistics, by clicking the `Climatic Tree` button you can generate the tree or network relation between your data values depending on a selected parameter. You can then download the said tree / network on your computer.
-
-Below is a summary of the steps presented:
-
-![group page gif](/img/readme-pic/climaticData.gif)
-
-## Display results
-With both genetic and climatic data we can now move forward to the last section, the `Results` tab.
-
-This feature will display the results through the `submit` button:
-
-![group page gif](/img/readme-pic/results1.gif)
-
-# ✔️ References
+# References
 
 1️⃣ Calculation of distance between phylogenetic tree: **Least Square metric**
 + [Cavalli-Sforza, L. L., & Edwards, A. W. (1967). Phylogenetic analysis. Models and estimation procedures. American journal of human genetics, 19(3 Pt 1), 233.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1706274/)
