@@ -1,38 +1,46 @@
-
 <h1 align="center">🌳 iPhyloGeo++</h1>
+
 <p align="center">
-  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
-  <a href="https://pysd.readthedocs.io/en/latest/development/development_index.html"><img src="https://img.shields.io/badge/contributions-welcome-blue.svg" alt="Contributions"></a>
-  <a href="https://pypi.python.org/pypi/pysd/"><img src="https://img.shields.io/pypi/pyversions/pysd.svg" alt="Py version"></a>
-  <a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Ftahiri-lab%2FaPhyloGeo_plus_plus&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false" alt="Hits"></a>
+  <a href="https://opensource.org/licenses/MIT">
+    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT">
+  </a>
+  <a href="https://pysd.readthedocs.io/en/latest/development/development_index.html">
+    <img src="https://img.shields.io/badge/Contributions-Welcome-blue.svg" alt="Contributions">
+  </a>
+  <a href="https://pypi.python.org/pypi/pysd/">
+    <img src="https://img.shields.io/pypi/pyversions/pysd.svg" alt="Py version">
+  </a>
+  <a href="https://hits.seeyoufarm.com">
+    <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Ftahiri-lab%2FiPhyloGeo_plus_plus&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false" alt="Hits">
+  </a>
 </p>
 
-<h2 align="center">Multi-platform application for analyzing phylogenetic trees with climatic parameters</h2>
+<h2 align="center">Multi-platform Application for Analyzing Phylogenetic Trees with Climatic Parameters</h2>
 
-<table>
-<tr>
-<th align="left">
-  <p><small>
-    <details open>
-      <summary>Table of Contents</summary>
-      <ol>
-        <li><a href="#about-the-project">About the Project</a></li>
-        <li><a href="#features">Features</a></li>
-        <li><a href="#installation">Installation</a></li>
-        <li><a href="#usage">Usage</a></li>
-        <li><a href="#project-structure">Project Structure</a></li>
-        <li><a href="#contributing">Contributing</a></li>
-        <li><a href="#references">References</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ol>
-    </details>
-  </small></p>
-</th>
-<th align="center">
-  <p><small><img src="/img/readme-pic/Main.png" alt="Main"></small></p>
-</th>
-</tr>
+<table style="width:100%; border: none;">
+  <tr>
+    <td style="vertical-align: top; width: 50%;">
+      <details open>
+        <summary><strong>Table of Contents</strong></summary>
+        <ol>
+          <li><a href="#about-the-project">About the Project</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#installation">Installation</a></li>
+          <li><a href="#usage">Usage</a></li>
+          <li><a href="#project-structure">Project Structure</a></li>
+          <li><a href="#contributing">Contributing</a></li>
+          <li><a href="#references">References</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ol>
+      </details>
+    </td>
+    <td style="vertical-align: top; width: 50%; text-align: center;">
+      <img src="/img/readme-pic/Main.png" alt="Main" style="max-width: 100%; border-radius: 8px;">
+    </td>
+  </tr>
 </table>
+
+
 
 # About the Project
 `iPhyloGeo++` is a sophisticated bioinformatics tool designed for integrating and analyzing phylogeographic data. This application leverages genetic and climatic data to provide comprehensive insights into the evolutionary and geographical distribution of species.
