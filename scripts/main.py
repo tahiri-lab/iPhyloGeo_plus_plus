@@ -1510,7 +1510,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         Raises:
             AttributeError: If the sequence alignment has not been performed before attempting to generate the tree.
         """
-
+        self.stackedWidget.setCurrentIndex(3)
         df = pd.read_csv(Params.file_name)
         utils.filterResults(self.climaticTrees, self.geneticTreeDict, df)
         df_results = pd.read_csv("./results/output.csv")
@@ -1704,6 +1704,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.geneticTreeButtonPage1.setEnabled(False)
             self.GeneticTreeLabel.clear()
             self.resultsButton.setEnabled(False)
+            self.geneticTreeDict = None
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
@@ -1718,6 +1719,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.statisticsButtonPage2.setEnabled(False)
             self.climaticTreeButtonPage2.setEnabled(False)
             self.resultsButton.setEnabled(False)
+            self.climaticTrees = None
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred: {e}", "Error")
 
