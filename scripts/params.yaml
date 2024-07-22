@@ -1,18 +1,18 @@
-file_name: F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets/geo_with_loc.csv
-specimen: fdfdsfdsf
+file_name: F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets/simplot.csv
+specimen: id
 names: [id, ALLSKY_SFC_SW_DWN, T2M, QV2M, PRECTOTCORR, WS10M, LAT, LONG]
-bootstrap_threshold: 11
-dist_threshold: 5
-window_size: 50
-step_size: 222
-bootstrap_amount: 100
+bootstrap_threshold: 0
+dist_threshold: 60
+window_size: 99
+step_size: 99
+bootstrap_amount: 99
 data_names: [ALLSKY_SFC_SW_DWN, T2M, QV2M, PRECTOTCORR, WS10M, LAT, LONG]
 reference_gene_dir: F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets
-reference_gene_file: small_seq.fasta
-makeDebugFiles: false
+reference_gene_file: simplot.fasta
+makeDebugFiles: true
 alignment_method: '3'
-distance_method: '0'
+distance_method: '2'
 fit_method: '1'
 tree_type: '1'
-rate_similarity: 13
+rate_similarity: 50
 method_similarity: '1'
