@@ -895,9 +895,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             shutil.copy(plot_path, file_path)
 
     def pressItFasta(self):
-
         from aphylogeo.params import Params
-
         """
         Open a dialog to select a FASTA file, update parameters, and display the content with color-coded sequences.
 
@@ -928,26 +926,27 @@ class UiMainWindow(QtWidgets.QMainWindow):
                     sequence = ""
                     for line in content.splitlines():
                         if line.startswith('>'):
-                            line = f'<span style="color: green; font-weight: bold; font-size: 20px;">{line}</span>'
+                            species_title = line[1:]  # Remove '>' character
+                            line = f'<span style="color: darkgreen; font-size: 24px; font-weight: bold;">{species_title}</span>'
                             sequence += "<br>" + line + "<br>"
                         else:
                             nucleotide_colors = {
-                                'A': 'yellow',
+                                'A': 'green',
                                 'C': 'blue',
                                 'G': 'red',
-                                'T': 'orange'
+                                'T': 'black'
                             }
                             colored_line = ''
                             for char in line:
                                 color = nucleotide_colors.get(char, '')
                                 if color:
-                                    colored_line += f'<span style="color: {color}; font-weight: bold; font-size: 20px;">{char}</span>'
+                                    colored_line += f'<span style="color: {color}; font-size: 20px;">{char}</span>'
                                 else:
                                     colored_line += char
-                            sequence += colored_line
+                            sequence += colored_line + ' '
 
                     self.textEditFasta.setHtml(
-                        f"<div style='background-color: #000000; color: #ffffff; padding: 10px; white-space: pre-wrap; word-wrap: break-word;'>{sequence}</div>"
+                        f"<div style='background-color: #ffffff; color: #000000; padding: 10px; white-space: pre-wrap; word-wrap: break-word;'>{sequence}</div>"
                     )
                     self.sequenceAlignmentButtonPage1.setEnabled(True)
                     self.sequenceAlignmentButtonPage1.setIcon(QIcon(":inactive/sequence.svg"))
