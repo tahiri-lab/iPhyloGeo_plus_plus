@@ -1054,7 +1054,7 @@ p, li { white-space: pre-wrap; }
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>941</width>
+         <width>921</width>
          <height>541</height>
         </rect>
        </property>
@@ -1137,8 +1137,8 @@ p, li { white-space: pre-wrap; }
          </property>
          <property name="geometry">
           <rect>
-           <x>0</x>
-           <y>110</y>
+           <x>10</x>
+           <y>90</y>
            <width>900</width>
            <height>400</height>
           </rect>
@@ -1162,9 +1162,9 @@ p, li { white-space: pre-wrap; }
         <widget class="QFrame" name="GenStatsFilters">
          <property name="geometry">
           <rect>
-           <x>450</x>
-           <y>0</y>
-           <width>471</width>
+           <x>440</x>
+           <y>10</y>
+           <width>491</width>
            <height>61</height>
           </rect>
          </property>
@@ -1180,7 +1180,7 @@ p, li { white-space: pre-wrap; }
           </property>
           <property name="geometry">
            <rect>
-            <x>370</x>
+            <x>350</x>
             <y>30</y>
             <width>111</width>
             <height>22</height>
@@ -1196,7 +1196,7 @@ p, li { white-space: pre-wrap; }
           </property>
           <property name="geometry">
            <rect>
-            <x>240</x>
+            <x>180</x>
             <y>30</y>
             <width>111</width>
             <height>22</height>
@@ -1209,7 +1209,7 @@ p, li { white-space: pre-wrap; }
          <widget class="QLabel" name="label_3">
           <property name="geometry">
            <rect>
-            <x>250</x>
+            <x>190</x>
             <y>10</y>
             <width>81</width>
             <height>16</height>
@@ -1222,7 +1222,7 @@ p, li { white-space: pre-wrap; }
          <widget class="QLabel" name="label_4">
           <property name="geometry">
            <rect>
-            <x>380</x>
+            <x>360</x>
             <y>10</y>
             <width>121</width>
             <height>16</height>
@@ -1232,269 +1232,48 @@ p, li { white-space: pre-wrap; }
            <string>Starting position</string>
           </property>
          </widget>
-         <widget class="QPushButton" name="StartSequenceAlignmentButton">
-          <property name="geometry">
-           <rect>
-            <x>160</x>
-            <y>20</y>
-            <width>71</width>
-            <height>31</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <kerning>true</kerning>
-           </font>
-          </property>
-          <property name="text">
-           <string>Start</string>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>60</width>
-            <height>90</height>
-           </size>
-          </property>
-          <property name="checkable">
-           <bool>false</bool>
-          </property>
-          <property name="flat">
-           <bool>false</bool>
-          </property>
-         </widget>
         </widget>
-        <widget class="QLabel" name="SequenceAlignmentMethodText">
-         <property name="geometry">
-          <rect>
-           <x>-20</x>
-           <y>0</y>
-           <width>161</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="whatsThis">
-          <string/>
-         </property>
-         <property name="text">
-          <string>Alignment method</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QComboBox" name="SequenceAlignmentMethod">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>30</y>
-           <width>121</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="autoFillBackground">
-          <bool>false</bool>
-         </property>
-         <property name="editable">
-          <bool>false</bool>
-         </property>
-         <property name="insertPolicy">
-          <enum>QComboBox::InsertAtBottom</enum>
-         </property>
-         <property name="sizeAdjustPolicy">
-          <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
-         </property>
-         <property name="frame">
-          <bool>true</bool>
-         </property>
-         <item>
-          <property name="text">
-           <string>Pairwise</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>muscleAlign</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>clustalAlign</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>mafftAlign</string>
-          </property>
-         </item>
-        </widget>
-        <widget class="QLabel" name="SequenceFitMethodText">
-         <property name="geometry">
-          <rect>
-           <x>90</x>
-           <y>0</y>
-           <width>161</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="whatsThis">
-          <string/>
-         </property>
-         <property name="text">
-          <string>Fit method</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QComboBox" name="SequenceFitMethod">
-         <property name="geometry">
-          <rect>
-           <x>130</x>
-           <y>30</y>
-           <width>141</width>
-           <height>30</height>
-          </rect>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="editable">
-          <bool>false</bool>
-         </property>
-         <property name="frame">
-          <bool>true</bool>
-         </property>
-         <item>
-          <property name="text">
-           <string>narrow Fit Pairwise</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>star Alignment</string>
-          </property>
-         </item>
-        </widget>
-        <widget class="QLabel" name="SequenceFitMethodText_2">
-         <property name="geometry">
-          <rect>
-           <x>250</x>
-           <y>0</y>
-           <width>161</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="whatsThis">
-          <string/>
-         </property>
-         <property name="text">
-          <string>Rate similarity</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QSpinBox" name="rateSimilarityspinBox">
-         <property name="geometry">
-          <rect>
-           <x>290</x>
-           <y>30</y>
-           <width>81</width>
-           <height>31</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QComboBox" name="methodSimilarityComboBox">
+        <widget class="QPushButton" name="StartSequenceAlignmentButton">
          <property name="geometry">
           <rect>
            <x>380</x>
-           <y>30</y>
-           <width>141</width>
-           <height>30</height>
+           <y>20</y>
+           <width>111</width>
+           <height>51</height>
           </rect>
          </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="editable">
-          <bool>false</bool>
-         </property>
-         <property name="frame">
-          <bool>true</bool>
-         </property>
-         <item>
-          <property name="text">
-           <string>Hamming distance</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Levenshtein distance</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Damerau-Levenshtein distance</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Jaro similarity</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Jaro-Winkler similarity</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Smith–Waterman similarity</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Jaccard similarity</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Sørensen-Dice similarity</string>
-          </property>
-         </item>
-        </widget>
-        <widget class="QLabel" name="SequenceFitMethodText_3">
-         <property name="geometry">
-          <rect>
-           <x>360</x>
-           <y>0</y>
-           <width>161</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="whatsThis">
-          <string/>
+         <property name="font">
+          <font>
+           <kerning>true</kerning>
+          </font>
          </property>
          <property name="text">
-          <string>Method similarity</string>
+          <string>Start</string>
          </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
+         <property name="iconSize">
+          <size>
+           <width>60</width>
+           <height>90</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>false</bool>
+         </property>
+         <property name="flat">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="geneticSettingsButton">
+         <property name="geometry">
+          <rect>
+           <x>30</x>
+           <y>27</y>
+           <width>111</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Settings</string>
          </property>
         </widget>
        </widget>

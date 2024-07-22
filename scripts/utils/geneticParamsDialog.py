@@ -1,10 +1,15 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QFormLayout, QLabel, QLineEdit, QComboBox, QPushButton
+from PyQt5.QtWidgets import QDialog, QFormLayout, QLabel, QLineEdit, QComboBox, QPushButton, QVBoxLayout, QApplication
+from PyQt5.QtGui import QIntValidator
+from aphylogeo.params import Params
 
-class ParamDialog(QWidget):
+Params.load_from_file("./utils/params.yaml")
+
+class ParamDialog(QDialog):
     def __init__(self):
         super().__init__()
 
+        self.params = None  # Initialize the parameters to None
         self.initUI()
 
     def initUI(self):
@@ -12,48 +17,53 @@ class ParamDialog(QWidget):
 
         # Bootstrap threshold
         self.bootstrap_threshold_label = QLabel('Bootstrap Threshold:')
-        self.bootstrap_threshold_input = QLineEdit('10')
+        self.bootstrap_threshold_input = QLineEdit(str(Params.bootstrap_threshold))
+        self.bootstrap_threshold_input.setValidator(QIntValidator(0, 10000))  # Adjust range as necessary
         layout.addRow(self.bootstrap_threshold_label, self.bootstrap_threshold_input)
 
         # Window size
         self.window_size_label = QLabel('Window Size:')
-        self.window_size_input = QLineEdit('200')
+        self.window_size_input = QLineEdit(str(Params.window_size))
+        self.window_size_input.setValidator(QIntValidator(1, 10000))  # Adjust range as necessary
         layout.addRow(self.window_size_label, self.window_size_input)
 
         # Step size
         self.step_size_label = QLabel('Step Size:')
-        self.step_size_input = QLineEdit('100')
+        self.step_size_input = QLineEdit(str(Params.step_size))
+        self.step_size_input.setValidator(QIntValidator(1, 10000))  # Adjust range as necessary
         layout.addRow(self.step_size_label, self.step_size_input)
 
         # Bootstrap amount
         self.bootstrap_amount_label = QLabel('Bootstrap Amount:')
-        self.bootstrap_amount_input = QLineEdit('100')
+        self.bootstrap_amount_input = QLineEdit(str(Params.bootstrap_amount))
+        self.bootstrap_amount_input.setValidator(QIntValidator(1, 10000))  # Adjust range as necessary
         layout.addRow(self.bootstrap_amount_label, self.bootstrap_amount_input)
 
         # Alignment method
         self.alignment_method_label = QLabel('Alignment Method:')
         self.alignment_method_input = QComboBox()
         self.alignment_method_input.addItems(['pairwiseAligner', 'MUSCLE', 'CLUSTALW', 'MAFFT'])
-        self.alignment_method_input.setCurrentIndex(1) # Default to MUSCLE
+        self.alignment_method_input.setCurrentIndex(int(Params.alignment_method)-1) # Default to MUSCLE
         layout.addRow(self.alignment_method_label, self.alignment_method_input)
 
         # Fit method
         self.fit_method_label = QLabel('Fit Method:')
         self.fit_method_input = QComboBox()
         self.fit_method_input.addItems(['Wider Fit by elongating with Gap (starAlignment)', 'Narrow-fit prevent elongation with gap when possible'])
-        self.fit_method_input.setCurrentIndex(0) # Default to Wider Fit
+        self.fit_method_input.setCurrentIndex(int(Params.fit_method)-1)  # Default to Wider Fit
         layout.addRow(self.fit_method_label, self.fit_method_input)
 
         # Tree type
         self.tree_type_label = QLabel('Tree Type:')
         self.tree_type_input = QComboBox()
         self.tree_type_input.addItems(['BioPython consensus tree', 'FastTree application'])
-        self.tree_type_input.setCurrentIndex(1) # Default to FastTree application
+        self.tree_type_input.setCurrentIndex(int(Params.tree_type)-1)  # Default to FastTree application
         layout.addRow(self.tree_type_label, self.tree_type_input)
 
         # Rate similarity
         self.rate_similarity_label = QLabel('Rate Similarity:')
-        self.rate_similarity_input = QLineEdit('90')
+        self.rate_similarity_input = QLineEdit(str(Params.rate_similarity))
+        self.rate_similarity_input.setValidator(QIntValidator(0, 100))  # Rate similarity as percentage
         layout.addRow(self.rate_similarity_label, self.rate_similarity_input)
 
         # Method similarity
@@ -69,7 +79,7 @@ class ParamDialog(QWidget):
             'Jaccard similarity',
             'Sørensen-Dice similarity'
         ])
-        self.method_similarity_input.setCurrentIndex(0) # Default to Hamming distance
+        self.method_similarity_input.setCurrentIndex(int(Params.method_similarity)-1)  # Default to Hamming distance
         layout.addRow(self.method_similarity_label, self.method_similarity_input)
 
         # Submit button
@@ -119,7 +129,7 @@ class ParamDialog(QWidget):
         self.show()
 
     def submit(self):
-        params = {
+        self.params = {
             'bootstrap_threshold': int(self.bootstrap_threshold_input.text()),
             'window_size': int(self.window_size_input.text()),
             'step_size': int(self.step_size_input.text()),
@@ -130,8 +140,7 @@ class ParamDialog(QWidget):
             'rate_similarity': int(self.rate_similarity_input.text()),
             'method_similarity': str(self.method_similarity_input.currentIndex() + 1),
         }
-        print(params)  # Here you can handle the parameters as needed
-        self.close()
+        self.accept()  # Close the dialog and indicate success
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

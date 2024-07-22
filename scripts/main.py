@@ -4,6 +4,7 @@ import qtmodern.styles
 import qtmodern.windows
 import qtmodern.windows
 import yaml
+from utils.geneticParamsDialog import ParamDialog
 from utils import resources_rc
 from Bio.Align import MultipleSeqAlignment
 from PyQt5 import QtCore, QtGui
@@ -301,6 +302,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.clearButtonPage4.clicked.connect(self.clearResultStat)
             self.downloadGraphButton.clicked.connect(self.download_graph)
             self.preferencesButton.clicked.connect(self.open_preferences_dialog)
+            self.geneticSettingsButton.clicked.connect(self.openGeneticSettingsDialog)
+
             self.stackedWidget.setCurrentIndex(0)
 
 
@@ -396,7 +399,12 @@ class UiMainWindow(QtWidgets.QMainWindow):
     def clearResults(self):
         self.textEditResults.clear()
 
-
+    def openGeneticSettingsDialog(self):
+        dialog = ParamDialog()
+        if dialog.exec_() == QDialog.Accepted:
+            self.geneticParam = dialog.params
+            for property_name, new_value in self.geneticParam.items():
+                update_yaml_param(Params, "utils/params.yaml", property_name, new_value)
 
     def read_msa(self, msa_data):
 
@@ -966,10 +974,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         This method calls the `callSeqAlign` method to perform sequence alignment and stores the resulting genetic tree dictionary in the `geneticTreeDict` attribute.
         """
         try:
-            align = str(self.SequenceAlignmentMethod.currentIndex() + 1)
-            fit = str(self.SequenceFitMethod.currentIndex() + 1)
-            update_yaml_param(Params, "utils/params.yaml", "alignment_method", align)
-            update_yaml_param(Params, "utils/params.yaml", "fit_method", fit)
+
             self.starting_position_spinbox_2.setEnabled(True)
             self.window_size_spinbox_2.setEnabled(True)
             self.geneticTreeDict = self.callSeqAlign()
