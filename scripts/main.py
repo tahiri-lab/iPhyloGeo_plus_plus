@@ -1,10 +1,10 @@
 import os
 import sys
-import resources_rc
 import qtmodern.styles
 import qtmodern.windows
 import qtmodern.windows
 import yaml
+from utils import resources_rc
 from Bio.Align import MultipleSeqAlignment
 from PyQt5 import QtCore, QtGui
 from PyQt5 import QtWidgets, uic
@@ -16,11 +16,11 @@ from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import (QDialog)
 from PyQt5.QtWidgets import QFileDialog, QGraphicsDropShadowEffect
-from PyQt5.QtWidgets import QLabel, QComboBox, QPushButton, QHBoxLayout, QTableWidget, QTableWidgetItem
+from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
 from PyQt5.QtWidgets import QVBoxLayout
 from aphylogeo.params import Params
 
-Params.load_from_file("params.yaml")
+Params.load_from_file("utils/params.yaml")
 
 
 class Worker(QObject):
@@ -161,7 +161,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
     def useWindow(self):
 
-        from help import UiHowToUse
+        from scripts.utils.help import UiHowToUse
         """
         Initialize and display the 'How to Use' window.
 
@@ -174,7 +174,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
     def paramWin(self):
 
-        from settings import HoverLabel
+        from scripts.utils.settings import HoverLabel
         """
         Initialize and display the parameters window.
         This method creates a new QMainWindow instance, sets up its UI using the UiDialog class, and displays the window.
@@ -917,8 +917,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
                                                           "FASTA Files (*.fasta);;All Files (*)",
                                                           options=options)
             if fullFileName:
-                update_yaml_param(Params, "params.yaml", "reference_gene_file", os.path.basename(fullFileName))
-                update_yaml_param(Params, "params.yaml", "reference_gene_dir", os.path.dirname(fullFileName))
+                update_yaml_param(Params, "utils/params.yaml", "reference_gene_file", os.path.basename(fullFileName))
+                update_yaml_param(Params, "utils/params.yaml", "reference_gene_dir", os.path.dirname(fullFileName))
 
                 with open(fullFileName, "r") as f:
                     self.clearGen()
@@ -927,7 +927,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
                     for line in content.splitlines():
                         if line.startswith('>'):
                             species_title = line[1:]  # Remove '>' character
-                            line = f'<span style="color: darkgreen; font-size: 24px; font-weight: bold;">{species_title}</span>'
+                            line = f'<span style="color: darkgreen; font-size: 24px;">{species_title}</span>'
                             sequence += "<br>" + line + "<br>"
                         else:
                             nucleotide_colors = {
@@ -968,8 +968,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
         try:
             align = str(self.SequenceAlignmentMethod.currentIndex() + 1)
             fit = str(self.SequenceFitMethod.currentIndex() + 1)
-            update_yaml_param(Params, "params.yaml", "alignment_method", align)
-            update_yaml_param(Params, "params.yaml", "fit_method", fit)
+            update_yaml_param(Params, "utils/params.yaml", "alignment_method", align)
+            update_yaml_param(Params, "utils/params.yaml", "fit_method", fit)
             self.starting_position_spinbox_2.setEnabled(True)
             self.window_size_spinbox_2.setEnabled(True)
             self.geneticTreeDict = self.callSeqAlign()
@@ -1317,7 +1317,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
                                                           options=options)
 
             if fullFilePath:
-                update_yaml_param(Params, "params.yaml", "file_name", fullFilePath)
+                update_yaml_param(Params, "utils/params.yaml", "file_name", fullFilePath)
                 self.statisticsButtonPage2.setEnabled(True)
                 df = pd.read_csv(fullFilePath)
                 columns = df.columns.tolist()
@@ -1334,8 +1334,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 self.species = df[columns[0]].tolist()
                 self.factors = df.drop(columns=[longitude_col, latitude_col]).values.tolist()
                 clim_data_names = self.retrieveDataNames(columns)
-                update_yaml_param(Params, "params.yaml", "names", columns)
-                update_yaml_param(Params, "params.yaml", "data_names", clim_data_names)
+                update_yaml_param(Params, "utils/params.yaml", "names", columns)
+                update_yaml_param(Params, "utils/params.yaml", "data_names", clim_data_names)
 
                 self.textEditClimData.clear()
                 sleek_table = create_sleek_table(df)
@@ -2390,7 +2390,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         import toyplot.png
         import toytree
         import os
-        import pandas as pd
 
         if 0 <= index < self.total_trees:
             self.current_index1 = index
