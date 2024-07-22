@@ -34,41 +34,36 @@ class Worker(QObject):
         self.filepath = filepath
 
     def run(self):
-
         from aphylogeo import utils
         from aphylogeo.alignement import AlignSequences
         from aphylogeo.genetic_trees import GeneticTrees
         from aphylogeo.params import Params
 
-        try:
-            # Step 1: Load sequences
-            self.progress.emit(0)
-            sequenceFile = utils.loadSequenceFile(self.filepath)
+        # Step 1: Load sequences
+        self.progress.emit(0)
+        sequenceFile = utils.loadSequenceFile(self.filepath)
 
-            # Step 2: Align sequences
-            self.progress.emit(1)
-            align_sequence = AlignSequences(sequenceFile)
-            alignments = align_sequence.align()
+        # Step 2: Align sequences
+        self.progress.emit(1)
+        align_sequence = AlignSequences(sequenceFile)
+        alignments = align_sequence.align()
 
-            # Step 3: Generate genetic trees
-            self.progress.emit(2)
-            geneticTrees = utils.geneticPipeline(alignments.msa)
-            trees = GeneticTrees(trees_dict=geneticTrees, format="newick")
+        # Step 3: Generate genetic trees
+        self.progress.emit(2)
+        geneticTrees = utils.geneticPipeline(alignments.msa)
+        trees = GeneticTrees(trees_dict=geneticTrees, format="newick")
 
-            # Step 4: Preparing results
-            msa = alignments.to_dict().get("msa")
+        # Step 4: Preparing results
+        msa = alignments.to_dict().get("msa")
 
-            # Step 5: Save results
-            alignments.save_to_json(f"./results/aligned_{Params.reference_gene_file}.json")
-            trees.save_trees_to_json("./results/geneticTrees.json")
+        # Step 5: Save results
+        alignments.save_to_json(f"./results/aligned_{Params.reference_gene_file}.json")
+        trees.save_trees_to_json("./results/geneticTrees.json")
 
-            # Emit finished signal with the genetic trees dictionary
-            result = {"msa": msa, "geneticTrees": geneticTrees}
-            self.progress.emit(3)
-            self.finished.emit(result)
-
-        except Exception as e:
-            self.error.emit(str(e))
+        # Emit finished signal with the genetic trees dictionary
+        result = {"msa": msa, "geneticTrees": geneticTrees}
+        self.progress.emit(3)
+        self.finished.emit(result)
 
 
 class MyDumper(yaml.Dumper):
@@ -282,7 +277,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.sequenceAlignmentButtonPage1.clicked.connect(self.showSequencePage)
             self.clearButtonPage1.clicked.connect(self.clearGen)
             self.downloadSimilarityButton.clicked.connect(self.download_plot_similarity)
-            self.statisticsButtonPage1.clicked.connect(self.plot_sequence_similarity)
+            self.statisticsButtonPage1.clicked.connect(self.initialize_species_list)
             self.clearButtonPage2.clicked.connect(self.clearClim)
             self.fileBrowserButtonPage2.clicked.connect(self.pressItCSV)
             self.resultsButton.clicked.connect(self.showResultsPage)
@@ -650,30 +645,48 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"Attribute Error: {e}")
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred: {e}")
+################################
+    def initialize_species_list(self):
+        # Load species names into the combo box
+        self.referenceComboBox.clear()
 
-    def plot_sequence_similarity(self):
+        unique_species = set()
+        for key, value in self.msa.items():
+            parts = value.strip().split('\n')
+            for i in range(0, len(parts), 2):
+                header = parts[i].strip('>')
+                unique_species.add(header)
 
+        # Add unique species to the combo box
+        for species in unique_species:
+            self.referenceComboBox.addItem(species)
+
+        # Optionally set the first species as the default selected item
+        if self.referenceComboBox.count() > 0:
+            self.referenceComboBox.setCurrentIndex(0)
+
+        # Connect the value change signals to update the plot
+        self.similarityWindowSizeSpinBox.valueChanged.connect(self.update_similarity_plot)
+        self.startingPositionSimilaritySpinBox.valueChanged.connect(self.update_similarity_plot)
+        self.referenceComboBox.currentIndexChanged.connect(self.update_similarity_plot)
+
+        # Generate the initial plot
+        self.update_similarity_plot()
+
+    def update_similarity_plot(self):
         import matplotlib.pyplot as plt
         import numpy as np
-
         import seaborn as sns
         from Bio.Align import MultipleSeqAlignment
         from Bio.Seq import Seq
         from Bio.SeqRecord import SeqRecord
-
-        from aphylogeo.params import Params
-        from matplotlib.ticker import MaxNLocator
-
-        """
-        Plot the sequence similarity based on a multiple sequence alignment (MSA).
-
-        This method reads the MSA data, combines sequences for each species, pads sequences to the same length, computes similarity scores,
-        and plots the similarity across the alignment. The plot is then displayed in the specified label widget.
-
-        Returns:
-            None
-        """
         from collections import defaultdict
+        from matplotlib.ticker import MaxNLocator  # Ensure this import is present
+
+        # Extract window size and starting position
+        window_size = self.similarityWindowSizeSpinBox.value()
+        start_pos = self.startingPositionSimilaritySpinBox.value()
+        reference_species = self.referenceComboBox.currentText()
 
         # Dictionary to hold combined sequences for each species
         sequences = defaultdict(str)
@@ -698,12 +711,16 @@ class UiMainWindow(QtWidgets.QMainWindow):
         # Create a MultipleSeqAlignment object
         alignment = MultipleSeqAlignment(padded_records)
 
-        # Compute the similarity score for each position
-        reference_sequence = str(alignment[0].seq)
+        # Get the index of the selected reference species
+        reference_index = [record.id for record in alignment].index(reference_species)
+
+        # Use the selected species as the reference
+        reference_sequence = str(alignment[reference_index].seq)
         similarities = []
 
         for record in alignment:
-            similarity = [1 if ref == res else 0 for ref, res in zip(reference_sequence, str(record.seq))]
+            similarity = [1 if ref == res else 0 for ref, res in
+                          zip(reference_sequence[start_pos:], str(record.seq)[start_pos:])]
             similarities.append(similarity)
 
         similarities = np.array(similarities)
@@ -712,9 +729,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         def sliding_window_avg(arr, window_size, step_size):
             return [np.mean(arr[i:i + window_size]) for i in range(0, len(arr) - window_size + 1, step_size)]
 
-        # Use Params.window_size directly
-        window_size = Params.window_size
-        step_size = Params.step_size  # You can also parameterize this if needed
+        step_size = 1  # You can also parameterize this if needed
 
         windowed_similarities = []
         for sim in similarities:
@@ -725,7 +740,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         # Plot the similarities with advanced styling
         sns.set(style="whitegrid")
         fig, ax = plt.subplots(figsize=(12, 8))
-        x = np.arange(0, len(reference_sequence) - window_size + 1, step_size)
+        x = np.arange(start_pos, len(reference_sequence) - window_size + 1, step_size)
 
         for idx, record in enumerate(alignment):
             ax.plot(x, windowed_similarities[idx], label=record.id, linewidth=2.0)
@@ -753,6 +768,109 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.textEditGenStats_2.setFixedSize(900, 400)
         self.textEditGenStats_2.setScaledContents(True)
         self.tabWidget.setCurrentIndex(3)
+
+    # def plot_sequence_similarity(self):
+    #
+    #     import matplotlib.pyplot as plt
+    #     import numpy as np
+    #
+    #     import seaborn as sns
+    #     from Bio.Align import MultipleSeqAlignment
+    #     from Bio.Seq import Seq
+    #     from Bio.SeqRecord import SeqRecord
+    #
+    #     from aphylogeo.params import Params
+    #     from matplotlib.ticker import MaxNLocator
+    #
+    #     """
+    #     Plot the sequence similarity based on a multiple sequence alignment (MSA).
+    #
+    #     This method reads the MSA data, combines sequences for each species, pads sequences to the same length, computes similarity scores,
+    #     and plots the similarity across the alignment. The plot is then displayed in the specified label widget.
+    #
+    #     Returns:
+    #         None
+    #     """
+    #     from collections import defaultdict
+    #
+    #     # Dictionary to hold combined sequences for each species
+    #     sequences = defaultdict(str)
+    #
+    #     # Combine sequences across all ranges for each species
+    #     for key, value in self.msa.items():
+    #         parts = value.strip().split('\n')
+    #         for i in range(0, len(parts), 2):
+    #             header = parts[i].strip('>')
+    #             sequence = parts[i + 1]
+    #             sequences[header] += sequence
+    #
+    #     # Find the maximum sequence length
+    #     max_len = max(len(seq) for seq in sequences.values())
+    #
+    #     # Pad sequences to the same length
+    #     padded_records = []
+    #     for header, sequence in sequences.items():
+    #         padded_seq = sequence.ljust(max_len, '-')
+    #         padded_records.append(SeqRecord(Seq(padded_seq), id=header))
+    #
+    #     # Create a MultipleSeqAlignment object
+    #     alignment = MultipleSeqAlignment(padded_records)
+    #
+    #     # Compute the similarity score for each position
+    #     reference_sequence = str(alignment[0].seq)
+    #     similarities = []
+    #
+    #     for record in alignment:
+    #         similarity = [1 if ref == res else 0 for ref, res in zip(reference_sequence, str(record.seq))]
+    #         similarities.append(similarity)
+    #
+    #     similarities = np.array(similarities)
+    #
+    #     # Compute sliding window averages
+    #     def sliding_window_avg(arr, window_size, step_size):
+    #         return [np.mean(arr[i:i + window_size]) for i in range(0, len(arr) - window_size + 1, step_size)]
+    #
+    #     # Use Params.window_size directly
+    #     window_size = Params.window_size
+    #     step_size = Params.step_size  # You can also parameterize this if needed
+    #
+    #     windowed_similarities = []
+    #     for sim in similarities:
+    #         windowed_similarities.append(sliding_window_avg(sim, window_size, step_size))
+    #
+    #     windowed_similarities = np.array(windowed_similarities)
+    #
+    #     # Plot the similarities with advanced styling
+    #     sns.set(style="whitegrid")
+    #     fig, ax = plt.subplots(figsize=(12, 8))
+    #     x = np.arange(0, len(reference_sequence) - window_size + 1, step_size)
+    #
+    #     for idx, record in enumerate(alignment):
+    #         ax.plot(x, windowed_similarities[idx], label=record.id, linewidth=2.0)
+    #
+    #     ax.set_xlabel('Position', fontsize=14)
+    #     ax.set_ylabel('Similarity', fontsize=14)
+    #     ax.set_title('Sequence Similarity Plot', fontsize=16, weight='bold')
+    #     ax.legend(title='Species', fontsize=12, title_fontsize='13', loc='upper right', bbox_to_anchor=(1.2, 1))
+    #     ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+    #     ax.grid(True, linestyle='--', alpha=0.6)
+    #
+    #     # Customize the look of the plot
+    #     ax.spines['top'].set_visible(False)
+    #     ax.spines['right'].set_visible(False)
+    #     ax.spines['left'].set_linewidth(1.2)
+    #     ax.spines['bottom'].set_linewidth(1.2)
+    #
+    #     # Save the plot to a temporary file
+    #     self.plot_path = './results/similarity_plot.png'
+    #     fig.savefig(self.plot_path, bbox_inches='tight', dpi=300)
+    #
+    #     # Load the plot into the QLabel
+    #     pixmap = QPixmap(self.plot_path)
+    #     self.textEditGenStats_2.setPixmap(pixmap)
+    #     self.textEditGenStats_2.setFixedSize(900, 400)
+    #     self.textEditGenStats_2.setScaledContents(True)
+    #     self.tabWidget.setCurrentIndex(3)
 
 
     def download_plot_similarity(self):
@@ -973,15 +1091,10 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         This method calls the `callSeqAlign` method to perform sequence alignment and stores the resulting genetic tree dictionary in the `geneticTreeDict` attribute.
         """
-        try:
+        self.starting_position_spinbox_2.setEnabled(True)
+        self.window_size_spinbox_2.setEnabled(True)
+        self.geneticTreeDict = self.callSeqAlign()
 
-            self.starting_position_spinbox_2.setEnabled(True)
-            self.window_size_spinbox_2.setEnabled(True)
-            self.geneticTreeDict = self.callSeqAlign()
-        except AttributeError as e:
-            self.showErrorDialog(f"Attribute Error: {e}")
-        except Exception as e:
-            self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def callSeqAlign(self):
 
