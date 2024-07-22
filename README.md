@@ -111,13 +111,13 @@ python3 main.py
 1. **Navigate to the Results Page:**
 - Access the results interface.
 
-3. **Adjust the Parameters as Needed:**
+2. **Adjust the Parameters as Needed:**
 - Modify settings to refine the analysis.
 
-4. **Click on Submit to View the Phylogenetic Results:**
+3. **Click on Submit to View the Phylogenetic Results:**
 - Generate and display the results based on the input data and parameters.
 
-5. **Navigate to the Stats Button for Phylogenetic Trees Visualization:**
+4. **Navigate to the Stats Button for Phylogenetic Trees Visualization:**
 - Use the stats button to visualize the phylogenetic trees and related statistics.
 
 # Project Structure
