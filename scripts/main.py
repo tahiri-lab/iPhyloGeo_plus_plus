@@ -171,14 +171,16 @@ class UiMainWindow(QtWidgets.QMainWindow):
     def paramWin(self):
 
         from scripts.utils.settings import HoverLabel
+        from scripts.utils.settings import Settings
+
         """
         Initialize and display the parameters window.
         This method creates a new QMainWindow instance, sets up its UI using the UiDialog class, and displays the window.
         """
-        dialog = QtWidgets.QDialog()
-        ui = HoverLabel.Settings()
-        ui.setupUi(dialog)
-        dialog.exec_()
+        Dialog = QtWidgets.QDialog()
+        ui = Settings()
+        ui.setupUi(Dialog)
+        Dialog.exec_()
 
     def openClimTree(self):
 
