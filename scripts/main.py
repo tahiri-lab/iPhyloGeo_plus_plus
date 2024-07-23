@@ -303,8 +303,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
             self.stackedWidget.setCurrentIndex(0)
 
-
-
             buttons = [self.geneticDataButton, self.climaticDataButton, self.helpButton, self.homeButton,
                        self.resultsButton]
             buttons_Vertical = [
@@ -391,7 +389,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An error occurred while setting up the UI: {e}", "Attribute Error")
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred: {e}", "Unexpected Error", )
-
 
     def clearResults(self):
         self.textEditResults.clear()
@@ -647,7 +644,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"Attribute Error: {e}")
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred: {e}")
-################################
+
+    ################################
     def initialize_species_list(self):
         # Load species names into the combo box
         self.referenceComboBox.clear()
@@ -769,7 +767,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         save_path, _ = QFileDialog.getSaveFileName(self, "Save File", "", "PNG Files (*.png);;All Files (*)")
         if not save_path:
             return  # User cancelled th
-        shutil.copy(file_url, save_path)# e save dialog
+        shutil.copy(file_url, save_path)  # e save dialog
 
     def load_data_climate(self):
 
@@ -983,7 +981,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.window_size_spinbox_2.setEnabled(True)
         self.geneticTreeDict = self.callSeqAlign()
 
-
     def callSeqAlign(self):
 
         from aphylogeo.params import Params
@@ -1153,7 +1150,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
-
     def capture_image(self):
 
         """
@@ -1321,10 +1317,12 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def populateMap(self, lat, long):
-
+        from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QVBoxLayout, QVBoxLayout, QLabel, \
+            QScrollArea, QTextBrowser, QVBoxLayout, QVBoxLayout, QVBoxLayout
+        from PyQt5.QtWebEngineWidgets import QWebEngineView
+        from PyQt5.QtCore import Qt
         import io
         import folium
-
         """
         Create and display a folium map with given latitude and longitude.
 
@@ -1346,7 +1344,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             mean_long = sum(long) / len(long)
 
             m = folium.Map(location=[mean_lat, mean_long],
-                           zoom_start=14,
+                           zoom_start=4,  # Adjusted zoom level for better visibility
                            tiles="OpenStreetMap")
 
             # Add markers to the map
@@ -1361,7 +1359,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
             web_view = QWebEngineView(self.graphicsViewClimData)  # Embed the map inside graphicsViewClimData
             web_view.setHtml(data.getvalue().decode())
-            layout = QtWidgets.QVBoxLayout(self.graphicsViewClimData)
+            layout = QVBoxLayout(self.graphicsViewClimData)
             layout.addWidget(web_view)
             self.graphicsViewClimData.setLayout(layout)
 
@@ -1438,7 +1436,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.stackedWidget.setCurrentIndex(3)
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred: {e}")
-
 
     def showSequencePage(self):
 
@@ -1534,7 +1531,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         # Add the QWebEngineView to the QTextBrowser
         layout.addWidget(web_engine_view)
-
 
     def toggleDarkMode(self):
 
@@ -1879,7 +1875,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
     def open_preferences_dialog(self):
 
-        from PreferencesDialog import PreferencesDialog  # Import PreferencesDialog
+        from utils.PreferencesDialog import PreferencesDialog  # Import PreferencesDialog
         """
         Open the preferences dialog and update the application settings based on user input.
 
@@ -2303,7 +2299,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.showErrorDialog(
                 f"An unexpected error occurred while downloading the climatic tree graph: {e}")
-
 
     ################################################
     def display_phylogeographic_trees(self):

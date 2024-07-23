@@ -14,7 +14,7 @@ class UiHowToUse(QMainWindow):
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
         layout = QVBoxLayout(central_widget)
-        layout.setContentsMargins(10, 10, 10, 10)
+        layout.setContentsMargins(20, 20, 20, 20)
 
         scroll_area = QScrollArea()
         scroll_area.setWidgetResizable(True)
@@ -23,12 +23,12 @@ class UiHowToUse(QMainWindow):
         content_widget = QWidget()
         scroll_area.setWidget(content_widget)
         content_layout = QVBoxLayout(content_widget)
-        content_layout.setContentsMargins(10, 10, 10, 10)
+        content_layout.setContentsMargins(20, 20, 20, 20)
 
         title_label = QLabel('Help - aPhyloGeo')
-        title_label.setFont(QFont('Helvetica', 26, QFont.Bold))
+        title_label.setFont(QFont('Helvetica', 28, QFont.Bold))
         title_label.setAlignment(Qt.AlignCenter)
-        title_label.setStyleSheet('color: #3A3F44; margin-bottom: 20px;')
+        title_label.setStyleSheet('color: #2C3E50; margin-bottom: 20px;')
         content_layout.addWidget(title_label)
 
         sections = [
@@ -80,21 +80,21 @@ class UiHowToUse(QMainWindow):
             section_layout.setContentsMargins(0, 0, 0, 20)
 
             section_title = QLabel(section['title'])
-            section_title.setFont(QFont('Helvetica', 20, QFont.Bold))
-            section_title.setStyleSheet('color: #3A3F44; margin-bottom: 10px;')
+            section_title.setFont(QFont('Helvetica', 22, QFont.Bold))
+            section_title.setStyleSheet('color: #2C3E50; margin-bottom: 10px;')
             section_title.setWordWrap(True)
             section_layout.addWidget(section_title)
 
             section_description = QLabel(section['description'])
-            section_description.setFont(QFont('Helvetica', 14))
-            section_description.setStyleSheet('color: #6D6D6D; margin-bottom: 10px;')
+            section_description.setFont(QFont('Helvetica', 16))
+            section_description.setStyleSheet('color: #7F8C8D; margin-bottom: 10px;')
             section_description.setWordWrap(True)
             section_layout.addWidget(section_description)
 
             for instruction in section['instructions']:
                 instruction_label = QLabel(f'- {instruction}')
-                instruction_label.setFont(QFont('Helvetica', 12))
-                instruction_label.setStyleSheet('color: #000000; margin-left: 20px;')
+                instruction_label.setFont(QFont('Helvetica', 14))
+                instruction_label.setStyleSheet('color: #2C3E50; margin-left: 20px;')
                 instruction_label.setWordWrap(True)
                 section_layout.addWidget(instruction_label)
 
@@ -102,8 +102,10 @@ class UiHowToUse(QMainWindow):
 
         additional_info = QTextBrowser()
         additional_info.setOpenExternalLinks(True)
-        additional_info.setHtml('You will obtain more information here: <a href="https://github.com/tahiri-lab/aPhyloGeo_plus_plus/blob/main/README.md">README.md</a>')
-        additional_info.setStyleSheet('margin-top: 20px;')
+        additional_info.setHtml(
+            'You will obtain more information here: <a href="https://github.com/tahiri-lab/aPhyloGeo_plus_plus/blob/main/README.md">README.md</a>'
+        )
+        additional_info.setStyleSheet('margin-top: 20px; color: #2980B9;')
         content_layout.addWidget(additional_info)
 
         content_layout.addStretch()
