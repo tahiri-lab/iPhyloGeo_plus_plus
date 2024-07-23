@@ -649,7 +649,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
     def initialize_species_list(self):
         # Load species names into the combo box
         self.referenceComboBox.clear()
-
+        print(self.msa)
         unique_species = set()
         for key, value in self.msa.items():
             parts = value.strip().split('\n')
@@ -681,197 +681,83 @@ class UiMainWindow(QtWidgets.QMainWindow):
         from Bio.Seq import Seq
         from Bio.SeqRecord import SeqRecord
         from collections import defaultdict
-        from matplotlib.ticker import MaxNLocator  # Ensure this import is present
+        from matplotlib.ticker import MaxNLocator
 
-        # Extract window size and starting position
-        window_size = self.similarityWindowSizeSpinBox.value()
-        start_pos = self.startingPositionSimilaritySpinBox.value()
-        reference_species = self.referenceComboBox.currentText()
+        try:
+            window_size = self.similarityWindowSizeSpinBox.value()
+            start_pos = self.startingPositionSimilaritySpinBox.value()
+            reference_species = self.referenceComboBox.currentText()
 
-        # Dictionary to hold combined sequences for each species
-        sequences = defaultdict(str)
+            sequences = defaultdict(str)
+            for key, value in self.msa.items():
+                parts = value.strip().split('\n')
+                for i in range(0, len(parts), 2):
+                    header = parts[i].strip('>')
+                    sequence = parts[i + 1]
+                    sequences[header] += sequence
 
-        # Combine sequences across all ranges for each species
-        for key, value in self.msa.items():
-            parts = value.strip().split('\n')
-            for i in range(0, len(parts), 2):
-                header = parts[i].strip('>')
-                sequence = parts[i + 1]
-                sequences[header] += sequence
+            if reference_species not in sequences:
+                print(f"Reference species {reference_species} not found in MSA data.")
+                return
 
-        # Find the maximum sequence length
-        max_len = max(len(seq) for seq in sequences.values())
+            max_len = max(len(seq) for seq in sequences.values())
+            padded_records = []
+            for header, sequence in sequences.items():
+                padded_seq = sequence.ljust(max_len, '-')
+                padded_records.append(SeqRecord(Seq(padded_seq), id=header))
 
-        # Pad sequences to the same length
-        padded_records = []
-        for header, sequence in sequences.items():
-            padded_seq = sequence.ljust(max_len, '-')
-            padded_records.append(SeqRecord(Seq(padded_seq), id=header))
+            alignment = MultipleSeqAlignment(padded_records)
+            reference_index = [record.id for record in alignment].index(reference_species)
+            reference_sequence = str(alignment[reference_index].seq)
+            similarities = []
 
-        # Create a MultipleSeqAlignment object
-        alignment = MultipleSeqAlignment(padded_records)
+            for record in alignment:
+                similarity = [1 if ref == res else 0 for ref, res in
+                              zip(reference_sequence[start_pos:], str(record.seq)[start_pos:])]
+                similarities.append(similarity)
 
-        # Get the index of the selected reference species
-        reference_index = [record.id for record in alignment].index(reference_species)
+            similarities = np.array(similarities)
 
-        # Use the selected species as the reference
-        reference_sequence = str(alignment[reference_index].seq)
-        similarities = []
+            def sliding_window_avg(arr, window_size, step_size):
+                return [np.mean(arr[i:i + window_size]) for i in range(0, len(arr) - window_size + 1, step_size)]
 
-        for record in alignment:
-            similarity = [1 if ref == res else 0 for ref, res in
-                          zip(reference_sequence[start_pos:], str(record.seq)[start_pos:])]
-            similarities.append(similarity)
+            step_size = 10  # Adjusted step size for better plotting
 
-        similarities = np.array(similarities)
+            windowed_similarities = []
+            for sim in similarities:
+                windowed_similarities.append(sliding_window_avg(sim, window_size, step_size))
 
-        # Compute sliding window averages
-        def sliding_window_avg(arr, window_size, step_size):
-            return [np.mean(arr[i:i + window_size]) for i in range(0, len(arr) - window_size + 1, step_size)]
+            windowed_similarities = np.array(windowed_similarities)
 
-        step_size = 1  # You can also parameterize this if needed
+            sns.set(style="whitegrid")
+            fig, ax = plt.subplots(figsize=(12, 8))
+            x = np.arange(start_pos, len(reference_sequence) - window_size + 1, step_size)
 
-        windowed_similarities = []
-        for sim in similarities:
-            windowed_similarities.append(sliding_window_avg(sim, window_size, step_size))
+            for idx, record in enumerate(alignment):
+                ax.plot(x, windowed_similarities[idx], label=record.id, linewidth=2.0)
 
-        windowed_similarities = np.array(windowed_similarities)
+            ax.set_xlabel('Position', fontsize=14)
+            ax.set_ylabel('Similarity', fontsize=14)
+            ax.set_title('Sequence Similarity Plot', fontsize=16, weight='bold')
+            ax.legend(title='Species', fontsize=12, title_fontsize='13', loc='upper right', bbox_to_anchor=(1.2, 1))
+            ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+            ax.grid(True, linestyle='--', alpha=0.6)
 
-        # Plot the similarities with advanced styling
-        sns.set(style="whitegrid")
-        fig, ax = plt.subplots(figsize=(12, 8))
-        x = np.arange(start_pos, len(reference_sequence) - window_size + 1, step_size)
+            ax.spines['top'].set_visible(False)
+            ax.spines['right'].set_visible(False)
+            ax.spines['left'].set_linewidth(1.2)
+            ax.spines['bottom'].set_linewidth(1.2)
 
-        for idx, record in enumerate(alignment):
-            ax.plot(x, windowed_similarities[idx], label=record.id, linewidth=2.0)
+            self.plot_path = './results/similarity_plot.png'
+            fig.savefig(self.plot_path, bbox_inches='tight', dpi=300)
 
-        ax.set_xlabel('Position', fontsize=14)
-        ax.set_ylabel('Similarity', fontsize=14)
-        ax.set_title('Sequence Similarity Plot', fontsize=16, weight='bold')
-        ax.legend(title='Species', fontsize=12, title_fontsize='13', loc='upper right', bbox_to_anchor=(1.2, 1))
-        ax.xaxis.set_major_locator(MaxNLocator(integer=True))
-        ax.grid(True, linestyle='--', alpha=0.6)
-
-        # Customize the look of the plot
-        ax.spines['top'].set_visible(False)
-        ax.spines['right'].set_visible(False)
-        ax.spines['left'].set_linewidth(1.2)
-        ax.spines['bottom'].set_linewidth(1.2)
-
-        # Save the plot to a temporary file
-        self.plot_path = './results/similarity_plot.png'
-        fig.savefig(self.plot_path, bbox_inches='tight', dpi=300)
-
-        # Load the plot into the QLabel
-        pixmap = QPixmap(self.plot_path)
-        self.textEditGenStats_2.setPixmap(pixmap)
-        self.textEditGenStats_2.setFixedSize(900, 400)
-        self.textEditGenStats_2.setScaledContents(True)
-        self.tabWidget.setCurrentIndex(3)
-
-    # def plot_sequence_similarity(self):
-    #
-    #     import matplotlib.pyplot as plt
-    #     import numpy as np
-    #
-    #     import seaborn as sns
-    #     from Bio.Align import MultipleSeqAlignment
-    #     from Bio.Seq import Seq
-    #     from Bio.SeqRecord import SeqRecord
-    #
-    #     from aphylogeo.params import Params
-    #     from matplotlib.ticker import MaxNLocator
-    #
-    #     """
-    #     Plot the sequence similarity based on a multiple sequence alignment (MSA).
-    #
-    #     This method reads the MSA data, combines sequences for each species, pads sequences to the same length, computes similarity scores,
-    #     and plots the similarity across the alignment. The plot is then displayed in the specified label widget.
-    #
-    #     Returns:
-    #         None
-    #     """
-    #     from collections import defaultdict
-    #
-    #     # Dictionary to hold combined sequences for each species
-    #     sequences = defaultdict(str)
-    #
-    #     # Combine sequences across all ranges for each species
-    #     for key, value in self.msa.items():
-    #         parts = value.strip().split('\n')
-    #         for i in range(0, len(parts), 2):
-    #             header = parts[i].strip('>')
-    #             sequence = parts[i + 1]
-    #             sequences[header] += sequence
-    #
-    #     # Find the maximum sequence length
-    #     max_len = max(len(seq) for seq in sequences.values())
-    #
-    #     # Pad sequences to the same length
-    #     padded_records = []
-    #     for header, sequence in sequences.items():
-    #         padded_seq = sequence.ljust(max_len, '-')
-    #         padded_records.append(SeqRecord(Seq(padded_seq), id=header))
-    #
-    #     # Create a MultipleSeqAlignment object
-    #     alignment = MultipleSeqAlignment(padded_records)
-    #
-    #     # Compute the similarity score for each position
-    #     reference_sequence = str(alignment[0].seq)
-    #     similarities = []
-    #
-    #     for record in alignment:
-    #         similarity = [1 if ref == res else 0 for ref, res in zip(reference_sequence, str(record.seq))]
-    #         similarities.append(similarity)
-    #
-    #     similarities = np.array(similarities)
-    #
-    #     # Compute sliding window averages
-    #     def sliding_window_avg(arr, window_size, step_size):
-    #         return [np.mean(arr[i:i + window_size]) for i in range(0, len(arr) - window_size + 1, step_size)]
-    #
-    #     # Use Params.window_size directly
-    #     window_size = Params.window_size
-    #     step_size = Params.step_size  # You can also parameterize this if needed
-    #
-    #     windowed_similarities = []
-    #     for sim in similarities:
-    #         windowed_similarities.append(sliding_window_avg(sim, window_size, step_size))
-    #
-    #     windowed_similarities = np.array(windowed_similarities)
-    #
-    #     # Plot the similarities with advanced styling
-    #     sns.set(style="whitegrid")
-    #     fig, ax = plt.subplots(figsize=(12, 8))
-    #     x = np.arange(0, len(reference_sequence) - window_size + 1, step_size)
-    #
-    #     for idx, record in enumerate(alignment):
-    #         ax.plot(x, windowed_similarities[idx], label=record.id, linewidth=2.0)
-    #
-    #     ax.set_xlabel('Position', fontsize=14)
-    #     ax.set_ylabel('Similarity', fontsize=14)
-    #     ax.set_title('Sequence Similarity Plot', fontsize=16, weight='bold')
-    #     ax.legend(title='Species', fontsize=12, title_fontsize='13', loc='upper right', bbox_to_anchor=(1.2, 1))
-    #     ax.xaxis.set_major_locator(MaxNLocator(integer=True))
-    #     ax.grid(True, linestyle='--', alpha=0.6)
-    #
-    #     # Customize the look of the plot
-    #     ax.spines['top'].set_visible(False)
-    #     ax.spines['right'].set_visible(False)
-    #     ax.spines['left'].set_linewidth(1.2)
-    #     ax.spines['bottom'].set_linewidth(1.2)
-    #
-    #     # Save the plot to a temporary file
-    #     self.plot_path = './results/similarity_plot.png'
-    #     fig.savefig(self.plot_path, bbox_inches='tight', dpi=300)
-    #
-    #     # Load the plot into the QLabel
-    #     pixmap = QPixmap(self.plot_path)
-    #     self.textEditGenStats_2.setPixmap(pixmap)
-    #     self.textEditGenStats_2.setFixedSize(900, 400)
-    #     self.textEditGenStats_2.setScaledContents(True)
-    #     self.tabWidget.setCurrentIndex(3)
-
+            pixmap = QPixmap(self.plot_path)
+            self.textEditGenStats_2.setPixmap(pixmap)
+            self.textEditGenStats_2.setFixedSize(900, 400)
+            self.textEditGenStats_2.setScaledContents(True)
+            self.tabWidget.setCurrentIndex(3)
+        except Exception as e:
+            print(f"Error updating similarity plot: {e}")
 
     def download_plot_similarity(self):
 
@@ -1265,55 +1151,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
-    def populateMap(self, lat, long):
-
-        import io
-
-        from decimal import Decimal
-        import folium
-
-        """
-        Create a folium map with markers based on provided latitude and longitude coordinates,
-        and render it to an image.
-
-        Args:
-            lat (list): List of latitude coordinates.
-            long (list): List of longitude coordinates.
-
-        Returns:
-            None
-        """
-        try:
-            if not lat or not long or len(lat) != len(long):
-                raise ValueError("Latitude and longitude lists must be non-empty and of the same length.")
-
-            mean_lat = sum(Decimal(y) for y in lat) / len(lat)
-            mean_long = sum(Decimal(x) for x in long) / len(long)
-
-            m = folium.Map(location=[mean_lat, mean_long], zoom_start=2, min_zoom=2, max_bounds=True,
-                           tiles="OpenStreetMap")
-            for i in range(len(lat)):
-                folium.Marker([Decimal(lat[i]), Decimal(long[i])]).add_to(m)
-
-            # Save the map to HTML and render it to an image
-            data = io.BytesIO()
-            m.save(data, close_file=False)
-            html = data.getvalue().decode()
-
-            # Use a temporary file to store the HTML content
-            temp_file_path = './results/temp_map.html'
-            with open(temp_file_path, 'w') as f:
-                f.write(html)
-
-            # Load the HTML file in QWebEngineView and capture as an image
-            self.webview = QWebEngineView()
-            self.webview.setHtml(html)
-            self.webview.loadFinished.connect(self.capture_image)
-
-        except ValueError as e:
-            self.showErrorDialog(f"Value Error: {e}")
-        except Exception as e:
-            self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def capture_image(self):
 
@@ -1484,7 +1321,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
     def populateMap(self, lat, long):
 
         import io
-
         import folium
 
         """
@@ -1510,8 +1346,13 @@ class UiMainWindow(QtWidgets.QMainWindow):
             m = folium.Map(location=[mean_lat, mean_long],
                            zoom_start=14,
                            tiles="OpenStreetMap")
+
+            # Add markers to the map
             for latitude, longitude in zip(lat, long):
                 folium.Marker([latitude, longitude]).add_to(m)
+
+            # Adjust the map to fit all markers
+            m.fit_bounds([[min(lat), min(long)], [max(lat), max(long)]])
 
             data = io.BytesIO()
             m.save(data, close_file=False)
