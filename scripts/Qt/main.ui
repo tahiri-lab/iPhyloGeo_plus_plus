@@ -785,7 +785,7 @@
      </sizepolicy>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="HomePage">
      <widget class="QFrame" name="HomeTab">
@@ -832,7 +832,7 @@
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; font-weight:400; font-style:normal;&quot; bgcolor=&quot;#f4f4f4&quot;&gt;
 &lt;h1 align=&quot;center&quot; style=&quot; margin-top:40px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:xx-large; font-weight:600; color:#0056b3;&quot;&gt;Welcome to iPhyloGeo&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:xx-large; font-weight:600; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/h1&gt;
-&lt;h2 align=&quot;center&quot; style=&quot; margin-top:16px; margin-bottom:12px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:x-large; font-weight:600; color:#333333;&quot;&gt;Thank you for downloading our software.&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:x-large; font-weight:600; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/h2&gt;
+&lt;h2 align=&quot;center&quot; style=&quot; margin-top:16px; margin-bottom:12px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:x-large; font-weight:600; color:#333333;&quot;&gt;Thank you for downloading our software. &lt;/span&gt;&lt;/h2&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; color:#333333;&quot;&gt;Here is your guide to using &lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; font-style:italic; color:#555555;&quot;&gt;iPhyloGeo&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; color:#333333;&quot;&gt;:&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16px; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; color:#333333;&quot;&gt;You can get help by clicking the Help button in the top right corner.&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16px; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; color:#333333;&quot;&gt;To toggle Dark mode, click the moon-shaped button in the top right corner.&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16px; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
@@ -1052,7 +1052,7 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="GenTab1">
         <attribute name="title">
@@ -1229,8 +1229,37 @@ p, li { white-space: pre-wrap; }
          </property>
          <property name="font">
           <font>
+           <pointsize>-1</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
            <kerning>true</kerning>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+    /* Basic styling */
+    background-color: #008331; /* Button color */
+    color: white; /* Text color */
+    font-size: 14px; /* Font size */
+    font-weight: bold; /* Bold text */
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px 20px; /* Padding */
+    border: 2px solid #2980b9; /* Border */
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s; /* Smooth transitions */
+}
+
+QPushButton:hover {
+    /* Hover state styling */
+    background-color: #7a9244; /* Darker blue on hover */
+    border-color: #1c5980; /* Darker border on hover */
+}
+
+QPushButton:pressed {
+    /* Pressed state styling */
+    background-color: #1c5980; /* Even darker blue on press */
+    border-color: #145374; /* Darker border on press */
+    color: #ecf0f1; /* Lighter text on press */
+}</string>
          </property>
          <property name="text">
           <string>Start</string>
@@ -1252,10 +1281,36 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>30</x>
-           <y>27</y>
+           <y>17</y>
            <width>111</width>
-           <height>41</height>
+           <height>51</height>
           </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+    /* Basic styling */
+    background-color: #3498db; /* Button color */
+    color: white; /* Text color */
+    font-size: 14px; /* Font size */
+    font-weight: bold; /* Bold text */
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px 20px; /* Padding */
+    border: 2px solid #2980b9; /* Border */
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s; /* Smooth transitions */
+}
+
+QPushButton:hover {
+    /* Hover state styling */
+    background-color: #2980b9; /* Darker blue on hover */
+    border-color: #1c5980; /* Darker border on hover */
+}
+
+QPushButton:pressed {
+    /* Pressed state styling */
+    background-color: #1c5980; /* Even darker blue on press */
+    border-color: #145374; /* Darker border on press */
+    color: #ecf0f1; /* Lighter text on press */
+}</string>
          </property>
          <property name="text">
           <string>Settings</string>
@@ -1687,11 +1742,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;&quot; bgcolor=&quot;#f4f4f4&quot;&gt;
 &lt;h1 align=&quot;center&quot; style=&quot; margin-top:40px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; font-weight:600; color:#0056b3;&quot;&gt;Get Started!&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; font-weight:600; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/h1&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt;For the climatic data extraction, follow these steps to obtain the final results:&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt;1. Select a &lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; font-weight:600; color:#0056b3;&quot;&gt;.csv&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt; file using the File Browser button.&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt;2. Proceed to the climatic tree creation using the Climatic Tree button.&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt;3. Generate the statistics using the Statistics button.&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt;4. Export and visualize your results by clicking the Results button.&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt;For the climatic data extraction, follow these steps to obtain the final results: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt;1. Select a &lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; font-weight:600; color:#0056b3;&quot;&gt;.csv&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt; file using the File Browser button. &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt;2. Proceed to the climatic tree creation using the Climatic Tree button. &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt;3. Generate the statistics using the Statistics button. &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt;4. Export and visualize your results by clicking the Results button. &lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; font-style:italic; color:#555555;&quot;&gt;For more specific information, click the &lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; font-weight:600; font-style:italic; color:#555555;&quot;&gt;Help&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; font-style:italic; color:#555555;&quot;&gt; button to get all the details you need.&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:40px; margin-bottom:0px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#888888;&quot;&gt;© 2024 iPhyloGeo. All rights reserved.&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
