@@ -43,14 +43,14 @@
 
 
 # About the Project
-`iPhyloGeo++` is a sophisticated bioinformatics tool designed for integrating and analyzing phylogeographic data. This application leverages genetic and climatic data to provide comprehensive insights into the evolutionary and geographical distribution of species.
+The iPhyloGeo++ tool is an advanced bioinformatics application specifically designed for the integration and analysis of phylogeographic data. By leveraging both genetic and climatic information, it offers comprehensive insights into the evolutionary processes and geographical distribution of various species.
 
 # Features
-- **Cross-Platform Support:** Available on Windows, macOS, and Linux.
-- **Data Integration:** Combines genetic sequences with climatic data.
-- **User-Friendly Interface:** Built with PyQt5 for an intuitive experience.
-- **Visualization Tools:** Displays phylogenetic trees and climatic data on maps.
-- **Comparative Analysis:** Enables comparison of phylogenetic trees.
+- **Cross-Platform Compatibility:** Compatible with Windows, macOS, and Linux.
+- **Comprehensive Data Integration:** Merges genetic sequences with climatic data for robust analysis.
+- **Intuitive User Interface:** Developed with PyQt5 to ensure ease of use.
+- **Advanced Visualization Tools:** Provides visualization of phylogenetic trees and climatic data on interactive maps.
+- **Enhanced Comparative Analysis:** Facilitates the comparison of different phylogenetic trees.
 
 # Installation
 **1. Clone the repository**
