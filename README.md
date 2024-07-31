@@ -123,6 +123,8 @@ To help you, you can go to the <a href="https://github.com/tahiri-lab/iPhyloGeo_
 4. **Navigate to the Stats Button for Phylogenetic Trees Visualization:**
 - Use the stats button to visualize the phylogenetic trees and related statistics.
 
+
+To help you, you can follow the <a href="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/Tutorial"> 'Tutorial' </a> part of the Wiki to achieve all these steps.
 # Project Structure
 This project is organized into several key directories to help you navigate and understand the codebase.
 - **img/:** Contains images used by the README and the application.
