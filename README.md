@@ -83,6 +83,7 @@ python3 main.py
 1. **Navigate to File Browser on the Genetic Page:**
 - Access the genetic data interface through the File Browser tab.
 - Select and Load Your Fasta File:
+To help you, you can go to the <a href="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/Discover-the-application"> Wiki </a> to hunderstand how to navigate into the IphyloGeo application.
 
 2. **Choose your Fasta file containing the genetic sequences. Supported formats should be specified (e.g., .fasta, .fa).**
 - Ensure the file adheres to the correct format and structure.
@@ -92,7 +93,7 @@ python3 main.py
 - Utilize built-in tools for aligning sequences, detailing available algorithms (e.g., MUSCLE, ClustalW).
 - Statistics: Generate statistics such as nucleotide frequencies, sequence length distribution, and GC content.
 - Genetic Trees: Construct phylogenetic trees using methods like Neighbor-Joining, Maximum Likelihood, or Bayesian inference. Visualize trees with options for customization (e.g., color-coding branches, annotating clades).
-<a href="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/Discover-the-application"> Something </a>
+
    
 ## Loading Climatic Data
 <p align="center"><img src="./img/other/climatic.gif" alt="Climatic demonstration"></p>
