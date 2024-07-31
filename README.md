@@ -61,8 +61,13 @@ cd iPhyloGeo_plus_plus
 
 **2. Set Up a Virtual Environment**
 ```sh
-python3 -m venv iPhyloGeo++_env
-source iPhyloGeo++_env/bin/activate  # On Windows use `iPhyloGeo_env\Scripts\activate`
+python3 -m venv iPhyloGeo++_env   # Use only `python` instead of `python3` if it doesn't work
+
+# Linux
+source iPhyloGeo++_env/bin/activate  
+
+# Windows 
+iPhyloGeo++_env\Scripts\activate
 ```
 
 **3. Install Dependencies**
