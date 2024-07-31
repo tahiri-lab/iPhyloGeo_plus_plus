@@ -84,7 +84,7 @@ python3 main.py
 - Access the genetic data interface through the File Browser tab.
 - Select and Load Your Fasta File:
 
-To help you, you can go to the <a href="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/Discover-the-application">Wiki</a> to hunderstand how to navigate into the IphyloGeo application.
+To help you, you can go to the <a href="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/Discover-the-application">Wiki</a> to understand how to navigate into the iPhyloGeo application.
 
 2. **Choose your Fasta file containing the genetic sequences. Supported formats should be specified (e.g., .fasta, .fa).**
 - Ensure the file adheres to the correct format and structure.
