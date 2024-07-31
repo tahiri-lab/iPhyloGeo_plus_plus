@@ -75,7 +75,7 @@ pip install -r requirements.txt
 python3 main.py
 ```
 
-# Usage
+# [Usage](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/Discover-the-application)
 ## Loading Genetic Data
 <p align="center"><img src="./img/other/genetic.gif" alt="Genetic demonstration"></p>
 
