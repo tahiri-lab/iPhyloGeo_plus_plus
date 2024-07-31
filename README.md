@@ -92,6 +92,7 @@ python3 main.py
 - Utilize built-in tools for aligning sequences, detailing available algorithms (e.g., MUSCLE, ClustalW).
 - Statistics: Generate statistics such as nucleotide frequencies, sequence length distribution, and GC content.
 - Genetic Trees: Construct phylogenetic trees using methods like Neighbor-Joining, Maximum Likelihood, or Bayesian inference. Visualize trees with options for customization (e.g., color-coding branches, annotating clades).
+<a href="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/Discover-the-application"> Something </a>
    
 ## Loading Climatic Data
 <p align="center"><img src="./img/other/climatic.gif" alt="Climatic demonstration"></p>
