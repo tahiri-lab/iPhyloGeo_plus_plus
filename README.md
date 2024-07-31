@@ -52,7 +52,7 @@ The iPhyloGeo++ tool is an advanced bioinformatics application specifically desi
 - **Advanced Visualization Tools:** Provides visualization of phylogenetic trees and climatic data on interactive maps.
 - **Enhanced Comparative Analysis:** Facilitates the comparison of different phylogenetic trees.
 
-# Installation
+# [Installation](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/Getting-Started)
 **1. Clone the repository**
 ```sh
 git clone https://github.com/tahiri-lab/iPhyloGeo_plus_plus.git
