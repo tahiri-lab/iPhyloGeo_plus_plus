@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import os
 import yaml
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -201,7 +199,7 @@ class Settings(object):
         self.gridLayout_3.setObjectName("gridLayout_3")
         font.setPointSize(8)
 
-        self.metrics = HoverLabel("Calculus method", "Select the method for calculating phylogenetic distances. Options include:\n- Robinson & Foulds: Measures the difference in tree topologies.\n- Least Square: Minimizes the sum of squared differences between observed and predicted distances.\n- Euclidean Distance: Measures the straight-line distance between points in a multi-dimensional space.", self.textEdit, HoverLabel.image_label, "../../img/other/calculus.png")
+        self.metrics = HoverLabel("Calculus method", "Select the method for calculating phylogenetic distances. Options include:\n- Robinson & Foulds: Measures the difference in tree topologies.\n- Least Square: Minimizes the sum of squared differences between observed and predicted distances.\n- Euclidean Distance: Measures the straight-line distance between points in a multi-dimensional space.", self.textEdit, HoverLabel.image_label, "../img/other/calculus.png")
         self.metrics.setFont(font)
         self.metrics.setIndent(10)
         self.metrics.setObjectName("metrics")
@@ -253,7 +251,7 @@ class Settings(object):
         self.spinBox_bootstrap.setObjectName("spinBox_bootstrap")
         self.gridLayout_4.addWidget(self.spinBox_bootstrap, 0, 1, 1, 1)
 
-        self.bootstrapValue = HoverLabel("Bootstrap threshold", "Set the bootstrap threshold for phylogenetic tree support. Higher values provide more reliable results but require longer computation time. Bootstrap values are used to assess the reliability of inferred phylogenetic trees.", self.textEdit, HoverLabel.image_label, "../../img/other/bootstrap.png")
+        self.bootstrapValue = HoverLabel("Bootstrap threshold", "Set the bootstrap threshold for phylogenetic tree support. Higher values provide more reliable results but require longer computation time. Bootstrap values are used to assess the reliability of inferred phylogenetic trees.", self.textEdit, HoverLabel.image_label, "../img/other/bootstrap.png")
         font.setPointSize(8)
         self.bootstrapValue.setFont(font)
         self.bootstrapValue.setIndent(10)
