@@ -83,7 +83,7 @@ class ParamDialog(QDialog):
         layout.addRow(self.method_similarity_label, self.method_similarity_input)
 
         # Submit button
-        self.submit_button = QPushButton('Submit')
+        self.submit_button = QPushButton('Save Settings')
         self.submit_button.clicked.connect(self.submit)
         layout.addRow(self.submit_button)
 
