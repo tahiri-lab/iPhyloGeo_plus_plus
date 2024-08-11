@@ -52,7 +52,7 @@ The iPhyloGeo++ tool is an advanced bioinformatics application specifically desi
 - **Advanced Visualization Tools:** Provides visualization of phylogenetic trees and climatic data on interactive maps.
 - **Enhanced Comparative Analysis:** Facilitates the comparison of different phylogenetic trees.
 
-# Installation
+# [Installation](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/Getting-Started)
 **1. Clone the repository**
 ```sh
 git clone https://github.com/tahiri-lab/iPhyloGeo_plus_plus.git
@@ -61,8 +61,13 @@ cd iPhyloGeo_plus_plus
 
 **2. Set Up a Virtual Environment**
 ```sh
-python3 -m venv iPhyloGeo++_env
-source iPhyloGeo++_env/bin/activate  # On Windows use `iPhyloGeo_env\Scripts\activate`
+python3 -m venv iPhyloGeo++_env   # Use only `python` instead of `python3` if it doesn't work
+
+# Linux
+source iPhyloGeo++_env/bin/activate  
+
+# Windows 
+iPhyloGeo++_env\Scripts\activate
 ```
 
 **3. Install Dependencies**
@@ -75,7 +80,7 @@ pip install -r requirements.txt
 python3 main.py
 ```
 
-# Usage
+# [Usage](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/Discover-the-application)
 ## Loading Genetic Data
 <p align="center"><img src="./img/other/genetic.gif" alt="Genetic demonstration"></p>
 
@@ -83,6 +88,8 @@ python3 main.py
 1. **Navigate to File Browser on the Genetic Page:**
 - Access the genetic data interface through the File Browser tab.
 - Select and Load Your Fasta File:
+
+To help you, you can go to the <a href="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/Discover-the-application">Wiki</a> to understand how to navigate into the iPhyloGeo application.
 
 2. **Choose your Fasta file containing the genetic sequences. Supported formats should be specified (e.g., .fasta, .fa).**
 - Ensure the file adheres to the correct format and structure.
@@ -92,6 +99,7 @@ python3 main.py
 - Utilize built-in tools for aligning sequences, detailing available algorithms (e.g., MUSCLE, ClustalW).
 - Statistics: Generate statistics such as nucleotide frequencies, sequence length distribution, and GC content.
 - Genetic Trees: Construct phylogenetic trees using methods like Neighbor-Joining, Maximum Likelihood, or Bayesian inference. Visualize trees with options for customization (e.g., color-coding branches, annotating clades).
+
    
 ## Loading Climatic Data
 <p align="center"><img src="./img/other/climatic.gif" alt="Climatic demonstration"></p>
@@ -120,6 +128,8 @@ python3 main.py
 4. **Navigate to the Stats Button for Phylogenetic Trees Visualization:**
 - Use the stats button to visualize the phylogenetic trees and related statistics.
 
+
+To help you, you can follow the <a href="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/Tutorial">Tutorial</a> part of the Wiki to achieve all these steps.
 # Project Structure
 This project is organized into several key directories to help you navigate and understand the codebase.
 - **img/:** Contains images used by the README and the application.
