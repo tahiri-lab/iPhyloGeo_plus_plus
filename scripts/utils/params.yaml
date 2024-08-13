@@ -1,18 +1,18 @@
 file_name: F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets/simplot.csv
 specimen: id
 names: [id, ALLSKY_SFC_SW_DWN, T2M, QV2M, PRECTOTCORR, WS10M, LAT, LONG]
-bootstrap_threshold: 6
+bootstrap_threshold: 0
 dist_threshold: 60
-window_size: 150
+window_size: 200
 step_size: 100
 bootstrap_amount: 100
 data_names: [ALLSKY_SFC_SW_DWN, T2M, QV2M, PRECTOTCORR, WS10M, LAT, LONG]
 reference_gene_dir: F:/STUDY/projects/PFE/aPhyloGeo_plus_plus/datasets
 reference_gene_file: simplot.fasta
 makeDebugFiles: true
-alignment_method: '2'
-distance_method: '1'
+alignment_method: '4'
+distance_method: '3'
 fit_method: '1'
 tree_type: '1'
-rate_similarity: 90
-method_similarity: '2'
+rate_similarity: 70
+method_similarity: '1'

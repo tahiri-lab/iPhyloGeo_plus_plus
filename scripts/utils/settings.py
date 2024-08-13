@@ -163,7 +163,6 @@ class Settings(object):
         HoverLabel.image_label.setAlignment(Qt.AlignCenter)
         HoverLabel.image_label.setPixmap(QPixmap("../img/other/final.png"))
         group_box_layout.addWidget(HoverLabel.image_label)
-
         self.textEdit = QtWidgets.QTextEdit(self.paramsDetails)
         group_box_layout.addWidget(self.textEdit)
         sizePolicy.setHorizontalStretch(0)

@@ -475,6 +475,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
             None
         """
         try:
+            # Replace underscores with spaces in the keys of genetic_data
+            genetic_data = {key.replace('_', ' '): value for key, value in genetic_data.items()}
+
             end_position = starting_position + window_size
             truncated_data = {key: value[starting_position:end_position] for key, value in genetic_data.items()}
             alignment = MultipleSeqAlignment([
@@ -649,12 +652,11 @@ class UiMainWindow(QtWidgets.QMainWindow):
     def initialize_species_list(self):
         # Load species names into the combo box
         self.referenceComboBox.clear()
-        print(self.msa)
         unique_species = set()
         for key, value in self.msa.items():
             parts = value.strip().split('\n')
             for i in range(0, len(parts), 2):
-                header = parts[i].strip('>')
+                header = parts[i].strip('>').replace('_', ' ')  # Replace underscores with spaces
                 unique_species.add(header)
 
         # Add unique species to the combo box
@@ -686,7 +688,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
         try:
             window_size = self.similarityWindowSizeSpinBox.value()
             start_pos = self.startingPositionSimilaritySpinBox.value()
-            reference_species = self.referenceComboBox.currentText()
+            reference_species = self.referenceComboBox.currentText().replace(' ',
+                                                                             '_')  # Convert back to original format
 
             sequences = defaultdict(str)
             for key, value in self.msa.items():
@@ -694,9 +697,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 for i in range(0, len(parts), 2):
                     header = parts[i].strip('>')
                     sequence = parts[i + 1]
-                    sequences[header] += sequence
+                    sequences[header.replace('_', ' ')] += sequence  # Replace underscores with spaces
 
-            if reference_species not in sequences:
+            if reference_species.replace('_', ' ') not in sequences:
                 print(f"Reference species {reference_species} not found in MSA data.")
                 return
 
@@ -707,7 +710,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 padded_records.append(SeqRecord(Seq(padded_seq), id=header))
 
             alignment = MultipleSeqAlignment(padded_records)
-            reference_index = [record.id for record in alignment].index(reference_species)
+            reference_index = [record.id for record in alignment].index(reference_species.replace('_', ' '))
             reference_sequence = str(alignment[reference_index].seq)
             similarities = []
 
@@ -802,8 +805,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         import matplotlib.pyplot as plt
         import pandas as pd
-
         import seaborn as sns
+        import os
 
         """
         Generate and display a graph based on the selected X and Y axis data and the chosen plot type.
@@ -830,6 +833,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         # Identify the first column
         first_column_name = self.data.columns[0]
+
+        # Replace underscores with spaces in the first column's data
+        self.data[first_column_name] = self.data[first_column_name].str.replace('_', ' ')
 
         # Round function for better readability
         def round_numbers(val, digits=3):
@@ -864,6 +870,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             else:
                 sns.violinplot(x=x_data, y=y_data, data=self.data, ax=ax)
                 ax.set_xlabel(x_data)  # Set the X-axis label
+
         plot_path = os.path.join('results', f'{plot_type.lower().replace(" ", "_")}.png')
         os.makedirs('results', exist_ok=True)
         plt.savefig(plot_path)
@@ -938,7 +945,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
                     sequence = ""
                     for line in content.splitlines():
                         if line.startswith('>'):
-                            species_title = line[1:]  # Remove '>' character
+                            species_title = line[1:].replace('_', ' ')  # Replace underscores with whitespace
                             line = f'<span style="color: darkgreen; font-size: 24px;">{species_title}</span>'
                             sequence += "<br>" + line + "<br>"
                         else:
@@ -1188,25 +1195,10 @@ class UiMainWindow(QtWidgets.QMainWindow):
     def pressItCSV(self):
         from decimal import Decimal
         import pandas as pd
+        import re  # Import regular expressions module
 
         from aphylogeo import utils
         from aphylogeo.params import Params
-
-        """
-        Retrieve data from a climatic file and display it in a table.
-
-        This method allows the user to select a CSV file from the file system. It updates the relevant YAML parameters
-        with the file's path, reads the file content, and displays the data in a table widget. It also processes
-        location data (latitude and longitude) if available and populates a map.
-
-        Actions:
-            - Opens a file dialog to select a CSV file.
-            - Updates 'file_name' parameter in the YAML file.
-            - Reads and displays the content of the selected CSV file.
-            - Processes and stores species and factor data.
-            - Populates a map with location data if available.
-            - Updates the UI to reflect the loaded data.
-        """
 
         def is_valid_decimal(value):
             try:
@@ -1283,6 +1275,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
                 lat = df[latitude_col].tolist()
                 long = df[longitude_col].tolist()
+
+                # Replace underscores with spaces in species names (first column)
+                df[columns[0]] = df[columns[0]].str.replace('_', ' ')
 
                 self.species = df[columns[0]].tolist()
                 self.factors = df.drop(columns=[longitude_col, latitude_col]).values.tolist()
@@ -1468,10 +1463,11 @@ class UiMainWindow(QtWidgets.QMainWindow):
             AttributeError: If the sequence alignment has not been performed before attempting to generate the tree.
         """
         self.stackedWidget.setCurrentIndex(3)
+
         df = pd.read_csv(Params.file_name)
         utils.filterResults(self.climaticTrees, self.geneticTreeDict, df)
         df_results = pd.read_csv("./results/output.csv")
-
+        df_results['Name of species'] = df_results['Name of species'].str.replace('_', ' ')
         # Replace the first column values with Params.file_name just before visualization
         df_results.iloc[:, 0] = Params.reference_gene_file
 
@@ -1726,29 +1722,23 @@ class UiMainWindow(QtWidgets.QMainWindow):
             - Updates the tree combo box with formatted tree names.
             - Displays the first tree in the list.
         """
-        try:
-            self.tabWidget.setCurrentIndex(4)
-            file_path = "results/geneticTrees.json"
-            with open(file_path, 'r') as file:
-                self.newick_json = json.load(file)
 
-            self.tree_keys = list(self.newick_json.keys())
-            self.total_trees = len(self.tree_keys)
-            self.current_index = 0
-            self.geneticTreescomboBox.clear()
+        self.tabWidget.setCurrentIndex(4)
+        file_path = "results/geneticTrees.json"
+        with open(file_path, 'r') as file:
+            self.newick_json = json.load(file)
 
-            # Format the tree keys to replace underscore with ' nt '
-            formatted_tree_keys = [self.format_tree_name(key) for key in self.tree_keys]
-            self.geneticTreescomboBox.addItems(formatted_tree_keys)
+        self.tree_keys = list(self.newick_json.keys())
+        self.total_trees = len(self.tree_keys)
+        self.current_index = 0
+        self.geneticTreescomboBox.clear()
 
-            self.show_tree(self.current_index)
+        # Format the tree keys to replace underscore with ' nt '
+        formatted_tree_keys = [self.format_tree_name(key) for key in self.tree_keys]
+        self.geneticTreescomboBox.addItems(formatted_tree_keys)
 
-        except FileNotFoundError as e:
-            self.showErrorDialog(f"The file {file_path} was not found: {e}", "File Not Found")
-        except json.JSONDecodeError as e:
-            self.showErrorDialog(f"An error occurred while decoding the JSON file: {e}", "JSON Decode Error")
-        except Exception as e:
-            self.showErrorDialog(f"An unexpected error occurred: {e}")
+        self.show_tree(self.current_index)
+
 
     def format_tree_name(self, tree_name):
 
@@ -1761,13 +1751,11 @@ class UiMainWindow(QtWidgets.QMainWindow):
         Returns:
             str: The formatted tree name.
         """
-        try:
-            parts = tree_name.split('_')
-            if len(parts) == 2:
-                return f"{parts[0]} nt {parts[1]} nt"
-            return tree_name
-        except Exception as e:
-            self.showErrorDialog(f"An unexpected error occurred while formatting the tree name: {e}")
+        parts = tree_name.split('_')
+        if len(parts) == 2:
+            return f"{parts[0]} nt {parts[1]} nt"
+        return tree_name
+
 
     def show_selected_tree(self, index):
 
@@ -1780,11 +1768,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
         Returns:
             None
         """
-        try:
-            if index >= 0:
-                self.show_tree(index)
-        except Exception as e:
-            self.showErrorDialog(f"An unexpected error occurred while displaying the selected tree: {e}")
+        if index >= 0:
+            self.show_tree(index)
 
     def show_tree(self, index):
 
@@ -1800,48 +1785,49 @@ class UiMainWindow(QtWidgets.QMainWindow):
         Returns:
             None
         """
-        try:
-            if 0 <= index < self.total_trees:
-                self.current_index = index  # Keep track of the current index
-                key = self.tree_keys[index]
-                newick_str = self.newick_json[key]
+        if 0 <= index < self.total_trees:
+            self.current_index = index  # Keep track of the current index
+            key = self.tree_keys[index]  # This is the key with underscores
+            newick_str = self.newick_json[key]
 
-                # Read the tree using Toytree
-                tree = toytree.tree(newick_str)
+            # Read the tree using Toytree
+            tree = toytree.tree(newick_str)
 
-                # Customize the tip labels and their style
-                tip_labels = tree.get_tip_labels()
-                custom_tip_labels = ['{}. {}'.format(i[0], i[1:]) for i in tip_labels]
+            # Replace underscores with spaces in tip labels
+            for node in tree.treenode.traverse():
+                if node.is_leaf():
+                    node.name = node.name.replace('_', ' ')  # Replace underscores with spaces
 
-                # Draw the tree with customized style
-                canvas, axes, mark = tree.draw(
-                    width=921,
-                    height=450,
-                    tip_labels=custom_tip_labels,
-                    tip_labels_style={"font-size": "15px"},
-                    fixed_order=tip_labels,
-                    edge_type='c'  # This line sets the edge type to 'c' as specified in the image
-                )
+            # Customize the tip labels and their style
+            tip_labels = tree.get_tip_labels()
 
-                # Adjust the canvas size to ensure it fits within the specified dimensions
-                canvas = toyplot.Canvas(width=921, height=450)
-                ax = canvas.cartesian(bounds=(50, 870, 50, 400), padding=15)
-                tree.draw(axes=ax)
+            # Draw the tree with customized style
+            canvas, axes, mark = tree.draw(
+                width=921,
+                height=450,
+                tip_labels=tip_labels,  # These labels now have spaces
+                tip_labels_style={"font-size": "15px"},
+                fixed_order=tip_labels,
+                edge_type='c'
+            )
 
-                # Save the canvas to a permanent file in the .results/ directory
-                self.tree_img_path = os.path.join('results', f"{key}.png")
-                os.makedirs(os.path.dirname(self.tree_img_path), exist_ok=True)
-                toyplot.png.render(canvas, self.tree_img_path)
+            # Adjust the canvas size to ensure it fits within the specified dimensions
+            canvas = toyplot.Canvas(width=921, height=450)
+            ax = canvas.cartesian(bounds=(50, 870, 50, 400), padding=15)
+            tree.draw(axes=ax)
 
-                # Create a QPixmap from the saved image file
-                pixmap = QPixmap(self.tree_img_path)
+            # Save the canvas to a permanent file in the .results/ directory
+            self.tree_img_path = os.path.join('results', f"{key}.png")
+            os.makedirs(os.path.dirname(self.tree_img_path), exist_ok=True)
+            toyplot.png.render(canvas, self.tree_img_path)
 
-                # Clear the QLabel before setting the new QPixmap
-                self.GeneticTreeLabel.clear()
-                self.GeneticTreeLabel.setPixmap(pixmap)
-                self.GeneticTreeLabel.adjustSize()
-        except Exception as e:
-            self.showErrorDialog(f"An unexpected error occurred while rendering the tree: {e}")
+            # Create a QPixmap from the saved image file
+            pixmap = QPixmap(self.tree_img_path)
+
+            # Clear the QLabel before setting the new QPixmap
+            self.GeneticTreeLabel.clear()
+            self.GeneticTreeLabel.setPixmap(pixmap)
+            self.GeneticTreeLabel.adjustSize()
 
     def download_graph(self):
 
@@ -2302,21 +2288,20 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
     ################################################
     def display_phylogeographic_trees(self):
-
         import json
-
         import pandas as pd
-
         from aphylogeo.params import Params
 
         self.stackedWidget.setCurrentIndex(4)
         self.results_dir = "results"
         file_path = os.path.join(self.results_dir, "geneticTrees.json")
+
         with open(file_path, 'r') as file:
             self.phylo_json = json.load(file)
 
         self.tree_keys = list(self.phylo_json.keys())
         self.total_trees = len(self.tree_keys)
+
         self.current_index1 = 0
         self.phyloTreescomboBox.clear()
 
@@ -2330,14 +2315,12 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.render_tree(self.current_index1)
 
     def rename_tree_key(self, tree_key):
-
         parts = tree_key.split('_')
         if len(parts) == 2:
             return f"{parts[0]} nt {parts[1]} nt"
         return tree_key
 
     def display_selected_tree(self, index):
-
         if index >= 0:
             self.render_tree(index)
 
@@ -2353,14 +2336,14 @@ class UiMainWindow(QtWidgets.QMainWindow):
             newick_str = self.phylo_json[key]
 
             tree = toytree.tree(newick_str)
-
             tip_labels = tree.get_tip_labels()
-            custom_tip_labels = ['{}. {}'.format(i[0], i[1:]) for i in tip_labels]
 
             if not hasattr(self, 'climatic_data'):
                 return
 
             selected_column = self.criteriaComboBox.currentText()
+
+            # Match the original labels from the CSV
             ordered_climatic_data = self.climatic_data.set_index('id').reindex(tip_labels).reset_index()
             bar_values = ordered_climatic_data[selected_column].values
 
@@ -2368,12 +2351,14 @@ class UiMainWindow(QtWidgets.QMainWindow):
             bar_values = np.clip(bar_values, a_min=0, a_max=None)
 
             # Create a canvas for the plot
-            canvas = toyplot.Canvas(width=921, height=450)  # Set canvas size to 921x450
+            canvas = toyplot.Canvas(width=921, height=450)
 
             # Add tree to canvas
             ax0 = canvas.cartesian(bounds=(50, 300, 50, 400), ymin=0, ymax=tree.ntips, padding=15)
-            tree.draw(axes=ax0)
-            ax0.show = False  # Hide the tree plot axes
+
+            # Replace underscores with spaces for display purposes only
+            tree.draw(axes=ax0, tip_labels=[label.replace('_', ' ') for label in tip_labels])
+            ax0.show = False
 
             # Add bar plot to canvas
             ax1 = canvas.cartesian(bounds=(325, 900, 50, 400), ymin=0, ymax=tree.ntips, padding=15)
@@ -2399,7 +2384,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.PhyloTreeLabel.adjustSize()
 
     def save_tree_graph(self):
-
         current_key = self.tree_keys[self.current_index1]
         default_file_name = f"{current_key}.png"
 
@@ -2407,9 +2391,11 @@ class UiMainWindow(QtWidgets.QMainWindow):
         options |= QFileDialog.DontUseNativeDialog
         file_path, _ = QFileDialog.getSaveFileName(self, "Save Graph As", default_file_name,
                                                    "PNG Files (*.png);;All Files (*)", options=options)
+
         if file_path:
             if not file_path.lower().endswith('.png'):
                 file_path += '.png'
+
             with open(self.temp_img_path, 'rb') as temp_file:
                 with open(file_path, 'wb') as file:
                     file.write(temp_file.read())
