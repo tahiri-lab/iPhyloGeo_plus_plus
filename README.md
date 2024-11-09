@@ -64,9 +64,9 @@ cd iPhyloGeo_plus_plus
 python3 -m venv iPhyloGeo++_env   # Use only `python` instead of `python3` if it doesn't work
 
 # Linux
-source iPhyloGeo++_env/bin/activate  
+source iPhyloGeo++_env/bin/activate
 
-# Windows 
+# Windows
 iPhyloGeo++_env\Scripts\activate
 ```
 
@@ -75,7 +75,12 @@ iPhyloGeo++_env\Scripts\activate
 pip install -r requirements.txt
 ```
 
-**4. Run the Application**
+**4. Install Dependencies**
+```sh
+pre-commit install
+```
+
+**5. Run the Application**
 ```sh
 python3 main.py
 ```
@@ -100,7 +105,7 @@ To help you, you can go to the <a href="https://github.com/tahiri-lab/iPhyloGeo_
 - Statistics: Generate statistics such as nucleotide frequencies, sequence length distribution, and GC content.
 - Genetic Trees: Construct phylogenetic trees using methods like Neighbor-Joining, Maximum Likelihood, or Bayesian inference. Visualize trees with options for customization (e.g., color-coding branches, annotating clades).
 
-   
+
 ## Loading Climatic Data
 <p align="center"><img src="./img/other/climatic.gif" alt="Climatic demonstration"></p>
 
@@ -110,9 +115,9 @@ To help you, you can go to the <a href="https://github.com/tahiri-lab/iPhyloGeo_
 - Choose your CSV file with climatic information. Supported data formats and required structure should be clarified.
 
 2. **View the Generated Maps, Data Tables, Statistics, and Climatic Trees as Needed:**
-   
+
 - Display and interact with the visual representations of the climatic data, including maps, tables, and statistical summaries.
-   
+
 ## Displaying Results
 <p align="center"><img src="./img/other/results.gif" alt="Results demonstration"></p>
 
@@ -154,7 +159,7 @@ We welcome contributions to iPhyloGeo++. Please follow these steps:
 
 2️⃣ Calculation of distance between phylogenetic tree: **Robinson-Foulds metric**
 + [Robinson, D.F. and Foulds, L.R., 1981. Comparison of phylogenetic trees. Mathematical biosciences, 53(1-2), pp.131-147.](https://www.sciencedirect.com/science/article/abs/pii/0025556481900432?via%3Dihub)
-    
+
 3️⃣ Dataset full description: **Analysis of genetic and climatic data of SARS-CoV-2**
 + [Koshkarov, A., Li, W., Luu, M. L., & Tahiri, N. (2022). Phylogeography: Analysis of genetic and climatic data of SARS-CoV-2.](https://conference.scipy.org/proceedings/scipy2022/nadia_tahiri.html)
 
