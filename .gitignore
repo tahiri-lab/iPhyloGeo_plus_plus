@@ -1,3 +1,12 @@
+# Ignore compiled bytecode files
 scripts/__pycache__/*
+scripts/utils/__pycache__/*
+
+# Ignore virtual environment directory
 .venv
-/scripts/results/*
+iPhyloGeo_env/
+iPhyloGeo++_env/
+iPhyloGeo_plus_plus_env/
+
+# Ignore results directory
+scripts/results/*
