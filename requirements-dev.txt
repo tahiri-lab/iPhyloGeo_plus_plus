@@ -1,0 +1,13 @@
+black==24.10.0
+cfgv==3.4.0
+click==8.1.7
+distlib==0.3.9
+filelock==3.16.1
+identify==2.6.1
+isort==5.13.2
+mypy-extensions==1.0.0
+nodeenv==1.9.1
+pathspec==0.12.1
+pre_commit==4.0.1
+ruff==0.7.3
+virtualenv==20.27.1
