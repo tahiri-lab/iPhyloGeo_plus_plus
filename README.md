@@ -82,7 +82,7 @@ pre-commit install
 
 **5. Run the Application**
 ```sh
-python3 main.py
+python3 scripts/main.py
 ```
 
 # [Usage](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/Discover-the-application)

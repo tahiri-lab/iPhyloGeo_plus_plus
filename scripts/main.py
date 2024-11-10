@@ -1,27 +1,27 @@
 import os
 import sys
+
 import qtmodern.styles
 import qtmodern.windows
-import qtmodern.windows
 import yaml
-from utils.geneticParamsDialog import ParamDialog
-from utils import resources_rc
-from Bio.Align import MultipleSeqAlignment
-from PyQt5 import QtCore, QtGui
-from PyQt5 import QtWidgets, uic
-from PyQt5.QtCore import QThread, Qt
-from PyQt5.QtCore import pyqtSignal, QObject
-from PyQt5.QtGui import QIcon, QColor, QPixmap, QImage
-from PyQt5.QtGui import QMovie
+from PyQt5 import QtCore, QtGui, QtWidgets, uic
+from PyQt5.QtCore import QObject, Qt, QThread, pyqtSignal
+from PyQt5.QtGui import QColor, QIcon, QMovie, QPixmap
 from PyQt5.QtWebEngineWidgets import QWebEngineView
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import (QDialog)
-from PyQt5.QtWidgets import QFileDialog, QGraphicsDropShadowEffect
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
-from PyQt5.QtWidgets import QVBoxLayout
-from aphylogeo.params import Params
+from PyQt5.QtWidgets import (
+    QApplication,
+    QDialog,
+    QFileDialog,
+    QGraphicsDropShadowEffect,
+    QTableWidget,
+    QTableWidgetItem,
+    QVBoxLayout,
+)
 
-Params.load_from_file("utils/params.yaml")
+from aphylogeo.params import Params
+from utils.geneticParamsDialog import ParamDialog
+
+Params.load_from_file("./scripts/utils/params.yaml")
 
 
 class Worker(QObject):
@@ -57,8 +57,8 @@ class Worker(QObject):
         msa = alignments.to_dict().get("msa")
 
         # Step 5: Save results
-        alignments.save_to_json(f"./results/aligned_{Params.reference_gene_file}.json")
-        trees.save_trees_to_json("./results/geneticTrees.json")
+        alignments.save_to_json(f"./scripts/results/aligned_{Params.reference_gene_file}.json")
+        trees.save_trees_to_json("./scripts/results/geneticTrees.json")
 
         # Emit finished signal with the genetic trees dictionary
         result = {"msa": msa, "geneticTrees": geneticTrees}
@@ -68,15 +68,15 @@ class Worker(QObject):
 
 class MyDumper(yaml.Dumper):
     """
-     Custom YAML Dumper to modify the default indentation and list representation behavior.
+    Custom YAML Dumper to modify the default indentation and list representation behavior.
 
-     Methods:
-         increase_indent(flow=False, indentless=False):
-             Increase the indentation level in the YAML output.
+    Methods:
+        increase_indent(flow=False, indentless=False):
+            Increase the indentation level in the YAML output.
 
-         represent_list(data):
-             Represent Python lists in a flow style in the YAML output.
-     """
+        represent_list(data):
+            Represent Python lists in a flow style in the YAML output.
+    """
 
     def increase_indent(self, flow=False, indentless=False):
         """
@@ -101,7 +101,7 @@ class MyDumper(yaml.Dumper):
         Returns:
             The YAML representation of the list in a flow style.
         """
-        return self.represent_sequence('tag:yaml.org,2002:seq', data, flow_style=True)
+        return self.represent_sequence("tag:yaml.org,2002:seq", data, flow_style=True)
 
 
 yaml.add_representer(list, MyDumper.represent_list, Dumper=MyDumper)
@@ -154,10 +154,9 @@ starting_position = 1
 
 
 class UiMainWindow(QtWidgets.QMainWindow):
-
     def useWindow(self):
-
         from scripts.utils.help import UiHowToUse
+
         """
         Initialize and display the 'How to Use' window.
 
@@ -169,8 +168,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.ui.show()
 
     def paramWin(self):
-
-        from scripts.utils.settings import HoverLabel
         from scripts.utils.settings import Settings
 
         """
@@ -183,7 +180,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         Dialog.exec_()
 
     def openClimTree(self):
-
         """
         Initialize and display the climatic tree window.
 
@@ -210,7 +206,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}", "Unexpected Error")
 
     def showErrorDialog(self, message, title="error"):
-
         """
         Display a professional error dialog with the given title and message.
 
@@ -227,13 +222,11 @@ class UiMainWindow(QtWidgets.QMainWindow):
         msgBox.exec_()
 
     def __init__(self):
-
         super(UiMainWindow, self).__init__()
-        uic.loadUi("Qt/main.ui", self)
+        uic.loadUi("scripts/Qt/main.ui", self)
         self.setupUi()
 
     def setupUi(self):
-
         """
         Setup the UI components and initialize the main window.
 
@@ -250,7 +243,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 "label_internal_vertices": False,
                 "use_leaf_names": True,
                 "show_branch_length": False,
-                "view_type": "network"
+                "view_type": "network",
             }
             self.tree_keys = []
             self.total_trees = 0
@@ -303,22 +296,40 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
             self.stackedWidget.setCurrentIndex(0)
 
-            buttons = [self.geneticDataButton, self.climaticDataButton, self.helpButton, self.homeButton,
-                       self.resultsButton]
+            buttons = [
+                self.geneticDataButton,
+                self.climaticDataButton,
+                self.helpButton,
+                self.homeButton,
+                self.resultsButton,
+            ]
             buttons_Vertical = [
-                self.fileBrowserButtonPage1, self.sequenceAlignmentButtonPage1, self.clearButtonPage1,
-                self.statisticsButtonPage1, self.geneticTreeButtonPage1, self.fileBrowserButtonPage2,
-                self.clearButtonPage2, self.climaticTreeButtonPage2, self.statisticsButtonPage2,
-                self.settingsButtonPage3, self.settingsButtonPage4, self.submitButtonPage3,
-                self.statisticsButtonPage3, self.submitButtonPage4, self.statisticsButtonPage4,
-                self.StartSequenceAlignmentButton, self.clearButtonPage3, self.clearButtonPage4
+                self.fileBrowserButtonPage1,
+                self.sequenceAlignmentButtonPage1,
+                self.clearButtonPage1,
+                self.statisticsButtonPage1,
+                self.geneticTreeButtonPage1,
+                self.fileBrowserButtonPage2,
+                self.clearButtonPage2,
+                self.climaticTreeButtonPage2,
+                self.statisticsButtonPage2,
+                self.settingsButtonPage3,
+                self.settingsButtonPage4,
+                self.submitButtonPage3,
+                self.statisticsButtonPage3,
+                self.submitButtonPage4,
+                self.statisticsButtonPage4,
+                self.StartSequenceAlignmentButton,
+                self.clearButtonPage3,
+                self.clearButtonPage4,
             ]
 
             # Define cursor and stylesheet for all buttons
             for button in buttons:
                 button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-                button.setStyleSheet("""
-                    QPushButton { 
+                button.setStyleSheet(
+                    """
+                    QPushButton {
                         padding: 10px 20px;
                         font-weight: bold;
                         background-color: #DEDDDA;
@@ -326,12 +337,13 @@ class UiMainWindow(QtWidgets.QMainWindow):
                         transition: background-color 0.3s ease;
                     }
                     QPushButton:hover {
-                        background-color: #B7B7B6; 
+                        background-color: #B7B7B6;
                     }
                     QPushButton:pressed {
                         background-color: #DEDDDA;
                     }
-                """)
+                """
+                )
                 shadow_effect = QGraphicsDropShadowEffect()
                 shadow_effect.setBlurRadius(10)
                 shadow_effect.setColor(QColor(0, 0, 0, 140))
@@ -340,7 +352,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
             for buttonV in buttons_Vertical:
                 buttonV.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-                buttonV.setStyleSheet("""
+                buttonV.setStyleSheet(
+                    """
                     QPushButton {
                         border-radius: 14px;
                         background-color: #EEEEEE;
@@ -349,12 +362,13 @@ class UiMainWindow(QtWidgets.QMainWindow):
                         transition: background-color 0.3s ease;
                     }
                     QPushButton:hover {
-                        background-color: #D7D7D7; 
+                        background-color: #D7D7D7;
                     }
                     QPushButton:pressed {
                         background-color: #EEEEEE;
                     }
-                """)
+                """
+                )
                 shadow_effect = QGraphicsDropShadowEffect()
                 shadow_effect.setBlurRadius(10)
                 shadow_effect.setColor(QColor(0, 0, 0, 110))
@@ -362,8 +376,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 buttonV.setGraphicsEffect(shadow_effect)
 
             self.darkModeButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-            self.darkModeButton.setStyleSheet("""
-                QPushButton { 
+            self.darkModeButton.setStyleSheet(
+                """
+                QPushButton {
                     padding: 10px 20px;
                     font-weight: bold;
                     background-color: #DEDDDA;
@@ -371,12 +386,13 @@ class UiMainWindow(QtWidgets.QMainWindow):
                     transition: background-color 0.3s ease;
                 }
                 QPushButton:hover {
-                    background-color: #B7B7B6; 
+                    background-color: #B7B7B6;
                 }
                 QPushButton:pressed {
                     background-color: #DEDDDA;
                 }
-            """)
+            """
+            )
             shadow_effect = QGraphicsDropShadowEffect()
             shadow_effect.setBlurRadius(10)
             shadow_effect.setColor(QColor(0, 0, 0, 140))
@@ -388,7 +404,10 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except AttributeError as e:
             self.showErrorDialog(f"An error occurred while setting up the UI: {e}", "Attribute Error")
         except Exception as e:
-            self.showErrorDialog(f"An unexpected error occurred: {e}", "Unexpected Error", )
+            self.showErrorDialog(
+                f"An unexpected error occurred: {e}",
+                "Unexpected Error",
+            )
 
     def clearResults(self):
         self.textEditResults.clear()
@@ -398,10 +417,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
         if dialog.exec_() == QDialog.Accepted:
             self.geneticParam = dialog.params
             for property_name, new_value in self.geneticParam.items():
-                update_yaml_param(Params, "utils/params.yaml", property_name, new_value)
+                update_yaml_param(Params, "scripts/utils/params.yaml", property_name, new_value)
 
     def read_msa(self, msa_data):
-
         """
         Reads multiple sequence alignment (MSA) data and organizes it into a dictionary.
 
@@ -414,17 +432,17 @@ class UiMainWindow(QtWidgets.QMainWindow):
         try:
             genetic_data = {}
             for key, value in msa_data.items():
-                lines = value.strip().split('\n')
+                lines = value.strip().split("\n")
                 current_id = None
                 for line in lines:
-                    if line.startswith('>'):
+                    if line.startswith(">"):
                         current_id = line[1:].strip()
                         if current_id not in genetic_data:
                             genetic_data[current_id] = []
                     else:
                         genetic_data[current_id].append(line.strip())
 
-            genetic_data = {sequence_id: ''.join(sequences) for sequence_id, sequences in genetic_data.items()}
+            genetic_data = {sequence_id: "".join(sequences) for sequence_id, sequences in genetic_data.items()}
             return genetic_data
 
         except KeyError as e:
@@ -433,7 +451,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def standardize_sequence_lengths(self, genetic_data):
-
         """
         Standardizes the lengths of genetic sequences by padding shorter sequences with '-'.
 
@@ -445,7 +462,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         """
         try:
             max_length = max(len(seq) for seq in genetic_data.values())
-            standardized_data = {key: seq.ljust(max_length, '-') for key, seq in genetic_data.items()}
+            standardized_data = {key: seq.ljust(max_length, "-") for key, seq in genetic_data.items()}
             return standardized_data
 
         except ValueError as e:
@@ -454,10 +471,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def plot_alignment_chart(self, genetic_data, starting_position, window_size, output_path):
-
         import matplotlib.patches as mpatches
         import matplotlib.pyplot as plt
-
         from Bio.Align import MultipleSeqAlignment
         from Bio.Seq import Seq
         from Bio.SeqRecord import SeqRecord
@@ -476,16 +491,13 @@ class UiMainWindow(QtWidgets.QMainWindow):
         """
         try:
             # Replace underscores with spaces in the keys of genetic_data
-            genetic_data = {key.replace('_', ' '): value for key, value in genetic_data.items()}
+            genetic_data = {key.replace("_", " "): value for key, value in genetic_data.items()}
 
             end_position = starting_position + window_size
             truncated_data = {key: value[starting_position:end_position] for key, value in genetic_data.items()}
-            alignment = MultipleSeqAlignment([
-                SeqRecord(Seq(seq), id=key)
-                for key, seq in truncated_data.items()
-            ])
+            alignment = MultipleSeqAlignment([SeqRecord(Seq(seq), id=key) for key, seq in truncated_data.items()])
 
-            fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(9, 4), gridspec_kw={'height_ratios': [1, 8]})
+            fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(9, 4), gridspec_kw={"height_ratios": [1, 8]})
             ax1.set_axis_off()
             ax2.set_axis_off()
 
@@ -494,21 +506,27 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
             # Plot conservation
             bar_width = 1.0
-            ax1.bar(range(len(conservation)), conservation, color='#4CAF50', width=bar_width, align='edge')
+            ax1.bar(
+                range(len(conservation)),
+                conservation,
+                color="#4CAF50",
+                width=bar_width,
+                align="edge",
+            )
             ax1.set_xlim(0, len(conservation))
             ax1.set_ylim(0, 1)
-            ax1.set_title('CONSERVATION', fontsize=12, pad=20)
+            ax1.set_title("CONSERVATION", fontsize=12, pad=20)
 
             # Plot alignment
             seqs = [str(record.seq) for record in alignment]
             ids = [record.id for record in alignment]
             colors = {
-                'A': '#4CAF50',
-                'T': '#F44336',
-                'G': '#2196F3',
-                'C': '#FFEB3B',
-                '-': 'grey',
-                'N': 'black'  # Handling 'N' or any other characters if present
+                "A": "#4CAF50",
+                "T": "#F44336",
+                "G": "#2196F3",
+                "C": "#FFEB3B",
+                "-": "grey",
+                "N": "black",  # Handling 'N' or any other characters if present
             }
 
             font_size = 10
@@ -516,25 +534,52 @@ class UiMainWindow(QtWidgets.QMainWindow):
             rect_width = 1.0
 
             for i, seq in enumerate(seqs):
-                ax2.text(-1, len(seqs) - i - 1 + rect_height / 2, ids[i], ha='right', va='center', fontsize=font_size)
+                ax2.text(
+                    -1,
+                    len(seqs) - i - 1 + rect_height / 2,
+                    ids[i],
+                    ha="right",
+                    va="center",
+                    fontsize=font_size,
+                )
                 for j, nucleotide in enumerate(seq):
-                    color = colors.get(nucleotide, 'black')  # Default to black if not found
+                    color = colors.get(nucleotide, "black")  # Default to black if not found
                     rect = mpatches.Rectangle((j, len(seqs) - i - 1), rect_width, rect_height, color=color)
                     ax2.add_patch(rect)
-                    ax2.text(j + rect_width / 2, len(seqs) - i - 1 + rect_height / 2, nucleotide, ha='center',
-                             va='center', fontsize=font_size)
+                    ax2.text(
+                        j + rect_width / 2,
+                        len(seqs) - i - 1 + rect_height / 2,
+                        nucleotide,
+                        ha="center",
+                        va="center",
+                        fontsize=font_size,
+                    )
 
             consensus_seq = self.calculate_consensus(alignment)
             for j, nucleotide in enumerate(consensus_seq):
-                color = colors.get(nucleotide, 'black')  # Default to black if not found
+                color = colors.get(nucleotide, "black")  # Default to black if not found
                 rect = mpatches.Rectangle((j, -1), rect_width, rect_height, color=color)
                 ax2.add_patch(rect)
-                ax2.text(j + rect_width / 2, -1 + rect_height / 2, nucleotide, ha='center', va='center',
-                         fontsize=font_size, fontweight='bold')
+                ax2.text(
+                    j + rect_width / 2,
+                    -1 + rect_height / 2,
+                    nucleotide,
+                    ha="center",
+                    va="center",
+                    fontsize=font_size,
+                    fontweight="bold",
+                )
 
             # Add Consensus title
-            ax2.text(-1, -1 + rect_height / 2, "Consensus", ha='right', va='center', fontsize=font_size,
-                     fontweight='bold')
+            ax2.text(
+                -1,
+                -1 + rect_height / 2,
+                "Consensus",
+                ha="right",
+                va="center",
+                fontsize=font_size,
+                fontweight="bold",
+            )
 
             ax2.set_xlim(0, len(consensus_seq))
             ax2.set_ylim(-2, len(seqs))
@@ -543,7 +588,10 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
             # Ensure number of ticks matches the length of the sequences
             ax2.set_xticks(range(len(consensus_seq)))
-            ax2.set_xticklabels(range(starting_position, starting_position + len(consensus_seq)), fontsize=font_size)
+            ax2.set_xticklabels(
+                range(starting_position, starting_position + len(consensus_seq)),
+                fontsize=font_size,
+            )
 
             plt.subplots_adjust(left=0.2, right=0.95, top=0.95, bottom=0.05)
             plt.savefig(output_path)
@@ -555,7 +603,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def calculate_conservation_and_gaps(self, alignment):
-
         from collections import Counter
 
         """
@@ -579,7 +626,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 counter = Counter(column)
                 most_common = counter.most_common(1)[0][1]
                 conservation.append(most_common / len(column))
-                gaps.append(counter['-'] / len(column))
+                gaps.append(counter["-"] / len(column))
 
             return conservation, gaps
 
@@ -589,7 +636,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def calculate_consensus(self, alignment):
-
         """
         Calculate the consensus sequence for a given multiple sequence alignment.
 
@@ -614,13 +660,12 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 most_common_base = max(counter, key=counter.get)
                 consensus.append(most_common_base)
 
-            return ''.join(consensus)
+            return "".join(consensus)
 
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def update_plot(self):
-
         """
         Update the plot based on the current starting position and window size.
 
@@ -633,7 +678,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         try:
             starting_position = self.starting_position_spinbox_2.value()
             window_size = self.window_size_spinbox_2.value()
-            output_path = "results/sequence_alignment_plot.png"
+            output_path = "scripts/results/sequence_alignment_plot.png"
 
             genetic_data = self.read_msa(self.msa)
             standardized_data = self.standardize_sequence_lengths(genetic_data)
@@ -654,9 +699,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.referenceComboBox.clear()
         unique_species = set()
         for key, value in self.msa.items():
-            parts = value.strip().split('\n')
+            parts = value.strip().split("\n")
             for i in range(0, len(parts), 2):
-                header = parts[i].strip('>').replace('_', ' ')  # Replace underscores with spaces
+                header = parts[i].strip(">").replace("_", " ")  # Replace underscores with spaces
                 unique_species.add(header)
 
         # Add unique species to the combo box
@@ -676,53 +721,52 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.update_similarity_plot()
 
     def update_similarity_plot(self):
+        from collections import defaultdict
+
         import matplotlib.pyplot as plt
         import numpy as np
         import seaborn as sns
         from Bio.Align import MultipleSeqAlignment
         from Bio.Seq import Seq
         from Bio.SeqRecord import SeqRecord
-        from collections import defaultdict
         from matplotlib.ticker import MaxNLocator
 
         try:
             window_size = self.similarityWindowSizeSpinBox.value()
             start_pos = self.startingPositionSimilaritySpinBox.value()
-            reference_species = self.referenceComboBox.currentText().replace(' ',
-                                                                             '_')  # Convert back to original format
+            reference_species = self.referenceComboBox.currentText().replace(" ", "_")  # Convert back to original format
 
             sequences = defaultdict(str)
             for key, value in self.msa.items():
-                parts = value.strip().split('\n')
+                parts = value.strip().split("\n")
                 for i in range(0, len(parts), 2):
-                    header = parts[i].strip('>')
+                    header = parts[i].strip(">")
                     sequence = parts[i + 1]
-                    sequences[header.replace('_', ' ')] += sequence  # Replace underscores with spaces
+                    sequences[header.replace("_", " ")] += sequence  # Replace underscores with spaces
 
-            if reference_species.replace('_', ' ') not in sequences:
+            if reference_species.replace("_", " ") not in sequences:
                 print(f"Reference species {reference_species} not found in MSA data.")
                 return
 
             max_len = max(len(seq) for seq in sequences.values())
             padded_records = []
             for header, sequence in sequences.items():
-                padded_seq = sequence.ljust(max_len, '-')
+                padded_seq = sequence.ljust(max_len, "-")
                 padded_records.append(SeqRecord(Seq(padded_seq), id=header))
 
             alignment = MultipleSeqAlignment(padded_records)
-            reference_index = [record.id for record in alignment].index(reference_species.replace('_', ' '))
+            reference_index = [record.id for record in alignment].index(reference_species.replace("_", " "))
             reference_sequence = str(alignment[reference_index].seq)
             similarities = []
 
             for record in alignment:
-                similarity = [1 if ref == res else 0 for ref, res in
-                              zip(reference_sequence[start_pos:], str(record.seq)[start_pos:])]
+                similarity = [1 if ref == res else 0 for ref, res in zip(reference_sequence[start_pos:], str(record.seq)[start_pos:])]
                 similarities.append(similarity)
 
             similarities = np.array(similarities)
 
             def sliding_window_avg(arr, window_size, step_size):
-                return [np.mean(arr[i:i + window_size]) for i in range(0, len(arr) - window_size + 1, step_size)]
+                return [np.mean(arr[i : i + window_size]) for i in range(0, len(arr) - window_size + 1, step_size)]
 
             step_size = 10  # Adjusted step size for better plotting
 
@@ -739,20 +783,26 @@ class UiMainWindow(QtWidgets.QMainWindow):
             for idx, record in enumerate(alignment):
                 ax.plot(x, windowed_similarities[idx], label=record.id, linewidth=2.0)
 
-            ax.set_xlabel('Position', fontsize=14)
-            ax.set_ylabel('Similarity', fontsize=14)
-            ax.set_title('Sequence Similarity Plot', fontsize=16, weight='bold')
-            ax.legend(title='Species', fontsize=12, title_fontsize='13', loc='upper right', bbox_to_anchor=(1.2, 1))
+            ax.set_xlabel("Position", fontsize=14)
+            ax.set_ylabel("Similarity", fontsize=14)
+            ax.set_title("Sequence Similarity Plot", fontsize=16, weight="bold")
+            ax.legend(
+                title="Species",
+                fontsize=12,
+                title_fontsize="13",
+                loc="upper right",
+                bbox_to_anchor=(1.2, 1),
+            )
             ax.xaxis.set_major_locator(MaxNLocator(integer=True))
-            ax.grid(True, linestyle='--', alpha=0.6)
+            ax.grid(True, linestyle="--", alpha=0.6)
 
-            ax.spines['top'].set_visible(False)
-            ax.spines['right'].set_visible(False)
-            ax.spines['left'].set_linewidth(1.2)
-            ax.spines['bottom'].set_linewidth(1.2)
+            ax.spines["top"].set_visible(False)
+            ax.spines["right"].set_visible(False)
+            ax.spines["left"].set_linewidth(1.2)
+            ax.spines["bottom"].set_linewidth(1.2)
 
-            self.plot_path = './results/similarity_plot.png'
-            fig.savefig(self.plot_path, bbox_inches='tight', dpi=300)
+            self.plot_path = "./scripts/results/similarity_plot.png"
+            fig.savefig(self.plot_path, bbox_inches="tight", dpi=300)
 
             pixmap = QPixmap(self.plot_path)
             self.textEditGenStats_2.setPixmap(pixmap)
@@ -763,17 +813,15 @@ class UiMainWindow(QtWidgets.QMainWindow):
             print(f"Error updating similarity plot: {e}")
 
     def download_plot_similarity(self):
-
         import shutil
 
-        file_url = "results/similarity_plot.png"  # The file path
+        file_url = "scripts/results/similarity_plot.png"  # The file path
         save_path, _ = QFileDialog.getSaveFileName(self, "Save File", "", "PNG Files (*.png);;All Files (*)")
         if not save_path:
             return  # User cancelled th
         shutil.copy(file_url, save_path)  # e save dialog
 
     def load_data_climate(self):
-
         import pandas as pd
 
         from aphylogeo.params import Params
@@ -802,11 +850,11 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.tabWidget2.setCurrentIndex(2)
 
     def generate_graph(self):
+        import os
 
         import matplotlib.pyplot as plt
         import pandas as pd
         import seaborn as sns
-        import os
 
         """
         Generate and display a graph based on the selected X and Y axis data and the chosen plot type.
@@ -835,44 +883,67 @@ class UiMainWindow(QtWidgets.QMainWindow):
         first_column_name = self.data.columns[0]
 
         # Replace underscores with spaces in the first column's data
-        self.data[first_column_name] = self.data[first_column_name].str.replace('_', ' ')
+        self.data[first_column_name] = self.data[first_column_name].str.replace("_", " ")
 
         # Round function for better readability
         def round_numbers(val, digits=3):
             return round(val, digits)
 
-        if plot_type == 'Bar Graph':
-            self.data.plot(kind='bar', x=x_data, y=y_data, ax=ax)
+        if plot_type == "Bar Graph":
+            self.data.plot(kind="bar", x=x_data, y=y_data, ax=ax)
             # Add first column values as labels
             for i, txt in enumerate(self.data[first_column_name]):
-                ax.text(i, round_numbers(self.data[y_data][i]), txt, ha='center', va='bottom')
-        elif plot_type == 'Scatter Plot':
-            self.data.plot(kind='scatter', x=x_data, y=y_data, ax=ax)
+                ax.text(
+                    i,
+                    round_numbers(self.data[y_data][i]),
+                    txt,
+                    ha="center",
+                    va="bottom",
+                )
+        elif plot_type == "Scatter Plot":
+            self.data.plot(kind="scatter", x=x_data, y=y_data, ax=ax)
             # Add first column values as labels
             for i, txt in enumerate(self.data[first_column_name]):
-                ax.annotate(txt, (round_numbers(self.data[x_data][i]), round_numbers(self.data[y_data][i])))
-        elif plot_type == 'Line Plot':
-            self.data.plot(kind='line', x=x_data, y=y_data, ax=ax)
+                ax.annotate(
+                    txt,
+                    (
+                        round_numbers(self.data[x_data][i]),
+                        round_numbers(self.data[y_data][i]),
+                    ),
+                )
+        elif plot_type == "Line Plot":
+            self.data.plot(kind="line", x=x_data, y=y_data, ax=ax)
             # Add first column values as labels
             for i, txt in enumerate(self.data[first_column_name]):
-                ax.text(i, round_numbers(self.data[y_data][i]), txt, ha='center', va='bottom')
-        elif plot_type == 'Pie Plot':
-            self.data.set_index(x_data).plot(kind='pie', y=y_data, labels=self.data[first_column_name], ax=ax,
-                                             legend=False)
-        elif plot_type == 'Violin Plot':
+                ax.text(
+                    i,
+                    round_numbers(self.data[y_data][i]),
+                    txt,
+                    ha="center",
+                    va="bottom",
+                )
+        elif plot_type == "Pie Plot":
+            self.data.set_index(x_data).plot(
+                kind="pie",
+                y=y_data,
+                labels=self.data[first_column_name],
+                ax=ax,
+                legend=False,
+            )
+        elif plot_type == "Violin Plot":
             if pd.api.types.is_numeric_dtype(self.data[x_data]):
                 # Bin the data and use midpoints for readability
-                self.data['x_binned'] = pd.cut(self.data[x_data], bins=10)
-                self.data['x_binned_mid'] = self.data['x_binned'].apply(lambda x: x.mid).astype(float)
-                self.data['x_binned_mid'] = self.data['x_binned_mid'].round(1).astype(str)  # Round to 1 decimal place
-                sns.violinplot(x='x_binned_mid', y=y_data, data=self.data, ax=ax)
+                self.data["x_binned"] = pd.cut(self.data[x_data], bins=10)
+                self.data["x_binned_mid"] = self.data["x_binned"].apply(lambda x: x.mid).astype(float)
+                self.data["x_binned_mid"] = self.data["x_binned_mid"].round(1).astype(str)  # Round to 1 decimal place
+                sns.violinplot(x="x_binned_mid", y=y_data, data=self.data, ax=ax)
                 ax.set_xlabel(x_data)  # Set the X-axis label
             else:
                 sns.violinplot(x=x_data, y=y_data, data=self.data, ax=ax)
                 ax.set_xlabel(x_data)  # Set the X-axis label
 
-        plot_path = os.path.join('results', f'{plot_type.lower().replace(" ", "_")}.png')
-        os.makedirs('results', exist_ok=True)
+        plot_path = os.path.join("scripts", "results", f'{plot_type.lower().replace(" ", "_")}.png')
+        os.makedirs("scripts/results", exist_ok=True)
         plt.savefig(plot_path)
         plt.close(fig)
 
@@ -882,7 +953,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.tabWidget2.setCurrentIndex(2)
 
     def download_plot_climate(self):
-
         import shutil
 
         """
@@ -898,7 +968,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog("Please generate a plot first.")
             return
 
-        plot_path = os.path.join('results', f'{plot_type.lower().replace(" ", "_")}.png')
+        plot_path = os.path.join("results", f'{plot_type.lower().replace(" ", "_")}.png')
         if not os.path.exists(plot_path):
             self.showErrorDialog("No plot found to download.")
             return
@@ -906,15 +976,21 @@ class UiMainWindow(QtWidgets.QMainWindow):
         # Prompt the user to select a location to save the plot
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        file_path, _ = QFileDialog.getSaveFileName(self, "Save Plot As", os.path.basename(plot_path),
-                                                   "PNG Files (*.png);;All Files (*)", options=options)
+        file_path, _ = QFileDialog.getSaveFileName(
+            self,
+            "Save Plot As",
+            os.path.basename(plot_path),
+            "PNG Files (*.png);;All Files (*)",
+            options=options,
+        )
         if file_path:
-            if not file_path.lower().endswith('.png'):
-                file_path += '.png'
+            if not file_path.lower().endswith(".png"):
+                file_path += ".png"
             shutil.copy(plot_path, file_path)
 
     def pressItFasta(self):
         from aphylogeo.params import Params
+
         """
         Open a dialog to select a FASTA file, update parameters, and display the content with color-coded sequences.
 
@@ -932,37 +1008,51 @@ class UiMainWindow(QtWidgets.QMainWindow):
         try:
             options = QFileDialog.Options()
             options |= QFileDialog.ReadOnly
-            fullFileName, _ = QFileDialog.getOpenFileName(None, "Select FASTA file", "../datasets",
-                                                          "FASTA Files (*.fasta);;All Files (*)",
-                                                          options=options)
+            fullFileName, _ = QFileDialog.getOpenFileName(
+                None,
+                "Select FASTA file",
+                "../datasets",
+                "FASTA Files (*.fasta);;All Files (*)",
+                options=options,
+            )
             if fullFileName:
-                update_yaml_param(Params, "utils/params.yaml", "reference_gene_file", os.path.basename(fullFileName))
-                update_yaml_param(Params, "utils/params.yaml", "reference_gene_dir", os.path.dirname(fullFileName))
+                update_yaml_param(
+                    Params,
+                    "scripts/utils/params.yaml",
+                    "reference_gene_file",
+                    os.path.basename(fullFileName),
+                )
+                update_yaml_param(
+                    Params,
+                    "scripts/utils/params.yaml",
+                    "reference_gene_dir",
+                    os.path.dirname(fullFileName),
+                )
 
                 with open(fullFileName, "r") as f:
                     self.clearGen()
                     content = f.read()
                     sequence = ""
                     for line in content.splitlines():
-                        if line.startswith('>'):
-                            species_title = line[1:].replace('_', ' ')  # Replace underscores with whitespace
+                        if line.startswith(">"):
+                            species_title = line[1:].replace("_", " ")  # Replace underscores with whitespace
                             line = f'<span style="color: darkgreen; font-size: 24px;">{species_title}</span>'
                             sequence += "<br>" + line + "<br>"
                         else:
                             nucleotide_colors = {
-                                'A': 'green',
-                                'C': 'blue',
-                                'G': 'red',
-                                'T': 'black'
+                                "A": "green",
+                                "C": "blue",
+                                "G": "red",
+                                "T": "black",
                             }
-                            colored_line = ''
+                            colored_line = ""
                             for char in line:
-                                color = nucleotide_colors.get(char, '')
+                                color = nucleotide_colors.get(char, "")
                                 if color:
                                     colored_line += f'<span style="color: {color}; font-size: 20px;">{char}</span>'
                                 else:
                                     colored_line += char
-                            sequence += colored_line + ' '
+                            sequence += colored_line + " "
 
                     self.textEditFasta.setHtml(
                         f"<div style='background-color: #ffffff; color: #000000; padding: 10px; white-space: pre-wrap; word-wrap: break-word;'>{sequence}</div>"
@@ -976,9 +1066,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def SeqAlign(self):
-
-        from aphylogeo.params import Params
-
         """
         Perform sequence alignment and store the resulting genetic tree dictionary.
 
@@ -989,7 +1076,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.geneticTreeDict = self.callSeqAlign()
 
     def callSeqAlign(self):
-
         from aphylogeo.params import Params
 
         """
@@ -1031,7 +1117,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             loading_screen.close()
             self.showErrorDialog(f"An unexpected error occurred: {error_message}")
 
-        loading_screen = uic.loadUi("Qt/loading.ui")
+        loading_screen = uic.loadUi("scripts/Qt/loading.ui")
         loading_screen.setWindowFlags(Qt.FramelessWindowHint)  # Remove the title bar and frame
 
         loading_screen.setWindowModality(Qt.ApplicationModal)
@@ -1073,7 +1159,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         return self.geneticTrees
 
     def update_climate_chart(self):
-
         import matplotlib.pyplot as plt
         import pandas as pd
 
@@ -1094,35 +1179,35 @@ class UiMainWindow(QtWidgets.QMainWindow):
             condition = self.ClimStatsListCondition.currentText()
             chart_type = self.ClimStatsListChart.currentText()
 
-            if condition == 'Temperature':
-                values = data['T2M']
-            elif condition == 'Wind':
-                values = data['WS10M']
-            elif condition == 'Humidity':
-                values = data['QV2M']
-            elif condition == 'Altitude':
-                values = data['ALLSKY_SFC_SW_DWN']  # Assuming altitude is represented by this column
+            if condition == "Temperature":
+                values = data["T2M"]
+            elif condition == "Wind":
+                values = data["WS10M"]
+            elif condition == "Humidity":
+                values = data["QV2M"]
+            elif condition == "Altitude":
+                values = data["ALLSKY_SFC_SW_DWN"]  # Assuming altitude is represented by this column
             else:
                 raise ValueError(f"Unknown condition: {condition}")
 
             plt.figure(figsize=(9.11, 3.91))
 
-            if chart_type == 'Bar Chart':
-                values.plot(kind='bar')
-            elif chart_type == 'Line Chart':
-                values.plot(kind='line')
-            elif chart_type == 'Pie Chart':
-                values.value_counts().plot(kind='pie')
-            elif chart_type == 'Area Chart':
-                values.plot(kind='area')
-            elif chart_type == 'Scatter Chart':
+            if chart_type == "Bar Chart":
+                values.plot(kind="bar")
+            elif chart_type == "Line Chart":
+                values.plot(kind="line")
+            elif chart_type == "Pie Chart":
+                values.value_counts().plot(kind="pie")
+            elif chart_type == "Area Chart":
+                values.plot(kind="area")
+            elif chart_type == "Scatter Chart":
                 plt.scatter(data.index, values)
             else:
                 raise ValueError(f"Unknown chart type: {chart_type}")
 
-            plt.title(f'{condition} - {chart_type}')
-            plt.savefig('chart.png')
-            pixmap = QPixmap('chart.png')
+            plt.title(f"{condition} - {chart_type}")
+            plt.savefig("chart.png")
+            pixmap = QPixmap("chart.png")
             self.ClimaticChart.setPixmap(pixmap)
             self.tabWidget2.setCurrentIndex(2)
 
@@ -1138,7 +1223,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def retrieveDataNames(self, data_list):
-
         """
         Retrieve data from a list, excluding the first element.
 
@@ -1158,7 +1242,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def capture_image(self):
-
         """
         Capture the image from the QWebEngineView and process it for display.
 
@@ -1174,7 +1257,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred while capturing the image: {e}")
 
     def display_image(self, image):
-
         """
         Display the captured image in a QLabel or any other suitable widget.
 
@@ -1194,8 +1276,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
     def pressItCSV(self):
         from decimal import Decimal
+
         import pandas as pd
-        import re  # Import regular expressions module
 
         from aphylogeo import utils
         from aphylogeo.params import Params
@@ -1204,7 +1286,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             try:
                 Decimal(value)
                 return True
-            except:
+            except Exception:
                 return False
 
         def create_sleek_table(df):
@@ -1213,9 +1295,10 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
             num_rows, num_columns = df.shape
             table_widget = QTableWidget(num_rows, num_columns)
-            table_widget.setStyleSheet("""
-                QTableWidget { 
-                    background-color: #f2f2f2; 
+            table_widget.setStyleSheet(
+                """
+                QTableWidget {
+                    background-color: #f2f2f2;
                     border: 1px solid #ddd;
                 }
                 QHeaderView::section {
@@ -1229,7 +1312,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
                     border: none;
                     padding: 5px;
                 }
-            """)
+            """
+            )
             table_widget.horizontalHeader().setStretchLastSection(True)
             table_widget.verticalHeader().setVisible(False)
             table_widget.horizontalHeader().setVisible(True)
@@ -1257,12 +1341,16 @@ class UiMainWindow(QtWidgets.QMainWindow):
         try:
             options = QFileDialog.Options()
             options |= QFileDialog.ReadOnly
-            fullFilePath, _ = QFileDialog.getOpenFileName(None, "Select CSV file", "../datasets",
-                                                          "Comma Separated Values (*.csv)",
-                                                          options=options)
+            fullFilePath, _ = QFileDialog.getOpenFileName(
+                None,
+                "Select CSV file",
+                "../datasets",
+                "Comma Separated Values (*.csv)",
+                options=options,
+            )
 
             if fullFilePath:
-                update_yaml_param(Params, "utils/params.yaml", "file_name", fullFilePath)
+                update_yaml_param(Params, "scripts/utils/params.yaml", "file_name", fullFilePath)
                 self.statisticsButtonPage2.setEnabled(True)
                 df = pd.read_csv(fullFilePath)
                 columns = df.columns.tolist()
@@ -1277,13 +1365,13 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 long = df[longitude_col].tolist()
 
                 # Replace underscores with spaces in species names (first column)
-                df[columns[0]] = df[columns[0]].str.replace('_', ' ')
+                df[columns[0]] = df[columns[0]].str.replace("_", " ")
 
                 self.species = df[columns[0]].tolist()
                 self.factors = df.drop(columns=[longitude_col, latitude_col]).values.tolist()
                 clim_data_names = self.retrieveDataNames(columns)
-                update_yaml_param(Params, "utils/params.yaml", "names", columns)
-                update_yaml_param(Params, "utils/params.yaml", "data_names", clim_data_names)
+                update_yaml_param(Params, "scripts/utils/params.yaml", "names", columns)
+                update_yaml_param(Params, "scripts/utils/params.yaml", "data_names", clim_data_names)
 
                 self.textEditClimData.clear()
                 sleek_table = create_sleek_table(df)
@@ -1312,12 +1400,12 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def populateMap(self, lat, long):
-        from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QVBoxLayout, QVBoxLayout, QLabel, \
-            QScrollArea, QTextBrowser, QVBoxLayout, QVBoxLayout, QVBoxLayout
-        from PyQt5.QtWebEngineWidgets import QWebEngineView
-        from PyQt5.QtCore import Qt
         import io
+
         import folium
+        from PyQt5.QtWebEngineWidgets import QWebEngineView
+        from PyQt5.QtWidgets import QVBoxLayout
+
         """
         Create and display a folium map with given latitude and longitude.
 
@@ -1338,9 +1426,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             mean_lat = sum(lat) / len(lat)
             mean_long = sum(long) / len(long)
 
-            m = folium.Map(location=[mean_lat, mean_long],
-                           zoom_start=4,  # Adjusted zoom level for better visibility
-                           tiles="OpenStreetMap")
+            m = folium.Map(location=[mean_lat, mean_long], zoom_start=4, tiles="OpenStreetMap")  # Adjusted zoom level for better visibility
 
             # Add markers to the map
             for latitude, longitude in zip(lat, long):
@@ -1364,7 +1450,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def showHomePage(self):
-
         """
         Display the home page of the application.
 
@@ -1381,7 +1466,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def showGenDatPage(self):
-
         """
         Display the genetic data page of the application.
 
@@ -1399,7 +1483,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def showClimDatPage(self):
-
         """
         Display the climatic data page of the application.
 
@@ -1417,7 +1500,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def showResultsPage(self):
-
         """
         Display the results page of the application.
 
@@ -1433,7 +1515,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def showSequencePage(self):
-
         """
         Display the sequence alignment page.
 
@@ -1447,8 +1528,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def showFilteredResults(self):
-
         import pandas as pd
+
         from aphylogeo import utils
         from aphylogeo.params import Params
 
@@ -1466,8 +1547,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         df = pd.read_csv(Params.file_name)
         utils.filterResults(self.climaticTrees, self.geneticTreeDict, df)
-        df_results = pd.read_csv("./results/output.csv")
-        df_results['Name of species'] = df_results['Name of species'].str.replace('_', ' ')
+        df_results = pd.read_csv("./scripts/results/output.csv")
+        df_results["Name of species"] = df_results["Name of species"].str.replace("_", " ")
         # Replace the first column values with Params.file_name just before visualization
         df_results.iloc[:, 0] = Params.reference_gene_file
 
@@ -1529,7 +1610,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         layout.addWidget(web_engine_view)
 
     def toggleDarkMode(self):
-
         """
         Toggle the application's dark mode setting.
 
@@ -1545,17 +1625,33 @@ class UiMainWindow(QtWidgets.QMainWindow):
         """
         try:
             self.isDarkMode = not self.isDarkMode
-            buttons_Vertical = [self.fileBrowserButtonPage1, self.sequenceAlignmentButtonPage1,
-                                self.clearButtonPage1, self.statisticsButtonPage1, self.geneticTreeButtonPage1,
-                                self.fileBrowserButtonPage2, self.clearButtonPage2,
-                                self.climaticTreeButtonPage2, self.statisticsButtonPage2,
-                                self.settingsButtonPage3, self.settingsButtonPage4,
-                                self.submitButtonPage3, self.statisticsButtonPage3,
-                                self.submitButtonPage4, self.statisticsButtonPage4,
-                                self.clearButtonPage3, self.StartSequenceAlignmentButton,
-                                self.clearButtonPage4]
-            buttons = [self.geneticDataButton, self.climaticDataButton, self.helpButton, self.homeButton,
-                       self.resultsButton]
+            buttons_Vertical = [
+                self.fileBrowserButtonPage1,
+                self.sequenceAlignmentButtonPage1,
+                self.clearButtonPage1,
+                self.statisticsButtonPage1,
+                self.geneticTreeButtonPage1,
+                self.fileBrowserButtonPage2,
+                self.clearButtonPage2,
+                self.climaticTreeButtonPage2,
+                self.statisticsButtonPage2,
+                self.settingsButtonPage3,
+                self.settingsButtonPage4,
+                self.submitButtonPage3,
+                self.statisticsButtonPage3,
+                self.submitButtonPage4,
+                self.statisticsButtonPage4,
+                self.clearButtonPage3,
+                self.StartSequenceAlignmentButton,
+                self.clearButtonPage4,
+            ]
+            buttons = [
+                self.geneticDataButton,
+                self.climaticDataButton,
+                self.helpButton,
+                self.homeButton,
+                self.resultsButton,
+            ]
 
             if self.isDarkMode:
                 qtmodern.styles.dark(app)
@@ -1585,7 +1681,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def getButtonStyle(self, darkMode, isMainButton=False, isVertical=False):
-
         """
         Generate the appropriate style for buttons based on the mode (dark/light) and type (main/vertical).
 
@@ -1613,7 +1708,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 transition: background-color 0.3s ease; /* Add transition */
             }}
             QPushButton:hover {{
-                background-color: {hover_color}; 
+                background-color: {hover_color};
             }}
             QPushButton:pressed {{
                 background-color: {background_color};
@@ -1621,7 +1716,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         """
 
     def createShadowEffect(self, blur_radius, alpha):
-
         """
         Create a shadow effect for the buttons.
 
@@ -1640,7 +1734,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
     # press the button to delete data
     def clearGen(self):
-
         """
         Clear the genetic data fields.
 
@@ -1661,7 +1754,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def clearClim(self):
-
         """
         Clear the text fields related to climatic data.
 
@@ -1676,7 +1768,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}", "Error")
 
     def clearResult(self):
-
         """
         Clear the text fields related to climatic data.
 
@@ -1694,7 +1785,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}", "Error")
 
     def clearResultStat(self):
-
         """
         Clear the statistics result lists.
 
@@ -1707,7 +1797,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}", "Error")
 
     def display_newick_trees(self):
-
         import json
 
         """
@@ -1717,15 +1806,15 @@ class UiMainWindow(QtWidgets.QMainWindow):
         and updates the UI to display the trees using Toytree.
 
         Actions:
-            - Loads Newick format trees from 'results/geneticTrees.json'.
+            - Loads Newick format trees from 'scripts/results/geneticTrees.json'.
             - Formats the tree names by replacing underscores with ' nt '.
             - Updates the tree combo box with formatted tree names.
             - Displays the first tree in the list.
         """
 
         self.tabWidget.setCurrentIndex(4)
-        file_path = "results/geneticTrees.json"
-        with open(file_path, 'r') as file:
+        file_path = "scripts/results/geneticTrees.json"
+        with open(file_path, "r") as file:
             self.newick_json = json.load(file)
 
         self.tree_keys = list(self.newick_json.keys())
@@ -1739,9 +1828,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         self.show_tree(self.current_index)
 
-
     def format_tree_name(self, tree_name):
-
         """
         Format the tree name by replacing underscores with ' nt '.
 
@@ -1751,14 +1838,12 @@ class UiMainWindow(QtWidgets.QMainWindow):
         Returns:
             str: The formatted tree name.
         """
-        parts = tree_name.split('_')
+        parts = tree_name.split("_")
         if len(parts) == 2:
             return f"{parts[0]} nt {parts[1]} nt"
         return tree_name
 
-
     def show_selected_tree(self, index):
-
         """
         Display the selected tree based on the provided index.
 
@@ -1772,7 +1857,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.show_tree(index)
 
     def show_tree(self, index):
-
         import toyplot.png
         import toytree
 
@@ -1796,7 +1880,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             # Replace underscores with spaces in tip labels
             for node in tree.treenode.traverse():
                 if node.is_leaf():
-                    node.name = node.name.replace('_', ' ')  # Replace underscores with spaces
+                    node.name = node.name.replace("_", " ")  # Replace underscores with spaces
 
             # Customize the tip labels and their style
             tip_labels = tree.get_tip_labels()
@@ -1808,7 +1892,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 tip_labels=tip_labels,  # These labels now have spaces
                 tip_labels_style={"font-size": "15px"},
                 fixed_order=tip_labels,
-                edge_type='c'
+                edge_type="c",
             )
 
             # Adjust the canvas size to ensure it fits within the specified dimensions
@@ -1817,7 +1901,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             tree.draw(axes=ax)
 
             # Save the canvas to a permanent file in the .results/ directory
-            self.tree_img_path = os.path.join('results', f"{key}.png")
+            self.tree_img_path = os.path.join("results", f"{key}.png")
             os.makedirs(os.path.dirname(self.tree_img_path), exist_ok=True)
             toyplot.png.render(canvas, self.tree_img_path)
 
@@ -1830,7 +1914,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.GeneticTreeLabel.adjustSize()
 
     def download_graph(self):
-
         import shutil
 
         """
@@ -1848,11 +1931,16 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
             options = QFileDialog.Options()
             options |= QFileDialog.DontUseNativeDialog
-            file_path, _ = QFileDialog.getSaveFileName(self, "Save Tree Image As", default_file_name,
-                                                       "PNG Files (*.png);;All Files (*)", options=options)
+            file_path, _ = QFileDialog.getSaveFileName(
+                self,
+                "Save Tree Image As",
+                default_file_name,
+                "PNG Files (*.png);;All Files (*)",
+                options=options,
+            )
             if file_path:
-                if not file_path.lower().endswith('.png'):
-                    file_path += '.png'
+                if not file_path.lower().endswith(".png"):
+                    file_path += ".png"
                 shutil.copy(self.tree_img_path, file_path)
         except FileNotFoundError as e:
             self.showErrorDialog(f"The tree image file was not found: {e}", "File Not Found")
@@ -1860,8 +1948,10 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred while downloading the tree image: {e}")
 
     def open_preferences_dialog(self):
+        from utils.PreferencesDialog import (  # Import PreferencesDialog
+            PreferencesDialog,
+        )
 
-        from utils.PreferencesDialog import PreferencesDialog  # Import PreferencesDialog
         """
         Open the preferences dialog and update the application settings based on user input.
 
@@ -1880,7 +1970,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred while opening the preferences dialog: {e}")
 
     def apply_preferences(self):
-
         """
         Apply the updated preferences to the current plot.
 
@@ -1895,7 +1984,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred while applying preferences: {e}")
 
     def displayClimaticTrees(self):
-
         """
         Display the climatic trees in the application.
 
@@ -1915,12 +2003,14 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.show_climatic_tree(self.current_index)
             self.tabWidget2.setCurrentIndex(3)
         except KeyError as e:
-            self.showErrorDialog(f"An error occurred while accessing the climatic trees: {e}", "Key Error")
+            self.showErrorDialog(
+                f"An error occurred while accessing the climatic trees: {e}",
+                "Key Error",
+            )
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def show_selected_climatic_tree(self, index):
-
         """
         Display the selected climatic tree based on the provided index.
 
@@ -1934,11 +2024,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
             if index >= 0:
                 self.show_climatic_tree(index)
         except Exception as e:
-            self.showErrorDialog(
-                f"An unexpected error occurred while displaying the selected climatic tree: {e}")
+            self.showErrorDialog(f"An unexpected error occurred while displaying the selected climatic tree: {e}")
 
     def show_climatic_tree(self, index):
-
         """
         Display the climatic tree at the specified index.
 
@@ -1969,24 +2057,51 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 view_type = preferences.get("view_type", "network")
 
                 if view_type == "network":
-                    self.render_network_view(tree, label_color, edge_color, reticulation_color, layout,
-                                             proportional_edge_lengths, label_internal_vertices, use_leaf_names,
-                                             show_branch_length)
+                    self.render_network_view(
+                        tree,
+                        label_color,
+                        edge_color,
+                        reticulation_color,
+                        layout,
+                        proportional_edge_lengths,
+                        label_internal_vertices,
+                        use_leaf_names,
+                        show_branch_length,
+                    )
                 else:
-                    self.render_tree_view(tree, label_color, edge_color, reticulation_color, layout,
-                                          proportional_edge_lengths, label_internal_vertices, use_leaf_names,
-                                          show_branch_length)
+                    self.render_tree_view(
+                        tree,
+                        label_color,
+                        edge_color,
+                        reticulation_color,
+                        layout,
+                        proportional_edge_lengths,
+                        label_internal_vertices,
+                        use_leaf_names,
+                        show_branch_length,
+                    )
         except KeyError as e:
-            self.showErrorDialog(f"An error occurred while accessing the climatic tree data: {e}", "Key Error")
+            self.showErrorDialog(
+                f"An error occurred while accessing the climatic tree data: {e}",
+                "Key Error",
+            )
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
-    def render_network_view(self, tree, label_color, edge_color, reticulation_color, layout, proportional_edge_lengths,
-                            label_internal_vertices, use_leaf_names, show_branch_length):
-
+    def render_network_view(
+        self,
+        tree,
+        label_color,
+        edge_color,
+        reticulation_color,
+        layout,
+        proportional_edge_lengths,
+        label_internal_vertices,
+        use_leaf_names,
+        show_branch_length,
+    ):
         import plotly.graph_objs as go
         import plotly.io as pio
-
         import seaborn as sns
         from Bio import Phylo
 
@@ -2038,10 +2153,10 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 showlegend=False,
                 xaxis=dict(showgrid=False, zeroline=False, visible=False),
                 yaxis=dict(showgrid=False, zeroline=False, visible=False),
-                plot_bgcolor='rgba(0,0,0,0)',
-                paper_bgcolor='rgba(0,0,0,0)',
+                plot_bgcolor="rgba(0,0,0,0)",
+                paper_bgcolor="rgba(0,0,0,0)",
                 width=911,
-                height=441
+                height=441,
             )
 
             # Add edge annotations for branch lengths
@@ -2060,11 +2175,19 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred while rendering the network view: {e}")
 
-    def render_tree_view(self, tree, label_color, edge_color, reticulation_color, layout, proportional_edge_lengths,
-                         label_internal_vertices, use_leaf_names, show_branch_length):
-
+    def render_tree_view(
+        self,
+        tree,
+        label_color,
+        edge_color,
+        reticulation_color,
+        layout,
+        proportional_edge_lengths,
+        label_internal_vertices,
+        use_leaf_names,
+        show_branch_length,
+    ):
         import matplotlib.pyplot as plt
-
         from Bio import Phylo
 
         """
@@ -2107,12 +2230,17 @@ class UiMainWindow(QtWidgets.QMainWindow):
             # Draw the tree using Matplotlib
             def label_func(clade):
                 label = clade.name if use_leaf_names and clade.is_terminal() else ""
-                return f'{label}\n{clade.branch_length:.2f}' if show_branch_length and label else label
+                return f"{label}\n{clade.branch_length:.2f}" if show_branch_length and label else label
 
-            Phylo.draw(tree, do_show=False, axes=ax, label_func=label_func,
-                       label_colors={clade: label_color for clade in tree.find_clades()})
+            Phylo.draw(
+                tree,
+                do_show=False,
+                axes=ax,
+                label_func=label_func,
+                label_colors={clade: label_color for clade in tree.find_clades()},
+            )
 
-            ax.axis('off')  # Remove axes
+            ax.axis("off")  # Remove axes
 
             results_dir = "results"
             os.makedirs(results_dir, exist_ok=True)
@@ -2128,7 +2256,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred while rendering the tree view: {e}")
 
     def create_node_trace(self, graph, pos, label_color, use_leaf_names):
-
         import plotly.graph_objs as go
 
         """
@@ -2148,30 +2275,31 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 x=[],
                 y=[],
                 text=[],
-                mode='markers+text' if use_leaf_names else 'markers',
+                mode="markers+text" if use_leaf_names else "markers",
                 textposition="top center",
-                hoverinfo='text',
+                hoverinfo="text",
                 marker=dict(
                     showscale=False,  # Disable color scale
-                    colorscale='Viridis',  # Use a valid Plotly colorscale
+                    colorscale="Viridis",  # Use a valid Plotly colorscale
                     size=10,
                     line_width=2,
-                    color=label_color))
+                    color=label_color,
+                ),
+            )
 
             for node in graph.nodes():
                 x, y = pos[node]
-                node_trace['x'] += (x,)
-                node_trace['y'] += (y,)
+                node_trace["x"] += (x,)
+                node_trace["y"] += (y,)
                 if use_leaf_names:
-                    name = node.name if hasattr(node, 'name') and node.name else ''
-                    node_trace['text'] += (name,)
+                    name = node.name if hasattr(node, "name") and node.name else ""
+                    node_trace["text"] += (name,)
 
             return node_trace
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred while creating the node trace: {e}")
 
     def get_layout(self, graph, layout):
-
         import networkx as nx
 
         """
@@ -2199,7 +2327,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred while getting the layout: {e}")
 
     def create_edge_trace(self, tree, pos, edge_color, show_branch_length):
-
         import plotly.graph_objs as go
 
         """
@@ -2219,8 +2346,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 x=[],
                 y=[],
                 line=dict(width=2, color=edge_color),
-                hoverinfo='none',
-                mode='lines'
+                hoverinfo="none",
+                mode="lines",
             )
             edge_annotations = []
 
@@ -2230,8 +2357,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 for child in clade.clades:
                     x0, y0 = pos[clade]
                     x1, y1 = pos[child]
-                    edge_trace['x'] += (x0, x1, None)
-                    edge_trace['y'] += (y0, y1, None)
+                    edge_trace["x"] += (x0, x1, None)
+                    edge_trace["y"] += (y0, y1, None)
 
                     if show_branch_length:
                         mid_x = (x0 + x1) / 2
@@ -2245,7 +2372,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
                                 showarrow=False,
                                 xanchor="center",
                                 yanchor="middle",
-                                font=dict(color=edge_color)
+                                font=dict(color=edge_color),
                             )
                         )
             return edge_trace, edge_annotations
@@ -2253,7 +2380,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred while creating the edge trace: {e}")
 
     def download_climatic_tree_graph(self):
-
         """
         Download the current displayed climatic tree graph as a PNG file.
 
@@ -2269,34 +2395,40 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
             options = QFileDialog.Options()
             options |= QFileDialog.DontUseNativeDialog
-            file_path, _ = QFileDialog.getSaveFileName(self, "Save Graph As", default_file_name,
-                                                       "PNG Files (*.png);;All Files (*)", options=options)
+            file_path, _ = QFileDialog.getSaveFileName(
+                self,
+                "Save Graph As",
+                default_file_name,
+                "PNG Files (*.png);;All Files (*)",
+                options=options,
+            )
             if file_path:
-                if not file_path.lower().endswith('.png'):
-                    file_path += '.png'
+                if not file_path.lower().endswith(".png"):
+                    file_path += ".png"
                 results_dir = "results"
                 os.makedirs(results_dir, exist_ok=True)
                 img_path = os.path.join(results_dir, f"{self.tree_keys[self.current_index]}.png")
-                with open(img_path, 'rb') as file:
-                    with open(file_path, 'wb') as dest_file:
+                with open(img_path, "rb") as file:
+                    with open(file_path, "wb") as dest_file:
                         dest_file.write(file.read())
         except FileNotFoundError as e:
             self.showErrorDialog(f"The temporary image file was not found: {e}", "File Not Found")
         except Exception as e:
-            self.showErrorDialog(
-                f"An unexpected error occurred while downloading the climatic tree graph: {e}")
+            self.showErrorDialog(f"An unexpected error occurred while downloading the climatic tree graph: {e}")
 
     ################################################
     def display_phylogeographic_trees(self):
         import json
+
         import pandas as pd
+
         from aphylogeo.params import Params
 
         self.stackedWidget.setCurrentIndex(4)
         self.results_dir = "results"
         file_path = os.path.join(self.results_dir, "geneticTrees.json")
 
-        with open(file_path, 'r') as file:
+        with open(file_path, "r") as file:
             self.phylo_json = json.load(file)
 
         self.tree_keys = list(self.phylo_json.keys())
@@ -2315,7 +2447,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.render_tree(self.current_index1)
 
     def rename_tree_key(self, tree_key):
-        parts = tree_key.split('_')
+        parts = tree_key.split("_")
         if len(parts) == 2:
             return f"{parts[0]} nt {parts[1]} nt"
         return tree_key
@@ -2325,10 +2457,11 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.render_tree(index)
 
     def render_tree(self, index):
+        import os
+
         import numpy as np
         import toyplot.png
         import toytree
-        import os
 
         if 0 <= index < self.total_trees:
             self.current_index1 = index
@@ -2338,13 +2471,13 @@ class UiMainWindow(QtWidgets.QMainWindow):
             tree = toytree.tree(newick_str)
             tip_labels = tree.get_tip_labels()
 
-            if not hasattr(self, 'climatic_data'):
+            if not hasattr(self, "climatic_data"):
                 return
 
             selected_column = self.criteriaComboBox.currentText()
 
             # Match the original labels from the CSV
-            ordered_climatic_data = self.climatic_data.set_index('id').reindex(tip_labels).reset_index()
+            ordered_climatic_data = self.climatic_data.set_index("id").reindex(tip_labels).reset_index()
             bar_values = ordered_climatic_data[selected_column].values
 
             # Ensure bar_values have no negative values
@@ -2357,7 +2490,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             ax0 = canvas.cartesian(bounds=(50, 300, 50, 400), ymin=0, ymax=tree.ntips, padding=15)
 
             # Replace underscores with spaces for display purposes only
-            tree.draw(axes=ax0, tip_labels=[label.replace('_', ' ') for label in tip_labels])
+            tree.draw(axes=ax0, tip_labels=[label.replace("_", " ") for label in tip_labels])
             ax0.show = False
 
             # Add bar plot to canvas
@@ -2365,7 +2498,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             ax1.bars(
                 np.arange(tree.ntips),
                 bar_values,
-                along='y',
+                along="y",
             )
 
             # Adjust the appearance for better visibility
@@ -2389,15 +2522,20 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        file_path, _ = QFileDialog.getSaveFileName(self, "Save Graph As", default_file_name,
-                                                   "PNG Files (*.png);;All Files (*)", options=options)
+        file_path, _ = QFileDialog.getSaveFileName(
+            self,
+            "Save Graph As",
+            default_file_name,
+            "PNG Files (*.png);;All Files (*)",
+            options=options,
+        )
 
         if file_path:
-            if not file_path.lower().endswith('.png'):
-                file_path += '.png'
+            if not file_path.lower().endswith(".png"):
+                file_path += ".png"
 
-            with open(self.temp_img_path, 'rb') as temp_file:
-                with open(file_path, 'wb') as file:
+            with open(self.temp_img_path, "rb") as temp_file:
+                with open(file_path, "wb") as file:
                     file.write(temp_file.read())
 
 
