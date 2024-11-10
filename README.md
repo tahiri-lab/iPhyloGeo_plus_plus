@@ -75,7 +75,7 @@ iPhyloGeo++_env\Scripts\activate
 pip install -r requirements.txt
 ```
 
-**4. Install Dependencies**
+**4. Set Up Pre-commit Hooks(Optional)**
 ```sh
 pre-commit install
 ```
@@ -147,9 +147,10 @@ This project is organized into several key directories to help you navigate and 
 We welcome contributions to iPhyloGeo++. Please follow these steps:
 1. Fork the repository.
 2. Create a new branch (`git checkout -b feature-branch`).
-3. Commit your changes (`git commit -am 'Add new feature'`).
-4. Push to the branch (`git push origin feature-branch`).
-5. Create a new Pull Request.
+3. Set up pre-commit hooks (`pre-commit install`).
+4. Commit your changes (`git commit -m 'Add new feature'`).
+5. Push to the branch (`git push origin feature-branch`).
+6. Create a new Pull Request.
 
 # References
 1️⃣ Calculation of distance between phylogenetic tree: **Least Square metric**
