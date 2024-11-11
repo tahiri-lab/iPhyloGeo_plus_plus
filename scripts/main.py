@@ -19,6 +19,9 @@ from PyQt5.QtWidgets import (
 )
 
 from aphylogeo.params import Params
+from utils import (  # noqa: F401  # Import the compiled resource module for resolving image resource path
+    resources_rc,
+)
 from utils.geneticParamsDialog import ParamDialog
 
 Params.load_from_file("./scripts/utils/params.yaml")
@@ -41,7 +44,7 @@ class Worker(QObject):
 
         # Step 1: Load sequences
         self.progress.emit(0)
-        sequenceFile = utils.loadSequenceFile(self.filepath)
+        sequenceFile = utils.loadSequenceFile(self.filepath)  # noqa: N806
 
         # Step 2: Align sequences
         self.progress.emit(1)
@@ -50,7 +53,7 @@ class Worker(QObject):
 
         # Step 3: Generate genetic trees
         self.progress.emit(2)
-        geneticTrees = utils.geneticPipeline(alignments.msa)
+        geneticTrees = utils.geneticPipeline(alignments.msa)  # noqa: N806
         trees = GeneticTrees(trees_dict=geneticTrees, format="newick")
 
         # Step 4: Preparing results
@@ -154,7 +157,7 @@ starting_position = 1
 
 
 class UiMainWindow(QtWidgets.QMainWindow):
-    def useWindow(self):
+    def useWindow(self):  # noqa: N802
         from scripts.utils.help import UiHowToUse
 
         """
@@ -167,7 +170,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.ui.initUI()
         self.ui.show()
 
-    def paramWin(self):
+    def paramWin(self):  # noqa: N802
         from scripts.utils.settings import Settings
 
         """
@@ -179,7 +182,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         ui.setupUi(Dialog)
         Dialog.exec_()
 
-    def openClimTree(self):
+    def openClimTree(self):  # noqa: N802
         """
         Initialize and display the climatic tree window.
 
@@ -205,7 +208,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred: {e}", "Unexpected Error")
 
-    def showErrorDialog(self, message, title="error"):
+    def showErrorDialog(self, message, title="error"):  # noqa: N802
         """
         Display a professional error dialog with the given title and message.
 
@@ -226,7 +229,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         uic.loadUi("scripts/Qt/main.ui", self)
         self.setupUi()
 
-    def setupUi(self):
+    def setupUi(self):  # noqa: N802
         """
         Setup the UI components and initialize the main window.
 
@@ -409,10 +412,10 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 "Unexpected Error",
             )
 
-    def clearResults(self):
+    def clearResults(self):  # noqa: N802
         self.textEditResults.clear()
 
-    def openGeneticSettingsDialog(self):
+    def openGeneticSettingsDialog(self):  # noqa: N802
         dialog = ParamDialog()
         if dialog.exec_() == QDialog.Accepted:
             self.geneticParam = dialog.params
@@ -1680,24 +1683,24 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
-    def getButtonStyle(self, darkMode, isMainButton=False, isVertical=False):
+    def getButtonStyle(self, dark_mode, is_main_button=False, is_vertical=False):
         """
         Generate the appropriate style for buttons based on the mode (dark/light) and type (main/vertical).
 
         Args:
-            darkMode (bool): A flag indicating if dark mode is enabled.
-            isMainButton (bool): A flag indicating if the button is a main button.
-            isVertical (bool): A flag indicating if the button is a vertical button.
+            dark_mode (bool): A flag indicating if dark mode is enabled.
+            is_main_button (bool): A flag indicating if the button is a main button.
+            is_vertical (bool): A flag indicating if the button is a vertical button.
 
         Returns:
             str: The stylesheet string for the button.
         """
-        if darkMode:
-            background_color = "#646464" if isMainButton else "#464645"
-            hover_color = "#B7B7B6" if isMainButton else "#9F9F9F"
+        if dark_mode:
+            background_color = "#646464" if is_main_button else "#464645"
+            hover_color = "#B7B7B6" if is_main_button else "#9F9F9F"
         else:
-            background_color = "#DEDDDA" if isMainButton else "#EEEEEE"
-            hover_color = "#B7B7B6" if isMainButton else "#D7D7D7"
+            background_color = "#DEDDDA" if is_main_button else "#EEEEEE"
+            hover_color = "#B7B7B6" if is_main_button else "#D7D7D7"
 
         return f"""
             QPushButton {{
