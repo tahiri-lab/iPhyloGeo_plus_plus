@@ -1014,7 +1014,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             fullFileName, _ = QFileDialog.getOpenFileName(
                 None,
                 "Select FASTA file",
-                "../datasets",
+                "./datasets",
                 "FASTA Files (*.fasta);;All Files (*)",
                 options=options,
             )
@@ -1347,7 +1347,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             fullFilePath, _ = QFileDialog.getOpenFileName(
                 None,
                 "Select CSV file",
-                "../datasets",
+                "./datasets",
                 "Comma Separated Values (*.csv)",
                 options=options,
             )
@@ -2428,7 +2428,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         from aphylogeo.params import Params
 
         self.stackedWidget.setCurrentIndex(4)
-        self.results_dir = "results"
+        self.results_dir = "scripts/results"
         file_path = os.path.join(self.results_dir, "geneticTrees.json")
 
         with open(file_path, "r") as file:
