@@ -9,7 +9,7 @@ repository = "https://github.com/tahiri-lab/iPhyloGeo_plus_plus"
 include = ["bin/**"]
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.9"
 aiohttp = "3.9.5"
 aiosignal = "1.3.1"
 aphylogeo = "1.0.0"
@@ -138,5 +138,13 @@ use_parentheses = true
 [tool.ruff]
 line-length = 88
 select = ["E", "F", "W", "C", "N", "B", "Q", "A"]
-ignore = ["E501"]
+ignore = [
+    "E501",  # Ignore line length errors
+    "F401",  # Ignore unused imports
+    "N806",  # Ignore variable in function should be lowercase
+    "N802",  # Ignore function name should be lowercase
+    "B007",  # Ignore loop control variable not used within loop body
+    "C901",  # Ignore function is too complex
+    "C408",  # Ignore unnecessary `dict` call
+]
 target-version = "py39"
