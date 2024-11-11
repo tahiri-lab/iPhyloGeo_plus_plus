@@ -1014,7 +1014,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             fullFileName, _ = QFileDialog.getOpenFileName(
                 None,
                 "Select FASTA file",
-                "../datasets",
+                "./datasets",
                 "FASTA Files (*.fasta);;All Files (*)",
                 options=options,
             )
@@ -1347,7 +1347,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             fullFilePath, _ = QFileDialog.getOpenFileName(
                 None,
                 "Select CSV file",
-                "../datasets",
+                "./datasets",
                 "Comma Separated Values (*.csv)",
                 options=options,
             )
