@@ -1,9 +1,31 @@
+import io
+import json
 import os
+import re
+import shutil
 import sys
+from collections import Counter, defaultdict
+from decimal import Decimal
 
+import folium
+import matplotlib.patches as mpatches
+import matplotlib.pyplot as plt
+import networkx as nx
+import numpy as np
+import pandas as pd
+import plotly.graph_objs as go
+import plotly.io as pio
 import qtmodern.styles
 import qtmodern.windows
+import seaborn as sns
+import toyplot.png
+import toytree
 import yaml
+from Bio import Phylo
+from Bio.Align import MultipleSeqAlignment
+from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
+from matplotlib.ticker import MaxNLocator
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtCore import QObject, Qt, QThread, pyqtSignal
 from PyQt5.QtGui import QColor, QIcon, QMovie, QPixmap
@@ -18,11 +40,17 @@ from PyQt5.QtWidgets import (
     QVBoxLayout,
 )
 
+from aphylogeo import utils
+from aphylogeo.alignement import AlignSequences
+from aphylogeo.genetic_trees import GeneticTrees
 from aphylogeo.params import Params
 from utils import (  # noqa: F401  # Import the compiled resource module for resolving image resource path
     resources_rc,
 )
 from utils.geneticParamsDialog import ParamDialog
+from utils.help import UiHowToUse
+from utils.PreferencesDialog import PreferencesDialog  # Import PreferencesDialog
+from utils.settings import Settings
 
 Params.load_from_file("./scripts/utils/params.yaml")
 
@@ -37,11 +65,6 @@ class Worker(QObject):
         self.filepath = filepath
 
     def run(self):
-        from aphylogeo import utils
-        from aphylogeo.alignement import AlignSequences
-        from aphylogeo.genetic_trees import GeneticTrees
-        from aphylogeo.params import Params
-
         # Step 1: Load sequences
         self.progress.emit(0)
         sequenceFile = utils.loadSequenceFile(self.filepath)  # noqa: N806
@@ -121,8 +144,6 @@ Args:
 
 
 def update_yaml_param(params, file_path, property_name, new_value):
-    import yaml
-
     """
     Updates a specified property within a YAML file with a new value.
 
@@ -158,8 +179,6 @@ starting_position = 1
 
 class UiMainWindow(QtWidgets.QMainWindow):
     def useWindow(self):  # noqa: N802
-        from scripts.utils.help import UiHowToUse
-
         """
         Initialize and display the 'How to Use' window.
 
@@ -171,8 +190,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.ui.show()
 
     def paramWin(self):  # noqa: N802
-        from scripts.utils.settings import Settings
-
         """
         Initialize and display the parameters window.
         This method creates a new QMainWindow instance, sets up its UI using the UiDialog class, and displays the window.
@@ -474,12 +491,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def plot_alignment_chart(self, genetic_data, starting_position, window_size, output_path):
-        import matplotlib.patches as mpatches
-        import matplotlib.pyplot as plt
-        from Bio.Align import MultipleSeqAlignment
-        from Bio.Seq import Seq
-        from Bio.SeqRecord import SeqRecord
-
         """
         Plots an alignment chart with conservation and sequence alignment.
 
@@ -606,8 +617,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def calculate_conservation_and_gaps(self, alignment):
-        from collections import Counter
-
         """
         Calculate conservation and gap frequencies for a given multiple sequence alignment.
 
@@ -724,16 +733,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.update_similarity_plot()
 
     def update_similarity_plot(self):
-        from collections import defaultdict
-
-        import matplotlib.pyplot as plt
-        import numpy as np
-        import seaborn as sns
-        from Bio.Align import MultipleSeqAlignment
-        from Bio.Seq import Seq
-        from Bio.SeqRecord import SeqRecord
-        from matplotlib.ticker import MaxNLocator
-
         try:
             window_size = self.similarityWindowSizeSpinBox.value()
             start_pos = self.startingPositionSimilaritySpinBox.value()
@@ -816,8 +815,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             print(f"Error updating similarity plot: {e}")
 
     def download_plot_similarity(self):
-        import shutil
-
         file_url = "scripts/results/similarity_plot.png"  # The file path
         save_path, _ = QFileDialog.getSaveFileName(self, "Save File", "", "PNG Files (*.png);;All Files (*)")
         if not save_path:
@@ -825,10 +822,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         shutil.copy(file_url, save_path)  # e save dialog
 
     def load_data_climate(self):
-        import pandas as pd
-
-        from aphylogeo.params import Params
-
         """
         Load climate data from a CSV file, update the UI elements with the column names, and switch to the appropriate tab.
 
@@ -853,12 +846,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.tabWidget2.setCurrentIndex(2)
 
     def generate_graph(self):
-        import os
-
-        import matplotlib.pyplot as plt
-        import pandas as pd
-        import seaborn as sns
-
         """
         Generate and display a graph based on the selected X and Y axis data and the chosen plot type.
 
@@ -956,8 +943,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.tabWidget2.setCurrentIndex(2)
 
     def download_plot_climate(self):
-        import shutil
-
         """
         Download the generated plot.
 
@@ -992,8 +977,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             shutil.copy(plot_path, file_path)
 
     def pressItFasta(self):
-        from aphylogeo.params import Params
-
         """
         Open a dialog to select a FASTA file, update parameters, and display the content with color-coded sequences.
 
@@ -1079,8 +1062,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.geneticTreeDict = self.callSeqAlign()
 
     def callSeqAlign(self):
-        from aphylogeo.params import Params
-
         """
         Execute the sequence alignment pipeline and display progress using a worker thread.
 
@@ -1162,11 +1143,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         return self.geneticTrees
 
     def update_climate_chart(self):
-        import matplotlib.pyplot as plt
-        import pandas as pd
-
-        from aphylogeo.params import Params
-
         """
         Update the climate chart based on the selected condition and chart type.
 
@@ -1278,13 +1254,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred while displaying the image: {e}")
 
     def pressItCSV(self):
-        from decimal import Decimal
-
-        import pandas as pd
-
-        from aphylogeo import utils
-        from aphylogeo.params import Params
-
         def is_valid_decimal(value):
             try:
                 Decimal(value)
@@ -1293,9 +1262,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 return False
 
         def create_sleek_table(df):
-            import re
-            from decimal import Decimal
-
             num_rows, num_columns = df.shape
             table_widget = QTableWidget(num_rows, num_columns)
             table_widget.setStyleSheet(
@@ -1403,12 +1369,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def populateMap(self, lat, long):
-        import io
-
-        import folium
-        from PyQt5.QtWebEngineWidgets import QWebEngineView
-        from PyQt5.QtWidgets import QVBoxLayout
-
         """
         Create and display a folium map with given latitude and longitude.
 
@@ -1531,11 +1491,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}")
 
     def showFilteredResults(self):
-        import pandas as pd
-
-        from aphylogeo import utils
-        from aphylogeo.params import Params
-
         """
         Show the results filtered with a metric threshold provided by the user.
 
@@ -1800,8 +1755,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred: {e}", "Error")
 
     def display_newick_trees(self):
-        import json
-
         """
         Display Newick format trees in the application using Toytree.
 
@@ -1860,9 +1813,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.show_tree(index)
 
     def show_tree(self, index):
-        import toyplot.png
-        import toytree
-
         """
         Display the phylogenetic tree at the specified index using Toytree.
 
@@ -1917,8 +1867,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.GeneticTreeLabel.adjustSize()
 
     def download_graph(self):
-        import shutil
-
         """
         Download the current displayed tree graph as a PNG file.
 
@@ -1951,10 +1899,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred while downloading the tree image: {e}")
 
     def open_preferences_dialog(self):
-        from utils.PreferencesDialog import (  # Import PreferencesDialog
-            PreferencesDialog,
-        )
-
         """
         Open the preferences dialog and update the application settings based on user input.
 
@@ -2103,11 +2047,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         use_leaf_names,
         show_branch_length,
     ):
-        import plotly.graph_objs as go
-        import plotly.io as pio
-        import seaborn as sns
-        from Bio import Phylo
-
         """
         Render the network view of the phylogenetic tree.
 
@@ -2190,9 +2129,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         use_leaf_names,
         show_branch_length,
     ):
-        import matplotlib.pyplot as plt
-        from Bio import Phylo
-
         """
         Render the tree view of the phylogenetic tree.
 
@@ -2259,8 +2195,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred while rendering the tree view: {e}")
 
     def create_node_trace(self, graph, pos, label_color, use_leaf_names):
-        import plotly.graph_objs as go
-
         """
         Create a Plotly node trace for the phylogenetic tree network visualization.
 
@@ -2303,8 +2237,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred while creating the node trace: {e}")
 
     def get_layout(self, graph, layout):
-        import networkx as nx
-
         """
         Get the layout for the phylogenetic tree network visualization.
 
@@ -2330,8 +2262,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog(f"An unexpected error occurred while getting the layout: {e}")
 
     def create_edge_trace(self, tree, pos, edge_color, show_branch_length):
-        import plotly.graph_objs as go
-
         """
         Create a Plotly edge trace for the phylogenetic tree network visualization.
 
@@ -2421,12 +2351,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
     ################################################
     def display_phylogeographic_trees(self):
-        import json
-
-        import pandas as pd
-
-        from aphylogeo.params import Params
-
         self.stackedWidget.setCurrentIndex(4)
         self.results_dir = "scripts/results"
         file_path = os.path.join(self.results_dir, "geneticTrees.json")
@@ -2460,12 +2384,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.render_tree(index)
 
     def render_tree(self, index):
-        import os
-
-        import numpy as np
-        import toyplot.png
-        import toytree
-
         if 0 <= index < self.total_trees:
             self.current_index1 = index
             key = self.tree_keys[index]
