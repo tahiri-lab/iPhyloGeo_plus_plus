@@ -75,12 +75,17 @@ iPhyloGeo++_env\Scripts\activate
 pip install -r requirements.txt
 ```
 
-**4. Set Up Pre-commit Hooks(Optional)**
+E**4. Install Development Dependencies(Optional)**
+```sh
+pip install -r dev-requirements.txt
+```
+
+**5. Set Up Pre-commit Hooks(Optional)**
 ```sh
 pre-commit install
 ```
 
-**5. Run the Application**
+**6. Run the Application**
 ```sh
 python3 scripts/main.py
 ```
