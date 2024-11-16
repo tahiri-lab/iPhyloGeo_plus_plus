@@ -47,12 +47,15 @@ from aphylogeo.params import Params
 from utils import (  # noqa: F401  # Import the compiled resource module for resolving image resource path
     resources_rc,
 )
-from utils.geneticParamsDialog import ParamDialog
+from utils.genetic_params_dialog import ParamDialog
 from utils.help import UiHowToUse
 from utils.PreferencesDialog import PreferencesDialog  # Import PreferencesDialog
-from utils.settings import Settings
+from utils.settings import Params2, Settings
 
-Params.load_from_file("./scripts/utils/params.yaml")
+try:
+    Params.load_from_file("./scripts/utils/params.yaml")
+except FileNotFoundError:
+    Params.validate_and_set_params(Params2.PARAMETER_KEYS)
 
 
 class Worker(QObject):
@@ -63,33 +66,47 @@ class Worker(QObject):
     def __init__(self, filepath):
         super().__init__()
         self.filepath = filepath
+        self.running = True
 
     def run(self):
-        # Step 1: Load sequences
-        self.progress.emit(0)
-        sequenceFile = utils.loadSequenceFile(self.filepath)  # noqa: N806
+        try:
+            # Step 1: Load sequences
+            self.progress.emit(0)
+            if not self.running:
+                return
+            sequenceFile = utils.loadSequenceFile(self.filepath)  # noqa: N806
 
-        # Step 2: Align sequences
-        self.progress.emit(1)
-        align_sequence = AlignSequences(sequenceFile)
-        alignments = align_sequence.align()
+            # Step 2: Align sequences
+            self.progress.emit(1)
+            if not self.running:
+                return
+            align_sequence = AlignSequences(sequenceFile)
+            alignments = align_sequence.align()
 
-        # Step 3: Generate genetic trees
-        self.progress.emit(2)
-        geneticTrees = utils.geneticPipeline(alignments.msa)  # noqa: N806
-        trees = GeneticTrees(trees_dict=geneticTrees, format="newick")
+            # Step 3: Generate genetic trees
+            self.progress.emit(2)
+            if not self.running:
+                return
+            geneticTrees = utils.geneticPipeline(alignments.msa)  # noqa: N806
 
-        # Step 4: Preparing results
-        msa = alignments.to_dict().get("msa")
+            trees = GeneticTrees(trees_dict=geneticTrees, format="newick")
 
-        # Step 5: Save results
-        alignments.save_to_json(f"./scripts/results/aligned_{Params.reference_gene_file}.json")
-        trees.save_trees_to_json("./scripts/results/geneticTrees.json")
+            # Step 4: Preparing results
+            msa = alignments.to_dict().get("msa")
 
-        # Emit finished signal with the genetic trees dictionary
-        result = {"msa": msa, "geneticTrees": geneticTrees}
-        self.progress.emit(3)
-        self.finished.emit(result)
+            # Step 5: Save results
+            alignments.save_to_json(f"./scripts/results/aligned_{Params.reference_gene_file}.json")
+            trees.save_trees_to_json("./scripts/results/geneticTrees.json")
+
+            # Emit finished signal with the genetic trees dictionary
+            result = {"msa": msa, "geneticTrees": geneticTrees}
+            self.progress.emit(3)
+            self.finished.emit(result)
+        except Exception as e:
+            self.error.emit(str(Exception(f"{e} consider to change the Tree Type in the alignment settings")))
+
+    def stop(self):
+        self.running = False
 
 
 class MyDumper(yaml.Dumper):
@@ -162,13 +179,18 @@ def update_yaml_param(params, file_path, property_name, new_value):
     params.update_from_dict({property_name: new_value})
 
     # 1. Load existing YAML data
-    with open(file_path, "r") as yaml_file:
-        data = yaml.safe_load(yaml_file)  # Use safe_load for security
+    try:
+        with open(file_path, "r") as yaml_file:
+            data = yaml.safe_load(yaml_file)  # Use safe_load for security
+    except FileNotFoundError:
+        data = Params2.PARAMETER_KEYS
 
     # 2. Update the specified property
     if property_name in data:
         data[property_name] = new_value
     # 3. Write the updated data back to the file
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)  # Ensure the file exists
+
     with open(file_path, "w") as yaml_file:
         yaml.dump(data, yaml_file, default_flow_style=None, Dumper=MyDumper, sort_keys=False)
 
@@ -1141,6 +1163,17 @@ class UiMainWindow(QtWidgets.QMainWindow):
             QApplication.processEvents()
 
         return self.geneticTrees
+
+    def stop_thread(self):
+        if self.worker:
+            self.worker.stop()
+        if self.thread and self.thread.isRunning():
+            self.thread.quit()
+            self.thread.wait()
+
+    def closeEvent(self, event):
+        self.stop_thread()
+        event.accept()
 
     def update_climate_chart(self):
         """
