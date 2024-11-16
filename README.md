@@ -75,7 +75,7 @@ iPhyloGeo++_env\Scripts\activate
 pip install -r requirements.txt
 ```
 
-E**4. Install Development Dependencies(Optional)**
+**4. Install Development Dependencies(Optional)**
 ```sh
 pip install -r dev-requirements.txt
 ```
