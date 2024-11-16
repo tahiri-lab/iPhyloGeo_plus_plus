@@ -13,7 +13,12 @@ from PyQt5.QtWidgets import (
 
 from aphylogeo.params import Params
 
-Params.load_from_file("./scripts/utils/params.yaml")
+from .settings import Params2
+
+try:
+    Params.load_from_file("./scripts/utils/params.yaml")
+except FileNotFoundError:
+    Params.validate_and_set_params(Params2.PARAMETER_KEYS)
 
 
 class ParamDialog(QDialog):

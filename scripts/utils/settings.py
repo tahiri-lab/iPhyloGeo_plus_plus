@@ -12,23 +12,23 @@ from aphylogeo.params import Params
 
 class Params2:
     PARAMETER_KEYS = {
+        "file_name": "./datasets/simplot.csv",
+        "specimen": "id",
+        "names": ["id", "ALLSKY_SFC_SW_DWN", "T2M", "QV2M", "PRECTOTCORR", "WS10M", "LAT", "LONG"],
         "bootstrap_threshold": 0,
         "dist_threshold": 60,
-        "window_size": 20,
+        "window_size": 200,
         "step_size": 100,
-        "data_names": ["ALLSKY_SFC_SW_DWN_newick", "T2M_newick", "QV2M_newick", "PRECTOTCORR_newick", "WS10M_newick"],
-        "reference_gene_dir": "./datasets/example",
-        "reference_gene_file": "sequences.fasta",
-        "file_name": "./datasets/example/geo.csv",
-        "specimen": "id",
-        "names": ["id", "ALLSKY_SFC_SW_DWN", "T2M", "PRECTOTCORR", "QV2M", "WS10M"],
-        "makeDebugFiles": False,
         "bootstrap_amount": 100,
-        "alignment_method": "2",
-        "distance_method": "0",
+        "data_names": ["ALLSKY_SFC_SW_DWN", "T2M", "QV2M", "PRECTOTCORR", "WS10M", "LAT", "LONG"],
+        "reference_gene_dir": "./datasets",
+        "reference_gene_file": "simplot.fasta",
+        "makeDebugFiles": True,
+        "alignment_method": "4",
+        "distance_method": "3",
         "fit_method": "1",
-        "tree_type": "2",
-        "rate_similarity": 90,
+        "tree_type": "1",
+        "rate_similarity": 70,
         "method_similarity": "1",
     }
 
@@ -56,8 +56,12 @@ class Params2:
             cls.reference_gene_filepath = None
 
 
-Params.load_from_file("./scripts/utils/params.yaml")
-Params2.load_from_file("./scripts/utils/params_default.yaml")
+try:
+    Params.load_from_file("./scripts/utils/params.yaml")
+    Params2.load_from_file("./scripts/utils/params_default.yaml")
+except FileNotFoundError:
+    Params.validate_and_set_params(Params2.PARAMETER_KEYS)
+    Params2.validate_and_set_params(Params2.PARAMETER_KEYS)
 
 
 class MyDumper(yaml.Dumper):
