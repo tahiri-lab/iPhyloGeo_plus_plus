@@ -1,36 +1,39 @@
 import os
+
 import yaml
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QLabel
-from aphylogeo.params import Params
 from yaml.loader import SafeLoader
+
+from aphylogeo.params import Params
+
 
 class Params2:
     PARAMETER_KEYS = {
+        "file_name": "./datasets/simplot.csv",
+        "specimen": "id",
+        "names": ["id", "ALLSKY_SFC_SW_DWN", "T2M", "QV2M", "PRECTOTCORR", "WS10M", "LAT", "LONG"],
         "bootstrap_threshold": 0,
         "dist_threshold": 60,
-        "window_size": 20,
+        "window_size": 200,
         "step_size": 100,
-        "data_names": ["ALLSKY_SFC_SW_DWN_newick", "T2M_newick", "QV2M_newick", "PRECTOTCORR_newick", "WS10M_newick"],
-        "reference_gene_dir": "./datasets/example",
-        "reference_gene_file": "sequences.fasta",
-        "file_name": "./datasets/example/geo.csv",
-        "specimen": "id",
-        "names": ["id", "ALLSKY_SFC_SW_DWN", "T2M", "PRECTOTCORR", "QV2M", "WS10M"],
-        "makeDebugFiles": False,
         "bootstrap_amount": 100,
-        "alignment_method": "2",
-        "distance_method": "0",
+        "data_names": ["ALLSKY_SFC_SW_DWN", "T2M", "QV2M", "PRECTOTCORR", "WS10M", "LAT", "LONG"],
+        "reference_gene_dir": "./datasets",
+        "reference_gene_file": "simplot.fasta",
+        "makeDebugFiles": True,
+        "alignment_method": "4",
+        "distance_method": "3",
         "fit_method": "1",
-        "tree_type": "2",
-        "rate_similarity": 90,
+        "tree_type": "1",
+        "rate_similarity": 70,
         "method_similarity": "1",
     }
 
     @classmethod
-    def load_from_file(cls, params_file=os.path.join(os.path.dirname(__file__), "./utils/params.yaml")):
+    def load_from_file(cls, params_file=os.path.join(os.path.dirname(__file__), "./scripts/utils/params.yaml")):  # noqa: B008
         with open(params_file) as f:
             params = yaml.load(f, Loader=SafeLoader)
             cls.validate_and_set_params(params)
@@ -52,17 +55,25 @@ class Params2:
         else:
             cls.reference_gene_filepath = None
 
-Params.load_from_file("./utils/params.yaml")
-Params2.load_from_file("./utils/params_default.yaml")
+
+try:
+    Params.load_from_file("./scripts/utils/params.yaml")
+    Params2.load_from_file("./scripts/utils/params_default.yaml")
+except FileNotFoundError:
+    Params.validate_and_set_params(Params2.PARAMETER_KEYS)
+    Params2.validate_and_set_params(Params2.PARAMETER_KEYS)
+
 
 class MyDumper(yaml.Dumper):
     def increase_indent(self, flow=False, indentless=False):
         return super(MyDumper, self).increase_indent(flow, False)
 
     def represent_list(self, data):
-        return self.represent_sequence('tag:yaml.org,2002:seq', data, flow_style=True)
+        return self.represent_sequence("tag:yaml.org,2002:seq", data, flow_style=True)
+
 
 yaml.add_representer(list, MyDumper.represent_list, Dumper=MyDumper)
+
 
 def update_yaml_param(params, file_path, property_name, new_value):
     if isinstance(new_value, list):
@@ -80,6 +91,7 @@ def update_yaml_param(params, file_path, property_name, new_value):
     with open(file_path, "w") as yaml_file:
         yaml.dump(data, yaml_file, default_flow_style=None, Dumper=MyDumper, sort_keys=False)
 
+
 class HoverLabel(QLabel):
     def __init__(self, text, hover_text, text_edit, image_label, hover_image_path, *args, **kwargs):
         super().__init__(text, *args, **kwargs)
@@ -96,8 +108,9 @@ class HoverLabel(QLabel):
         self.image_label.setPixmap(QPixmap(self.hover_image_path))
         super().enterEvent(event)
 
+
 class Settings(object):
-    def setupUi(self, Dialog):
+    def setupUi(self, Dialog):  # noqa: N803
         Dialog.setObjectName("Dialog")
         Dialog.resize(700, 400)  # Decreased overall size
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -161,7 +174,7 @@ class Settings(object):
         HoverLabel.image_label = QLabel()
         HoverLabel.image_label.setFixedSize(380, 150)
         HoverLabel.image_label.setAlignment(Qt.AlignCenter)
-        HoverLabel.image_label.setPixmap(QPixmap("../img/other/final.png"))
+        HoverLabel.image_label.setPixmap(QPixmap("./img/other/final.png"))
         group_box_layout.addWidget(HoverLabel.image_label)
         self.textEdit = QtWidgets.QTextEdit(self.paramsDetails)
         group_box_layout.addWidget(self.textEdit)
@@ -198,7 +211,13 @@ class Settings(object):
         self.gridLayout_3.setObjectName("gridLayout_3")
         font.setPointSize(8)
 
-        self.metrics = HoverLabel("Calculus method", "Select the method for calculating phylogenetic distances. Options include:\n- Robinson & Foulds: Measures the difference in tree topologies.\n- Least Square: Minimizes the sum of squared differences between observed and predicted distances.\n- Euclidean Distance: Measures the straight-line distance between points in a multi-dimensional space.", self.textEdit, HoverLabel.image_label, "../img/other/calculus.png")
+        self.metrics = HoverLabel(
+            "Calculus method",
+            "Select the method for calculating phylogenetic distances. Options include:\n- Robinson & Foulds: Measures the difference in tree topologies.\n- Least Square: Minimizes the sum of squared differences between observed and predicted distances.\n- Euclidean Distance: Measures the straight-line distance between points in a multi-dimensional space.",
+            self.textEdit,
+            HoverLabel.image_label,
+            "./img/other/calculus.png",
+        )
         self.metrics.setFont(font)
         self.metrics.setIndent(10)
         self.metrics.setObjectName("metrics")
@@ -250,7 +269,13 @@ class Settings(object):
         self.spinBox_bootstrap.setObjectName("spinBox_bootstrap")
         self.gridLayout_4.addWidget(self.spinBox_bootstrap, 0, 1, 1, 1)
 
-        self.bootstrapValue = HoverLabel("Bootstrap threshold", "Set the bootstrap threshold for phylogenetic tree support. Higher values provide more reliable results but require longer computation time. Bootstrap values are used to assess the reliability of inferred phylogenetic trees.", self.textEdit, HoverLabel.image_label, "../img/other/bootstrap.png")
+        self.bootstrapValue = HoverLabel(
+            "Bootstrap threshold",
+            "Set the bootstrap threshold for phylogenetic tree support. Higher values provide more reliable results but require longer computation time. Bootstrap values are used to assess the reliability of inferred phylogenetic trees.",
+            self.textEdit,
+            HoverLabel.image_label,
+            "./img/other/bootstrap.png",
+        )
         font.setPointSize(8)
         self.bootstrapValue.setFont(font)
         self.bootstrapValue.setIndent(10)
@@ -264,7 +289,13 @@ class Settings(object):
         self.spinBox_metricThreshold.setObjectName("spinBox_metricThreshold")
         self.gridLayout_4.addWidget(self.spinBox_metricThreshold, 1, 1, 1, 1)
 
-        self.metricThreshold = HoverLabel("Metric threshold", "Set the threshold for distance metrics. Higher thresholds provide more accurate results but increase computational load. This parameter controls the cutoff for considering distances in the analysis.", self.textEdit, HoverLabel.image_label, "../img/other/metric.png")
+        self.metricThreshold = HoverLabel(
+            "Metric threshold",
+            "Set the threshold for distance metrics. Higher thresholds provide more accurate results but increase computational load. This parameter controls the cutoff for considering distances in the analysis.",
+            self.textEdit,
+            HoverLabel.image_label,
+            "./img/other/metric.png",
+        )
         font.setPointSize(8)
         self.metricThreshold.setFont(font)
         self.metricThreshold.setIndent(10)
@@ -285,7 +316,7 @@ class Settings(object):
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
-    def retranslateUi(self, Dialog):
+    def retranslateUi(self, Dialog):  # noqa: N803
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Parameters"))
         self.cancel_button.setText(_translate("Dialog", "Cancel"))
@@ -308,17 +339,18 @@ class Settings(object):
         bootstrap_value = self.spinBox_bootstrap.value()
         metric_threshold = self.spinBox_metricThreshold.value()
 
-        update_yaml_param(Params, "./utils/params.yaml", "distance_method", str(metrics))
-        update_yaml_param(Params, "./utils/params.yaml", "bootstrap_threshold", bootstrap_value)
-        update_yaml_param(Params, "./utils/params.yaml", "dist_threshold", metric_threshold)
+        update_yaml_param(Params, "./scripts/utils/params.yaml", "distance_method", str(metrics))
+        update_yaml_param(Params, "./scripts/utils/params.yaml", "bootstrap_threshold", bootstrap_value)
+        update_yaml_param(Params, "./scripts/utils/params.yaml", "dist_threshold", metric_threshold)
 
     def resetValues(self):
         self.comboBox_metrics.setProperty("value", Params2.distance_method)
         self.spinBox_metricThreshold.setProperty("value", Params2.dist_threshold)
         self.spinBox_bootstrap.setProperty("value", Params2.bootstrap_threshold)
 
-    def apply_styles(self, Dialog):
-        Dialog.setStyleSheet("""
+    def apply_styles(self, Dialog):  # noqa: N803
+        Dialog.setStyleSheet(
+            """
             QDialog {
                 background-color: #f8f9fa;
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -382,14 +414,18 @@ class Settings(object):
                 color: #495057;
                 font-size: 12px;
             }
-        """)
+        """
+        )
+
 
 def comboBoxSelected(self, index):
     if index != 0:
         HoverLabel.Settings.selected_index = index
 
+
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     Dialog = QtWidgets.QDialog()
     ui = Settings()

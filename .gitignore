@@ -10,3 +10,6 @@ iPhyloGeo_plus_plus_env/
 
 # Ignore results directory
 scripts/results/*
+
+# Ignore user config file
+scripts/utils/params.yaml
