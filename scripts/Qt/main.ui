@@ -785,7 +785,7 @@
      </sizepolicy>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="HomePage">
      <widget class="QFrame" name="HomeTab">
@@ -1052,7 +1052,7 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>4</number>
        </property>
        <widget class="QWidget" name="GenTab1">
         <attribute name="title">
@@ -1740,7 +1740,7 @@ QPushButton:pressed {
           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;title&gt;Get Started&lt;/title&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;&quot; bgcolor=&quot;#f4f4f4&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot; bgcolor=&quot;#f4f4f4&quot;&gt;
 &lt;h1 align=&quot;center&quot; style=&quot; margin-top:40px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; font-weight:600; color:#0056b3;&quot;&gt;Get Started!&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; font-weight:600; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/h1&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt;For the climatic data extraction, follow these steps to obtain the final results: &lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt;1. Select a &lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; font-weight:600; color:#0056b3;&quot;&gt;.csv&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt; file using the File Browser button. &lt;/span&gt;&lt;/p&gt;
