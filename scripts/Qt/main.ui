@@ -785,7 +785,7 @@
      </sizepolicy>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="HomePage">
      <widget class="QFrame" name="HomeTab">
@@ -1052,7 +1052,7 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="currentIndex">
-        <number>4</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="GenTab1">
         <attribute name="title">
@@ -2203,7 +2203,7 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="text">
-        <string>Submit</string>
+        <string>Save</string>
        </property>
        <property name="icon">
         <iconset resource="../../img/resources.qrc">
@@ -2380,7 +2380,7 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="text">
-        <string>Submit</string>
+        <string>Save</string>
        </property>
        <property name="icon">
         <iconset resource="../../img/resources.qrc">
