@@ -4,6 +4,5 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "charliermarsh.ruff"
   },
-  "black-formatter.showNotifications": "always",
   "isort.args": ["--profile", "black", "--line-length", "150"]
 }
