@@ -4,6 +4,7 @@ scripts/utils/__pycache__/*
 
 # Ignore virtual environment directory
 .venv
+venv/
 iPhyloGeo_env/
 iPhyloGeo++_env/
 iPhyloGeo_plus_plus_env/
