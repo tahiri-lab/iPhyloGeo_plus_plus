@@ -1,3 +1,9 @@
 {
-  "python.analysis.autoImportCompletions": true
+  "python.analysis.autoImportCompletions": true,
+  "[python]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+  "black-formatter.showNotifications": "always",
+  "isort.args": ["--profile", "black", "--line-length", "150"]
 }
