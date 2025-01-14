@@ -21,6 +21,10 @@ import seaborn as sns
 import toyplot.png
 import toytree
 import yaml
+from aphylogeo import utils
+from aphylogeo.alignement import AlignSequences
+from aphylogeo.genetic_trees import GeneticTrees
+from aphylogeo.params import Params
 from Bio import Phylo
 from Bio.Align import MultipleSeqAlignment
 from Bio.Seq import Seq
@@ -30,23 +34,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtCore import QObject, Qt, QThread, pyqtSignal
 from PyQt5.QtGui import QColor, QIcon, QMovie, QPixmap
 from PyQt5.QtWebEngineWidgets import QWebEngineView
-from PyQt5.QtWidgets import (
-    QApplication,
-    QDialog,
-    QFileDialog,
-    QGraphicsDropShadowEffect,
-    QTableWidget,
-    QTableWidgetItem,
-    QVBoxLayout,
-)
-
-from aphylogeo import utils
-from aphylogeo.alignement import AlignSequences
-from aphylogeo.genetic_trees import GeneticTrees
-from aphylogeo.params import Params
-from utils import (  # noqa: F401  # Import the compiled resource module for resolving image resource path
-    resources_rc,
-)
+from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog, QGraphicsDropShadowEffect, QTableWidget, QTableWidgetItem, QVBoxLayout
+from utils import resources_rc  # noqa: F401  # Import the compiled resource module for resolving image resource path
 from utils.genetic_params_dialog import ParamDialog
 from utils.help import UiHowToUse
 from utils.PreferencesDialog import PreferencesDialog  # Import PreferencesDialog
@@ -95,7 +84,7 @@ class Worker(QObject):
             msa = alignments.to_dict().get("msa")
 
             # Step 5: Save results
-            alignments.save_to_json(f"./scripts/results/aligned_{Params.reference_gene_file}.json")
+            alignments.save_to_json(f"./scripts/results/aligned_{Params.reference_gene_filepath}.json")
             trees.save_trees_to_json("./scripts/results/geneticTrees.json")
 
             # Emit finished signal with the genetic trees dictionary
@@ -206,7 +195,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         This method creates a new QMainWindow instance, sets up its UI using the UiHowToUse class, and displays the window.
         """
-        self.window = QtWidgets.QMainWindow()
+        # self.mainWindow = QtWidgets.QMainWindow()
         self.ui = UiHowToUse()
         self.ui.initUI()
         self.ui.show()
@@ -220,32 +209,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         ui = Settings()
         ui.setupUi(Dialog)
         Dialog.exec_()
-
-    def openClimTree(self):  # noqa: N802
-        """
-        Initialize and display the climatic tree window.
-
-        This method imports the Ui_ct class, creates a new QMainWindow instance,
-        sets up its UI using the Ui_ct class, and displays the window.
-        It also sets the current index for stackedWidget and tabWidget2.
-        """
-        try:
-            from cltree import Ui_ct
-
-            self.window = QtWidgets.QMainWindow()
-            self.ui = Ui_ct()
-            self.ui.setupUi(self.window)
-            self.window.show()
-
-            self.stackedWidget.setCurrentIndex(2)
-            self.tabWidget2.setCurrentIndex(3)
-
-        except ImportError as e:
-            self.showErrorDialog(f"An error occurred while importing: {e}", "Import Error")
-        except AttributeError as e:
-            self.showErrorDialog(f"An error occurred while setting attributes: {e}", "Attribute Error")
-        except Exception as e:
-            self.showErrorDialog(f"An unexpected error occurred: {e}", "Unexpected Error")
 
     def showErrorDialog(self, message, title="error"):  # noqa: N802
         """
@@ -954,7 +917,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 sns.violinplot(x=x_data, y=y_data, data=self.data, ax=ax)
                 ax.set_xlabel(x_data)  # Set the X-axis label
 
-        plot_path = os.path.join("scripts", "results", f'{plot_type.lower().replace(" ", "_")}.png')
+        plot_path = os.path.join("scripts", "results", f"{plot_type.lower().replace(' ', '_')}.png")
         os.makedirs("scripts/results", exist_ok=True)
         plt.savefig(plot_path)
         plt.close(fig)
@@ -978,7 +941,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.showErrorDialog("Please generate a plot first.")
             return
 
-        plot_path = os.path.join("results", f'{plot_type.lower().replace(" ", "_")}.png')
+        plot_path = os.path.join("results", f"{plot_type.lower().replace(' ', '_')}.png")
         if not os.path.exists(plot_path):
             self.showErrorDialog("No plot found to download.")
             return
@@ -1143,23 +1106,23 @@ class UiMainWindow(QtWidgets.QMainWindow):
         loading_screen.show()
         QtWidgets.QApplication.processEvents()
 
-        self.thread = QThread()
+        self.workerThread = QThread()
         self.worker = Worker(Params.reference_gene_filepath)
-        self.worker.moveToThread(self.thread)
+        self.worker.moveToThread(self.workerThread)
 
         self.worker.progress.connect(update_progress)
         self.worker.finished.connect(handle_finished)
         self.worker.error.connect(handle_error)
 
-        self.thread.started.connect(self.worker.run)
-        self.worker.finished.connect(self.thread.quit)
+        self.workerThread.started.connect(self.worker.run)
+        self.worker.finished.connect(self.workerThread.quit)
         self.worker.finished.connect(self.worker.deleteLater)
-        self.thread.finished.connect(self.thread.deleteLater)
+        self.workerThread.finished.connect(self.workerThread.deleteLater)
 
-        self.thread.start()
+        self.workerThread.start()
 
         # Use a loop to wait until the thread finishes and the result is set
-        while self.thread.isRunning():
+        while self.workerThread.isRunning():
             QApplication.processEvents()
 
         return self.geneticTrees
@@ -1167,11 +1130,11 @@ class UiMainWindow(QtWidgets.QMainWindow):
     def stop_thread(self):
         if self.worker:
             self.worker.stop()
-        if self.thread and self.thread.isRunning():
-            self.thread.quit()
-            self.thread.wait()
+        if self.workerThread and self.workerThread.isRunning():
+            self.workerThread.quit()
+            self.workerThread.wait()
 
-    def closeEvent(self, event):
+    def closeEvent(self, event):  # noqa: N802
         self.stop_thread()
         event.accept()
 
