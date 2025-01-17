@@ -209,30 +209,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         ui = Settings()
         ui.setupUi(Dialog)
         Dialog.exec_()
-        """
-        Initialize and display the climatic tree window.
-
-        This method imports the Ui_ct class, creates a new QMainWindow instance,
-        sets up its UI using the Ui_ct class, and displays the window.
-        It also sets the current index for stackedWidget and tabWidget2.
-        """
-        try:
-            from cltree import Ui_ct
-
-            self.window = QtWidgets.QMainWindow()
-            self.ui = Ui_ct()
-            self.ui.setupUi(self.window)
-            self.window.show()
-
-            self.stackedWidget.setCurrentIndex(2)
-            self.tabWidget2.setCurrentIndex(3)
-
-        except ImportError as e:
-            self.show_error_dialog(f"An error occurred while importing: {e}", "Import Error")
-        except AttributeError as e:
-            self.show_error_dialog(f"An error occurred while setting attributes: {e}", "Attribute Error")
-        except Exception as e:
-            self.show_error_dialog(f"An unexpected error occurred: {e}", "Unexpected Error")
 
     def show_error_dialog(self, message, title="error"):
         """
