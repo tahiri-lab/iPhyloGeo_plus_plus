@@ -37,9 +37,10 @@ from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog, QGraphicsDropShadowEffect, QTableWidget, QTableWidgetItem, QVBoxLayout
 from utils import resources_rc  # noqa: F401  # Import the compiled resource module for resolving image resource path
 from utils.genetic_params_dialog import ParamDialog
-from utils.help import UiHowToUse
+from utils.help import HelpDialog
 from utils.PreferencesDialog import PreferencesDialog  # Import PreferencesDialog
 from utils.settings import Params2, Settings
+from utils.settingsWindow import SettingsDialog
 
 try:
     Params.load_from_file("./scripts/utils/params.yaml")
@@ -84,7 +85,7 @@ class Worker(QObject):
             msa = alignments.to_dict().get("msa")
 
             # Step 5: Save results
-            alignments.save_to_json(f"./scripts/results/aligned_{Params.reference_gene_filepath}.json")
+            alignments.save_to_json(f"./scripts/results/aligned_{Params.reference_gene_file}.json")
             trees.save_trees_to_json("./scripts/results/geneticTrees.json")
 
             # Emit finished signal with the genetic trees dictionary
@@ -195,20 +196,23 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         This method creates a new QMainWindow instance, sets up its UI using the UiHowToUse class, and displays the window.
         """
-        # self.mainWindow = QtWidgets.QMainWindow()
-        self.ui = UiHowToUse()
-        self.ui.initUI()
-        self.ui.show()
+        
+        dialog = HelpDialog()
+        dialog.exec_()
 
     def open_result_settings_window(self):
         """
         Initialize and display the parameters window.
         This method creates a new QMainWindow instance, sets up its UI using the UiDialog class, and displays the window.
         """
-        Dialog = QtWidgets.QDialog()
-        ui = Settings()
-        ui.setupUi(Dialog)
-        Dialog.exec_()
+        
+        dialog = SettingsDialog()
+        dialog.exec_()
+        
+        #Dialog = QtWidgets.QDialog()
+        #ui = Settings()
+        #ui.setupUi(Dialog)
+        #Dialog.exec_()
 
     def show_error_dialog(self, message, title="error"):
         """
