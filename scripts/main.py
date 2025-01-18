@@ -35,6 +35,7 @@ from PyQt5.QtCore import QObject, Qt, QThread, pyqtSignal
 from PyQt5.QtGui import QColor, QIcon, QMovie, QPixmap
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog, QGraphicsDropShadowEffect, QTableWidget, QTableWidgetItem, QVBoxLayout
+from ui_helpers import style_buttons, get_button_style, create_shadow_effect
 from utils import resources_rc  # noqa: F401  # Import the compiled resource module for resolving image resource path
 from utils.genetic_params_dialog import ParamDialog
 from utils.help import UiHowToUse
@@ -1488,7 +1489,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         """
         try:
             self.isDarkMode = not self.isDarkMode
-            buttons_Vertical = [
+            buttons_vertical = [
                 self.fileBrowserButtonPage1,
                 self.sequenceAlignmentButtonPage1,
                 self.clearButtonPage1,
@@ -1516,6 +1517,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 self.resultsButton,
             ]
 
+            style_buttons(buttons, self.isDarkMode)
+            style_buttons(buttons_vertical, self.isDarkMode)
+
             if self.isDarkMode:
                 qtmodern.styles.dark(app)
                 self.top_frame.setStyleSheet("background-color: #646464;")
@@ -1527,73 +1531,14 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
             # Common settings for both modes
             self.darkModeButton.setCursor(Qt.PointingHandCursor)
-            self.darkModeButton.setStyleSheet(self.get_button_style(self.isDarkMode, True))
-            self.darkModeButton.setGraphicsEffect(self.create_shadow_effect(10, 140))
+            self.darkModeButton.setStyleSheet(get_button_style(self.isDarkMode))
+            self.darkModeButton.setGraphicsEffect(create_shadow_effect(10, 140))
 
-            for button in buttons:
-                button.setCursor(Qt.PointingHandCursor)
-                button.setStyleSheet(self.get_button_style(self.isDarkMode))
-                button.setGraphicsEffect(self.create_shadow_effect(10, 140))
-
-            for buttonV in buttons_Vertical:
-                buttonV.setCursor(Qt.PointingHandCursor)
-                buttonV.setStyleSheet(self.get_button_style(self.isDarkMode, False, True))
-                buttonV.setGraphicsEffect(self.create_shadow_effect(10, 110))
+        except AttributeError as e:
+            self.show_error_dialog(f"An error occurred while setting attributes: {e}", "Attribute Error")
 
         except Exception as e:
             self.show_error_dialog(f"An unexpected error occurred: {e}")
-
-    def get_button_style(self, dark_mode, is_main_button=False, is_vertical=False):
-        """
-        Generate the appropriate style for buttons based on the mode (dark/light) and type (main/vertical).
-
-        Args:
-            dark_mode (bool): A flag indicating if dark mode is enabled.
-            is_main_button (bool): A flag indicating if the button is a main button.
-            is_vertical (bool): A flag indicating if the button is a vertical button.
-
-        Returns:
-            str: The stylesheet string for the button.
-        """
-        if dark_mode:
-            background_color = "#646464" if is_main_button else "#464645"
-            hover_color = "#B7B7B6" if is_main_button else "#9F9F9F"
-        else:
-            background_color = "#DEDDDA" if is_main_button else "#EEEEEE"
-            hover_color = "#B7B7B6" if is_main_button else "#D7D7D7"
-
-        return f"""
-            QPushButton {{
-                padding: 10px 20px;
-                font-weight: bold;
-                background-color: {background_color};
-                border-radius: 20px;
-                transition: background-color 0.3s ease; /* Add transition */
-            }}
-            QPushButton:hover {{
-                background-color: {hover_color};
-            }}
-            QPushButton:pressed {{
-                background-color: {background_color};
-            }}
-        """
-
-    def create_shadow_effect(self, blur_radius, alpha):
-        """
-        Create a shadow effect for the buttons.
-
-        Args:
-            blur_radius (int): The blur radius for the shadow.
-            alpha (int): The alpha (transparency) value for the shadow color.
-
-        Returns:
-            QGraphicsDropShadowEffect: The configured shadow effect.
-        """
-        shadow_effect = QGraphicsDropShadowEffect()
-        shadow_effect.setBlurRadius(blur_radius)
-        shadow_effect.setColor(QColor(0, 0, 0, alpha))
-        shadow_effect.setOffset(3, 3)
-        return shadow_effect
 
     def clear_genetic_data(self):
         """
