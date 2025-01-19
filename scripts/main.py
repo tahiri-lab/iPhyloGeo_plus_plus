@@ -287,7 +287,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.ClimaticChartSettingsAxisY.currentIndexChanged.connect(self.generate_climate_graph)
             self.PlotTypesCombobox.currentIndexChanged.connect(self.generate_climate_graph)
             self.climatePlotDownloadButton.clicked.connect(self.download_climate_plot)
-            self.geneticTreescomboBox.currentIndexChanged.connect(self.show_selected_tree)
+            self.geneticTreescomboBox.currentIndexChanged.connect(self.show_tree)
             self.criteriaComboBox.currentIndexChanged.connect(self.render_tree)
             self.phyloTreescomboBox.currentIndexChanged.connect(self.render_tree)
             self.StartSequenceAlignmentButton.clicked.connect(self.start_alignment_analysis)
@@ -1649,19 +1649,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             return f"{parts[0]} nt {parts[1]} nt"
         return tree_name
 
-    def show_selected_tree(self, index):
-        """
-        Display the selected tree based on the provided index.
-
-        Args:
-            index (int): The index of the selected tree in the combo box.
-
-        Returns:
-            None
-        """
-        if index >= 0:
-            self.show_tree(index)
-
     def show_tree(self, index):
         """
         Display the phylogenetic tree at the specified index using Toytree.
@@ -1672,49 +1659,51 @@ class UiMainWindow(QtWidgets.QMainWindow):
         Returns:
             None
         """
-        if 0 <= index < self.total_trees:
-            self.current_index = index  # Keep track of the current index
-            key = self.tree_keys[index]  # This is the key with underscores
-            newick_str = self.newick_json[key]
+        if index is None or index < 0 or index >= self.total_trees:
+            return
+        
+        self.current_index = index  # Keep track of the current index
+        key = self.tree_keys[index]  # This is the key with underscores
+        newick_str = self.newick_json[key]
 
-            # Read the tree using Toytree
-            tree = toytree.tree(newick_str)
+        # Read the tree using Toytree
+        tree = toytree.tree(newick_str)
 
-            # Replace underscores with spaces in tip labels
-            for node in tree.treenode.traverse():
-                if node.is_leaf():
-                    node.name = node.name.replace("_", " ")  # Replace underscores with spaces
+        # Replace underscores with spaces in tip labels
+        for node in tree.treenode.traverse():
+            if node.is_leaf():
+                node.name = node.name.replace("_", " ")  # Replace underscores with spaces
 
-            # Customize the tip labels and their style
-            tip_labels = tree.get_tip_labels()
+        # Customize the tip labels and their style
+        tip_labels = tree.get_tip_labels()
 
-            # Draw the tree with customized style
-            canvas, axes, mark = tree.draw(
-                width=921,
-                height=450,
-                tip_labels=tip_labels,  # These labels now have spaces
-                tip_labels_style={"font-size": "15px"},
-                fixed_order=tip_labels,
-                edge_type="c",
-            )
+        # Draw the tree with customized style
+        canvas, axes, mark = tree.draw(
+            width=921,
+            height=450,
+            tip_labels=tip_labels,  # These labels now have spaces
+            tip_labels_style={"font-size": "15px"},
+            fixed_order=tip_labels,
+            edge_type="c",
+        )
 
-            # Adjust the canvas size to ensure it fits within the specified dimensions
-            canvas = toyplot.Canvas(width=921, height=450)
-            ax = canvas.cartesian(bounds=(50, 870, 50, 400), padding=15)
-            tree.draw(axes=ax)
+        # Adjust the canvas size to ensure it fits within the specified dimensions
+        canvas = toyplot.Canvas(width=921, height=450)
+        ax = canvas.cartesian(bounds=(50, 870, 50, 400), padding=15)
+        tree.draw(axes=ax)
 
-            # Save the canvas to a permanent file in the .results/ directory
-            self.tree_img_path = os.path.join("results", f"{key}.png")
-            os.makedirs(os.path.dirname(self.tree_img_path), exist_ok=True)
-            toyplot.png.render(canvas, self.tree_img_path)
+        # Save the canvas to a permanent file in the .results/ directory
+        self.tree_img_path = os.path.join("results", f"{key}.png")
+        os.makedirs(os.path.dirname(self.tree_img_path), exist_ok=True)
+        toyplot.png.render(canvas, self.tree_img_path)
 
-            # Create a QPixmap from the saved image file
-            pixmap = QPixmap(self.tree_img_path)
+        # Create a QPixmap from the saved image file
+        pixmap = QPixmap(self.tree_img_path)
 
-            # Clear the QLabel before setting the new QPixmap
-            self.GeneticTreeLabel.clear()
-            self.GeneticTreeLabel.setPixmap(pixmap)
-            self.GeneticTreeLabel.adjustSize()
+        # Clear the QLabel before setting the new QPixmap
+        self.GeneticTreeLabel.clear()
+        self.GeneticTreeLabel.setPixmap(pixmap)
+        self.GeneticTreeLabel.adjustSize()
 
     def download_genetic_tree_graph(self):
         """
@@ -1971,9 +1960,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self,
         tree,
         label_color,
-        edge_color,
-        reticulation_color,
-        layout,
         proportional_edge_lengths,
         label_internal_vertices,
         use_leaf_names,
@@ -1987,9 +1973,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         Args:
             tree (Phylo.BaseTree.Tree): The phylogenetic tree to render.
             label_color (str): Color for labels.
-            edge_color (str): Color for edges.
-            reticulation_color (str): Color for reticulation edges.
-            layout (str): Layout for the tree visualization (e.g., 'horizontal').
             proportional_edge_lengths (bool): Whether to use proportional edge lengths.
             label_internal_vertices (bool): Whether to label internal vertices.
             use_leaf_names (bool): Whether to use leaf names.
