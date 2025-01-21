@@ -1,19 +1,17 @@
-import os
-
-import yaml
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QLabel
-from yaml.loader import SafeLoader
-from PyQt5.QtWidgets import QApplication, QDialog, QGridLayout, QWidget, QVBoxLayout, QLabel, QScrollArea, QTextBrowser, QFormLayout
+from PyQt5.QtWidgets import QApplication, QDialog, QGridLayout, QLabel
 from utils.settings import HoverLabel
+from utils.settings import Params2
+from utils.MyDumper import update_yaml_param
 
 
 from aphylogeo.params import Params
 
 
-class SettingsDialog(QDialog):
+class ResultSettingsDialog(QDialog):
     
     def __init__(self):
         super().__init__()
@@ -78,7 +76,7 @@ class SettingsDialog(QDialog):
         self.userParams.setObjectName("userParams")
 
         self.gridLayout_2 = QtWidgets.QGridLayout(self.userParams)
-        self.gridLayout_2.setContentsMargins(8, 8, 8, 8)
+        self.gridLayout_2.setContentsMargins(8, 20, 8, 8)
         self.gridLayout_2.setSpacing(6)
         self.gridLayout_2.setObjectName("gridLayout_2")
 
@@ -107,7 +105,6 @@ class SettingsDialog(QDialog):
         self.paramsDetails.setLayout(group_box_layout)
         
         HoverLabel.image_label = QLabel()
-        HoverLabel.image_label.setFixedSize(380, 150)
         HoverLabel.image_label.setAlignment(Qt.AlignCenter)
         HoverLabel.image_label.setPixmap(QPixmap("./img/other/final.png"))
         group_box_layout.addWidget(HoverLabel.image_label)
@@ -121,7 +118,6 @@ class SettingsDialog(QDialog):
         self.textEdit.setSizePolicy(sizePolicy)
         
         self.textEdit.setMinimumSize(QtCore.QSize(380, 130))
-        self.textEdit.setMaximumSize(QtCore.QSize(380, 130))
         
         font.setPointSize(8)
         self.textEdit.setFont(font)
@@ -261,7 +257,7 @@ class SettingsDialog(QDialog):
         self.setLayout(layout)
         self.retranslateUi()
         self.show()
-      #  QtCore.QMetaObject.connectSlotsByName(Dialog)
+        #  QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self):  # noqa: N803
         _translate = QtCore.QCoreApplication.translate
@@ -365,15 +361,10 @@ class SettingsDialog(QDialog):
         )
 
 
-def comboBoxSelected(self, index):
-    if index != 0:
-        HoverLabel.Settings.selected_index = index
-
-
 if __name__ == "__main__":
     import sys
 
     app = QApplication(sys.argv)
-    window = SettingsDialog()
+    window = ResultSettingsDialog()
     window.show()
     sys.exit(app.exec_())
