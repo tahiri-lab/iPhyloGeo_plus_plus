@@ -35,6 +35,7 @@ from PyQt5.QtCore import QObject, Qt, QThread, pyqtSignal
 from PyQt5.QtGui import QColor, QIcon, QMovie, QPixmap
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog, QGraphicsDropShadowEffect, QTableWidget, QTableWidgetItem, QVBoxLayout
+from ui_helpers import style_buttons, get_button_style, create_shadow_effect
 from utils import resources_rc  # noqa: F401  # Import the compiled resource module for resolving image resource path
 from utils.genetic_params_dialog import ParamDialog
 from utils.help import UiHowToUse
@@ -286,7 +287,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.ClimaticChartSettingsAxisY.currentIndexChanged.connect(self.generate_climate_graph)
             self.PlotTypesCombobox.currentIndexChanged.connect(self.generate_climate_graph)
             self.climatePlotDownloadButton.clicked.connect(self.download_climate_plot)
-            self.geneticTreescomboBox.currentIndexChanged.connect(self.show_selected_tree)
+            self.geneticTreescomboBox.currentIndexChanged.connect(self.show_tree)
             self.criteriaComboBox.currentIndexChanged.connect(self.render_tree)
             self.phyloTreescomboBox.currentIndexChanged.connect(self.render_tree)
             self.StartSequenceAlignmentButton.clicked.connect(self.start_alignment_analysis)
@@ -1488,7 +1489,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         """
         try:
             self.isDarkMode = not self.isDarkMode
-            buttons_Vertical = [
+            buttons_vertical = [
                 self.fileBrowserButtonPage1,
                 self.sequenceAlignmentButtonPage1,
                 self.clearButtonPage1,
@@ -1516,6 +1517,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 self.resultsButton,
             ]
 
+            style_buttons(buttons, self.isDarkMode)
+            style_buttons(buttons_vertical, self.isDarkMode)
+
             if self.isDarkMode:
                 qtmodern.styles.dark(app)
                 self.top_frame.setStyleSheet("background-color: #646464;")
@@ -1527,73 +1531,14 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
             # Common settings for both modes
             self.darkModeButton.setCursor(Qt.PointingHandCursor)
-            self.darkModeButton.setStyleSheet(self.get_button_style(self.isDarkMode, True))
-            self.darkModeButton.setGraphicsEffect(self.create_shadow_effect(10, 140))
+            self.darkModeButton.setStyleSheet(get_button_style(self.isDarkMode))
+            self.darkModeButton.setGraphicsEffect(create_shadow_effect(10, 140))
 
-            for button in buttons:
-                button.setCursor(Qt.PointingHandCursor)
-                button.setStyleSheet(self.get_button_style(self.isDarkMode))
-                button.setGraphicsEffect(self.create_shadow_effect(10, 140))
-
-            for buttonV in buttons_Vertical:
-                buttonV.setCursor(Qt.PointingHandCursor)
-                buttonV.setStyleSheet(self.get_button_style(self.isDarkMode, False, True))
-                buttonV.setGraphicsEffect(self.create_shadow_effect(10, 110))
+        except AttributeError as e:
+            self.show_error_dialog(f"An error occurred while setting attributes: {e}", "Attribute Error")
 
         except Exception as e:
             self.show_error_dialog(f"An unexpected error occurred: {e}")
-
-    def get_button_style(self, dark_mode, is_main_button=False, is_vertical=False):
-        """
-        Generate the appropriate style for buttons based on the mode (dark/light) and type (main/vertical).
-
-        Args:
-            dark_mode (bool): A flag indicating if dark mode is enabled.
-            is_main_button (bool): A flag indicating if the button is a main button.
-            is_vertical (bool): A flag indicating if the button is a vertical button.
-
-        Returns:
-            str: The stylesheet string for the button.
-        """
-        if dark_mode:
-            background_color = "#646464" if is_main_button else "#464645"
-            hover_color = "#B7B7B6" if is_main_button else "#9F9F9F"
-        else:
-            background_color = "#DEDDDA" if is_main_button else "#EEEEEE"
-            hover_color = "#B7B7B6" if is_main_button else "#D7D7D7"
-
-        return f"""
-            QPushButton {{
-                padding: 10px 20px;
-                font-weight: bold;
-                background-color: {background_color};
-                border-radius: 20px;
-                transition: background-color 0.3s ease; /* Add transition */
-            }}
-            QPushButton:hover {{
-                background-color: {hover_color};
-            }}
-            QPushButton:pressed {{
-                background-color: {background_color};
-            }}
-        """
-
-    def create_shadow_effect(self, blur_radius, alpha):
-        """
-        Create a shadow effect for the buttons.
-
-        Args:
-            blur_radius (int): The blur radius for the shadow.
-            alpha (int): The alpha (transparency) value for the shadow color.
-
-        Returns:
-            QGraphicsDropShadowEffect: The configured shadow effect.
-        """
-        shadow_effect = QGraphicsDropShadowEffect()
-        shadow_effect.setBlurRadius(blur_radius)
-        shadow_effect.setColor(QColor(0, 0, 0, alpha))
-        shadow_effect.setOffset(3, 3)
-        return shadow_effect
 
     def clear_genetic_data(self):
         """
@@ -1704,19 +1649,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
             return f"{parts[0]} nt {parts[1]} nt"
         return tree_name
 
-    def show_selected_tree(self, index):
-        """
-        Display the selected tree based on the provided index.
-
-        Args:
-            index (int): The index of the selected tree in the combo box.
-
-        Returns:
-            None
-        """
-        if index >= 0:
-            self.show_tree(index)
-
     def show_tree(self, index):
         """
         Display the phylogenetic tree at the specified index using Toytree.
@@ -1727,49 +1659,51 @@ class UiMainWindow(QtWidgets.QMainWindow):
         Returns:
             None
         """
-        if 0 <= index < self.total_trees:
-            self.current_index = index  # Keep track of the current index
-            key = self.tree_keys[index]  # This is the key with underscores
-            newick_str = self.newick_json[key]
+        if index is None or index < 0 or index >= self.total_trees:
+            return
+        
+        self.current_index = index  # Keep track of the current index
+        key = self.tree_keys[index]  # This is the key with underscores
+        newick_str = self.newick_json[key]
 
-            # Read the tree using Toytree
-            tree = toytree.tree(newick_str)
+        # Read the tree using Toytree
+        tree = toytree.tree(newick_str)
 
-            # Replace underscores with spaces in tip labels
-            for node in tree.treenode.traverse():
-                if node.is_leaf():
-                    node.name = node.name.replace("_", " ")  # Replace underscores with spaces
+        # Replace underscores with spaces in tip labels
+        for node in tree.treenode.traverse():
+            if node.is_leaf():
+                node.name = node.name.replace("_", " ")  # Replace underscores with spaces
 
-            # Customize the tip labels and their style
-            tip_labels = tree.get_tip_labels()
+        # Customize the tip labels and their style
+        tip_labels = tree.get_tip_labels()
 
-            # Draw the tree with customized style
-            canvas, axes, mark = tree.draw(
-                width=921,
-                height=450,
-                tip_labels=tip_labels,  # These labels now have spaces
-                tip_labels_style={"font-size": "15px"},
-                fixed_order=tip_labels,
-                edge_type="c",
-            )
+        # Draw the tree with customized style
+        canvas, axes, mark = tree.draw(
+            width=921,
+            height=450,
+            tip_labels=tip_labels,  # These labels now have spaces
+            tip_labels_style={"font-size": "15px"},
+            fixed_order=tip_labels,
+            edge_type="c",
+        )
 
-            # Adjust the canvas size to ensure it fits within the specified dimensions
-            canvas = toyplot.Canvas(width=921, height=450)
-            ax = canvas.cartesian(bounds=(50, 870, 50, 400), padding=15)
-            tree.draw(axes=ax)
+        # Adjust the canvas size to ensure it fits within the specified dimensions
+        canvas = toyplot.Canvas(width=921, height=450)
+        ax = canvas.cartesian(bounds=(50, 870, 50, 400), padding=15)
+        tree.draw(axes=ax)
 
-            # Save the canvas to a permanent file in the .results/ directory
-            self.tree_img_path = os.path.join("results", f"{key}.png")
-            os.makedirs(os.path.dirname(self.tree_img_path), exist_ok=True)
-            toyplot.png.render(canvas, self.tree_img_path)
+        # Save the canvas to a permanent file in the .results/ directory
+        self.tree_img_path = os.path.join("results", f"{key}.png")
+        os.makedirs(os.path.dirname(self.tree_img_path), exist_ok=True)
+        toyplot.png.render(canvas, self.tree_img_path)
 
-            # Create a QPixmap from the saved image file
-            pixmap = QPixmap(self.tree_img_path)
+        # Create a QPixmap from the saved image file
+        pixmap = QPixmap(self.tree_img_path)
 
-            # Clear the QLabel before setting the new QPixmap
-            self.GeneticTreeLabel.clear()
-            self.GeneticTreeLabel.setPixmap(pixmap)
-            self.GeneticTreeLabel.adjustSize()
+        # Clear the QLabel before setting the new QPixmap
+        self.GeneticTreeLabel.clear()
+        self.GeneticTreeLabel.setPixmap(pixmap)
+        self.GeneticTreeLabel.adjustSize()
 
     def download_genetic_tree_graph(self):
         """
@@ -2026,9 +1960,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self,
         tree,
         label_color,
-        edge_color,
-        reticulation_color,
-        layout,
         proportional_edge_lengths,
         label_internal_vertices,
         use_leaf_names,
@@ -2042,9 +1973,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         Args:
             tree (Phylo.BaseTree.Tree): The phylogenetic tree to render.
             label_color (str): Color for labels.
-            edge_color (str): Color for edges.
-            reticulation_color (str): Color for reticulation edges.
-            layout (str): Layout for the tree visualization (e.g., 'horizontal').
             proportional_edge_lengths (bool): Whether to use proportional edge lengths.
             label_internal_vertices (bool): Whether to label internal vertices.
             use_leaf_names (bool): Whether to use leaf names.
