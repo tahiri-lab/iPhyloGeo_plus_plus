@@ -12,6 +12,9 @@ ignore = [
 ]
 target-version = "py39"
 
+[tool.ruff.lint.per-file-ignores]
+"**/event_connector.py" = ["N815"]
+
 [tool.black]
 line-length = 150
 target-version = ['py39']

@@ -20,7 +20,6 @@ import qtmodern.windows
 import seaborn as sns
 import toyplot.png
 import toytree
-import yaml
 from aphylogeo import utils
 from aphylogeo.alignement import AlignSequences
 from aphylogeo.genetic_trees import GeneticTrees
@@ -35,14 +34,16 @@ from PyQt5.QtCore import QObject, Qt, QThread, pyqtSignal
 from PyQt5.QtGui import QColor, QIcon, QMovie, QPixmap
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog, QGraphicsDropShadowEffect, QTableWidget, QTableWidgetItem, QVBoxLayout
-from ui_helpers import style_buttons, get_button_style, create_shadow_effect
+from ui_helpers import create_shadow_effect, get_button_style, style_buttons
 from utils import resources_rc  # noqa: F401  # Import the compiled resource module for resolving image resource path
 from utils.genetic_params_dialog import ParamDialog
 from utils.help import HelpDialog
-from utils.PreferencesDialog import PreferencesDialog  # Import PreferencesDialog
-from utils.settings import Params2
-from utils.resultSettingsDialog import ResultSettingsDialog
 from utils.MyDumper import update_yaml_param
+from utils.PreferencesDialog import PreferencesDialog  # Import PreferencesDialog
+from utils.resultSettingsDialog import ResultSettingsDialog
+from utils.settings import Params2
+
+from scripts import event_connector
 
 try:
     Params.load_from_file("./scripts/utils/params.yaml")
@@ -100,6 +101,7 @@ class Worker(QObject):
     def stop(self):
         self.running = False
 
+
 window_size = 50
 starting_position = 1
 
@@ -111,7 +113,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
         This method creates a new QMainWindow instance, sets up its UI using the UiHowToUse class, and displays the window.
         """
-        
+
         dialog = HelpDialog()
         dialog.exec_()
 
@@ -120,7 +122,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         Initialize and display the parameters window.
         This method creates a new QMainWindow instance, sets up its UI using the UiDialog class, and displays the window.
         """
-        
+
         dialog = ResultSettingsDialog()
         dialog.exec_()
 
@@ -143,6 +145,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super(UiMainWindow, self).__init__()
         uic.loadUi("scripts/Qt/main.ui", self)
+        event_connector.connect_decorated_methods(self)
         self.setup_ui()
 
     def setup_ui(self):
@@ -1574,7 +1577,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         """
         if index is None or index < 0 or index >= self.total_trees:
             return
-        
+
         self.current_index = index  # Keep track of the current index
         key = self.tree_keys[index]  # This is the key with underscores
         newick_str = self.newick_json[key]
