@@ -40,7 +40,7 @@ from utils.genetic_params_dialog import ParamDialog
 from utils.help import HelpDialog
 from utils.PreferencesDialog import PreferencesDialog  # Import PreferencesDialog
 from utils.settings import Params2
-from utils.settingsWindow import ResultSettingsDialog
+from scripts.utils.resultSettingsDialog import ResultSettingsDialog
 from utils.MyDumper import update_yaml_param
 
 try:
