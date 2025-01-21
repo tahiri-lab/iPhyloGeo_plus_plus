@@ -1,9 +1,10 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QLabel, QScrollArea, QTextBrowser
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
 
-class UiHowToUse(QMainWindow):
+from PyQt5.QtWidgets import QApplication, QDialog, QWidget, QVBoxLayout, QLabel, QScrollArea, QTextBrowser, QFormLayout
+
+class HelpDialog(QDialog):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Help - aPhyloGeo')
@@ -11,25 +12,24 @@ class UiHowToUse(QMainWindow):
         self.initUI()
 
     def initUI(self):
-        central_widget = QWidget()
-        self.setCentralWidget(central_widget)
-        layout = QVBoxLayout(central_widget)
+        layout = QFormLayout()
         layout.setContentsMargins(20, 20, 20, 20)
-
+        
+        
         scroll_area = QScrollArea()
         scroll_area.setWidgetResizable(True)
-        layout.addWidget(scroll_area)
-
+        layout.addRow(scroll_area)
+        
         content_widget = QWidget()
-        scroll_area.setWidget(content_widget)
-        content_layout = QVBoxLayout(content_widget)
-        content_layout.setContentsMargins(20, 20, 20, 20)
+        scroll_area.setWidget(content_widget)   
+        content_layout = QFormLayout(content_widget)
+    
 
         title_label = QLabel('Help - aPhyloGeo')
         title_label.setFont(QFont('Helvetica', 28, QFont.Bold))
         title_label.setAlignment(Qt.AlignCenter)
         title_label.setStyleSheet('color: #2C3E50; margin-bottom: 20px;')
-        content_layout.addWidget(title_label)
+        content_layout.addRow(title_label)
 
         sections = [
             {
@@ -98,7 +98,7 @@ class UiHowToUse(QMainWindow):
                 instruction_label.setWordWrap(True)
                 section_layout.addWidget(instruction_label)
 
-            content_layout.addWidget(section_widget)
+            content_layout.addRow(section_widget)
 
         additional_info = QTextBrowser()
         additional_info.setOpenExternalLinks(True)
@@ -106,12 +106,15 @@ class UiHowToUse(QMainWindow):
             'You will obtain more information here: <a href="https://github.com/tahiri-lab/aPhyloGeo_plus_plus/blob/main/README.md">README.md</a>'
         )
         additional_info.setStyleSheet('margin-top: 20px; color: #2980B9;')
-        content_layout.addWidget(additional_info)
+        content_layout.addRow(additional_info)
 
-        content_layout.addStretch()
+        layout.addChildLayout(content_layout)
+        self.setLayout(layout)
+        self.resize(1500, 1000)
+        self.show()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    window = UiHowToUse()
+    window = HelpDialog()
     window.show()
     sys.exit(app.exec_())
