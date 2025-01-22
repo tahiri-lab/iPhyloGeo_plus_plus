@@ -42,11 +42,17 @@ from utils.help import HelpDialog
 from utils.PreferencesDialog import PreferencesDialog  # Import PreferencesDialog
 from utils.resultSettingsDialog import ResultSettingsDialog
 from utils.MyDumper import update_yaml_param
+from utils.ClimaticGraphSettings import ClimaticGraphSettings
 
 try:
     Params.load_from_file("./scripts/utils/params.yaml")
 except FileNotFoundError:
     Params.validate_and_set_params(Params.PARAMETER_KEYS)
+    
+try:
+    ClimaticGraphSettings.load_from_file("./scripts/utils/ClimaticGraphSettings.yaml")
+except FileNotFoundError:
+    ClimaticGraphSettings.validate_and_set_params(ClimaticGraphSettings.PARAMETER_KEYS)
 
 
 class Worker(QObject):
@@ -1655,14 +1661,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
         Returns:
             None
         """
-        try:
-            dialog = PreferencesDialog(self)
-            dialog.update_preferences(self.preferences)
-            if dialog.exec_() == QDialog.Accepted:
-                self.preferences = dialog.get_preferences()
-                self.apply_preferences()
-        except Exception as e:
-            self.show_error_dialog(f"An unexpected error occurred while opening the preferences dialog: {e}")
+        dialog = PreferencesDialog(self)
+        if dialog.exec_() == QDialog.Accepted:
+            self.apply_preferences()
 
     def apply_preferences(self):
         """
@@ -1673,10 +1674,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         Returns:
             None
         """
-        try:
-            self.show_climatic_tree(self.current_index)
-        except Exception as e:
-            self.show_error_dialog(f"An unexpected error occurred while applying preferences: {e}")
+        self.show_climatic_tree(self.current_index)
 
     def display_climatic_trees(self):
         """
@@ -1740,16 +1738,15 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 tree = self.climaticTrees[key]
 
                 # Get preferences
-                preferences = self.preferences
-                label_color = preferences.get("label_color", "black")
-                edge_color = preferences.get("edge_color", "blue")
-                reticulation_color = preferences.get("reticulation_color", "red")
-                layout = preferences.get("layout", "horizontal")
-                proportional_edge_lengths = preferences.get("proportional_edge_lengths", False)
-                label_internal_vertices = preferences.get("label_internal_vertices", False)
-                use_leaf_names = preferences.get("use_leaf_names", True)
-                show_branch_length = preferences.get("show_branch_length", False)
-                view_type = preferences.get("view_type", "network")
+                label_color = str(ClimaticGraphSettings.label_color)
+                edge_color = str(ClimaticGraphSettings.edge_color)
+                reticulation_color = str(ClimaticGraphSettings.reticulation_color)
+                layout = str(ClimaticGraphSettings.layout)
+                proportional_edge_lengths = ClimaticGraphSettings.proportional_edge_lengths
+                label_internal_vertices = ClimaticGraphSettings.label_internal_vertices
+                use_leaf_names = ClimaticGraphSettings.use_leaf_names
+                show_branch_length = ClimaticGraphSettings.show_branch_length
+                view_type = str(ClimaticGraphSettings.view_type)
 
                 if view_type == "network":
                     self.render_network_view(

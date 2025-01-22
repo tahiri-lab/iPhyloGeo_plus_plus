@@ -1,0 +1,3 @@
+{label_color: black, edge_color: blue, reticulation_color: magenta, layout: horizontal,
+  proportional_edge_lengths: false, label_internal_vertices: false, use_leaf_names: true,
+  show_branch_length: false, view_type: network}

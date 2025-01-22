@@ -1,5 +1,13 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QComboBox, QRadioButton, QCheckBox, QPushButton, QButtonGroup
+from utils.ClimaticGraphSettings import ClimaticGraphSettings
+from utils.MyDumper import update_yaml_param
+
+try:
+    ClimaticGraphSettings.load_from_file("./scripts/utils/ClimaticGraphSettings.yaml")
+except FileNotFoundError:
+    ClimaticGraphSettings.validate_and_set_params(ClimaticGraphSettings.PARAMETER_KEYS)
+    
 
 class PreferencesDialog(QDialog):
     def __init__(self, parent=None):
@@ -14,30 +22,48 @@ class PreferencesDialog(QDialog):
         self.label_color_label = QLabel("Label color:")
         self.label_color_combo = QComboBox()
         self.label_color_combo.addItems(["black", "blue", "red", "green"])
+        self.label_color_combo.setCurrentText(str(ClimaticGraphSettings.label_color))
 
         # Edge Color
         self.edge_color_label = QLabel("Edge color:")
         self.edge_color_combo = QComboBox()
         self.edge_color_combo.addItems(["black", "blue", "red", "green"])
+        self.edge_color_combo.setCurrentText(str(ClimaticGraphSettings.edge_color))
 
         # Reticulation Color
         self.reticulation_color_label = QLabel("Reticulation color:")
         self.reticulation_color_combo = QComboBox()
         self.reticulation_color_combo.addItems(["magenta", "cyan", "yellow", "black"])
-
+        self.reticulation_color_combo.setCurrentText(str(ClimaticGraphSettings.reticulation_color))
+        
         # Layout Options
         self.layout_options_label = QLabel("Layout Options:")
         self.vertical_radio = QRadioButton("Hierarchical Vertical")
         self.horizontal_radio = QRadioButton("Hierarchical Horizontal")
-        self.horizontal_radio.setChecked(True)
         self.axial_radio = QRadioButton("Axial")
         self.radial_radio = QRadioButton("Radial")
+        
+        match str(ClimaticGraphSettings.layout):
+            case "vertical":
+                self.vertical_radio.setChecked(True)
+            case "horizontal":
+                self.horizontal_radio.setChecked(True)
+            case "axial":
+                self.axial_radio.setChecked(True)
+            case "radial":
+                self.radial_radio.setChecked(True)
+                
 
         # View Type Options
         self.view_type_label = QLabel("View Type:")
         self.network_view_radio = QRadioButton("Network View")
         self.tree_view_radio = QRadioButton("Tree View")
-        self.network_view_radio.setChecked(True)
+        match str(ClimaticGraphSettings.view_type):
+            case "network":
+                self.network_view_radio.setChecked(True)
+            case "tree":
+                self.tree_view_radio.setChecked(True)
+
 
         # Add view type radios to a button group to ensure only one can be selected at a time
         self.view_type_group = QButtonGroup()
@@ -46,14 +72,17 @@ class PreferencesDialog(QDialog):
 
         # Other Options
         self.proportional_edge_lengths = QCheckBox("Proportional edge lengths")
+        self.proportional_edge_lengths.setChecked(ClimaticGraphSettings.proportional_edge_lengths)
         self.label_internal_vertices = QCheckBox("Label internal vertices")
+        self.label_internal_vertices.setChecked(ClimaticGraphSettings.label_internal_vertices)
         self.use_leaf_names = QCheckBox("Use leaf names")
-        self.use_leaf_names.setChecked(True)
+        self.use_leaf_names.setChecked(ClimaticGraphSettings.use_leaf_names)
         self.show_branch_length = QCheckBox("Show branch lengths")
+        self.show_branch_length.setChecked(ClimaticGraphSettings.show_branch_length)
 
         # Save Button
         self.save_button = QPushButton("Save")
-        self.save_button.clicked.connect(self.accept)
+        self.save_button.clicked.connect(self.submit)
 
         # Adding widgets to the layout
         layout.addWidget(self.label_color_label)
@@ -77,6 +106,7 @@ class PreferencesDialog(QDialog):
         layout.addWidget(self.save_button)
 
         self.setLayout(layout)
+        self.show()
 
     def update_preferences(self, preferences):
         self.label_color_combo.setCurrentText(preferences.get("label_color", "black"))
@@ -118,10 +148,16 @@ class PreferencesDialog(QDialog):
             "use_leaf_names": self.use_leaf_names.isChecked(),
             "show_branch_length": self.show_branch_length.isChecked()
         }
+        
+    def submit(self):
+        
+        for property_name, new_value in self.get_preferences().items():
+            update_yaml_param(ClimaticGraphSettings, "scripts/utils/ClimaticGraphSettings.yaml", property_name, new_value)
+        self.accept()  # Close the dialog and indicate success
 
 if __name__ == "__main__":
     import sys
+    
     app = QtWidgets.QApplication(sys.argv)
     ui = PreferencesDialog()
-    ui.show()
     sys.exit(app.exec_())
