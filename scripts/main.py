@@ -158,17 +158,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         sets up styles and effects for UI elements, and initializes the state of the application.
         """
         try:
-            self.preferences = {
-                "label_color": "black",
-                "edge_color": "blue",
-                "reticulation_color": "red",
-                "layout": "horizontal",
-                "proportional_edge_lengths": False,
-                "label_internal_vertices": False,
-                "use_leaf_names": True,
-                "show_branch_length": False,
-                "view_type": "network",
-            }
             self.tree_keys = []
             self.total_trees = 0
             self.current_index = 0
