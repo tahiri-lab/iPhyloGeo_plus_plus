@@ -34,16 +34,17 @@ from PyQt5.QtCore import QObject, Qt, QThread, pyqtSignal
 from PyQt5.QtGui import QColor, QIcon, QMovie, QPixmap
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog, QGraphicsDropShadowEffect, QTableWidget, QTableWidgetItem, QVBoxLayout
+from Qt.main import Ui_MainWindow
 from ui_helpers import create_shadow_effect, get_button_style, style_buttons
-from utils import resources_rc  # noqa: F401  # Import the compiled resource module for resolving image resource path
+from Qt import resources_rc  # noqa: F401  # Import the compiled resource module for resolving image resource path
 from utils.genetic_params_dialog import ParamDialog
 from utils.help import HelpDialog
-from utils.MyDumper import update_yaml_param
+from utils.my_dumper import update_yaml_param
 from utils.PreferencesDialog import PreferencesDialog  # Import PreferencesDialog
-from utils.resultSettingsDialog import ResultSettingsDialog
+from utils.result_settings_dialog import ResultSettingsDialog
 from utils.settings import Params2
 
-from scripts import event_connector
+from event_connector import QtEvents, connect_event, connect_decorated_methods
 
 try:
     Params.load_from_file("./scripts/utils/params.yaml")
@@ -106,7 +107,14 @@ window_size = 50
 starting_position = 1
 
 
-class UiMainWindow(QtWidgets.QMainWindow):
+class UiMainWindow(Ui_MainWindow):
+    def __init__(self):
+        super(UiMainWindow, self).__init__()
+        # uic.loadUi("scripts/Qt/main.ui", self)
+        self.setup_ui()
+        connect_decorated_methods(self)
+
+    @connect_event("helpButton", QtEvents.clicked)
     def open_help_window(self):
         """
         Initialize and display the 'How to Use' window.
@@ -117,6 +125,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         dialog = HelpDialog()
         dialog.exec_()
 
+    @connect_event("settingsButtonPage3", QtEvents.clicked)
     def open_result_settings_window(self):
         """
         Initialize and display the parameters window.
@@ -141,12 +150,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         msgBox.setStandardButtons(QtWidgets.QMessageBox.Ok)
         msgBox.setDefaultButton(QtWidgets.QMessageBox.Ok)
         msgBox.exec_()
-
-    def __init__(self):
-        super(UiMainWindow, self).__init__()
-        uic.loadUi("scripts/Qt/main.ui", self)
-        event_connector.connect_decorated_methods(self)
-        self.setup_ui()
 
     def setup_ui(self):
         """
@@ -174,48 +177,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.setObjectName("MainWindow")
             self.window_size_spinbox_2.setRange(1, 1000)
             self.starting_position_spinbox_2.setRange(1, 1000)
-            self.starting_position_spinbox_2.valueChanged.connect(self.update_plot)
-            self.window_size_spinbox_2.valueChanged.connect(self.update_plot)
-            self.homeButton.clicked.connect(self.show_home_section)
-            self.geneticDataButton.clicked.connect(self.show_genetic_section)
-            self.clearButtonPage3.clicked.connect(self.clear_results)
-            self.climaticDataButton.clicked.connect(self.show_climate_section)
-            self.helpButton.clicked.connect(self.open_help_window)
-            self.darkModeButton.clicked.connect(self.toggle_dark_mode)
-            self.climaticTreeButtonPage2.clicked.connect(self.display_climatic_trees)
-            self.climaticTreescomboBox.currentIndexChanged.connect(self.show_selected_climatic_tree)
-            self.downloadGraphButton2.clicked.connect(self.download_climatic_tree_graph)
-            self.darkModeButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
             self.isDarkMode = False  # Keep track of the state
-            self.downloadResultsPlotButton.clicked.connect(self.save_tree_graph)
-            self.fileBrowserButtonPage1.clicked.connect(self.select_fasta_file)
-            self.geneticTreeButtonPage1.clicked.connect(self.display_newick_trees)
-            self.statisticsButtonPage3.clicked.connect(self.display_phylogeographic_trees)
-            self.sequenceAlignmentButtonPage1.clicked.connect(self.show_sequence_alignment_page)
-            self.clearButtonPage1.clicked.connect(self.clear_genetic_data)
-            self.downloadSimilarityButton.clicked.connect(self.download_similarity_plot_chart)
-            self.statisticsButtonPage1.clicked.connect(self.initialize_species_list)
-            self.clearButtonPage2.clicked.connect(self.clear_climmatic_data)
-            self.fileBrowserButtonPage2.clicked.connect(self.load_csv_climate_file)
-            self.resultsButton.clicked.connect(self.show_results_section)
-            self.statisticsButtonPage2.clicked.connect(self.load_climate_statistics)
-            self.ClimaticChartSettingsAxisX.currentIndexChanged.connect(self.generate_climate_graph)
-            self.ClimaticChartSettingsAxisY.currentIndexChanged.connect(self.generate_climate_graph)
-            self.PlotTypesCombobox.currentIndexChanged.connect(self.generate_climate_graph)
-            self.climatePlotDownloadButton.clicked.connect(self.download_climate_plot)
-            self.geneticTreescomboBox.currentIndexChanged.connect(self.show_tree)
-            self.criteriaComboBox.currentIndexChanged.connect(self.render_tree)
-            self.phyloTreescomboBox.currentIndexChanged.connect(self.render_tree)
-            self.StartSequenceAlignmentButton.clicked.connect(self.start_alignment_analysis)
-            self.settingsButtonPage3.clicked.connect(self.open_result_settings_window)
-            self.submitButtonPage3.clicked.connect(self.show_filtered_results)
-            self.clearButtonPage4.clicked.connect(self.clear_result)
-            self.statisticsButtonPage4.clicked.connect(self.display_phylogeographic_trees)
-            self.clearButtonPage4.clicked.connect(self.clear_result_stat)
-            self.downloadGraphButton.clicked.connect(self.download_genetic_tree_graph)
-            self.preferencesButton.clicked.connect(self.open_climatic_tree_preferences_window)
-            self.geneticSettingsButton.clicked.connect(self.open_genetic_settings_window)
-
+            self.darkModeButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
             self.stackedWidget.setCurrentIndex(0)
 
             buttons = [
@@ -331,9 +294,11 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 "Unexpected Error",
             )
 
+    @connect_event("clearButtonPage3", QtEvents.clicked)
     def clear_results(self):
         self.textEditResults.clear()
 
+    @connect_event("geneticSettingsButton", QtEvents.clicked)
     def open_genetic_settings_window(self):
         dialog = ParamDialog()
         if dialog.exec_() == QDialog.Accepted:
@@ -581,6 +546,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.show_error_dialog(f"An unexpected error occurred: {e}")
 
+    @connect_event(["starting_position_spinbox_2", "window_size_spinbox_2"], QtEvents.valueChanged)
     def update_plot(self):
         """
         Update the plot based on the current starting position and window size.
@@ -614,6 +580,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
     ################################
 
     # bug que plus que tu click sur le boutton, plus il y a de page qui ouvre
+    @connect_event("statisticsButtonPage1", QtEvents.clicked)
     def initialize_species_list(self):
         # Load species names into the combo box
         self.referenceComboBox.clear()
@@ -722,6 +689,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             print(f"Error updating similarity plot: {e}")
 
+    @connect_event("downloadSimilarityButton", QtEvents.clicked)
     def download_similarity_plot_chart(self):
         file_url = "scripts/results/similarity_plot.png"  # The file path
         save_path, _ = QFileDialog.getSaveFileName(self, "Save File", "", "PNG Files (*.png);;All Files (*)")
@@ -729,6 +697,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             return  # User cancelled th
         shutil.copy(file_url, save_path)  # e save dialog
 
+    @connect_event("statisticsButtonPage2", QtEvents.clicked)
     def load_climate_statistics(self):
         """
         Load climate data from a CSV file, update the UI elements with the column names, and switch to the appropriate tab.
@@ -753,6 +722,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.ClimaticChartSettingsAxisY.addItems(self.columns)
         self.tabWidget2.setCurrentIndex(2)
 
+    @connect_event(["ClimaticChartSettingsAxisX", "ClimaticChartSettingsAxisY", "PlotTypesCombobox"], QtEvents.currentIndexChanged)
     def generate_climate_graph(self):
         """
         Generate and display a graph based on the selected X and Y axis data and the chosen plot type.
@@ -850,6 +820,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.ClimaticChart_2.setPixmap(pixmap)
         self.tabWidget2.setCurrentIndex(2)
 
+    @connect_event("climatePlotDownloadButton", QtEvents.clicked)
     def download_climate_plot(self):
         """
         Download the generated plot.
@@ -884,6 +855,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 file_path += ".png"
             shutil.copy(plot_path, file_path)
 
+    @connect_event("fileBrowserButtonPage1", QtEvents.clicked)
     def select_fasta_file(self):
         """
         Open a dialog to select a FASTA file, update parameters, and display the content with color-coded sequences.
@@ -959,6 +931,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.show_error_dialog(f"An unexpected error occurred: {e}")
 
+    @connect_event("StartSequenceAlignmentButton", QtEvents.clicked)
     def start_alignment_analysis(self):
         """
         Perform sequence alignment and store the resulting genetic tree dictionary.
@@ -1082,6 +1055,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.show_error_dialog(f"An unexpected error occurred: {e}")
 
+    @connect_event("fileBrowserButtonPage2", QtEvents.clicked)
     def load_csv_climate_file(self):
         def create_sleek_table(df):
             num_rows, num_columns = df.shape
@@ -1234,6 +1208,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.show_error_dialog(f"An unexpected error occurred: {e}")
 
+    @connect_event("homeButton", QtEvents.clicked)
     def show_home_section(self):
         """
         Display the home page of the application.
@@ -1250,6 +1225,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.show_error_dialog(f"An unexpected error occurred: {e}")
 
+    @connect_event("geneticDataButton", QtEvents.clicked)
     def show_genetic_section(self):
         """
         Display the genetic data page of the application.
@@ -1267,6 +1243,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.show_error_dialog(f"An unexpected error occurred: {e}")
 
+    @connect_event("climaticDataButton", QtEvents.clicked)
     def show_climate_section(self):
         """
         Display the climatic data page of the application.
@@ -1284,6 +1261,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.show_error_dialog(f"An unexpected error occurred: {e}")
 
+    @connect_event("resultsButton", QtEvents.clicked)
     def show_results_section(self):
         """
         Display the results page of the application.
@@ -1299,6 +1277,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.show_error_dialog(f"An unexpected error occurred: {e}")
 
+    @connect_event("sequenceAlignmentButtonPage1", QtEvents.clicked)
     def show_sequence_alignment_page(self):
         """
         Display the sequence alignment page.
@@ -1312,6 +1291,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.show_error_dialog(f"An unexpected error occurred: {e}")
 
+    @connect_event("submitButtonPage3", QtEvents.clicked)
     def show_filtered_results(self):
         """
         Show the results filtered with a metric threshold provided by the user.
@@ -1389,6 +1369,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         # Add the QWebEngineView to the QTextBrowser
         layout.addWidget(web_engine_view)
 
+    @connect_event("darkModeButton", QtEvents.clicked)
     def toggle_dark_mode(self):
         """
         Toggle the application's dark mode setting.
@@ -1456,6 +1437,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.show_error_dialog(f"An unexpected error occurred: {e}")
 
+    @connect_event("clearButtonPage1", QtEvents.clicked)
     def clear_genetic_data(self):
         """
         Clear the genetic data fields.
@@ -1476,6 +1458,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.show_error_dialog(f"An unexpected error occurred: {e}")
 
+    @connect_event("clearButtonPage2", QtEvents.clicked)
     def clear_climmatic_data(self):
         """
         Clear the text fields related to climatic data.
@@ -1491,6 +1474,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.show_error_dialog(f"An unexpected error occurred: {e}", "Error")
 
     # elle se fait override par celle qui suit, regarder si elle est utile au final (penses pas)
+    @connect_event("clearButtonPage4", QtEvents.clicked)
     def clear_result(self):
         """
         Clear the text fields related to climatic data.
@@ -1505,21 +1489,12 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.graphicsViewClimData.clear()
             self.ClimStatsListCondition.setCurrentIndex(0)
             self.ClimStatsListChart.setCurrentIndex(0)
-        except Exception as e:
-            self.show_error_dialog(f"An unexpected error occurred: {e}", "Error")
-
-    def clear_result_stat(self):
-        """
-        Clear the statistics result lists.
-
-        This method resets the current index of the results statistics condition list and the results statistics chart list to 0.
-        """
-        try:
             self.ResultsStatsListCondition.setCurrentIndex(0)
             self.ResultsStatsListChart.setCurrentIndex(0)
         except Exception as e:
             self.show_error_dialog(f"An unexpected error occurred: {e}", "Error")
 
+    @connect_event("geneticTreeButtonPage1", QtEvents.clicked)
     def display_newick_trees(self):
         """
         Display Newick format trees in the application using Toytree.
@@ -1565,6 +1540,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             return f"{parts[0]} nt {parts[1]} nt"
         return tree_name
 
+    @connect_event("geneticTreescomboBox", QtEvents.currentIndexChanged)
     def show_tree(self, index):
         """
         Display the phylogenetic tree at the specified index using Toytree.
@@ -1621,6 +1597,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.GeneticTreeLabel.setPixmap(pixmap)
         self.GeneticTreeLabel.adjustSize()
 
+    @connect_event("downloadGraphButton", QtEvents.clicked)
     def download_genetic_tree_graph(self):
         """
         Download the current displayed tree graph as a PNG file.
@@ -1653,6 +1630,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.show_error_dialog(f"An unexpected error occurred while downloading the tree image: {e}")
 
+    @connect_event("preferencesButton", QtEvents.clicked)
     def open_climatic_tree_preferences_window(self):
         """
         Open the preferences dialog and update the application settings based on user input.
@@ -1685,6 +1663,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.show_error_dialog(f"An unexpected error occurred while applying preferences: {e}")
 
+    @connect_event("climaticTreeButtonPage2", QtEvents.clicked)
     def display_climatic_trees(self):
         """
         Display the climatic trees in the application.
@@ -1712,6 +1691,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.show_error_dialog(f"An unexpected error occurred: {e}")
 
+    @connect_event("climaticTreescomboBox", QtEvents.currentIndexChanged)
     def show_selected_climatic_tree(self, index):
         """
         Display the selected climatic tree based on the provided index.
@@ -2061,6 +2041,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.show_error_dialog(f"An unexpected error occurred while creating the edge trace: {e}")
 
+    @connect_event("downloadGraphButton2", QtEvents.clicked)
     def download_climatic_tree_graph(self):
         """
         Download the current displayed climatic tree graph as a PNG file.
@@ -2099,6 +2080,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.show_error_dialog(f"An unexpected error occurred while downloading the climatic tree graph: {e}")
 
     ################################################
+    @connect_event(["statisticsButtonPage3", "statisticsButtonPage4"], QtEvents.clicked)
     def display_phylogeographic_trees(self):
         self.stackedWidget.setCurrentIndex(4)
         self.results_dir = "scripts/results"
@@ -2128,6 +2110,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             return f"{parts[0]} nt {parts[1]} nt"
         return tree_key
 
+    @connect_event(["phyloTreescomboBox", "criteriaComboBox"], QtEvents.currentIndexChanged)
     def render_tree(self, index):
         if 0 <= index < self.total_trees:
             self.current_index1 = index
@@ -2182,6 +2165,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.PhyloTreeLabel.setPixmap(pixmap)
             self.PhyloTreeLabel.adjustSize()
 
+    @connect_event("downloadResultsPlotButton", QtEvents.clicked)
     def save_tree_graph(self):
         current_key = self.tree_keys[self.current_index1]
         default_file_name = f"{current_key}.png"

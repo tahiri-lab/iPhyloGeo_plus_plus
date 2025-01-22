@@ -1,10 +1,12 @@
 from PyQt5 import QtGui, QtCore, QtWidgets
 
+
 def style_buttons(buttons, dark_mode):
     for button in buttons:
         button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         button.setStyleSheet(get_button_style(dark_mode))
         button.setGraphicsEffect(create_shadow_effect(10, 140))
+
 
 def get_button_style(dark_mode):
     if dark_mode:
@@ -26,6 +28,7 @@ def get_button_style(dark_mode):
             background-color: {hover_color};
         }}
     """
+
 
 def create_shadow_effect(blur_radius, alpha):
     shadow_effect = QtWidgets.QGraphicsDropShadowEffect()

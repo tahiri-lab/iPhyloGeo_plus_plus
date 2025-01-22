@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QComboBox, QRadioButton, QCheckBox, QPushButton, QButtonGroup
 
+
 class PreferencesDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -109,18 +110,24 @@ class PreferencesDialog(QDialog):
             "label_color": self.label_color_combo.currentText(),
             "edge_color": self.edge_color_combo.currentText(),
             "reticulation_color": self.reticulation_color_combo.currentText(),
-            "layout": "vertical" if self.vertical_radio.isChecked() else
-                      "horizontal" if self.horizontal_radio.isChecked() else
-                      "axial" if self.axial_radio.isChecked() else "radial",
+            "layout": "vertical"
+            if self.vertical_radio.isChecked()
+            else "horizontal"
+            if self.horizontal_radio.isChecked()
+            else "axial"
+            if self.axial_radio.isChecked()
+            else "radial",
             "view_type": "network" if self.network_view_radio.isChecked() else "tree",
             "proportional_edge_lengths": self.proportional_edge_lengths.isChecked(),
             "label_internal_vertices": self.label_internal_vertices.isChecked(),
             "use_leaf_names": self.use_leaf_names.isChecked(),
-            "show_branch_length": self.show_branch_length.isChecked()
+            "show_branch_length": self.show_branch_length.isChecked(),
         }
+
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     ui = PreferencesDialog()
     ui.show()

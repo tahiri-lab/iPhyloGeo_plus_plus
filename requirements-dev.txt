@@ -11,3 +11,4 @@ pathspec==0.12.1
 pre_commit==4.0.1
 ruff==0.7.3
 virtualenv==20.27.1
+pyqt5-tools==5.15.9.3.3
