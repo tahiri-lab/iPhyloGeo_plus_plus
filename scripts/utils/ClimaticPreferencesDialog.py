@@ -9,7 +9,7 @@ except FileNotFoundError:
     ClimaticGraphSettings.validate_and_set_params(ClimaticGraphSettings.PARAMETER_KEYS)
     
 
-class PreferencesDialog(QDialog):
+class ClimaticPreferencesDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Preferences")
@@ -22,19 +22,19 @@ class PreferencesDialog(QDialog):
         self.label_color_label = QLabel("Label color:")
         self.label_color_combo = QComboBox()
         self.label_color_combo.addItems(["black", "blue", "red", "green"])
-        self.label_color_combo.setCurrentText(str(ClimaticGraphSettings.label_color))
+        self.label_color_combo.setCurrentText(ClimaticGraphSettings.label_color)
 
         # Edge Color
         self.edge_color_label = QLabel("Edge color:")
         self.edge_color_combo = QComboBox()
         self.edge_color_combo.addItems(["black", "blue", "red", "green"])
-        self.edge_color_combo.setCurrentText(str(ClimaticGraphSettings.edge_color))
+        self.edge_color_combo.setCurrentText(ClimaticGraphSettings.edge_color)
 
         # Reticulation Color
         self.reticulation_color_label = QLabel("Reticulation color:")
         self.reticulation_color_combo = QComboBox()
         self.reticulation_color_combo.addItems(["magenta", "cyan", "yellow", "black"])
-        self.reticulation_color_combo.setCurrentText(str(ClimaticGraphSettings.reticulation_color))
+        self.reticulation_color_combo.setCurrentText(ClimaticGraphSettings.reticulation_color)
         
         # Layout Options
         self.layout_options_label = QLabel("Layout Options:")
@@ -43,7 +43,7 @@ class PreferencesDialog(QDialog):
         self.axial_radio = QRadioButton("Axial")
         self.radial_radio = QRadioButton("Radial")
         
-        match str(ClimaticGraphSettings.layout):
+        match ClimaticGraphSettings.layout:
             case "vertical":
                 self.vertical_radio.setChecked(True)
             case "horizontal":
@@ -58,7 +58,7 @@ class PreferencesDialog(QDialog):
         self.view_type_label = QLabel("View Type:")
         self.network_view_radio = QRadioButton("Network View")
         self.tree_view_radio = QRadioButton("Tree View")
-        match str(ClimaticGraphSettings.view_type):
+        match ClimaticGraphSettings.view_type:
             case "network":
                 self.network_view_radio.setChecked(True)
             case "tree":
@@ -159,5 +159,5 @@ if __name__ == "__main__":
     import sys
     
     app = QtWidgets.QApplication(sys.argv)
-    ui = PreferencesDialog()
+    ui = ClimaticPreferencesDialog()
     sys.exit(app.exec_())

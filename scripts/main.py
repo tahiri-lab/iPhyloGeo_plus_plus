@@ -39,7 +39,7 @@ from ui_helpers import style_buttons, get_button_style, create_shadow_effect
 from utils import resources_rc  # noqa: F401  # Import the compiled resource module for resolving image resource path
 from utils.genetic_params_dialog import ParamDialog
 from utils.help import HelpDialog
-from utils.PreferencesDialog import PreferencesDialog  # Import PreferencesDialog
+from utils.ClimaticPreferencesDialog import ClimaticPreferencesDialog
 from utils.resultSettingsDialog import ResultSettingsDialog
 from utils.MyDumper import update_yaml_param
 from utils.ClimaticGraphSettings import ClimaticGraphSettings
@@ -1650,7 +1650,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         Returns:
             None
         """
-        dialog = PreferencesDialog(self)
+        dialog = ClimaticPreferencesDialog(self)
         if dialog.exec_() == QDialog.Accepted:
             self.apply_preferences()
 
@@ -1727,15 +1727,15 @@ class UiMainWindow(QtWidgets.QMainWindow):
                 tree = self.climaticTrees[key]
 
                 # Get preferences
-                label_color = str(ClimaticGraphSettings.label_color)
-                edge_color = str(ClimaticGraphSettings.edge_color)
-                reticulation_color = str(ClimaticGraphSettings.reticulation_color)
-                layout = str(ClimaticGraphSettings.layout)
+                label_color = ClimaticGraphSettings.label_color
+                edge_color = ClimaticGraphSettings.edge_color
+                reticulation_color = ClimaticGraphSettings.reticulation_color
+                layout = ClimaticGraphSettings.layout
                 proportional_edge_lengths = ClimaticGraphSettings.proportional_edge_lengths
                 label_internal_vertices = ClimaticGraphSettings.label_internal_vertices
                 use_leaf_names = ClimaticGraphSettings.use_leaf_names
                 show_branch_length = ClimaticGraphSettings.show_branch_length
-                view_type = str(ClimaticGraphSettings.view_type)
+                view_type = ClimaticGraphSettings.view_type
 
                 if view_type == "network":
                     self.render_network_view(
