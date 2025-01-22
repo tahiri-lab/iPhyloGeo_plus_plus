@@ -40,14 +40,13 @@ from utils import resources_rc  # noqa: F401  # Import the compiled resource mod
 from utils.genetic_params_dialog import ParamDialog
 from utils.help import HelpDialog
 from utils.PreferencesDialog import PreferencesDialog  # Import PreferencesDialog
-from utils.settings import Params2
 from utils.resultSettingsDialog import ResultSettingsDialog
 from utils.MyDumper import update_yaml_param
 
 try:
     Params.load_from_file("./scripts/utils/params.yaml")
 except FileNotFoundError:
-    Params.validate_and_set_params(Params2.PARAMETER_KEYS)
+    Params.validate_and_set_params(Params.PARAMETER_KEYS)
 
 
 class Worker(QObject):
@@ -333,10 +332,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
     def open_genetic_settings_window(self):
         dialog = ParamDialog()
-        if dialog.exec_() == QDialog.Accepted:
-            self.geneticParam = dialog.params
-            for property_name, new_value in self.geneticParam.items():
-                update_yaml_param(Params, "scripts/utils/params.yaml", property_name, new_value)
+        dialog.exec_()
 
     # Update_plot_start
 

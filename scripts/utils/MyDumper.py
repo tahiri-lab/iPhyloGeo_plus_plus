@@ -1,8 +1,7 @@
 import os
 
 import yaml
-from utils.settings import Params2
-
+from aphylogeo.params import Params
 
 class MyDumper(yaml.Dumper):
     """
@@ -78,7 +77,7 @@ def update_yaml_param(params, file_path, property_name, new_value):
             with open(file_path, "r") as yaml_file:
                 data = yaml.safe_load(yaml_file)  # Use safe_load for security
         except FileNotFoundError:
-            data = Params2.PARAMETER_KEYS
+            data = Params.PARAMETER_KEYS
 
         # 2. Update the specified property
         if property_name in data:
