@@ -1,24 +1,29 @@
+import shutil
+import os
+import toytree
+import json
+import toyplot.png
+import numpy as np
+import seaborn as sns
+
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+from matplotlib.ticker import MaxNLocator
+
+from PyQt5 import QtCore, QtWidgets, uic
 from PyQt5.QtGui import QIcon, QMovie, QPixmap
-from collections import Counter, defaultdict
+from PyQt5.QtWidgets import QApplication, QFileDialog
+from PyQt5.QtCore import Qt, QThread
+
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 from Bio.Align import MultipleSeqAlignment
-import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
-from matplotlib.ticker import MaxNLocator
-from PyQt5.QtWidgets import QApplication, QFileDialog
-import shutil
-import os
+
+from collections import Counter, defaultdict
+
 from utils.MyDumper import update_yaml_param
 from aphylogeo.params import Params
-from PyQt5.QtCore import Qt, QThread
-from PyQt5 import QtCore, QtWidgets, uic
 from Worker import Worker
-import toyplot.png
-import toytree
-import json
-import matplotlib.patches as mpatches
 
 class Genetics():
     
