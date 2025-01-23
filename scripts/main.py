@@ -4,11 +4,9 @@ import os
 import re
 import shutil
 import sys
-from collections import Counter, defaultdict
 from decimal import Decimal
 
 import folium
-import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
@@ -21,19 +19,13 @@ import seaborn as sns
 import toyplot.png
 import toytree
 from aphylogeo import utils
-from aphylogeo.alignement import AlignSequences
-from aphylogeo.genetic_trees import GeneticTrees
 from aphylogeo.params import Params
 from Bio import Phylo
-from Bio.Align import MultipleSeqAlignment
-from Bio.Seq import Seq
-from Bio.SeqRecord import SeqRecord
-from matplotlib.ticker import MaxNLocator
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
-from PyQt5.QtCore import QObject, Qt, QThread, pyqtSignal
-from PyQt5.QtGui import QColor, QIcon, QMovie, QPixmap
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QColor, QIcon, QPixmap
 from PyQt5.QtWebEngineWidgets import QWebEngineView
-from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog, QGraphicsDropShadowEffect, QTableWidget, QTableWidgetItem, QVBoxLayout
+from PyQt5.QtWidgets import QDialog, QFileDialog, QGraphicsDropShadowEffect, QTableWidget, QTableWidgetItem, QVBoxLayout
 from ui_helpers import create_shadow_effect, get_button_style, style_buttons
 from utils import resources_rc  # noqa: F401  # Import the compiled resource module for resolving image resource path
 from utils.genetic_params_dialog import ParamDialog
@@ -43,8 +35,6 @@ from utils.PreferencesDialog import PreferencesDialog  # Import PreferencesDialo
 from utils.resultSettingsDialog import ResultSettingsDialog
 from utils.settings import Params2
 from genetics import Genetics
-from Worker import Worker
-
 from event_connector import QtEvents, connect_event, connect_decorated_methods
 
 try:
@@ -714,7 +704,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.stackedWidget.setCurrentIndex(3)
 
         df = pd.read_csv(Params.file_name)
-        utils.filterResults(self.climaticTrees, self.geneticTreeDict, df)
+        utils.filterResults(self.climaticTrees, self.genetics.geneticTreeDict, df)
         df_results = pd.read_csv("./scripts/results/output.csv")
         df_results["Name of species"] = df_results["Name of species"].str.replace("_", " ")
         # Replace the first column values with Params.file_name just before visualization

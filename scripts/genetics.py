@@ -1,4 +1,4 @@
-from PyQt5.QtGui import QColor, QIcon, QMovie, QPixmap
+from PyQt5.QtGui import QIcon, QMovie, QPixmap
 from collections import Counter, defaultdict
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
@@ -7,13 +7,13 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
-from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog, QGraphicsDropShadowEffect, QTableWidget, QTableWidgetItem, QVBoxLayout
+from PyQt5.QtWidgets import QApplication, QFileDialog
 import shutil
 import os
 from utils.MyDumper import update_yaml_param
 from aphylogeo.params import Params
-from PyQt5.QtCore import QObject, Qt, QThread, pyqtSignal
-from PyQt5 import QtCore, QtGui, QtWidgets, uic
+from PyQt5.QtCore import Qt, QThread
+from PyQt5 import QtCore, QtWidgets, uic
 from Worker import Worker
 import toyplot.png
 import toytree
@@ -53,9 +53,9 @@ class Genetics():
             return genetic_data
 
         except KeyError as e:
-            self.show_error_dialog(f"Key Error: {e}")
+            self.main.show_error_dialog(f"Key Error: {e}")
         except Exception as e:
-            self.show_error_dialog(f"An unexpected error occurred: {e}")
+            self.main.show_error_dialog(f"An unexpected error occurred: {e}")
 
 #GENETIC CLEAR
     def standardize_sequence_lengths(self, genetic_data):
@@ -415,10 +415,8 @@ class Genetics():
         if not save_path:
             return  # User cancelled th
         shutil.copy(file_url, save_path)  # e save dialog
-        
-        
-          
-        
+            
+             
 #GENETIC CLEAN ISH  ALMOST
     def select_fasta_file(self):
         
@@ -505,7 +503,7 @@ class Genetics():
         """
         self.main.starting_position_spinbox_2.setEnabled(True)
         self.main.window_size_spinbox_2.setEnabled(True)
-        self.main.geneticTreeDict = self.call_seq_align() #GTRORSDOROASORSDOROSORDSRO
+        self.geneticTreeDict = self.call_seq_align() #GTRORSDOROASORSDOROSORDSRO
 
 #GENETIC KINDA LOKI
     def call_seq_align(self):
@@ -626,7 +624,7 @@ class Genetics():
             self.main.GeneticTreeLabel.clear()
             self.main.resultsButton.setEnabled(False)
 #JUSTE SA QUI EST PAS CLEAN
-            self.main.geneticTreeDict = None
+            self.geneticTreeDict = None
         except Exception as e:
             self.main.show_error_dialog(f"An unexpected error occurred: {e}")
 
@@ -650,9 +648,9 @@ class Genetics():
         with open(file_path, "r") as file:
             self.newick_json = json.load(file)
 
-        self.main.tree_keys = list(self.newick_json.keys()) #yark
-        self.main.total_trees = len(self.tree_keys) #yark
-        self.main.current_index = 0
+        self.tree_keys = list(self.newick_json.keys()) #yark
+        self.total_trees = len(self.tree_keys) #yark
+        self.current_index = 0
         self.main.geneticTreescomboBox.clear()
 
         # Format the tree keys to replace underscore with ' nt '
@@ -691,7 +689,7 @@ class Genetics():
         if index is None or index < 0 or index >= self.total_trees:
             return
 
-        self.main.current_index = index  # Keep track of the current index
+        self.current_index = index  # Keep track of the current index
         key = self.tree_keys[index]  # This is the key with underscores
         newick_str = self.newick_json[key]
 
@@ -730,9 +728,9 @@ class Genetics():
         pixmap = QPixmap(self.tree_img_path)
 
         # Clear the QLabel before setting the new QPixmap
-        self.GeneticTreeLabel.clear()
-        self.GeneticTreeLabel.setPixmap(pixmap)
-        self.GeneticTreeLabel.adjustSize()
+        self.main.GeneticTreeLabel.clear()
+        self.main.GeneticTreeLabel.setPixmap(pixmap)
+        self.main.GeneticTreeLabel.adjustSize()
         
         
         
