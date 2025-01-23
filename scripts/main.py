@@ -275,7 +275,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
     def clear_results(self):
         self.textEditResults.clear()
 
-#GENETIC
     def open_genetic_settings_window(self):
         dialog = ParamDialog()
         if dialog.exec_() == QDialog.Accepted:
@@ -640,7 +639,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.show_error_dialog(f"An unexpected error occurred: {e}")
 
-#GENETIC ISHSHSHSH
     def show_genetic_section(self):
         """
         Display the genetic data page of the application.
@@ -1433,31 +1431,22 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
 
 if __name__ == "__main__":
-    # Create the application instance
     app = QtWidgets.QApplication([])
 
-    # Apply modern styles
     qtmodern.styles.light(app)
 
-    # Create the main window instance
     window = UiMainWindow()
 
-    # Wrap the main window with the ModernWindow style
     mw = qtmodern.windows.ModernWindow(window)
 
-    # Get screen geometry to determine the available screen space
     screen_geometry = app.primaryScreen().availableGeometry()
 
-    # Calculate the center position of the screen
     center_point = screen_geometry.center()
     x = center_point.x() - mw.width() // 2
     y = center_point.y() - mw.height() // 2
 
-    # Move the main window to the center of the screen
     mw.move(x, y)
 
-    # Show the main window
     mw.show()
 
-    # Execute the application's event loop
     sys.exit(app.exec_())

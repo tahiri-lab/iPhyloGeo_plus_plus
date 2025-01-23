@@ -62,7 +62,6 @@ class Genetics():
         except Exception as e:
             self.main.show_error_dialog(f"An unexpected error occurred: {e}")
 
-#GENETIC CLEAR
     def standardize_sequence_lengths(self, genetic_data):
         """
         Standardizes the lengths of genetic sequences by padding shorter sequences with '-'.
@@ -83,7 +82,6 @@ class Genetics():
         except Exception as e:
             self.main.show_error_dialog(f"An unexpected error occurred: {e}")
 
-#GENETIC CLEAR
     def plot_alignment_chart(self, genetic_data, starting_position, window_size, output_path):
         """
         Plots an alignment chart with conservation and sequence alignment.
@@ -210,7 +208,6 @@ class Genetics():
         except Exception as e:
             self.main.show_error_dialog(f"An unexpected error occurred: {e}")
 
-#GENETIC CLEAR
     def calculate_conservation_and_gaps(self, alignment):
         """
         Calculate conservation and gap frequencies for a given multiple sequence alignment.
@@ -242,7 +239,6 @@ class Genetics():
         except Exception as e:
             self.main.show_error_dialog(f"An unexpected error occurred: {e}")
 
-#GENETIC CLEAR
     def calculate_consensus(self, alignment):
         """
         Calculate the consensus sequence for a given multiple sequence alignment.
@@ -273,7 +269,6 @@ class Genetics():
         except Exception as e:
             self.main.show_error_dialog(f"An unexpected error occurred: {e}")
 
-#GENETIC CLEAR ISH LAYOUT
     def update_plot(self):
         """
         Update the plot based on the current starting position and window size.
@@ -303,7 +298,6 @@ class Genetics():
             self.main.show_error_dialog(f"An unexpected error occurred: {e}")
 
 
-#GENETIC CLEAR
     def initialize_species_list(self):
         # Load species names into the combo box
         self.main.referenceComboBox.clear()
@@ -330,7 +324,6 @@ class Genetics():
         # Generate the initial plot
         self.update_similarity_plot()
 
-#GENETIC ALMOST CLEAN
     def update_similarity_plot(self):
         try:
             window_size = self.main.similarityWindowSizeSpinBox.value()
@@ -413,7 +406,7 @@ class Genetics():
             self.main.tabWidget.setCurrentIndex(3)
         except Exception as e:
             print(f"Error updating similarity plot: {e}")
-#GENETIC CLEAN
+
     def download_similarity_plot_chart(self):
         file_url = "scripts/results/similarity_plot.png"  # The file path
         save_path, _ = QFileDialog.getSaveFileName(self, "Save File", "", "PNG Files (*.png);;All Files (*)")
@@ -421,8 +414,6 @@ class Genetics():
             return  # User cancelled th
         shutil.copy(file_url, save_path)  # e save dialog
             
-             
-#GENETIC CLEAN ISH  ALMOST
     def select_fasta_file(self):
         
         """
@@ -499,7 +490,6 @@ class Genetics():
         except Exception as e:
             self.main.show_error_dialog(f"An unexpected error occurred: {e}")
 
-#GENETIC CLEAN ISH  ALMOST
     def start_alignment_analysis(self):
         """
         Perform sequence alignment and store the resulting genetic tree dictionary.
@@ -508,9 +498,8 @@ class Genetics():
         """
         self.main.starting_position_spinbox_2.setEnabled(True)
         self.main.window_size_spinbox_2.setEnabled(True)
-        self.geneticTreeDict = self.call_seq_align() #GTRORSDOROASORSDOROSORDSRO
+        self.geneticTreeDict = self.call_seq_align()
 
-#GENETIC KINDA LOKI
     def call_seq_align(self):
         """
         Execute the sequence alignment pipeline and display progress using a worker thread.
@@ -592,10 +581,6 @@ class Genetics():
 
         return self.geneticTrees
     
-    
-    
-    
-    #GENETIC RECHECK A FAIRE
     def show_sequence_alignment_page(self):
         """
         Display the sequence alignment page.
@@ -609,9 +594,6 @@ class Genetics():
         except Exception as e:
             self.main.show_error_dialog(f"An unexpected error occurred: {e}")
             
-            
-            
-#GENETIC KINDA USH CLOSE
     def clear_genetic_data(self):
         """
         Clear the genetic data fields.
@@ -628,12 +610,10 @@ class Genetics():
             self.main.geneticTreeButtonPage1.setEnabled(False)
             self.main.GeneticTreeLabel.clear()
             self.main.resultsButton.setEnabled(False)
-#JUSTE SA QUI EST PAS CLEAN
             self.geneticTreeDict = None
         except Exception as e:
             self.main.show_error_dialog(f"An unexpected error occurred: {e}")
 
-#GENETIC NOT CLEAN!!!!!!!
     def display_newick_trees(self):
         """
         Display Newick format trees in the application using Toytree.
@@ -653,8 +633,8 @@ class Genetics():
         with open(file_path, "r") as file:
             self.newick_json = json.load(file)
 
-        self.tree_keys = list(self.newick_json.keys()) #yark
-        self.total_trees = len(self.tree_keys) #yark
+        self.tree_keys = list(self.newick_json.keys()) 
+        self.total_trees = len(self.tree_keys) 
         self.current_index = 0
         self.main.geneticTreescomboBox.clear()
 
@@ -664,7 +644,6 @@ class Genetics():
 
         self.show_tree(self.current_index)  
             
-#GENETIC CLEAN
     def format_tree_name(self, tree_name):
         """
         Format the tree name by replacing underscores with ' nt '.
@@ -680,7 +659,6 @@ class Genetics():
             return f"{parts[0]} nt {parts[1]} nt"
         return tree_name
 
-#GENETIC NOT CLEAN
     def show_tree(self, index):
         """
         Display the phylogenetic tree at the specified index using Toytree.
@@ -737,9 +715,6 @@ class Genetics():
         self.main.GeneticTreeLabel.setPixmap(pixmap)
         self.main.GeneticTreeLabel.adjustSize()
         
-        
-        
-#GENETIC CLEAN
     def download_genetic_tree_graph(self):
         """
         Download the current displayed tree graph as a PNG file.
