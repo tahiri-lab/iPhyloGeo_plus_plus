@@ -24,6 +24,7 @@ from genetics import Genetics
 from climat import Climat
 from navigation import Navigation
 from event_connector import QtEvents, connect_event, connect_decorated_methods
+from utils.error_dialog import show_error_dialog
 
 try:
     Params.load_from_file("./scripts/utils/params.yaml")
@@ -46,21 +47,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         dialog = ResultSettingsDialog()
         dialog.exec_()
 
-    def show_error_dialog(self, message, title="error"):
-        """
-        Display a professional error dialog with the given title and message.
-
-        Args:
-            title (str): The title of the error dialog.
-            message (str): The error message to display.
-        """
-        msgBox = QtWidgets.QMessageBox()
-        msgBox.setIcon(QtWidgets.QMessageBox.Critical)
-        msgBox.setWindowTitle(title)
-        msgBox.setText(message)
-        msgBox.setStandardButtons(QtWidgets.QMessageBox.Ok)
-        msgBox.setDefaultButton(QtWidgets.QMessageBox.Ok)
-        msgBox.exec_()
 
     def __init__(self):
         super(UiMainWindow, self).__init__()
@@ -236,9 +222,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
             QtCore.QMetaObject.connectSlotsByName(self)
 
         except AttributeError as e:
-            self.show_error_dialog(f"An error occurred while setting up the UI: {e}", "Attribute Error")
+            show_error_dialog(f"An error occurred while setting up the UI: {e}", "Attribute Error")
         except Exception as e:
-            self.show_error_dialog(
+            show_error_dialog(
                 f"An unexpected error occurred: {e}",
                 "Unexpected Error",
             )
@@ -399,10 +385,10 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.darkModeButton.setGraphicsEffect(create_shadow_effect(10, 140))
 
         except AttributeError as e:
-            self.show_error_dialog(f"An error occurred while setting attributes: {e}", "Attribute Error")
+            show_error_dialog(f"An error occurred while setting attributes: {e}", "Attribute Error")
 
         except Exception as e:
-            self.show_error_dialog(f"An unexpected error occurred: {e}")
+            show_error_dialog(f"An unexpected error occurred: {e}")
 
     # elle se fait override par celle qui suit, regarder si elle est utile au final (penses pas)
     def clear_result(self):
@@ -420,7 +406,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.ClimStatsListCondition.setCurrentIndex(0)
             self.ClimStatsListChart.setCurrentIndex(0)
         except Exception as e:
-            self.show_error_dialog(f"An unexpected error occurred: {e}", "Error")
+            show_error_dialog(f"An unexpected error occurred: {e}", "Error")
 
     def clear_result_stat(self):
         """
@@ -432,7 +418,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.ResultsStatsListCondition.setCurrentIndex(0)
             self.ResultsStatsListChart.setCurrentIndex(0)
         except Exception as e:
-            self.show_error_dialog(f"An unexpected error occurred: {e}", "Error")
+            show_error_dialog(f"An unexpected error occurred: {e}", "Error")
 
 
 

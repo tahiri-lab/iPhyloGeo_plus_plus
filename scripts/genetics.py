@@ -26,6 +26,7 @@ from aphylogeo.params import Params
 from Worker import Worker
 
 from utils.genetic_params_dialog import ParamDialog
+from utils.error_dialog import show_error_dialog
 
 class Genetics():
     
@@ -60,9 +61,9 @@ class Genetics():
             return genetic_data
 
         except KeyError as e:
-            self.main.show_error_dialog(f"Key Error: {e}")
+            show_error_dialog(f"Key Error: {e}")
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred: {e}")
+            show_error_dialog(f"An unexpected error occurred: {e}")
 
     def standardize_sequence_lengths(self, genetic_data):
         """
@@ -80,9 +81,9 @@ class Genetics():
             return standardized_data
 
         except ValueError as e:
-            self.main.show_error_dialog(f"Value Error: {e}")
+            show_error_dialog(f"Value Error: {e}")
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred: {e}")
+            show_error_dialog(f"An unexpected error occurred: {e}")
 
     def plot_alignment_chart(self, genetic_data, starting_position, window_size, output_path):
         """
@@ -206,9 +207,9 @@ class Genetics():
             plt.close()
 
         except KeyError as e:
-            self.main.show_error_dialog(f"Key Error: {e}")
+            show_error_dialog(f"Key Error: {e}")
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred: {e}")
+            show_error_dialog(f"An unexpected error occurred: {e}")
 
     def calculate_conservation_and_gaps(self, alignment):
         """
@@ -237,9 +238,9 @@ class Genetics():
             return conservation, gaps
 
         except KeyError as e:
-            self.main.show_error_dialog(f"Key Error: {e}")
+            show_error_dialog(f"Key Error: {e}")
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred: {e}")
+            show_error_dialog(f"An unexpected error occurred: {e}")
 
     def calculate_consensus(self, alignment):
         """
@@ -269,7 +270,7 @@ class Genetics():
             return "".join(consensus)
 
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred: {e}")
+            show_error_dialog(f"An unexpected error occurred: {e}")
 
     def update_plot(self):
         """
@@ -295,9 +296,9 @@ class Genetics():
             self.main.tabWidget.setCurrentIndex(2)
 
         except AttributeError as e:
-            self.main.show_error_dialog(f"Attribute Error: {e}")
+            show_error_dialog(f"Attribute Error: {e}")
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred: {e}")
+            show_error_dialog(f"An unexpected error occurred: {e}")
 
 
     def initialize_species_list(self):
@@ -488,9 +489,9 @@ class Genetics():
                     self.main.sequenceAlignmentButtonPage1.setIcon(QIcon(":inactive/sequence.svg"))
                     self.main.tabWidget.setCurrentIndex(1)
         except FileNotFoundError as e:
-            self.main.show_error_dialog(f"File Not Found Error: {e}")
+            show_error_dialog(f"File Not Found Error: {e}")
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred: {e}")
+            show_error_dialog(f"An unexpected error occurred: {e}")
 
     def start_alignment_analysis(self):
         """
@@ -540,7 +541,7 @@ class Genetics():
 
         def handle_error(error_message):
             loading_screen.close()
-            self.main.show_error_dialog(f"An unexpected error occurred: {error_message}")
+            show_error_dialog(f"An unexpected error occurred: {error_message}")
 
         loading_screen = uic.loadUi("scripts/Qt/loading.ui")
         loading_screen.setWindowFlags(Qt.FramelessWindowHint)  # Remove the title bar and frame
@@ -594,7 +595,7 @@ class Genetics():
             self.main.stackedWidget.setCurrentIndex(1)
             self.main.tabWidget.setCurrentIndex(2)
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred: {e}")
+            show_error_dialog(f"An unexpected error occurred: {e}")
             
     def clear_genetic_data(self):
         """
@@ -614,7 +615,7 @@ class Genetics():
             self.main.resultsButton.setEnabled(False)
             self.geneticTreeDict = None
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred: {e}")
+            show_error_dialog(f"An unexpected error occurred: {e}")
 
     def display_newick_trees(self):
         """
@@ -745,9 +746,9 @@ class Genetics():
                     file_path += ".png"
                 shutil.copy(self.tree_img_path, file_path)
         except FileNotFoundError as e:
-            self.main.show_error_dialog(f"The tree image file was not found: {e}", "File Not Found")
+            show_error_dialog(f"The tree image file was not found: {e}", "File Not Found")
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred while downloading the tree image: {e}")
+            show_error_dialog(f"An unexpected error occurred while downloading the tree image: {e}")
             
     def stopWorker(self):
         if self.worker:

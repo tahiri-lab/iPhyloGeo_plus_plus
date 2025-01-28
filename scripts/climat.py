@@ -25,6 +25,7 @@ from aphylogeo import utils
 from utils.ClimaticGraphSettings import ClimaticGraphSettings
 from utils.MyDumper import update_yaml_param
 from utils.ClimaticPreferencesDialog import ClimaticPreferencesDialog
+from utils.error_dialog import show_error_dialog
 
 try:
     ClimaticGraphSettings.load_from_file("./scripts/utils/ClimaticGraphSettings.yaml")
@@ -170,12 +171,12 @@ class Climat():
         """
         plot_type = self.main.PlotTypesCombobox.currentText()
         if plot_type == "":
-            self.main.show_error_dialog("Please generate a plot first.")
+            show_error_dialog("Please generate a plot first.")
             return
 
         plot_path = os.path.join("results", f"{plot_type.lower().replace(' ', '_')}.png")
         if not os.path.exists(plot_path):
-            self.main.show_error_dialog("No plot found to download.")
+            show_error_dialog("No plot found to download.")
             return
 
         # Prompt the user to select a location to save the plot
@@ -294,13 +295,13 @@ class Climat():
                 if self.main.statisticsButtonPage1.isEnabled():
                     self.main.resultsButton.setEnabled(True)
         except FileNotFoundError as e:
-            self.main.show_error_dialog(f"File Not Found Error: {e}")
+            show_error_dialog(f"File Not Found Error: {e}")
         except pd.errors.EmptyDataError as e:
-            self.main.show_error_dialog(f"Empty Data Error: {e}")
+            show_error_dialog(f"Empty Data Error: {e}")
         except ValueError as e:
-            self.main.show_error_dialog(f"Value Error: {e}")
+            show_error_dialog(f"Value Error: {e}")
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred: {e}")
+            show_error_dialog(f"An unexpected error occurred: {e}")
 
 
     def retrieve_data_names(self, data_list):
@@ -318,9 +319,9 @@ class Climat():
                 raise ValueError("The provided list is empty.")
             return data_list[1:]
         except ValueError as e:
-            self.main.show_error_dialog(f"Value Error: {e}")
+            show_error_dialog(f"Value Error: {e}")
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred: {e}")
+            show_error_dialog(f"An unexpected error occurred: {e}")
             
             
             
@@ -364,9 +365,9 @@ class Climat():
             self.main.graphicsViewClimData.setLayout(layout)
 
         except ValueError as e:
-            self.main.show_error_dialog(f"Value Error: {e}")
+            show_error_dialog(f"Value Error: {e}")
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred: {e}")
+            show_error_dialog(f"An unexpected error occurred: {e}")
             
     def clear_climmatic_data(self):
         """
@@ -380,7 +381,7 @@ class Climat():
             self.main.resultsButton.setEnabled(False)
             self.climaticTrees = None
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred: {e}", "Error")
+            show_error_dialog(f"An unexpected error occurred: {e}", "Error")
             
     def apply_preferences(self):
         """
@@ -394,7 +395,7 @@ class Climat():
         try:
             self.show_climatic_tree(self.current_index)
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred while applying preferences: {e}")
+            show_error_dialog(f"An unexpected error occurred while applying preferences: {e}")
             
     def display_climatic_trees(self):
         """
@@ -416,12 +417,12 @@ class Climat():
             self.show_climatic_tree(self.current_index)
             self.main.tabWidget2.setCurrentIndex(3)
         except KeyError as e:
-            self.main.show_error_dialog(
+            show_error_dialog(
                 f"An error occurred while accessing the climatic trees: {e}",
                 "Key Error",
             )
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred: {e}")
+            show_error_dialog(f"An unexpected error occurred: {e}")
             
             
     def show_selected_climatic_tree(self, index):
@@ -438,7 +439,7 @@ class Climat():
             if index >= 0:
                 self.show_climatic_tree(index)
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred while displaying the selected climatic tree: {e}")
+            show_error_dialog(f"An unexpected error occurred while displaying the selected climatic tree: {e}")
             
     def show_climatic_tree(self, index):
         """
@@ -493,12 +494,12 @@ class Climat():
                         show_branch_length,
                     )
         except KeyError as e:
-            self.main.show_error_dialog(
+            show_error_dialog(
                 f"An error occurred while accessing the climatic tree data: {e}",
                 "Key Error",
             )
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred: {e}")
+            show_error_dialog(f"An unexpected error occurred: {e}")
             
     def render_network_view(
         self,
@@ -580,7 +581,7 @@ class Climat():
             self.main.climaticTreesLabel.setPixmap(pixmap)
             self.main.climaticTreesLabel.adjustSize()
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred while rendering the network view: {e}")
+            show_error_dialog(f"An unexpected error occurred while rendering the network view: {e}")
             
     def render_tree_view(
         self,
@@ -651,7 +652,7 @@ class Climat():
             self.main.climaticTreesLabel.setPixmap(pixmap)
             self.main.climaticTreesLabel.adjustSize()
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred while rendering the tree view: {e}")
+            show_error_dialog(f"An unexpected error occurred while rendering the tree view: {e}")
 
 
     def create_node_trace(self, graph, pos, label_color, use_leaf_names):
@@ -694,7 +695,7 @@ class Climat():
 
             return node_trace
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred while creating the node trace: {e}")
+            show_error_dialog(f"An unexpected error occurred while creating the node trace: {e}")
 
 
     def get_layout(self, graph, layout):
@@ -720,7 +721,7 @@ class Climat():
             else:
                 raise ValueError(f"Unknown layout type: {layout}")
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred while getting the layout: {e}")
+            show_error_dialog(f"An unexpected error occurred while getting the layout: {e}")
             
     def create_edge_trace(self, tree, pos, edge_color, show_branch_length):
         """
@@ -771,7 +772,7 @@ class Climat():
                         )
             return edge_trace, edge_annotations
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred while creating the edge trace: {e}")
+            show_error_dialog(f"An unexpected error occurred while creating the edge trace: {e}")
             
     def download_climatic_tree_graph(self):
         """
@@ -806,9 +807,9 @@ class Climat():
                     with open(file_path, "wb") as dest_file:
                         dest_file.write(file.read())
         except FileNotFoundError as e:
-            self.main.show_error_dialog(f"The temporary image file was not found: {e}", "File Not Found")
+            show_error_dialog(f"The temporary image file was not found: {e}", "File Not Found")
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred while downloading the climatic tree graph: {e}")
+            show_error_dialog(f"An unexpected error occurred while downloading the climatic tree graph: {e}")
             
     def open_climatic_tree_preferences_window(self):
         """

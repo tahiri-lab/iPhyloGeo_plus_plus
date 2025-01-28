@@ -1,5 +1,7 @@
 from PyQt5.QtGui import QIcon
+
 from utils.help import HelpDialog
+from utils.error_dialog import show_error_dialog
 
 class Navigation():
     
@@ -20,7 +22,7 @@ class Navigation():
             self.main.resultsButton.setIcon(QIcon(":inactive/result.svg"))
             self.main.stackedWidget.setCurrentIndex(0)
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred: {e}")
+            show_error_dialog(f"An unexpected error occurred: {e}")
 
     def show_genetic_section(self):
         """
@@ -37,7 +39,7 @@ class Navigation():
             self.main.stackedWidget.setCurrentIndex(1)
             self.main.tabWidget.setCurrentIndex(0)
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred: {e}")
+            show_error_dialog(f"An unexpected error occurred: {e}")
 
     def show_climate_section(self):
         """
@@ -54,7 +56,7 @@ class Navigation():
             self.main.stackedWidget.setCurrentIndex(2)
             self.main.tabWidget2.setCurrentIndex(0)
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred: {e}")
+            show_error_dialog(f"An unexpected error occurred: {e}")
 
     def show_results_section(self):
         """
@@ -69,7 +71,7 @@ class Navigation():
             self.main.resultsButton.setIcon(QIcon(":active/result.svg"))
             self.main.stackedWidget.setCurrentIndex(3)
         except Exception as e:
-            self.main.show_error_dialog(f"An unexpected error occurred: {e}")
+            show_error_dialog(f"An unexpected error occurred: {e}")
             
     def open_help_window(self):
         """
