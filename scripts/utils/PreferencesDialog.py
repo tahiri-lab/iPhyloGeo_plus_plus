@@ -1,5 +1,5 @@
-from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QComboBox, QRadioButton, QCheckBox, QPushButton, QButtonGroup
+from PyQt6 import QtWidgets
+from PyQt6.QtWidgets import QDialog, QVBoxLayout, QLabel, QComboBox, QRadioButton, QCheckBox, QPushButton, QButtonGroup
 
 
 class PreferencesDialog(QDialog):

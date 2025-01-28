@@ -1,8 +1,8 @@
 import os
 
 import yaml
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QApplication, QLabel
+from PyQt6.QtGui import QPixmap
+from PyQt6.QtWidgets import QApplication, QLabel
 from yaml.loader import SafeLoader
 from aphylogeo.params import Params
 
@@ -60,6 +60,7 @@ except FileNotFoundError:
     Params.validate_and_set_params(Params2.PARAMETER_KEYS)
     Params2.validate_and_set_params(Params2.PARAMETER_KEYS)
 
+
 class HoverLabel(QLabel):
     def __init__(self, text, hover_text, text_edit, image_label, hover_image_path, *args, **kwargs):
         super().__init__(text, *args, **kwargs)
@@ -76,8 +77,9 @@ class HoverLabel(QLabel):
         self.image_label.setPixmap(QPixmap(self.hover_image_path))
         super().enterEvent(event)
 
+
 if __name__ == "__main__":
     import sys
-    
+
     app = QApplication(sys.argv)
     sys.exit(app.exec_())

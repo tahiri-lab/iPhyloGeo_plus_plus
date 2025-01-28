@@ -29,14 +29,14 @@ from Bio.Align import MultipleSeqAlignment
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 from matplotlib.ticker import MaxNLocator
-from PyQt5 import QtCore, QtGui, QtWidgets, uic
-from PyQt5.QtCore import QObject, Qt, QThread, pyqtSignal
-from PyQt5.QtGui import QColor, QIcon, QMovie, QPixmap
-from PyQt5.QtWebEngineWidgets import QWebEngineView
-from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog, QGraphicsDropShadowEffect, QTableWidget, QTableWidgetItem, QVBoxLayout
-from Qt.main import Ui_MainWindow
+from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtCore import QObject, Qt, QThread, pyqtSignal
+from PyQt6.QtGui import QColor, QIcon, QMovie, QPixmap
+from PyQt6.QtWidgets import QApplication, QDialog, QFileDialog, QGraphicsDropShadowEffect, QTableWidget, QTableWidgetItem, QVBoxLayout
+from PyQt6.QtWebEngineWidgets import QWebEngineView
+from Qt import main, loading
 from ui_helpers import create_shadow_effect, get_button_style, style_buttons
-from Qt import resources_rc  # noqa: F401  # Import the compiled resource module for resolving image resource path
+from utils import resources_rc  # noqa: F401  # Import the compiled resource module for resolving image resource path
 from utils.genetic_params_dialog import ParamDialog
 from utils.help import HelpDialog
 from utils.my_dumper import update_yaml_param
@@ -107,10 +107,10 @@ window_size = 50
 starting_position = 1
 
 
-class UiMainWindow(Ui_MainWindow):
+class UiMainWindow(main.Ui_MainWindow, QtWidgets.QMainWindow):
     def __init__(self):
-        super(UiMainWindow, self).__init__()
-        # uic.loadUi("scripts/Qt/main.ui", self)
+        super().__init__()
+        self.setupUi(self)
         self.setup_ui()
         connect_decorated_methods(self)
 
@@ -123,7 +123,7 @@ class UiMainWindow(Ui_MainWindow):
         """
 
         dialog = HelpDialog()
-        dialog.exec_()
+        dialog.exec()
 
     @connect_event("settingsButtonPage3", QtEvents.clicked)
     def open_result_settings_window(self):
@@ -133,7 +133,7 @@ class UiMainWindow(Ui_MainWindow):
         """
 
         dialog = ResultSettingsDialog()
-        dialog.exec_()
+        dialog.exec()
 
     def show_error_dialog(self, message, title="error"):
         """
@@ -149,7 +149,7 @@ class UiMainWindow(Ui_MainWindow):
         msgBox.setText(message)
         msgBox.setStandardButtons(QtWidgets.QMessageBox.Ok)
         msgBox.setDefaultButton(QtWidgets.QMessageBox.Ok)
-        msgBox.exec_()
+        msgBox.exec()
 
     def setup_ui(self):
         """
@@ -178,7 +178,7 @@ class UiMainWindow(Ui_MainWindow):
             self.window_size_spinbox_2.setRange(1, 1000)
             self.starting_position_spinbox_2.setRange(1, 1000)
             self.isDarkMode = False  # Keep track of the state
-            self.darkModeButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+            self.darkModeButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
             self.stackedWidget.setCurrentIndex(0)
 
             buttons = [
@@ -211,7 +211,7 @@ class UiMainWindow(Ui_MainWindow):
 
             # Define cursor and stylesheet for all buttons
             for button in buttons:
-                button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+                button.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
                 button.setStyleSheet(
                     """
                     QPushButton {
@@ -236,7 +236,7 @@ class UiMainWindow(Ui_MainWindow):
                 button.setGraphicsEffect(shadow_effect)
 
             for buttonV in buttons_Vertical:
-                buttonV.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+                buttonV.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
                 buttonV.setStyleSheet(
                     """
                     QPushButton {
@@ -260,7 +260,7 @@ class UiMainWindow(Ui_MainWindow):
                 shadow_effect.setOffset(3, 3)
                 buttonV.setGraphicsEffect(shadow_effect)
 
-            self.darkModeButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+            self.darkModeButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
             self.darkModeButton.setStyleSheet(
                 """
                 QPushButton {
@@ -301,7 +301,7 @@ class UiMainWindow(Ui_MainWindow):
     @connect_event("geneticSettingsButton", QtEvents.clicked)
     def open_genetic_settings_window(self):
         dialog = ParamDialog()
-        if dialog.exec_() == QDialog.Accepted:
+        if dialog.exec() == QDialog.accepted:
             self.geneticParam = dialog.params
             for property_name, new_value in self.geneticParam.items():
                 update_yaml_param(Params, "scripts/utils/params.yaml", property_name, new_value)
@@ -982,24 +982,26 @@ class UiMainWindow(Ui_MainWindow):
             loading_screen.close()
             self.show_error_dialog(f"An unexpected error occurred: {error_message}")
 
-        loading_screen = uic.loadUi("scripts/Qt/loading.ui")
-        loading_screen.setWindowFlags(Qt.FramelessWindowHint)  # Remove the title bar and frame
+        if loading_screen := loading.Ui_LoadingDialog():
+            loading_screen.setupUi(loading_screen)
+            # loading_screen.setWindowFlags(Qt.WindowType.FramelessWindowHint)  # Remove the title bar and frame
 
-        loading_screen.setWindowModality(Qt.ApplicationModal)
+            # loading_screen.setWindowModality(Qt.WindowModality.ApplicationModal)
 
-        # Set the QMovie for the movieLabel
-        movie = QMovie(":active/dna.gif")  # Use the resource path for the gif
-        loading_screen.movieLabel.setMovie(movie)
+            # Set the QMovie for the movieLabel
+            movie = QMovie(":active/dna.gif")  # Use the resource path for the gif
+            loading_screen.movieLabel.setMovie(movie)
 
-        # Resize the movie to fit within the QLabel
-        movie.setScaledSize(QtCore.QSize(100, 100))  # Set the desired size here
+            # Resize the movie to fit within the QLabel
+            movie.setScaledSize(QtCore.QSize(100, 100))  # Set the desired size here
 
-        # Ensure the QLabel is centered and the GIF is properly displayed
-        loading_screen.movieLabel.setAlignment(QtCore.Qt.AlignCenter)
-        movie.start()
+            # Ensure the QLabel is centered and the GIF is properly displayed
+            loading_screen.movieLabel.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+            movie.start()
 
-        # Show the loading screen
-        loading_screen.show()
+            # Show the loading screen
+            loading_screen.show()
+
         QtWidgets.QApplication.processEvents()
 
         self.workerThread = QThread()
@@ -1079,16 +1081,19 @@ class UiMainWindow(Ui_MainWindow):
                 }
             """
             )
-            table_widget.horizontalHeader().setStretchLastSection(True)
-            table_widget.verticalHeader().setVisible(False)
-            table_widget.horizontalHeader().setVisible(True)
-            table_widget.horizontalHeader().setDefaultAlignment(Qt.AlignCenter)
-            table_widget.horizontalHeader().setDefaultSectionSize(150)
+            if horizontal_header := table_widget.horizontalHeader():
+                horizontal_header.setStretchLastSection(True)
+                horizontal_header.setVisible(True)
+                horizontal_header.setDefaultAlignment(Qt.AlignmentFlag.AlignHCenter)
+                horizontal_header.setDefaultSectionSize(150)
+
+            if vertical_header := table_widget.verticalHeader():
+                vertical_header.setVisible(False)
 
             # Set headers
             for col in range(num_columns):
                 item = QTableWidgetItem(df.columns[col])
-                item.setTextAlignment(Qt.AlignCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 table_widget.setHorizontalHeaderItem(col, item)
 
             # Fill the table with data
@@ -1098,14 +1103,13 @@ class UiMainWindow(Ui_MainWindow):
                     if re.search("^[0-9\\-]*\\.[0-9]*", value) is not None:
                         value = str(round(Decimal(value), 3))
                     item = QTableWidgetItem(value)
-                    item.setTextAlignment(Qt.AlignCenter)
+                    item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                     table_widget.setItem(row, col, item)
 
             return table_widget
 
         try:
-            options = QFileDialog.Options()
-            options |= QFileDialog.ReadOnly
+            options = QFileDialog.Option.ReadOnly
             fullFilePath, _ = QFileDialog.getOpenFileName(
                 None,
                 "Select CSV file",
@@ -1643,7 +1647,7 @@ class UiMainWindow(Ui_MainWindow):
         try:
             dialog = PreferencesDialog(self)
             dialog.update_preferences(self.preferences)
-            if dialog.exec_() == QDialog.Accepted:
+            if dialog.exec() == QDialog.Accepted:
                 self.preferences = dialog.get_preferences()
                 self.apply_preferences()
         except Exception as e:
@@ -2217,4 +2221,4 @@ if __name__ == "__main__":
     mw.show()
 
     # Execute the application's event loop
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

@@ -1,9 +1,9 @@
-from PyQt5 import QtGui, QtCore, QtWidgets
+from PyQt6 import QtGui, QtCore, QtWidgets
 
 
 def style_buttons(buttons, dark_mode):
     for button in buttons:
-        button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        button.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         button.setStyleSheet(get_button_style(dark_mode))
         button.setGraphicsEffect(create_shadow_effect(10, 140))
 

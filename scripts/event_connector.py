@@ -1,8 +1,6 @@
 from enum import Enum
 from typing import List, Union
 
-from scripts.main import UiMainWindow
-
 
 class QtEvents(str, Enum):
     # Buttons
@@ -40,7 +38,7 @@ def connect_event(widgets: Union[str, List[str]], event: QtEvents):
     return decorator
 
 
-def connect_decorated_methods(widget: UiMainWindow):
+def connect_decorated_methods(widget):
     """Connects all decorated methods to their respective widgets"""
     for attr_name in dir(widget):
         connector_method = getattr(widget, attr_name)

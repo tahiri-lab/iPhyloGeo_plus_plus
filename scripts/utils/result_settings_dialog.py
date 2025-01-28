@@ -1,8 +1,8 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QLabel
-from PyQt5.QtWidgets import QApplication, QDialog, QGridLayout, QLabel
+from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QPixmap
+from PyQt6.QtWidgets import QLabel
+from PyQt6.QtWidgets import QApplication, QDialog, QGridLayout
 from utils.settings import HoverLabel
 from utils.settings import Params2
 from utils.my_dumper import update_yaml_param
@@ -25,7 +25,7 @@ class ResultSettingsDialog(QDialog):
 
         layout = QGridLayout()
 
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.sizePolicy().hasHeightForWidth())
@@ -56,7 +56,7 @@ class ResultSettingsDialog(QDialog):
         content_layout.addWidget(self.userParams, 0, 0)
         content_layout.setHorizontalSpacing(50)
 
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.userParams.sizePolicy().hasHeightForWidth())
@@ -66,7 +66,7 @@ class ResultSettingsDialog(QDialog):
         font.setPointSize(11)
         self.userParams.setFont(font)
 
-        self.userParams.setAlignment(QtCore.Qt.AlignCenter)
+        self.userParams.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.userParams.setCheckable(False)
         self.userParams.setObjectName("userParams")
 
@@ -76,14 +76,14 @@ class ResultSettingsDialog(QDialog):
         self.gridLayout_2.setObjectName("gridLayout_2")
 
         self.verticalLayout = QtWidgets.QVBoxLayout()
-        self.verticalLayout.setSizeConstraint(QtWidgets.QLayout.SetNoConstraint)
+        self.verticalLayout.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetNoConstraint)
         self.verticalLayout.setSpacing(6)
         self.verticalLayout.setObjectName("verticalLayout")
 
         self.paramsDetails = QtWidgets.QGroupBox(self)
         content_layout.addWidget(self.paramsDetails, 0, 1)
 
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.paramsDetails.sizePolicy().hasHeightForWidth())
@@ -92,7 +92,7 @@ class ResultSettingsDialog(QDialog):
         font.setPointSize(11)
         self.paramsDetails.setFont(font)
 
-        self.paramsDetails.setAlignment(QtCore.Qt.AlignCenter)
+        self.paramsDetails.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.paramsDetails.setCheckable(False)
         self.paramsDetails.setObjectName("paramsDetails")
 
@@ -100,7 +100,7 @@ class ResultSettingsDialog(QDialog):
         self.paramsDetails.setLayout(group_box_layout)
 
         HoverLabel.image_label = QLabel()
-        HoverLabel.image_label.setAlignment(Qt.AlignCenter)
+        HoverLabel.image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         HoverLabel.image_label.setPixmap(QPixmap("./img/other/final.png"))
         group_box_layout.addWidget(HoverLabel.image_label)
 
@@ -122,7 +122,7 @@ class ResultSettingsDialog(QDialog):
 
         self.methodBox = QtWidgets.QGroupBox(self.userParams)
 
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.methodBox.sizePolicy().hasHeightForWidth())
@@ -131,15 +131,15 @@ class ResultSettingsDialog(QDialog):
         font.setPointSize(9)
         self.methodBox.setFont(font)
 
-        self.methodBox.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.methodBox.setAlignment(QtCore.Qt.AlignCenter)
+        self.methodBox.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
+        self.methodBox.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.methodBox.setFlat(True)
         self.methodBox.setCheckable(False)
         self.methodBox.setObjectName("methodBox")
         self.verticalLayout.addWidget(self.methodBox)
 
         self.gridLayout_3 = QtWidgets.QGridLayout(self.methodBox)
-        self.gridLayout_3.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
+        self.gridLayout_3.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetDefaultConstraint)
         self.gridLayout_3.setContentsMargins(5, 5, 5, 5)
         self.gridLayout_3.setSpacing(5)
         self.gridLayout_3.setObjectName("gridLayout_3")
@@ -158,14 +158,14 @@ class ResultSettingsDialog(QDialog):
         self.gridLayout_3.addWidget(self.metrics, 0, 0, 1, 1)
 
         self.comboBox_metrics = QtWidgets.QComboBox(self.methodBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.comboBox_metrics.sizePolicy().hasHeightForWidth())
         self.comboBox_metrics.setSizePolicy(sizePolicy)
         font.setPointSize(8)
         self.comboBox_metrics.setFont(font)
-        self.comboBox_metrics.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.comboBox_metrics.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
         self.comboBox_metrics.setIconSize(QtCore.QSize(20, 20))
         self.comboBox_metrics.setFrame(True)
         self.comboBox_metrics.setObjectName("comboBox_metrics")
@@ -175,21 +175,21 @@ class ResultSettingsDialog(QDialog):
         self.gridLayout_3.addWidget(self.comboBox_metrics, 0, 1, 1, 1)
 
         self.thresholdBox = QtWidgets.QGroupBox(self.userParams)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.thresholdBox.sizePolicy().hasHeightForWidth())
         self.thresholdBox.setSizePolicy(sizePolicy)
         font.setPointSize(9)
         self.thresholdBox.setFont(font)
-        self.thresholdBox.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.thresholdBox.setAlignment(QtCore.Qt.AlignCenter)
+        self.thresholdBox.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
+        self.thresholdBox.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.thresholdBox.setFlat(True)
         self.thresholdBox.setCheckable(False)
         self.thresholdBox.setObjectName("thresholdBox")
 
         self.gridLayout_4 = QtWidgets.QGridLayout(self.thresholdBox)
-        self.gridLayout_4.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
+        self.gridLayout_4.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetDefaultConstraint)
         self.gridLayout_4.setContentsMargins(5, 5, 5, 5)
         self.gridLayout_4.setSpacing(5)
         self.gridLayout_4.setObjectName("gridLayout_4")

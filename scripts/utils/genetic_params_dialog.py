@@ -1,7 +1,7 @@
 import sys
 
-from PyQt5.QtGui import QIntValidator
-from PyQt5.QtWidgets import (
+from PyQt6.QtGui import QIntValidator
+from PyQt6.QtWidgets import (
     QApplication,
     QComboBox,
     QDialog,
