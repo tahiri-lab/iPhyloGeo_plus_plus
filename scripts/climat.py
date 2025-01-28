@@ -2,25 +2,29 @@ import io
 import os
 import re
 import shutil
-from decimal import Decimal
-
+import pandas as pd
 import folium
-import matplotlib.pyplot as plt
+from decimal import Decimal
 import networkx as nx
+import seaborn as sns
+
 import plotly.graph_objs as go
 import plotly.io as pio
-import seaborn as sns
+
+import matplotlib.pyplot as plt
 from Bio import Phylo
-from PyQt5.QtWidgets import QDialog, QFileDialog, QGraphicsDropShadowEffect, QTableWidget, QTableWidgetItem, QVBoxLayout
-from PyQt5.QtGui import QColor, QIcon, QPixmap
+
+from PyQt5.QtWidgets import QDialog, QFileDialog, QTableWidget, QTableWidgetItem, QVBoxLayout
+from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
 from PyQt5.QtWebEngineWidgets import QWebEngineView
-import pandas as pd
+
 from aphylogeo.params import Params
 from aphylogeo import utils
+
 from utils.ClimaticGraphSettings import ClimaticGraphSettings
 from utils.MyDumper import update_yaml_param
-
+from utils.ClimaticPreferencesDialog import ClimaticPreferencesDialog
 
 try:
     ClimaticGraphSettings.load_from_file("./scripts/utils/ClimaticGraphSettings.yaml")
@@ -805,3 +809,16 @@ class Climat():
             self.main.show_error_dialog(f"The temporary image file was not found: {e}", "File Not Found")
         except Exception as e:
             self.main.show_error_dialog(f"An unexpected error occurred while downloading the climatic tree graph: {e}")
+            
+    def open_climatic_tree_preferences_window(self):
+        """
+        Open the preferences dialog and update the application settings based on user input.
+
+        This method opens a PreferencesDialog, updates it with the current preferences, and applies the new preferences if the user accepts the changes.
+
+        Returns:
+            None
+        """
+        dialog = ClimaticPreferencesDialog()
+        if dialog.exec_() == QDialog.Accepted:
+            self.apply_preferences()

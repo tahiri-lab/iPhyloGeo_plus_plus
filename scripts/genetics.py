@@ -25,6 +25,8 @@ from utils.MyDumper import update_yaml_param
 from aphylogeo.params import Params
 from Worker import Worker
 
+from utils.genetic_params_dialog import ParamDialog
+
 class Genetics():
     
     def __init__(self, main):
@@ -746,6 +748,11 @@ class Genetics():
             self.main.show_error_dialog(f"The tree image file was not found: {e}", "File Not Found")
         except Exception as e:
             self.main.show_error_dialog(f"An unexpected error occurred while downloading the tree image: {e}")
-    def closeApp(self):
+            
+    def stopWorker(self):
         if self.worker:
             self.worker.stop()
+            
+    def open_genetic_settings_window(self):
+        dialog = ParamDialog()
+        dialog.exec_()

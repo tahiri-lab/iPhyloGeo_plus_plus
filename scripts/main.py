@@ -15,12 +15,10 @@ from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor, QIcon, QPixmap
 from PyQt5.QtWebEngineWidgets import QWebEngineView
-from PyQt5.QtWidgets import QDialog, QFileDialog, QGraphicsDropShadowEffect, QTableWidget, QTableWidgetItem, QVBoxLayout
+from PyQt5.QtWidgets import QFileDialog, QGraphicsDropShadowEffect, QVBoxLayout
 from ui_helpers import create_shadow_effect, get_button_style, style_buttons
 from utils import resources_rc  # noqa: F401  # Import the compiled resource module for resolving image resource path
-from utils.genetic_params_dialog import ParamDialog
 from utils.help import HelpDialog
-from utils.ClimaticPreferencesDialog import ClimaticPreferencesDialog
 from utils.MyDumper import update_yaml_param
 from utils.resultSettingsDialog import ResultSettingsDialog
 from genetics import Genetics
@@ -135,8 +133,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.statisticsButtonPage4.clicked.connect(self.display_phylogeographic_trees)
             self.clearButtonPage4.clicked.connect(self.clear_result_stat)
             self.downloadGraphButton.clicked.connect(self.genetics.download_genetic_tree_graph)
-            self.preferencesButton.clicked.connect(self.open_climatic_tree_preferences_window)
-            self.geneticSettingsButton.clicked.connect(self.open_genetic_settings_window)
+            self.preferencesButton.clicked.connect(self.climat.open_climatic_tree_preferences_window)
+            self.geneticSettingsButton.clicked.connect(self.genetics.open_genetic_settings_window)
 
             self.stackedWidget.setCurrentIndex(0)
 
@@ -256,21 +254,15 @@ class UiMainWindow(QtWidgets.QMainWindow):
     def clear_results(self):
         self.textEditResults.clear()
 
-    def open_genetic_settings_window(self):
-        dialog = ParamDialog()
-        dialog.exec_()
-
     ################################
 
 
-    # Pas certain que c'est utiliser...
     def stop_thread(self):
-        self.genetics.closeApp()
+        self.genetics.stopWorker()
         if self.thread and self.thread.isRunning():
             self.thread.quit()
             self.thread.wait()
 
-    # Pas certain que c'est utiliser...
     def closeEvent(self, event):
         self.stop_thread()
         event.accept()
@@ -516,18 +508,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             self.show_error_dialog(f"An unexpected error occurred: {e}", "Error")
 
-    def open_climatic_tree_preferences_window(self):
-        """
-        Open the preferences dialog and update the application settings based on user input.
-
-        This method opens a PreferencesDialog, updates it with the current preferences, and applies the new preferences if the user accepts the changes.
-
-        Returns:
-            None
-        """
-        dialog = ClimaticPreferencesDialog(self)
-        if dialog.exec_() == QDialog.Accepted:
-            self.apply_preferences()
 
 
     ################################################
