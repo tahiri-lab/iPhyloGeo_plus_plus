@@ -18,11 +18,11 @@ from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QFileDialog, QGraphicsDropShadowEffect, QVBoxLayout
 from ui_helpers import create_shadow_effect, get_button_style, style_buttons
 from utils import resources_rc  # noqa: F401  # Import the compiled resource module for resolving image resource path
-from utils.help import HelpDialog
 from utils.MyDumper import update_yaml_param
 from utils.resultSettingsDialog import ResultSettingsDialog
 from genetics import Genetics
 from climat import Climat
+from navigation import Navigation
 from event_connector import QtEvents, connect_event, connect_decorated_methods
 
 try:
@@ -36,15 +36,6 @@ starting_position = 1
 
 
 class UiMainWindow(QtWidgets.QMainWindow):
-    def open_help_window(self):
-        """
-        Initialize and display the 'How to Use' window.
-
-        This method creates a new QMainWindow instance, sets up its UI using the UiHowToUse class, and displays the window.
-        """
-
-        dialog = HelpDialog()
-        dialog.exec_()
 
     def open_result_settings_window(self):
         """
@@ -75,6 +66,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         super(UiMainWindow, self).__init__()
         self.genetics = Genetics(self)
         self.climat = Climat(self)
+        self.navigation = Navigation(self)
         uic.loadUi("scripts/Qt/main.ui", self)
         connect_decorated_methods(self)
         self.setup_ui()
@@ -96,11 +88,11 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.starting_position_spinbox_2.setRange(1, 1000)
             self.starting_position_spinbox_2.valueChanged.connect(self.genetics.update_plot)
             self.window_size_spinbox_2.valueChanged.connect(self.genetics.update_plot)
-            self.homeButton.clicked.connect(self.show_home_section)
-            self.geneticDataButton.clicked.connect(self.show_genetic_section)
+            self.homeButton.clicked.connect(self.navigation.show_home_section)
+            self.geneticDataButton.clicked.connect(self.navigation.show_genetic_section)
             self.clearButtonPage3.clicked.connect(self.clear_results)
-            self.climaticDataButton.clicked.connect(self.show_climate_section)
-            self.helpButton.clicked.connect(self.open_help_window)
+            self.climaticDataButton.clicked.connect(self.navigation.show_climate_section)
+            self.helpButton.clicked.connect(self.navigation.open_help_window)
             self.darkModeButton.clicked.connect(self.toggle_dark_mode)
             self.climaticTreeButtonPage2.clicked.connect(self.climat.display_climatic_trees)
             self.climaticTreescomboBox.currentIndexChanged.connect(self.climat.show_selected_climatic_tree)
@@ -117,7 +109,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
             self.statisticsButtonPage1.clicked.connect(self.genetics.initialize_species_list)
             self.clearButtonPage2.clicked.connect(self.climat.clear_climmatic_data)
             self.fileBrowserButtonPage2.clicked.connect(self.climat.load_csv_climate_file)
-            self.resultsButton.clicked.connect(self.show_results_section)
+            self.resultsButton.clicked.connect(self.navigation.show_results_section)
             self.statisticsButtonPage2.clicked.connect(self.climat.load_climate_statistics)
             self.ClimaticChartSettingsAxisX.currentIndexChanged.connect(self.climat.generate_climate_graph)
             self.ClimaticChartSettingsAxisY.currentIndexChanged.connect(self.climat.generate_climate_graph)
@@ -266,72 +258,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
     def closeEvent(self, event):
         self.stop_thread()
         event.accept()
-
-
-    def show_home_section(self):
-        """
-        Display the home page of the application.
-
-        This method sets the icons for the climatic data and genetic data buttons to their inactive states
-        and displays the home page by setting the stacked widget's current index to 0.
-        """
-        try:
-            self.climaticDataButton.setIcon(QIcon(":inactive/climaticData.svg"))
-            self.geneticDataButton.setIcon(QIcon(":inactive/genetic.svg"))
-            self.homeButton.setIcon(QIcon(":active/home.png"))
-            self.resultsButton.setIcon(QIcon(":inactive/result.svg"))
-            self.stackedWidget.setCurrentIndex(0)
-        except Exception as e:
-            self.show_error_dialog(f"An unexpected error occurred: {e}")
-
-    def show_genetic_section(self):
-        """
-        Display the genetic data page of the application.
-
-        This method sets the icons for the climatic data and genetic data buttons, displays the genetic data page
-        by setting the stacked widget's current index to 1, and sets the tab widget's current index to 0.
-        """
-        try:
-            self.climaticDataButton.setIcon(QIcon(":inactive/climaticData.svg"))
-            self.geneticDataButton.setIcon(QIcon(":active/genetic.svg"))
-            self.homeButton.setIcon(QIcon(":other/home.svg"))
-            self.resultsButton.setIcon(QIcon(":inactive/result.svg"))
-            self.stackedWidget.setCurrentIndex(1)
-            self.tabWidget.setCurrentIndex(0)
-        except Exception as e:
-            self.show_error_dialog(f"An unexpected error occurred: {e}")
-
-    def show_climate_section(self):
-        """
-        Display the climatic data page of the application.
-
-        This method sets the icons for the climatic data and genetic data buttons, displays the climatic data page
-        by setting the stacked widget's current index to 2, and sets the tab widget's current index to 0.
-        """
-        try:
-            self.climaticDataButton.setIcon(QIcon(":active/climaticData.png"))
-            self.geneticDataButton.setIcon(QIcon(":inactive/genetic.svg"))
-            self.homeButton.setIcon(QIcon(":other/home.svg"))
-            self.resultsButton.setIcon(QIcon(":inactive/result.svg"))
-            self.stackedWidget.setCurrentIndex(2)
-            self.tabWidget2.setCurrentIndex(0)
-        except Exception as e:
-            self.show_error_dialog(f"An unexpected error occurred: {e}")
-
-    def show_results_section(self):
-        """
-        Display the results page of the application.
-
-        This method sets the stacked widget's current index to 3 to display the results page.
-        """
-        try:
-            self.climaticDataButton.setIcon(QIcon(":inactive/climaticData.svg"))
-            self.geneticDataButton.setIcon(QIcon(":inactive/genetic.svg"))
-            self.homeButton.setIcon(QIcon(":other/home.svg"))
-            self.resultsButton.setIcon(QIcon(":active/result.svg"))
-            self.stackedWidget.setCurrentIndex(3)
-        except Exception as e:
-            self.show_error_dialog(f"An unexpected error occurred: {e}")
 
     def show_filtered_results(self):
         """
