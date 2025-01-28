@@ -18,10 +18,14 @@ from PyQt5.QtWebEngineWidgets import QWebEngineView
 import pandas as pd
 from aphylogeo.params import Params
 from aphylogeo import utils
-
+from utils.ClimaticGraphSettings import ClimaticGraphSettings
 from utils.MyDumper import update_yaml_param
 
 
+try:
+    ClimaticGraphSettings.load_from_file("./scripts/utils/ClimaticGraphSettings.yaml")
+except FileNotFoundError:
+    ClimaticGraphSettings.validate_and_set_params(ClimaticGraphSettings.PARAMETER_KEYS)
 
 class Climat():
     
@@ -451,17 +455,15 @@ class Climat():
                 tree = self.climaticTrees[key]
 
                 # Get preferences
-                preferences = self.main.preferences
-                label_color = preferences.get("label_color", "black")
-                edge_color = preferences.get("edge_color", "blue")
-                reticulation_color = preferences.get("reticulation_color", "red")
-                layout = preferences.get("layout", "horizontal")
-                proportional_edge_lengths = preferences.get("proportional_edge_lengths", False)
-                label_internal_vertices = preferences.get("label_internal_vertices", False)
-                use_leaf_names = preferences.get("use_leaf_names", True)
-                show_branch_length = preferences.get("show_branch_length", False)
-                view_type = preferences.get("view_type", "network")
-
+                label_color = ClimaticGraphSettings.label_color
+                edge_color = ClimaticGraphSettings.edge_color
+                reticulation_color = ClimaticGraphSettings.reticulation_color
+                layout = ClimaticGraphSettings.layout
+                proportional_edge_lengths = ClimaticGraphSettings.proportional_edge_lengths
+                label_internal_vertices = ClimaticGraphSettings.label_internal_vertices
+                use_leaf_names = ClimaticGraphSettings.use_leaf_names
+                show_branch_length = ClimaticGraphSettings.show_branch_length
+                view_type = ClimaticGraphSettings.view_type
                 if view_type == "network":
                     self.render_network_view(
                         tree,

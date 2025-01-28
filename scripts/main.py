@@ -20,10 +20,9 @@ from ui_helpers import create_shadow_effect, get_button_style, style_buttons
 from utils import resources_rc  # noqa: F401  # Import the compiled resource module for resolving image resource path
 from utils.genetic_params_dialog import ParamDialog
 from utils.help import HelpDialog
+from utils.ClimaticPreferencesDialog import ClimaticPreferencesDialog
 from utils.MyDumper import update_yaml_param
-from utils.PreferencesDialog import PreferencesDialog  # Import PreferencesDialog
 from utils.resultSettingsDialog import ResultSettingsDialog
-from utils.settings import Params2
 from genetics import Genetics
 from climat import Climat
 from event_connector import QtEvents, connect_event, connect_decorated_methods
@@ -31,7 +30,8 @@ from event_connector import QtEvents, connect_event, connect_decorated_methods
 try:
     Params.load_from_file("./scripts/utils/params.yaml")
 except FileNotFoundError:
-    Params.validate_and_set_params(Params2.PARAMETER_KEYS)
+    Params.validate_and_set_params(Params.PARAMETER_KEYS)
+    
 
 window_size = 50
 starting_position = 1
@@ -89,17 +89,6 @@ class UiMainWindow(QtWidgets.QMainWindow):
         sets up styles and effects for UI elements, and initializes the state of the application.
         """
         try:
-            self.preferences = {
-                "label_color": "black",
-                "edge_color": "blue",
-                "reticulation_color": "red",
-                "layout": "horizontal",
-                "proportional_edge_lengths": False,
-                "label_internal_vertices": False,
-                "use_leaf_names": True,
-                "show_branch_length": False,
-                "view_type": "network",
-            }
             self.tree_keys = []
             self.total_trees = 0
             self.current_index = 0
@@ -269,10 +258,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
     def open_genetic_settings_window(self):
         dialog = ParamDialog()
-        if dialog.exec_() == QDialog.Accepted:
-            self.geneticParam = dialog.params
-            for property_name, new_value in self.geneticParam.items():
-                update_yaml_param(Params, "scripts/utils/params.yaml", property_name, new_value)
+        dialog.exec_()
 
     ################################
 
@@ -539,14 +525,9 @@ class UiMainWindow(QtWidgets.QMainWindow):
         Returns:
             None
         """
-        try:
-            dialog = PreferencesDialog(self)
-            dialog.update_preferences(self.preferences)
-            if dialog.exec_() == QDialog.Accepted:
-                self.preferences = dialog.get_preferences()
-                self.apply_preferences()
-        except Exception as e:
-            self.show_error_dialog(f"An unexpected error occurred while opening the preferences dialog: {e}")
+        dialog = ClimaticPreferencesDialog(self)
+        if dialog.exec_() == QDialog.Accepted:
+            self.apply_preferences()
 
 
     ################################################
