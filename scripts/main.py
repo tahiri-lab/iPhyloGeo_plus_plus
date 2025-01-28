@@ -279,8 +279,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
 
     # Pas certain que c'est utiliser...
     def stop_thread(self):
-        if self.worker:
-            self.worker.stop()
+        self.genetics.closeApp()
         if self.thread and self.thread.isRunning():
             self.thread.quit()
             self.thread.wait()
@@ -511,7 +510,7 @@ class UiMainWindow(QtWidgets.QMainWindow):
         """
         try:
             self.textEditResults.clear()
-            self.textEditClimStats.clear()
+            self.clearButtonPage3.clear()
             self.textEditClimTrees.clear()
             self.graphicsViewClimData.clear()
             self.ClimStatsListCondition.setCurrentIndex(0)

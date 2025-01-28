@@ -29,7 +29,7 @@ class Genetics():
     
     def __init__(self, main):
         self.main = main
-        
+        self.worker = None
         
     def read_msa(self, msa_data):
         """
@@ -746,3 +746,6 @@ class Genetics():
             self.main.show_error_dialog(f"The tree image file was not found: {e}", "File Not Found")
         except Exception as e:
             self.main.show_error_dialog(f"An unexpected error occurred while downloading the tree image: {e}")
+    def closeApp(self):
+        if self.worker:
+            self.worker.stop()
