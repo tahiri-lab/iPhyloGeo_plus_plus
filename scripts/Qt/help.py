@@ -53,3 +53,14 @@ class Ui_how_to_use(object):
         self.toolBar.setWindowTitle(_translate("how_to_use", "toolBar"))
         self.actionprint.setText(_translate("how_to_use", "print"))
         self.actionPrint.setText(_translate("how_to_use", "Print"))
+
+
+if __name__ == "__main__":
+    import sys
+
+    app = QtWidgets.QApplication(sys.argv)
+    how_to_use = QtWidgets.QMainWindow()
+    ui = Ui_how_to_use()
+    ui.setupUi(how_to_use)
+    how_to_use.show()
+    sys.exit(app.exec())

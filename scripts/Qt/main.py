@@ -289,7 +289,7 @@ class Ui_MainWindow(object):
         icon6 = QtGui.QIcon()
         icon6.addPixmap(QtGui.QPixmap(":/inactive/result.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         icon6.addPixmap(QtGui.QPixmap(":/active/result.svg"), QtGui.QIcon.Mode.Active, QtGui.QIcon.State.On)
-        icon6.addPixmap(QtGui.QPixmap(".\\scripts\\Qt\\\n              :/active/result.svg"), QtGui.QIcon.Mode.Selected, QtGui.QIcon.State.On)
+        icon6.addPixmap(QtGui.QPixmap(".\\scripts\\Qt\\\n" "              :/active/result.svg"), QtGui.QIcon.Mode.Selected, QtGui.QIcon.State.On)
         self.resultsButton.setIcon(icon6)
         self.resultsButton.setIconSize(QtCore.QSize(60, 60))
         self.resultsButton.setFlat(False)
@@ -1084,3 +1084,14 @@ class Ui_MainWindow(object):
             )
         )
         self.downloadResultsPlotButton.setText(_translate("MainWindow", "Download"))
+
+
+if __name__ == "__main__":
+    import sys
+
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec())

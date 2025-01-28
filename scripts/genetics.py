@@ -1,39 +1,37 @@
-import shutil
-import os
-import toytree
 import json
-import toyplot.png
-import numpy as np
-import seaborn as sns
-
-import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-from matplotlib.ticker import MaxNLocator
-
-from PyQt6 import QtCore, QtWidgets, uic
-from PyQt6.QtGui import QIcon, QMovie, QPixmap
-from PyQt6.QtWidgets import QApplication, QFileDialog
-from PyQt6.QtCore import Qt, QThread
-
-from Bio.Seq import Seq
-from Bio.SeqRecord import SeqRecord
-from Bio.Align import MultipleSeqAlignment
-
+import os
+import shutil
 from collections import Counter, defaultdict
 
-from utils.my_dumper import update_yaml_param
+import matplotlib.patches as mpatches
+import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
+import toyplot.png
+import toytree
 from aphylogeo.params import Params
-from Worker import Worker
-
-from utils.genetic_params_dialog import ParamDialog
+from Bio.Align import MultipleSeqAlignment
+from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
+from matplotlib.ticker import MaxNLocator
+from PyQt6 import QtCore, QtWidgets, uic
+from PyQt6.QtCore import Qt, QThread
+from PyQt6.QtGui import QIcon, QMovie, QPixmap
+from PyQt6.QtWidgets import QApplication, QFileDialog
+from Qt import loading
 from utils.error_dialog import show_error_dialog
+from utils.genetic_params_dialog import ParamDialog
+from utils.my_dumper import update_yaml_param
+from worker import Worker
 
-class Genetics():
-    
+
+class Genetics:
     def __init__(self, main):
         self.main = main
         self.worker = None
-        
+        self.msa = []
+        self.geneticTrees = []
+
     def read_msa(self, msa_data):
         """
         Reads multiple sequence alignment (MSA) data and organizes it into a dictionary.
@@ -46,7 +44,7 @@ class Genetics():
         """
         try:
             genetic_data = {}
-            for key, value in msa_data.items():
+            for _, value in msa_data.items():
                 lines = value.strip().split("\n")
                 current_id = None
                 for line in lines:
@@ -106,7 +104,7 @@ class Genetics():
             truncated_data = {key: value[starting_position:end_position] for key, value in genetic_data.items()}
             alignment = MultipleSeqAlignment([SeqRecord(Seq(seq), id=key) for key, seq in truncated_data.items()])
 
-            fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(9, 4), gridspec_kw={"height_ratios": [1, 8]})
+            _, (ax1, ax2) = plt.subplots(2, 1, figsize=(9, 4), gridspec_kw={"height_ratios": [1, 8]})
             ax1.set_axis_off()
             ax2.set_axis_off()
 
@@ -271,7 +269,7 @@ class Genetics():
 
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}")
-            
+
     def update_plot(self):
         """
         Update the plot based on the current starting position and window size.
@@ -304,7 +302,7 @@ class Genetics():
         # Load species names into the combo box
         self.main.referenceComboBox.clear()
         unique_species = set()
-        for key, value in self.msa.items():
+        for _, value in self.msa.items():
             parts = value.strip().split("\n")
             for i in range(0, len(parts), 2):
                 header = parts[i].strip(">").replace("_", " ")  # Replace underscores with spaces
@@ -333,7 +331,7 @@ class Genetics():
             reference_species = self.main.referenceComboBox.currentText().replace(" ", "_")  # Convert back to original format
 
             sequences = defaultdict(str)
-            for key, value in self.msa.items():
+            for _, value in self.msa.items():
                 parts = value.strip().split("\n")
                 for i in range(0, len(parts), 2):
                     header = parts[i].strip(">")
@@ -404,20 +402,19 @@ class Genetics():
             self.main.textEditGenStats_2.setPixmap(pixmap)
             self.main.textEditGenStats_2.setFixedSize(900, 400)
             self.main.textEditGenStats_2.setScaledContents(True)
-            
+
             self.main.tabWidget.setCurrentIndex(3)
         except Exception as e:
             print(f"Error updating similarity plot: {e}")
-            
+
     def download_similarity_plot_chart(self):
         file_url = "scripts/results/similarity_plot.png"  # The file path
         save_path, _ = QFileDialog.getSaveFileName(self, "Save File", "", "PNG Files (*.png);;All Files (*)")
         if not save_path:
             return  # User cancelled th
         shutil.copy(file_url, save_path)  # e save dialog
-         
+
     def select_fasta_file(self):
-        
         """
         Open a dialog to select a FASTA file, update parameters, and display the content with color-coded sequences.
 
@@ -433,8 +430,7 @@ class Genetics():
             - Enables the sequence alignment button and updates icons.
         """
         try:
-            options = QFileDialog.Options()
-            options |= QFileDialog.ReadOnly
+            options = QFileDialog.Option.ReadOnly
             fullFileName, _ = QFileDialog.getOpenFileName(
                 None,
                 "Select FASTA file",
@@ -520,7 +516,7 @@ class Genetics():
         def update_progress(step):
             if step < loading_screen.checkListWidget.count():
                 item = loading_screen.checkListWidget.item(step)
-                item.setCheckState(Qt.Checked)
+                item.setCheckState(Qt.CheckState.Checked)
                 progress_value = int((step + 1) * (100 / loading_screen.checkListWidget.count()))
                 loading_screen.progressBar.setValue(progress_value)
                 QApplication.processEvents()
@@ -542,24 +538,27 @@ class Genetics():
             loading_screen.close()
             show_error_dialog(f"An unexpected error occurred: {error_message}")
 
-        loading_screen = uic.loadUi("scripts/Qt/loading.ui")
-        loading_screen.setWindowFlags(Qt.FramelessWindowHint)  # Remove the title bar and frame
+        if loading_screen := loading.Ui_LoadingDialog():
+            loading_screen.setupUi(loading_screen)
+            # loading_screen.close()
+            # loading_screen = uic.loadUi("scripts/Qt/loading.ui")
+            loading_screen.setWindowFlags(Qt.WindowType.FramelessWindowHint)  # Remove the title bar and frame
 
-        loading_screen.setWindowModality(Qt.ApplicationModal)
+            loading_screen.setWindowModality(Qt.ApplicationModal)
 
-        # Set the QMovie for the movieLabel
-        movie = QMovie(":active/dna.gif")  # Use the resource path for the gif
-        loading_screen.movieLabel.setMovie(movie)
+            # Set the QMovie for the movieLabel
+            movie = QMovie(":active/dna.gif")  # Use the resource path for the gif
+            loading_screen.movieLabel.setMovie(movie)
 
-        # Resize the movie to fit within the QLabel
-        movie.setScaledSize(QtCore.QSize(100, 100))  # Set the desired size here
+            # Resize the movie to fit within the QLabel
+            movie.setScaledSize(QtCore.QSize(100, 100))  # Set the desired size here
 
-        # Ensure the QLabel is centered and the GIF is properly displayed
-        loading_screen.movieLabel.setAlignment(QtCore.Qt.AlignCenter)
-        movie.start()
+            # Ensure the QLabel is centered and the GIF is properly displayed
+            loading_screen.movieLabel.setAlignment(QtCore.Qt.AlignCenter)
+            movie.start()
 
-        # Show the loading screen
-        loading_screen.show()
+            # Show the loading screen
+            loading_screen.show()
         QtWidgets.QApplication.processEvents()
 
         self.workerThread = QThread()
@@ -582,7 +581,7 @@ class Genetics():
             QApplication.processEvents()
 
         return self.geneticTrees
-  
+
     def show_sequence_alignment_page(self):
         """
         Display the sequence alignment page.
@@ -595,7 +594,7 @@ class Genetics():
             self.main.tabWidget.setCurrentIndex(2)
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}")
-         
+
     def clear_genetic_data(self):
         """
         Clear the genetic data fields.
@@ -635,8 +634,8 @@ class Genetics():
         with open(file_path, "r") as file:
             self.newick_json = json.load(file)
 
-        self.tree_keys = list(self.newick_json.keys()) 
-        self.total_trees = len(self.tree_keys) 
+        self.tree_keys = list(self.newick_json.keys())
+        self.total_trees = len(self.tree_keys)
         self.current_index = 0
         self.main.geneticTreescomboBox.clear()
 
@@ -644,8 +643,8 @@ class Genetics():
         formatted_tree_keys = [self.format_tree_name(key) for key in self.tree_keys]
         self.main.geneticTreescomboBox.addItems(formatted_tree_keys)
 
-        self.show_tree(self.current_index)  
-            
+        self.show_tree(self.current_index)
+
     def format_tree_name(self, tree_name):
         """
         Format the tree name by replacing underscores with ' nt '.
@@ -660,7 +659,7 @@ class Genetics():
         if len(parts) == 2:
             return f"{parts[0]} nt {parts[1]} nt"
         return tree_name
-    
+
     def show_tree(self, index):
         """
         Display the phylogenetic tree at the specified index using Toytree.
@@ -716,7 +715,7 @@ class Genetics():
         self.main.GeneticTreeLabel.clear()
         self.main.GeneticTreeLabel.setPixmap(pixmap)
         self.main.GeneticTreeLabel.adjustSize()
-     
+
     def download_genetic_tree_graph(self):
         """
         Download the current displayed tree graph as a PNG file.
@@ -748,11 +747,11 @@ class Genetics():
             show_error_dialog(f"The tree image file was not found: {e}", "File Not Found")
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred while downloading the tree image: {e}")
-            
+
     def stopWorker(self):
         if self.worker:
             self.worker.stop()
-        
+
     def open_genetic_settings_window(self):
         dialog = ParamDialog()
         dialog.exec()

@@ -115,3 +115,14 @@ class Ui_LoadingDialog(object):
         item = self.checkListWidget.item(4)
         item.setText(_translate("LoadingDialog", "Saving results"))
         self.checkListWidget.setSortingEnabled(__sortingEnabled)
+
+
+if __name__ == "__main__":
+    import sys
+
+    app = QtWidgets.QApplication(sys.argv)
+    LoadingDialog = QtWidgets.QDialog()
+    ui = Ui_LoadingDialog()
+    ui.setupUi(LoadingDialog)
+    LoadingDialog.show()
+    sys.exit(app.exec())

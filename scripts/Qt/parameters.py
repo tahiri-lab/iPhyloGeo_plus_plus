@@ -118,3 +118,14 @@ class Ui_Dialog(object):
         self.label_4.setText(_translate("Dialog", "Step size"))
         self.cancel_button.setText(_translate("Dialog", "Cancel"))
         self.ok_button.setText(_translate("Dialog", "Ok"))
+
+
+if __name__ == "__main__":
+    import sys
+
+    app = QtWidgets.QApplication(sys.argv)
+    Dialog = QtWidgets.QDialog()
+    ui = Ui_Dialog()
+    ui.setupUi(Dialog)
+    Dialog.show()
+    sys.exit(app.exec())

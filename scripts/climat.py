@@ -2,41 +2,39 @@ import io
 import os
 import re
 import shutil
-import pandas as pd
-import folium
 from decimal import Decimal
-import networkx as nx
-import seaborn as sns
 
+import folium
+import matplotlib.pyplot as plt
+import networkx as nx
+import pandas as pd
 import plotly.graph_objs as go
 import plotly.io as pio
-
-import matplotlib.pyplot as plt
-from Bio import Phylo
-
-from PyQt6.QtWidgets import QDialog, QFileDialog, QTableWidget, QTableWidgetItem, QVBoxLayout
-from PyQt6.QtGui import QPixmap
-from PyQt6.QtCore import Qt
-from PyQt6.QtWebEngineWidgets import QWebEngineView
-
-from aphylogeo.params import Params
+import seaborn as sns
 from aphylogeo import utils
-
+from aphylogeo.params import Params
+from Bio import Phylo
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QPixmap
+from PyQt6.QtWebEngineWidgets import QWebEngineView
+from PyQt6.QtWidgets import QDialog, QFileDialog, QTableWidget, QTableWidgetItem, QVBoxLayout
 from utils.ClimaticGraphSettings import ClimaticGraphSettings
-from utils.my_dumper import update_yaml_param
 from utils.ClimaticPreferencesDialog import ClimaticPreferencesDialog
 from utils.error_dialog import show_error_dialog
+from utils.my_dumper import update_yaml_param
 
 try:
     ClimaticGraphSettings.load_from_file("./scripts/utils/ClimaticGraphSettings.yaml")
 except FileNotFoundError:
-    ClimaticGraphSettings.validate_and_set_params(ClimaticGraphSettings.PARAMETER_KEYS)
+    # Use default settings if the file is not found
+    pass
 
-class Climat():
-    
+
+class Climat:
     def __init__(self, main):
         self.main = main
-             
+        self.climaticTrees = dict()
+
     def load_climate_statistics(self):
         """
         Load climate data from a CSV file, update the UI elements with the column names, and switch to the appropriate tab.
@@ -47,11 +45,9 @@ class Climat():
         Returns:
             None
         """
-        # Load the data
         self.data = pd.read_csv(Params.file_name)
         self.columns = self.data.columns.tolist()
 
-        # Remove the first column
         if self.columns:
             self.columns.pop(0)
 
@@ -60,7 +56,7 @@ class Climat():
         self.main.ClimaticChartSettingsAxisY.clear()
         self.main.ClimaticChartSettingsAxisY.addItems(self.columns)
         self.main.tabWidget2.setCurrentIndex(2)
-            
+
     def generate_climate_graph(self):
         """
         Generate and display a graph based on the selected X and Y axis data and the chosen plot type.
@@ -157,7 +153,7 @@ class Climat():
         pixmap = QPixmap(plot_path)
         self.main.ClimaticChart_2.setPixmap(pixmap)
         self.main.tabWidget2.setCurrentIndex(2)
-          
+
     def download_climate_plot(self):
         """
         Download the generated plot.
@@ -178,10 +174,9 @@ class Climat():
             return
 
         # Prompt the user to select a location to save the plot
-        options = QFileDialog.Options()
-        options |= QFileDialog.DontUseNativeDialog
+        options = QFileDialog.Option.DontUseNativeDialog
         file_path, _ = QFileDialog.getSaveFileName(
-            self,
+            self.main,
             "Save Plot As",
             os.path.basename(plot_path),
             "PNG Files (*.png);;All Files (*)",
@@ -215,33 +210,33 @@ class Climat():
                 }
             """
             )
-            table_widget.horizontalHeader().setStretchLastSection(True)
-            table_widget.verticalHeader().setVisible(False)
-            table_widget.horizontalHeader().setVisible(True)
-            table_widget.horizontalHeader().setDefaultAlignment(Qt.AlignCenter)
-            table_widget.horizontalHeader().setDefaultSectionSize(150)
+            if horizontal_header := table_widget.horizontalHeader():
+                horizontal_header.setStretchLastSection(True)
+                horizontal_header.setVisible(True)
+                horizontal_header.setDefaultAlignment(Qt.AlignmentFlag.AlignCenter)
+                horizontal_header.setDefaultSectionSize(150)
 
-            # Set headers
+            if vertical_header := table_widget.verticalHeader():
+                vertical_header.setVisible(False)
+
             for col in range(num_columns):
                 item = QTableWidgetItem(df.columns[col])
-                item.setTextAlignment(Qt.AlignCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 table_widget.setHorizontalHeaderItem(col, item)
 
-            # Fill the table with data
             for row in range(num_rows):
                 for col in range(num_columns):
                     value = str(df.iloc[row, col])
                     if re.search("^[0-9\\-]*\\.[0-9]*", value) is not None:
                         value = str(round(Decimal(value), 3))
                     item = QTableWidgetItem(value)
-                    item.setTextAlignment(Qt.AlignCenter)
+                    item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                     table_widget.setItem(row, col, item)
 
             return table_widget
 
         try:
-            options = QFileDialog.Options()
-            options |= QFileDialog.ReadOnly
+            options = QFileDialog.Option.ReadOnly
             fullFilePath, _ = QFileDialog.getOpenFileName(
                 None,
                 "Select CSV file",
@@ -265,7 +260,6 @@ class Climat():
                 lat = df[latitude_col].tolist()
                 long = df[longitude_col].tolist()
 
-                # Replace underscores with spaces in species names (first column)
                 df[columns[0]] = df[columns[0]].str.replace("_", " ")
 
                 self.species = df[columns[0]].tolist()
@@ -300,7 +294,6 @@ class Climat():
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}")
 
-
     def retrieve_data_names(self, data_list):
         """
         Retrieve data from a list, excluding the first element.
@@ -319,8 +312,7 @@ class Climat():
             show_error_dialog(f"Value Error: {e}")
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}")
-                        
-            
+
     def populate_map(self, lat, long):
         """
         Create and display a folium map with given latitude and longitude.
@@ -365,7 +357,7 @@ class Climat():
             show_error_dialog(f"Value Error: {e}")
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}")
-                 
+
     def clear_climmatic_data(self):
         """
         Clear the text fields related to climatic data.
@@ -379,7 +371,7 @@ class Climat():
             self.climaticTrees = None
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}", "Error")
-            
+
     def apply_preferences(self):
         """
         Apply the updated preferences to the current plot.
@@ -393,7 +385,7 @@ class Climat():
             self.show_climatic_tree(self.current_index)
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred while applying preferences: {e}")
-          
+
     def display_climatic_trees(self):
         """
         Display the climatic trees in the application.
@@ -420,7 +412,7 @@ class Climat():
             )
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}")
-                   
+
     def show_selected_climatic_tree(self, index):
         """
         Display the selected climatic tree based on the provided index.
@@ -436,7 +428,7 @@ class Climat():
                 self.show_climatic_tree(index)
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred while displaying the selected climatic tree: {e}")
-            
+
     def show_climatic_tree(self, index):
         """
         Display the climatic tree at the specified index.
@@ -456,6 +448,7 @@ class Climat():
                 tree = self.climaticTrees[key]
 
                 # Get preferences
+
                 label_color = ClimaticGraphSettings.label_color
                 edge_color = ClimaticGraphSettings.edge_color
                 reticulation_color = ClimaticGraphSettings.reticulation_color
@@ -470,7 +463,6 @@ class Climat():
                         tree,
                         label_color,
                         edge_color,
-                        reticulation_color,
                         layout,
                         proportional_edge_lengths,
                         label_internal_vertices,
@@ -481,9 +473,6 @@ class Climat():
                     self.render_tree_view(
                         tree,
                         label_color,
-                        edge_color,
-                        reticulation_color,
-                        layout,
                         proportional_edge_lengths,
                         label_internal_vertices,
                         use_leaf_names,
@@ -496,13 +485,12 @@ class Climat():
             )
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}")
-            
+
     def render_network_view(
         self,
         tree,
         label_color,
         edge_color,
-        reticulation_color,
         layout,
         proportional_edge_lengths,
         label_internal_vertices,
@@ -518,7 +506,6 @@ class Climat():
             tree (Phylo.BaseTree.Tree): The phylogenetic tree to render.
             label_color (str): Color for labels.
             edge_color (str): Color for edges.
-            reticulation_color (str): Color for reticulation edges.
             layout (str): Layout for the network visualization (e.g., 'horizontal').
             proportional_edge_lengths (bool): Whether to use proportional edge lengths.
             label_internal_vertices (bool): Whether to label internal vertices.
@@ -529,27 +516,24 @@ class Climat():
             None
         """
         try:
-            # Use seaborn for color palettes
             sns.set_palette("husl")
 
-            # Apply additional preferences to the tree
-
-            # Proportional Edge Lengths
             if proportional_edge_lengths:
                 for clade in tree.find_clades():
                     if clade.branch_length is None:
                         clade.branch_length = 0.1  # Set a default length if not specified
 
-            # Label Internal Vertices
             if label_internal_vertices:
                 for clade in tree.find_clades():
                     if not clade.is_terminal() and clade.name is None:
                         clade.name = "Internal Node"
 
-            # Render the tree using Plotly for interactive visualization
             graph = Phylo.to_networkx(tree)
             pos = self.get_layout(graph, layout)
-            edge_trace, edge_annotations = self.create_edge_trace(tree, pos, edge_color, show_branch_length)
+            edge_trace_result = self.create_edge_trace(tree, pos, edge_color, show_branch_length)
+            if edge_trace_result is None:
+                raise TypeError("The edge_trace is None")
+            edge_trace, edge_annotations = edge_trace_result
             node_trace = self.create_node_trace(graph, pos, label_color, use_leaf_names)
 
             fig = go.Figure(data=[edge_trace, node_trace])
@@ -578,7 +562,7 @@ class Climat():
             self.main.climaticTreesLabel.adjustSize()
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred while rendering the network view: {e}")
-            
+
     def render_tree_view(
         self,
         tree,
@@ -632,7 +616,7 @@ class Climat():
                 do_show=False,
                 axes=ax,
                 label_func=label_func,
-                label_colors={clade: label_color for clade in tree.find_clades()},
+                label_colors=dict.fromkeys(tree.find_clades(), label_color),
             )
 
             ax.axis("off")  # Remove axes
@@ -649,7 +633,6 @@ class Climat():
             self.main.climaticTreesLabel.adjustSize()
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred while rendering the tree view: {e}")
-
 
     def create_node_trace(self, graph, pos, label_color, use_leaf_names):
         """
@@ -693,7 +676,6 @@ class Climat():
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred while creating the node trace: {e}")
 
-
     def get_layout(self, graph, layout):
         """
         Get the layout for the phylogenetic tree network visualization.
@@ -718,7 +700,7 @@ class Climat():
                 raise ValueError(f"Unknown layout type: {layout}")
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred while getting the layout: {e}")
-            
+
     def create_edge_trace(self, tree, pos, edge_color, show_branch_length):
         """
         Create a Plotly edge trace for the phylogenetic tree network visualization.
@@ -769,7 +751,7 @@ class Climat():
             return edge_trace, edge_annotations
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred while creating the edge trace: {e}")
-            
+
     def download_climatic_tree_graph(self):
         """
         Download the current displayed climatic tree graph as a PNG file.
@@ -784,10 +766,9 @@ class Climat():
             current_key = self.tree_keys[self.current_index]
             default_file_name = f"{current_key}.png"
 
-            options = QFileDialog.Options()
-            options |= QFileDialog.DontUseNativeDialog
+            options = QFileDialog.Option.DontUseNativeDialog
             file_path, _ = QFileDialog.getSaveFileName(
-                self,
+                self.main,
                 "Save Graph As",
                 default_file_name,
                 "PNG Files (*.png);;All Files (*)",
@@ -806,7 +787,7 @@ class Climat():
             show_error_dialog(f"The temporary image file was not found: {e}", "File Not Found")
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred while downloading the climatic tree graph: {e}")
-                  
+
     def open_climatic_tree_preferences_window(self):
         """
         Open the preferences dialog and update the application settings based on user input.
@@ -817,5 +798,5 @@ class Climat():
             None
         """
         dialog = ClimaticPreferencesDialog()
-        if dialog.exec() == QDialog.Accepted:
+        if dialog.exec() == QDialog.DialogCode.Accepted:
             self.apply_preferences()

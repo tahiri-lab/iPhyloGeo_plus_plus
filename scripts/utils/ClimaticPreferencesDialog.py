@@ -1,13 +1,14 @@
 from PyQt6 import QtWidgets
-from PyQt6.QtWidgets import QDialog, QVBoxLayout, QLabel, QComboBox, QRadioButton, QCheckBox, QPushButton, QButtonGroup
+from PyQt6.QtWidgets import QButtonGroup, QCheckBox, QComboBox, QDialog, QLabel, QPushButton, QRadioButton, QVBoxLayout
 from utils.ClimaticGraphSettings import ClimaticGraphSettings
 from utils.my_dumper import update_yaml_param
 
 try:
     ClimaticGraphSettings.load_from_file("./scripts/utils/ClimaticGraphSettings.yaml")
 except FileNotFoundError:
-    ClimaticGraphSettings.validate_and_set_params(ClimaticGraphSettings.PARAMETER_KEYS)
-    
+    # Use default settings if the file is not found
+    pass
+
 
 class ClimaticPreferencesDialog(QDialog):
     def __init__(self, parent=None):
@@ -35,14 +36,14 @@ class ClimaticPreferencesDialog(QDialog):
         self.reticulation_color_combo = QComboBox()
         self.reticulation_color_combo.addItems(["magenta", "cyan", "yellow", "black"])
         self.reticulation_color_combo.setCurrentText(ClimaticGraphSettings.reticulation_color)
-        
+
         # Layout Options
         self.layout_options_label = QLabel("Layout Options:")
         self.vertical_radio = QRadioButton("Hierarchical Vertical")
         self.horizontal_radio = QRadioButton("Hierarchical Horizontal")
         self.axial_radio = QRadioButton("Axial")
         self.radial_radio = QRadioButton("Radial")
-        
+
         match ClimaticGraphSettings.layout:
             case "vertical":
                 self.vertical_radio.setChecked(True)
@@ -52,7 +53,6 @@ class ClimaticPreferencesDialog(QDialog):
                 self.axial_radio.setChecked(True)
             case "radial":
                 self.radial_radio.setChecked(True)
-                
 
         # View Type Options
         self.view_type_label = QLabel("View Type:")
@@ -63,7 +63,6 @@ class ClimaticPreferencesDialog(QDialog):
                 self.network_view_radio.setChecked(True)
             case "tree":
                 self.tree_view_radio.setChecked(True)
-
 
         # Add view type radios to a button group to ensure only one can be selected at a time
         self.view_type_group = QButtonGroup()
@@ -152,9 +151,8 @@ class ClimaticPreferencesDialog(QDialog):
             "use_leaf_names": self.use_leaf_names.isChecked(),
             "show_branch_length": self.show_branch_length.isChecked(),
         }
-        
+
     def submit(self):
-        
         for property_name, new_value in self.get_preferences().items():
             update_yaml_param(ClimaticGraphSettings, "scripts/utils/ClimaticGraphSettings.yaml", property_name, new_value)
         self.accept()  # Close the dialog and indicate success
@@ -162,7 +160,7 @@ class ClimaticPreferencesDialog(QDialog):
 
 if __name__ == "__main__":
     import sys
-    
+
     app = QtWidgets.QApplication(sys.argv)
     ui = ClimaticPreferencesDialog()
     sys.exit(app.exec())

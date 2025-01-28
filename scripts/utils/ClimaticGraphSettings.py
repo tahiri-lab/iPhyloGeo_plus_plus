@@ -1,6 +1,5 @@
-import os
-
 import yaml
+from pandas.core.arrays import boolean
 from yaml.loader import SafeLoader
 
 
@@ -11,19 +10,29 @@ class ClimaticGraphSettings:
     """
 
     PARAMETER_KEYS = {
-        "label_color": "black",
-        "edge_color": "blue",
-        "reticulation_color": "red",
-        "layout": "horizontal",
-        "proportional_edge_lengths": False,
-        "label_internal_vertices": False,
-        "use_leaf_names": True,
-        "show_branch_length": False,
-        "view_type": "network",
+        "label_color",
+        "edge_color",
+        "reticulation_color",
+        "layout",
+        "proportional_edge_lengths",
+        "label_internal_vertices",
+        "use_leaf_names",
+        "show_branch_length",
+        "view_type",
     }
 
+    label_color = "black"
+    edge_color = "blue"
+    reticulation_color = "red"
+    layout = "horizontal"
+    proportional_edge_lengths = False
+    label_internal_vertices = False
+    use_leaf_names = True
+    show_branch_length = False
+    view_type = "network"
+
     @classmethod
-    def load_from_file(cls, params_file=os.path.join(os.path.dirname(__file__), "ClimaticGraphSettings.yaml")):
+    def load_from_file(cls, params_file):
         """
         Method that loads the parameters from a yaml file.
 
@@ -52,6 +61,7 @@ class ClimaticGraphSettings:
         args:
             params_dict (dict): the dictionary with the parameters
         """
+
         for key, value in params_dict.items():
             if key in cls.PARAMETER_KEYS:
                 setattr(cls, key, value)

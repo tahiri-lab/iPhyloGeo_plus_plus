@@ -1,8 +1,8 @@
-from PyQt6.QtCore import QObject, pyqtSignal
 from aphylogeo import utils
 from aphylogeo.alignement import AlignSequences
 from aphylogeo.genetic_trees import GeneticTrees
 from aphylogeo.params import Params
+from PyQt6.QtCore import QObject, pyqtSignal
 
 
 class Worker(QObject):

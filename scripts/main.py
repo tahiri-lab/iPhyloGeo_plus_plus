@@ -1,7 +1,7 @@
 import json
 import os
 import sys
-
+from typing import cast
 
 import numpy as np
 import pandas as pd
@@ -11,26 +11,26 @@ import toyplot.png
 import toytree
 from aphylogeo import utils
 from aphylogeo.params import Params
+from climat import Climat
+from event_connector import QtEvents, connect_decorated_methods, connect_event
+from genetics import Genetics
+from navigation import Navigation
+from numpy.typing import ArrayLike
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QColor, QIcon, QPixmap
-from PyQt6.QtWidgets import QFileDialog, QGraphicsDropShadowEffect, QVBoxLayout
 from PyQt6.QtWebEngineWidgets import QWebEngineView
+from PyQt6.QtWidgets import QFileDialog, QGraphicsDropShadowEffect, QVBoxLayout
 from Qt import main
 from ui_helpers import create_shadow_effect, get_button_style, style_buttons
 from utils import resources_rc  # noqa: F401  # Import the compiled resource module for resolving image resource path
-from utils.result_settings_dialog import ResultSettingsDialog
 from utils.error_dialog import show_error_dialog
-from navigation import Navigation
-from climat import Climat
-from genetics import Genetics
-from event_connector import connect_decorated_methods, QtEvents, connect_event
+from utils.result_settings_dialog import ResultSettingsDialog
 
 try:
     Params.load_from_file("./scripts/utils/params.yaml")
 except FileNotFoundError:
     Params.validate_and_set_params(Params.PARAMETER_KEYS)
-    
 
 window_size = 50
 starting_position = 1
@@ -192,121 +192,122 @@ class UiMainWindow(main.Ui_MainWindow, QtWidgets.QMainWindow):
     def clear_results(self):
         self.textEditResults.clear()
 
+    # GENETICS
 
-    #GENETICS
-    
-    @connect_event("geneticTreeButtonPage1", QtEvents.clicked)    
+    @connect_event("geneticTreeButtonPage1", QtEvents.clicked)
     def display_newick_trees_click(self):
         self.genetics.display_newick_trees()
-        
-    @connect_event(["starting_position_spinbox_2", "window_size_spinbox_2"], QtEvents.valueChanged)    
+
+    @connect_event(["starting_position_spinbox_2", "window_size_spinbox_2"], QtEvents.valueChanged)
     def update_plot_click(self):
         self.genetics.update_plot()
-        
-    @connect_event("statisticsButtonPage1", QtEvents.clicked)        
+
+    @connect_event("statisticsButtonPage1", QtEvents.clicked)
     def initialize_species_list_click(self):
         self.genetics.initialize_species_list()
-        
-    @connect_event("downloadSimilarityButton", QtEvents.clicked)        
+
+    @connect_event("downloadSimilarityButton", QtEvents.clicked)
     def download_similarity_plot_chart_click(self):
         self.genetics.download_similarity_plot_chart()
-    
-    @connect_event("fileBrowserButtonPage1", QtEvents.clicked)   
+
+    @connect_event("fileBrowserButtonPage1", QtEvents.clicked)
     def select_fasta_file_click(self):
         self.genetics.select_fasta_file()
-        
-    @connect_event("StartSequenceAlignmentButton", QtEvents.clicked)        
+
+    @connect_event("StartSequenceAlignmentButton", QtEvents.clicked)
     def start_alignment_analysis_click(self):
         self.genetics.start_alignment_analysis()
-        
-    @connect_event("sequenceAlignmentButtonPage1", QtEvents.clicked)          
+
+    @connect_event("sequenceAlignmentButtonPage1", QtEvents.clicked)
     def show_sequence_alignment_page_click(self):
         self.genetics.show_sequence_alignment_page()
-        
-    @connect_event("clearButtonPage1", QtEvents.clicked)            
+
+    @connect_event("clearButtonPage1", QtEvents.clicked)
     def clear_genetic_data_click(self):
         self.genetics.clear_genetic_data()
-        
-    @connect_event("geneticTreescomboBox", QtEvents.currentIndexChanged) 
+
+    @connect_event("geneticTreescomboBox", QtEvents.currentIndexChanged)
     def show_tree_click(self, index):
         self.genetics.show_tree(index)
-        
-    @connect_event("downloadGraphButton", QtEvents.clicked)           
+
+    @connect_event("downloadGraphButton", QtEvents.clicked)
     def download_genetic_tree_graph_click(self):
         self.genetics.download_genetic_tree_graph()
-        
-    @connect_event("geneticSettingsButton", QtEvents.clicked)     
+
+    @connect_event("geneticSettingsButton", QtEvents.clicked)
     def open_genetic_settings_window_click(self):
         self.genetics.open_genetic_settings_window()
-    
-    
-    
-    
-    #CLIMATE
-    
-    @connect_event("statisticsButtonPage2", QtEvents.clicked)      
+
+    # CLIMATE
+
+    @connect_event("statisticsButtonPage2", QtEvents.clicked)
     def load_climate_statistics_click(self):
         self.climat.load_climate_statistics()
-        
-    @connect_event(["ClimaticChartSettingsAxisX", "ClimaticChartSettingsAxisY", "PlotTypesCombobox"], QtEvents.currentIndexChanged)            
+
+    @connect_event(["ClimaticChartSettingsAxisX", "ClimaticChartSettingsAxisY", "PlotTypesCombobox"], QtEvents.currentIndexChanged)
     def generate_climate_graph_click(self):
-        self.climat.generate_climate_graph()  
-          
-    @connect_event("climatePlotDownloadButton", QtEvents.clicked)          
+        self.climat.generate_climate_graph()
+
+    @connect_event("climatePlotDownloadButton", QtEvents.clicked)
     def download_climate_plot_click(self):
-        self.climat.download_climate_plot() 
-        
-    @connect_event("fileBrowserButtonPage2", QtEvents.clicked)        
+        self.climat.download_climate_plot()
+
+    @connect_event("fileBrowserButtonPage2", QtEvents.clicked)
     def load_csv_climate_file_click(self):
         self.climat.load_csv_climate_file()
-        
-    @connect_event("clearButtonPage2", QtEvents.clicked)        
+
+    @connect_event("clearButtonPage2", QtEvents.clicked)
     def clear_climmatic_data_click(self):
         self.climat.clear_climmatic_data()
-    
-    @connect_event("climaticTreeButtonPage2", QtEvents.clicked)      
+
+    @connect_event("climaticTreeButtonPage2", QtEvents.clicked)
     def display_climatic_trees_click(self):
         self.climat.display_climatic_trees()
-        
-    @connect_event("downloadGraphButton2", QtEvents.clicked)             
-    def show_selected_climatic_tree_click(self):
-        self.climat.show_selected_climatic_tree()
-        
+
+    @connect_event("downloadGraphButton2", QtEvents.clicked)
+    def download_climatic_tree_graph_click(self):
+        self.climat.download_climatic_tree_graph()
+
     @connect_event("preferencesButton", QtEvents.clicked)
     def open_climatic_tree_preferences_window_click(self):
         self.climat.open_climatic_tree_preferences_window()
-    
-    
-    #NAVIGATION
-    
-    @connect_event("homeButton", QtEvents.clicked)      
+
+    @connect_event("climaticTreescomboBox", QtEvents.currentIndexChanged)
+    def show_selected_climatic_tree_click(self, index):
+        self.climat.show_selected_climatic_tree(index)
+
+    # NAVIGATION
+
+    @connect_event("homeButton", QtEvents.clicked)
     def show_home_section_click(self):
         self.navigation.show_home_section()
-        
-    @connect_event("geneticDataButton", QtEvents.clicked)        
+
+    @connect_event("geneticDataButton", QtEvents.clicked)
     def show_genetic_section_click(self):
         self.navigation.show_genetic_section()
-        
-    @connect_event("climaticDataButton", QtEvents.clicked)        
+
+    @connect_event("climaticDataButton", QtEvents.clicked)
     def show_climate_section_click(self):
         self.navigation.show_climate_section()
-        
-    @connect_event("resultsButton", QtEvents.clicked)        
+
+    @connect_event("resultsButton", QtEvents.clicked)
     def show_results_section_click(self):
         self.navigation.show_results_section()
-        
-    @connect_event("helpButton", QtEvents.clicked)         
+
+    @connect_event("helpButton", QtEvents.clicked)
     def open_help_window_click(self):
         self.navigation.open_help_window()
-    
-    ################################
 
+    ################################
 
     def stop_thread(self):
         self.genetics.stopWorker()
-        if self.thread and self.thread.isRunning():
-            self.thread.quit()
-            self.thread.wait()
+        currThread = self.thread
+        if currThread is not None:
+            if currThread.isRunning():
+                currThread.stop()
+                currThread.quit()
+                currThread.wait()
 
     def closeEvent(self, event):
         self.stop_thread()
@@ -392,7 +393,6 @@ class UiMainWindow(main.Ui_MainWindow, QtWidgets.QMainWindow):
 
     @connect_event("darkModeButton", QtEvents.clicked)
     def toggle_dark_mode(self):
-        
         """
         Toggle the application's dark mode setting.
 
@@ -459,7 +459,6 @@ class UiMainWindow(main.Ui_MainWindow, QtWidgets.QMainWindow):
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}")
 
-    # elle se fait override par celle qui suit, regarder si elle est utile au final (penses pas)
     @connect_event("clearButtonPage4", QtEvents.clicked)
     def clear_result(self):
         """
@@ -470,18 +469,10 @@ class UiMainWindow(main.Ui_MainWindow, QtWidgets.QMainWindow):
         """
         try:
             self.textEditResults.clear()
-            self.clearButtonPage3.clear()
-            self.textEditClimTrees.clear()
-            self.graphicsViewClimData.clear()
-            self.ClimStatsListCondition.setCurrentIndex(0)
-            self.ClimStatsListChart.setCurrentIndex(0)
-            self.ResultsStatsListCondition.setCurrentIndex(0)
-            self.ResultsStatsListChart.setCurrentIndex(0)
+            # self.graphicsViewClimData.clear()
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}", "Error")
 
-
-   
     ################################################
     @connect_event(["statisticsButtonPage3", "statisticsButtonPage4"], QtEvents.clicked)
     def display_phylogeographic_trees(self):
@@ -533,7 +524,7 @@ class UiMainWindow(main.Ui_MainWindow, QtWidgets.QMainWindow):
             bar_values = ordered_climatic_data[selected_column].values
 
             # Ensure bar_values have no negative values
-            bar_values = np.clip(bar_values, a_min=0, a_max=None)
+            bar_values = np.clip(cast(ArrayLike, bar_values), a_min=0, a_max=None)
 
             # Create a canvas for the plot
             canvas = toyplot.Canvas(width=921, height=450)
@@ -542,7 +533,7 @@ class UiMainWindow(main.Ui_MainWindow, QtWidgets.QMainWindow):
             ax0 = canvas.cartesian(bounds=(50, 300, 50, 400), ymin=0, ymax=tree.ntips, padding=15)
 
             # Replace underscores with spaces for display purposes only
-            tree.draw(axes=ax0, tip_labels=[label.replace("_", " ") for label in tip_labels])
+            tree.draw(axes=ax0, tip_labels=[label.replace("_", " ") for label in tip_labels], tip_labels_colors="black")
             ax0.show = False
 
             # Add bar plot to canvas
@@ -573,8 +564,7 @@ class UiMainWindow(main.Ui_MainWindow, QtWidgets.QMainWindow):
         current_key = self.tree_keys[self.current_index1]
         default_file_name = f"{current_key}.png"
 
-        options = QFileDialog.Options()
-        options |= QFileDialog.DontUseNativeDialog
+        options = QFileDialog.Option.DontUseNativeDialog
         file_path, _ = QFileDialog.getSaveFileName(
             self,
             "Save Graph As",
