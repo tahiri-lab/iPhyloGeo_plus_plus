@@ -13,12 +13,12 @@ from PyQt6.QtWidgets import (
 
 from aphylogeo.params import Params
 
-from .settings import Params2
+from utils.my_dumper import update_yaml_param
 
 try:
     Params.load_from_file("./scripts/utils/params.yaml")
 except FileNotFoundError:
-    Params.validate_and_set_params(Params2.PARAMETER_KEYS)
+    Params.validate_and_set_params(Params.PARAMETER_KEYS)
 
 
 class ParamDialog(QDialog):
@@ -165,10 +165,12 @@ class ParamDialog(QDialog):
             "rate_similarity": int(self.rate_similarity_input.text()),
             "method_similarity": str(self.method_similarity_input.currentIndex() + 1),
         }
+        for property_name, new_value in self.params.items():
+            update_yaml_param(Params, "scripts/utils/params.yaml", property_name, new_value)
         self.accept()  # Close the dialog and indicate success
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     ex = ParamDialog()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

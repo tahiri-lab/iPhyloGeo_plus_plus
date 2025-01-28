@@ -3,8 +3,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QLabel
 from PyQt6.QtWidgets import QApplication, QDialog, QGridLayout
-from utils.settings import HoverLabel
-from utils.settings import Params2
+from utils.HoverLabel import HoverLabel
 from utils.my_dumper import update_yaml_param
 
 
@@ -282,9 +281,9 @@ class ResultSettingsDialog(QDialog):
         update_yaml_param(Params, "./scripts/utils/params.yaml", "dist_threshold", metric_threshold)
 
     def resetValues(self):
-        self.comboBox_metrics.setProperty("value", Params2.distance_method)
-        self.spinBox_metricThreshold.setProperty("value", Params2.dist_threshold)
-        self.spinBox_bootstrap.setProperty("value", Params2.bootstrap_threshold)
+        self.comboBox_metrics.setProperty("value", Params.distance_method)
+        self.spinBox_metricThreshold.setProperty("value", Params.dist_threshold)
+        self.spinBox_bootstrap.setProperty("value", Params.bootstrap_threshold)
 
     def apply_styles(self):  # noqa: N803
         self.setStyleSheet(
@@ -362,4 +361,4 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = ResultSettingsDialog()
     window.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

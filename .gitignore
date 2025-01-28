@@ -14,5 +14,6 @@ scripts/results/*
 
 # Ignore user config file
 scripts/utils/params.yaml
+scripts/utils/ClimaticGraphSettings.yaml
 
 scripts/Qt/main_ui.py
