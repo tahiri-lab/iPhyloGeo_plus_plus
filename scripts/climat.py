@@ -16,10 +16,9 @@ from aphylogeo.params import Params
 from Bio import Phylo
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPixmap
-from PyQt6.QtWebEngineWidgets import QWebEngineView
 from PyQt6.QtWidgets import QDialog, QFileDialog, QTableWidget, QTableWidgetItem, QVBoxLayout
-from utils.ClimaticGraphSettings import ClimaticGraphSettings
-from utils.ClimaticPreferencesDialog import ClimaticPreferencesDialog
+from utils.climatic_graph_settings import ClimaticGraphSettings
+from utils.climatic_preferences_dialog import ClimaticPreferencesDialog
 from utils.error_dialog import show_error_dialog
 from utils.my_dumper import update_yaml_param
 
@@ -346,12 +345,7 @@ class Climat:
             data = io.BytesIO()
             m.save(data, close_file=False)
 
-            web_view = QWebEngineView(self.main.graphicsViewClimData)  # Embed the map inside graphicsViewClimData
-
-            web_view.setHtml(data.getvalue().decode())
-            layout = QVBoxLayout(self.main.graphicsViewClimData)
-            layout.addWidget(web_view)
-            self.main.graphicsViewClimData.setLayout(layout)
+            self.main.mapView.setHtml(data.getvalue().decode())
 
         except ValueError as e:
             show_error_dialog(f"Value Error: {e}")

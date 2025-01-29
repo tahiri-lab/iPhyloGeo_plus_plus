@@ -1,6 +1,6 @@
 from PyQt6 import QtWidgets
 from PyQt6.QtWidgets import QButtonGroup, QCheckBox, QComboBox, QDialog, QLabel, QPushButton, QRadioButton, QVBoxLayout
-from utils.ClimaticGraphSettings import ClimaticGraphSettings
+from utils.climatic_graph_settings import ClimaticGraphSettings
 from utils.my_dumper import update_yaml_param
 
 try:

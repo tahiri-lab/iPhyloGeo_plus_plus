@@ -3,7 +3,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QLabel
 from PyQt6.QtWidgets import QApplication, QDialog, QGridLayout
-from utils.HoverLabel import HoverLabel
+from utils.hover_label import HoverLabel
 from utils.my_dumper import update_yaml_param
 
 

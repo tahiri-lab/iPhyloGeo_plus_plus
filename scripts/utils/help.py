@@ -1,5 +1,4 @@
 import sys
-from PyQt6 import QtWidgets
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
 

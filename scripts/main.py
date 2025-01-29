@@ -64,6 +64,12 @@ class UiMainWindow(main.Ui_MainWindow, QtWidgets.QMainWindow):
         sets up styles and effects for UI elements, and initializes the state of the application.
         """
         try:
+            
+            self.maplayout = QVBoxLayout(self.graphicsViewClimData)
+            self.mapView = QWebEngineView(self.graphicsViewClimData)
+            self.maplayout.addWidget(self.mapView)
+            self.graphicsViewClimData.setLayout(self.maplayout)
+        
             self.tree_keys = []
             self.total_trees = 0
             self.current_index = 0

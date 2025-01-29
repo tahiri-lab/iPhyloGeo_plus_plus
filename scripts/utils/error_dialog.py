@@ -1,4 +1,4 @@
-from PyQt6 import QtCore, QtGui, QtWidgets, uic
+from PyQt6 import QtWidgets
 
 
 def show_error_dialog(message, title="error"):

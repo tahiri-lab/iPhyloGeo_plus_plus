@@ -22,7 +22,7 @@ from Qt import loading
 from utils.error_dialog import show_error_dialog
 from utils.genetic_params_dialog import ParamDialog
 from utils.my_dumper import update_yaml_param
-from Worker import Worker
+from worker import Worker
 
 
 class Genetics:
