@@ -583,7 +583,7 @@ class UiMainWindow(main.Ui_MainWindow, QtWidgets.QMainWindow):
 
 
 if __name__ == "__main__":
-    app = QtWidgets.QApplication([])
+    app = QtWidgets.QApplication(sys.argv)
 
     qtmodern.styles.light(app)
 
