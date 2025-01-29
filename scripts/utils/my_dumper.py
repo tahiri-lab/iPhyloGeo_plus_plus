@@ -77,7 +77,10 @@ def update_yaml_param(params, file_path, property_name, new_value):
         with open(file_path, "r") as yaml_file:
             data = yaml.safe_load(yaml_file)  # Use safe_load for security
     except FileNotFoundError:
-        data = params.PARAMETER_KEYS
+        if isinstance(params, Params):
+            data = params.PARAMETER_KEYS
+        else:        
+            data = params.get_params()
 
     # 2. Update the specified property
     if property_name in data:
