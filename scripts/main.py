@@ -278,6 +278,7 @@ class UiMainWindow(main.Ui_MainWindow, QtWidgets.QMainWindow):
     @connect_event("resultsButton", QtEvents.clicked)
     def show_results_section_click(self):
         self.navigation.show_results_section()
+        self.result.initialize_result_page()
 
     @connect_event("helpButton", QtEvents.clicked)
     def open_help_window_click(self):
@@ -300,7 +301,7 @@ class UiMainWindow(main.Ui_MainWindow, QtWidgets.QMainWindow):
     def clear_result_click(self):
         self.result.clear_result()
         
-    @connect_event(["statisticsButtonPage3", "statisticsButtonPage4"], QtEvents.clicked)
+    @connect_event(["statisticsButtonPage3"], QtEvents.clicked)
     def display_phylogeographic_trees_click(self):
         self.result.display_phylogeographic_trees()
 

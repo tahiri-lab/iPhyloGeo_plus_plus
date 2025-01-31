@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file '.\scripts\Qt\main.ui'
+# Form implementation generated from reading ui file 'main.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.0
 #
@@ -21,9 +21,7 @@ class Ui_MainWindow(object):
         MainWindow.setMinimumSize(QtCore.QSize(1143, 670))
         MainWindow.setMaximumSize(QtCore.QSize(1143, 670))
         icon = QtGui.QIcon()
-        icon.addPixmap(
-            QtGui.QPixmap(".\\scripts\\Qt\\../../../../../../hazem/.designer/img/sherbrooke.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off
-        )
+        icon.addPixmap(QtGui.QPixmap("../../../../../hazem/.designer/img/sherbrooke.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         MainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
@@ -211,7 +209,7 @@ class Ui_MainWindow(object):
         self.appLogo = QtWidgets.QLabel(parent=self.top_frame)
         self.appLogo.setGeometry(QtCore.QRect(0, 10, 271, 81))
         self.appLogo.setText("")
-        self.appLogo.setPixmap(QtGui.QPixmap(".\\scripts\\Qt\\../../img/other/Logo_decoupe.png"))
+        self.appLogo.setPixmap(QtGui.QPixmap("../../img/other/Logo_decoupe.png"))
         self.appLogo.setScaledContents(True)
         self.appLogo.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.appLogo.setObjectName("appLogo")
@@ -231,38 +229,36 @@ class Ui_MainWindow(object):
         self.geneticDataButton.setObjectName("geneticDataButton")
         self.darkModeButton = QtWidgets.QPushButton(parent=self.top_frame)
         self.darkModeButton.setGeometry(QtCore.QRect(1090, 10, 41, 41))
-        self.darkModeButton.setStyleSheet(
-            "QPushButton {\n"
-            "              color: white; /* White text */\n"
-            "              border: none;\n"
-            "              border-radius: 5px; /* Rounded corners */\n"
-            "              padding: 10px 20px; /* Button padding */\n"
-            "              font-weight: bold; /* Slightly bold text */\n"
-            "              transition: background-color 0.3s ease border-color 0.3s ease;\n"
-            "              box-shadow 0.3s ease, transform 0.3s ease; /* Transitions for smooth effects */\n"
-            "              }\n"
-            "\n"
-            "              QPushButton:hover {\n"
-            "              background-color: #444; /* Slightly lighter on hover */\n"
-            "              border-color: #777; /* Even lighter border on hover */\n"
-            "              box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.3); /* Subtle glow effect */\n"
-            "              transform: scale(1.05); /* Slightly increase size on hover */\n"
-            "              }\n"
-            "\n"
-            "              /* Optional: Color Pulsing Animation */\n"
-            "              @keyframes pulse {\n"
-            "\n"
-            "              0% { background-color: #444; }\n"
-            "\n"
-            "              100% { background-color: #555; }\n"
-            "              }\n"
-            "\n"
-            "              QPushButton:hover {\n"
-            "              /* ... other hover styles ... */\n"
-            "              animation: pulse 1.5s infinite alternate; /* Adjust speed and behavior if needed */\n"
-            "              }\n"
-            "            "
-        )
+        self.darkModeButton.setStyleSheet("QPushButton {\n"
+"              color: white; /* White text */\n"
+"              border: none;\n"
+"              border-radius: 5px; /* Rounded corners */\n"
+"              padding: 10px 20px; /* Button padding */\n"
+"              font-weight: bold; /* Slightly bold text */\n"
+"              transition: background-color 0.3s ease border-color 0.3s ease;\n"
+"              box-shadow 0.3s ease, transform 0.3s ease; /* Transitions for smooth effects */\n"
+"              }\n"
+"\n"
+"              QPushButton:hover {\n"
+"              background-color: #444; /* Slightly lighter on hover */\n"
+"              border-color: #777; /* Even lighter border on hover */\n"
+"              box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.3); /* Subtle glow effect */\n"
+"              transform: scale(1.05); /* Slightly increase size on hover */\n"
+"              }\n"
+"\n"
+"              /* Optional: Color Pulsing Animation */\n"
+"              @keyframes pulse {\n"
+"\n"
+"              0% { background-color: #444; }\n"
+"\n"
+"              100% { background-color: #555; }\n"
+"              }\n"
+"\n"
+"              QPushButton:hover {\n"
+"              /* ... other hover styles ... */\n"
+"              animation: pulse 1.5s infinite alternate; /* Adjust speed and behavior if needed */\n"
+"              }\n"
+"            ")
         self.darkModeButton.setText("")
         icon4 = QtGui.QIcon()
         icon4.addPixmap(QtGui.QPixmap(":/other/dark.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
@@ -289,7 +285,8 @@ class Ui_MainWindow(object):
         icon6 = QtGui.QIcon()
         icon6.addPixmap(QtGui.QPixmap(":/inactive/result.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         icon6.addPixmap(QtGui.QPixmap(":/active/result.svg"), QtGui.QIcon.Mode.Active, QtGui.QIcon.State.On)
-        icon6.addPixmap(QtGui.QPixmap(".\\scripts\\Qt\\\n" "              :/active/result.svg"), QtGui.QIcon.Mode.Selected, QtGui.QIcon.State.On)
+        icon6.addPixmap(QtGui.QPixmap("\n"
+"              :/active/result.svg"), QtGui.QIcon.Mode.Selected, QtGui.QIcon.State.On)
         self.resultsButton.setIcon(icon6)
         self.resultsButton.setIconSize(QtCore.QSize(60, 60))
         self.resultsButton.setFlat(False)
@@ -453,66 +450,62 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setKerning(True)
         self.StartSequenceAlignmentButton.setFont(font)
-        self.StartSequenceAlignmentButton.setStyleSheet(
-            "QPushButton {\n"
-            "                      /* Basic styling */\n"
-            "                      background-color: #008331; /* Button color */\n"
-            "                      color: white; /* Text color */\n"
-            "                      font-size: 14px; /* Font size */\n"
-            "                      font-weight: bold; /* Bold text */\n"
-            "                      border-radius: 8px; /* Rounded corners */\n"
-            "                      padding: 10px 20px; /* Padding */\n"
-            "                      border: 2px solid #2980b9; /* Border */\n"
-            "                      transition: background-color 0.3s, border-color 0.3s, color 0.3s; /* Smooth\n"
-            "                      transitions */\n"
-            "                      }\n"
-            "\n"
-            "                      QPushButton:hover {\n"
-            "                      /* Hover state styling */\n"
-            "                      background-color: #7a9244; /* Darker blue on hover */\n"
-            "                      border-color: #1c5980; /* Darker border on hover */\n"
-            "                      }\n"
-            "\n"
-            "                      QPushButton:pressed {\n"
-            "                      /* Pressed state styling */\n"
-            "                      background-color: #1c5980; /* Even darker blue on press */\n"
-            "                      border-color: #145374; /* Darker border on press */\n"
-            "                      color: #ecf0f1; /* Lighter text on press */\n"
-            "                      }"
-        )
+        self.StartSequenceAlignmentButton.setStyleSheet("QPushButton {\n"
+"                      /* Basic styling */\n"
+"                      background-color: #008331; /* Button color */\n"
+"                      color: white; /* Text color */\n"
+"                      font-size: 14px; /* Font size */\n"
+"                      font-weight: bold; /* Bold text */\n"
+"                      border-radius: 8px; /* Rounded corners */\n"
+"                      padding: 10px 20px; /* Padding */\n"
+"                      border: 2px solid #2980b9; /* Border */\n"
+"                      transition: background-color 0.3s, border-color 0.3s, color 0.3s; /* Smooth\n"
+"                      transitions */\n"
+"                      }\n"
+"\n"
+"                      QPushButton:hover {\n"
+"                      /* Hover state styling */\n"
+"                      background-color: #7a9244; /* Darker blue on hover */\n"
+"                      border-color: #1c5980; /* Darker border on hover */\n"
+"                      }\n"
+"\n"
+"                      QPushButton:pressed {\n"
+"                      /* Pressed state styling */\n"
+"                      background-color: #1c5980; /* Even darker blue on press */\n"
+"                      border-color: #145374; /* Darker border on press */\n"
+"                      color: #ecf0f1; /* Lighter text on press */\n"
+"                      }")
         self.StartSequenceAlignmentButton.setIconSize(QtCore.QSize(60, 90))
         self.StartSequenceAlignmentButton.setCheckable(False)
         self.StartSequenceAlignmentButton.setFlat(False)
         self.StartSequenceAlignmentButton.setObjectName("StartSequenceAlignmentButton")
         self.geneticSettingsButton = QtWidgets.QPushButton(parent=self.GenTab3)
         self.geneticSettingsButton.setGeometry(QtCore.QRect(30, 17, 111, 51))
-        self.geneticSettingsButton.setStyleSheet(
-            "QPushButton {\n"
-            "                      /* Basic styling */\n"
-            "                      background-color: #3498db; /* Button color */\n"
-            "                      color: white; /* Text color */\n"
-            "                      font-size: 14px; /* Font size */\n"
-            "                      font-weight: bold; /* Bold text */\n"
-            "                      border-radius: 8px; /* Rounded corners */\n"
-            "                      padding: 10px 20px; /* Padding */\n"
-            "                      border: 2px solid #2980b9; /* Border */\n"
-            "                      transition: background-color 0.3s, border-color 0.3s, color 0.3s; /* Smooth\n"
-            "                      transitions */\n"
-            "                      }\n"
-            "\n"
-            "                      QPushButton:hover {\n"
-            "                      /* Hover state styling */\n"
-            "                      background-color: #2980b9; /* Darker blue on hover */\n"
-            "                      border-color: #1c5980; /* Darker border on hover */\n"
-            "                      }\n"
-            "\n"
-            "                      QPushButton:pressed {\n"
-            "                      /* Pressed state styling */\n"
-            "                      background-color: #1c5980; /* Even darker blue on press */\n"
-            "                      border-color: #145374; /* Darker border on press */\n"
-            "                      color: #ecf0f1; /* Lighter text on press */\n"
-            "                      }"
-        )
+        self.geneticSettingsButton.setStyleSheet("QPushButton {\n"
+"                      /* Basic styling */\n"
+"                      background-color: #3498db; /* Button color */\n"
+"                      color: white; /* Text color */\n"
+"                      font-size: 14px; /* Font size */\n"
+"                      font-weight: bold; /* Bold text */\n"
+"                      border-radius: 8px; /* Rounded corners */\n"
+"                      padding: 10px 20px; /* Padding */\n"
+"                      border: 2px solid #2980b9; /* Border */\n"
+"                      transition: background-color 0.3s, border-color 0.3s, color 0.3s; /* Smooth\n"
+"                      transitions */\n"
+"                      }\n"
+"\n"
+"                      QPushButton:hover {\n"
+"                      /* Hover state styling */\n"
+"                      background-color: #2980b9; /* Darker blue on hover */\n"
+"                      border-color: #1c5980; /* Darker border on hover */\n"
+"                      }\n"
+"\n"
+"                      QPushButton:pressed {\n"
+"                      /* Pressed state styling */\n"
+"                      background-color: #1c5980; /* Even darker blue on press */\n"
+"                      border-color: #145374; /* Darker border on press */\n"
+"                      color: #ecf0f1; /* Lighter text on press */\n"
+"                      }")
         self.geneticSettingsButton.setObjectName("geneticSettingsButton")
         self.tabWidget.addTab(self.GenTab3, "")
         self.GenTab4 = QtWidgets.QWidget()
@@ -816,51 +809,18 @@ class Ui_MainWindow(object):
         self.ResultsTitle.setFont(font)
         self.ResultsTitle.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.ResultsTitle.setObjectName("ResultsTitle")
-        self.textEditResults = QtWidgets.QTextBrowser(parent=self.ResultsTab)
-        self.textEditResults.setGeometry(QtCore.QRect(0, 60, 931, 461))
+        self.tabWidgetResult = QtWidgets.QTabWidget(parent=self.ResultsTab)
+        self.tabWidgetResult.setGeometry(QtCore.QRect(0, 30, 931, 461))
+        self.tabWidgetResult.setObjectName("tabWidgetResult")
+        self.resultTab = QtWidgets.QWidget()
+        self.resultTab.setObjectName("resultTab")
+        self.textEditResults = QtWidgets.QTextBrowser(parent=self.resultTab)
+        self.textEditResults.setGeometry(QtCore.QRect(0, 0, 931, 461))
         self.textEditResults.setObjectName("textEditResults")
-        self.stackedWidget.addWidget(self.ResultsPage)
-        self.ResultsStats = QtWidgets.QWidget()
-        self.ResultsStats.setObjectName("ResultsStats")
-        self.ResultsStatsButtons = QtWidgets.QFrame(parent=self.ResultsStats)
-        self.ResultsStatsButtons.setGeometry(QtCore.QRect(0, 0, 201, 551))
-        self.ResultsStatsButtons.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
-        self.ResultsStatsButtons.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.ResultsStatsButtons.setObjectName("ResultsStatsButtons")
-        self.settingsButtonPage4 = QtWidgets.QPushButton(parent=self.ResultsStatsButtons)
-        self.settingsButtonPage4.setGeometry(QtCore.QRect(10, 20, 181, 81))
-        self.settingsButtonPage4.setIcon(icon13)
-        self.settingsButtonPage4.setIconSize(QtCore.QSize(50, 50))
-        self.settingsButtonPage4.setFlat(False)
-        self.settingsButtonPage4.setObjectName("settingsButtonPage4")
-        self.submitButtonPage4 = QtWidgets.QPushButton(parent=self.ResultsStatsButtons)
-        self.submitButtonPage4.setGeometry(QtCore.QRect(10, 160, 181, 81))
-        self.submitButtonPage4.setIcon(icon14)
-        self.submitButtonPage4.setIconSize(QtCore.QSize(50, 50))
-        self.submitButtonPage4.setFlat(False)
-        self.submitButtonPage4.setObjectName("submitButtonPage4")
-        self.statisticsButtonPage4 = QtWidgets.QPushButton(parent=self.ResultsStatsButtons)
-        self.statisticsButtonPage4.setGeometry(QtCore.QRect(10, 300, 181, 81))
-        self.statisticsButtonPage4.setIcon(icon8)
-        self.statisticsButtonPage4.setIconSize(QtCore.QSize(50, 50))
-        self.statisticsButtonPage4.setFlat(False)
-        self.statisticsButtonPage4.setObjectName("statisticsButtonPage4")
-        self.clearButtonPage4 = QtWidgets.QPushButton(parent=self.ResultsStatsButtons)
-        self.clearButtonPage4.setGeometry(QtCore.QRect(10, 440, 181, 81))
-        font = QtGui.QFont()
-        font.setKerning(True)
-        self.clearButtonPage4.setFont(font)
-        self.clearButtonPage4.setIcon(icon10)
-        self.clearButtonPage4.setIconSize(QtCore.QSize(60, 90))
-        self.clearButtonPage4.setCheckable(False)
-        self.clearButtonPage4.setFlat(False)
-        self.clearButtonPage4.setObjectName("clearButtonPage4")
-        self.ResultsStatsTab = QtWidgets.QFrame(parent=self.ResultsStats)
-        self.ResultsStatsTab.setGeometry(QtCore.QRect(200, 0, 921, 571))
-        self.ResultsStatsTab.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
-        self.ResultsStatsTab.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.ResultsStatsTab.setObjectName("ResultsStatsTab")
-        self.frameResultsStats = QtWidgets.QFrame(parent=self.ResultsStatsTab)
+        self.tabWidgetResult.addTab(self.resultTab, "")
+        self.resultStatTab = QtWidgets.QWidget()
+        self.resultStatTab.setObjectName("resultStatTab")
+        self.frameResultsStats = QtWidgets.QFrame(parent=self.resultStatTab)
         self.frameResultsStats.setGeometry(QtCore.QRect(0, 0, 921, 541))
         self.frameResultsStats.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
         self.frameResultsStats.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -906,7 +866,7 @@ class Ui_MainWindow(object):
         self.ResultsStatsTitle.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.ResultsStatsTitle.setObjectName("ResultsStatsTitle")
         self.PhyloTreeLabel = QtWidgets.QLabel(parent=self.frameResultsStats)
-        self.PhyloTreeLabel.setGeometry(QtCore.QRect(0, 80, 921, 450))
+        self.PhyloTreeLabel.setGeometry(QtCore.QRect(0, 0, 921, 450))
         self.PhyloTreeLabel.setMinimumSize(QtCore.QSize(921, 450))
         self.PhyloTreeLabel.setMaximumSize(QtCore.QSize(921, 450))
         self.PhyloTreeLabel.setText("")
@@ -914,6 +874,52 @@ class Ui_MainWindow(object):
         self.downloadResultsPlotButton = QtWidgets.QPushButton(parent=self.frameResultsStats)
         self.downloadResultsPlotButton.setGeometry(QtCore.QRect(420, 30, 93, 28))
         self.downloadResultsPlotButton.setObjectName("downloadResultsPlotButton")
+        self.PhyloTreeLabel.raise_()
+        self.ResultsStatsFilters.raise_()
+        self.ResultsStatsTitle.raise_()
+        self.downloadResultsPlotButton.raise_()
+        self.tabWidgetResult.addTab(self.resultStatTab, "")
+        self.stackedWidget.addWidget(self.ResultsPage)
+        self.ResultsStats = QtWidgets.QWidget()
+        self.ResultsStats.setObjectName("ResultsStats")
+        self.ResultsStatsButtons = QtWidgets.QFrame(parent=self.ResultsStats)
+        self.ResultsStatsButtons.setGeometry(QtCore.QRect(0, 0, 201, 551))
+        self.ResultsStatsButtons.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+        self.ResultsStatsButtons.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.ResultsStatsButtons.setObjectName("ResultsStatsButtons")
+        self.settingsButtonPage4 = QtWidgets.QPushButton(parent=self.ResultsStatsButtons)
+        self.settingsButtonPage4.setGeometry(QtCore.QRect(10, 20, 181, 81))
+        self.settingsButtonPage4.setIcon(icon13)
+        self.settingsButtonPage4.setIconSize(QtCore.QSize(50, 50))
+        self.settingsButtonPage4.setFlat(False)
+        self.settingsButtonPage4.setObjectName("settingsButtonPage4")
+        self.submitButtonPage4 = QtWidgets.QPushButton(parent=self.ResultsStatsButtons)
+        self.submitButtonPage4.setGeometry(QtCore.QRect(10, 160, 181, 81))
+        self.submitButtonPage4.setIcon(icon14)
+        self.submitButtonPage4.setIconSize(QtCore.QSize(50, 50))
+        self.submitButtonPage4.setFlat(False)
+        self.submitButtonPage4.setObjectName("submitButtonPage4")
+        self.statisticsButtonPage4 = QtWidgets.QPushButton(parent=self.ResultsStatsButtons)
+        self.statisticsButtonPage4.setGeometry(QtCore.QRect(10, 300, 181, 81))
+        self.statisticsButtonPage4.setIcon(icon8)
+        self.statisticsButtonPage4.setIconSize(QtCore.QSize(50, 50))
+        self.statisticsButtonPage4.setFlat(False)
+        self.statisticsButtonPage4.setObjectName("statisticsButtonPage4")
+        self.clearButtonPage4 = QtWidgets.QPushButton(parent=self.ResultsStatsButtons)
+        self.clearButtonPage4.setGeometry(QtCore.QRect(10, 440, 181, 81))
+        font = QtGui.QFont()
+        font.setKerning(True)
+        self.clearButtonPage4.setFont(font)
+        self.clearButtonPage4.setIcon(icon10)
+        self.clearButtonPage4.setIconSize(QtCore.QSize(60, 90))
+        self.clearButtonPage4.setCheckable(False)
+        self.clearButtonPage4.setFlat(False)
+        self.clearButtonPage4.setObjectName("clearButtonPage4")
+        self.ResultsStatsTab = QtWidgets.QFrame(parent=self.ResultsStats)
+        self.ResultsStatsTab.setGeometry(QtCore.QRect(200, -20, 921, 571))
+        self.ResultsStatsTab.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+        self.ResultsStatsTab.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.ResultsStatsTab.setObjectName("ResultsStatsTab")
         self.stackedWidget.addWidget(self.ResultsStats)
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
@@ -921,9 +927,10 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(3)
         self.tabWidget.setCurrentIndex(2)
         self.tabWidget2.setCurrentIndex(0)
+        self.tabWidgetResult.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -935,56 +942,46 @@ class Ui_MainWindow(object):
         self.geneticDataButton.setShortcut(_translate("MainWindow", "Down"))
         self.homeButton.setToolTip(_translate("MainWindow", "Home"))
         self.homeButton.setShortcut(_translate("MainWindow", "Down"))
-        self.HomeText.setHtml(
-            _translate(
-                "MainWindow",
-                '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n'
-                '<html><head><meta name="qrichtext" content="1" /><meta charset="utf-8" /><title>iPhyloGeo Welcome</title><style type="text/css">\n'
-                "p, li { white-space: pre-wrap; }\n"
-                "hr { height: 1px; border-width: 0; }\n"
-                'li.unchecked::marker { content: "\\2610"; }\n'
-                'li.checked::marker { content: "\\2612"; }\n'
-                '</style></head><body style=" font-family:\'Segoe UI\'; font-size:8pt; font-weight:400; font-style:normal;" bgcolor="#f4f4f4">\n'
-                '<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:\'MS Shell Dlg 2\';">                  </span></p>\n'
-                "<h1 align=\"center\" style=\" margin-top:40px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%; background-color:#ffffff;\"><span style=\" font-family:'Arial','sans-serif'; font-size:xx-large; font-weight:600; color:#0056b3;\">Welcome to iPhyloGeo</span><span style=\" font-family:'Arial','sans-serif'; font-size:xx-large; font-weight:600; color:#333333;\"> </span><span style=\" font-family:'MS Shell Dlg 2';\">                  </span></h1>\n"
-                '<h2 align="center" style=" margin-top:16px; margin-bottom:12px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;"><span style=" font-family:\'Arial\',\'sans-serif\'; font-size:x-large; font-weight:600; color:#333333;">Thank you for                  downloading our software. </span><span style=" font-family:\'MS Shell Dlg 2\';">                  </span></h2>\n'
-                "<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:'Arial','sans-serif'; font-size:18px; color:#333333;\">Here is your guide to using                  </span><span style=\" font-family:'Arial','sans-serif'; font-size:18px; font-style:italic; color:#555555;\">iPhyloGeo</span><span style=\" font-family:'Arial','sans-serif'; font-size:18px; color:#333333;\">:</span><span style=\" font-family:'Arial','sans-serif'; font-size:16px; color:#333333;\">                  </span><span style=\" font-family:'MS Shell Dlg 2';\">                  </span></p>\n"
-                "<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:'Arial','sans-serif'; font-size:18px; color:#333333;\">You can get help by clicking the Help                  button in the top right corner.</span><span style=\" font-family:'Arial','sans-serif'; font-size:16px; color:#333333;\">                  </span><span style=\" font-family:'MS Shell Dlg 2';\">                  </span></p>\n"
-                "<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:'Arial','sans-serif'; font-size:18px; color:#333333;\">To toggle Dark mode, click the moon-shaped                  button in the top right corner.</span><span style=\" font-family:'Arial','sans-serif'; font-size:16px; color:#333333;\">                  </span><span style=\" font-family:'MS Shell Dlg 2';\">                  </span></p>\n"
-                "<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:'Arial','sans-serif'; font-size:18px; color:#333333;\">You can process two types of data                  extractions: </span><span style=\" font-family:'Arial','sans-serif'; font-size:18px; font-weight:600; color:#0056b3;\">&quot;Genetic                  Data&quot;</span><span style=\" font-family:'Arial','sans-serif'; font-size:18px; color:#333333;\"> and </span><span style=\" font-family:'Arial','sans-serif'; font-size:18px; font-weight:600; color:#0056b3;\">&quot;Climatic Data.&quot;</span><span style=\" font-family:'Arial','sans-serif'; font-size:16px; color:#333333;\"> </span><span style=\" font-family:'MS Shell Dlg 2';\">                  </span></p>\n"
-                "<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:'Arial','sans-serif'; font-size:18px; color:#333333;\">You can return to the home menu via the                  </span><span style=\" font-family:'Arial','sans-serif'; font-size:18px; font-weight:600; color:#0056b3;\">&quot;Home&quot;</span><span style=\" font-family:'Arial','sans-serif'; font-size:18px; color:#333333;\">                  button.</span><span style=\" font-family:'Arial','sans-serif'; font-size:16px; color:#333333;\"> </span><span style=\" font-family:'MS Shell Dlg 2';\">                  </span></p>\n"
-                "<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:'Arial','sans-serif'; font-size:18px; color:#333333;\">Once you've selected the method you want                  to apply to your data, a side menu with new buttons will appear, allowing you to                  choose and manipulate the files.</span><span style=\" font-family:'Arial','sans-serif'; font-size:16px; color:#333333;\">                  </span><span style=\" font-family:'MS Shell Dlg 2';\">                  </span></p>\n"
-                "<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:'Arial','sans-serif'; font-size:18px; color:#333333;\">Results will be outputted in a CSV file                  that you can rename and place wherever you want.</span><span style=\" font-family:'Arial','sans-serif'; font-size:16px; color:#333333;\">                  </span><span style=\" font-family:'MS Shell Dlg 2';\">                  </span></p>\n"
-                "<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:'Arial','sans-serif'; font-size:18px; color:#333333;\">For more specific information, click the                  </span><span style=\" font-family:'Arial','sans-serif'; font-size:18px; font-weight:600; color:#0056b3;\">Help</span><span style=\" font-family:'Arial','sans-serif'; font-size:18px; color:#333333;\"> button to get details about each                  algorithm.</span><span style=\" font-family:'Arial','sans-serif'; font-size:16px; color:#333333;\"> </span><span style=\" font-family:'MS Shell Dlg 2';\">                  </span></p>\n"
-                "<p align=\"center\" style=\" margin-top:40px; margin-bottom:0px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:'Arial','sans-serif'; font-size:14px; color:#888888;\">© 2024 iPhyloGeo. All rights                  reserved.</span><span style=\" font-family:'Arial','sans-serif'; font-size:16px; color:#333333;\">                  </span></p></body></html>",
-            )
-        )
+        self.HomeText.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><title>iPhyloGeo Welcome</title><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:8pt; font-weight:400; font-style:normal;\" bgcolor=\"#f4f4f4\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'MS Shell Dlg 2\';\">                  </span></p>\n"
+"<h1 align=\"center\" style=\" margin-top:40px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%; background-color:#ffffff;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:xx-large; font-weight:600; color:#0056b3;\">Welcome to iPhyloGeo</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:xx-large; font-weight:600; color:#333333;\"> </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:xx-large; font-weight:700;\">                  </span></h1>\n"
+"<h2 align=\"center\" style=\" margin-top:16px; margin-bottom:12px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:x-large; font-weight:600; color:#333333;\">Thank you for                  downloading our software. </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:x-large; font-weight:700;\">                  </span></h2>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">Here is your guide to using                  </span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; font-style:italic; color:#555555;\">iPhyloGeo</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">:</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\">                  </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                  </span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">You can get help by clicking the Help                  button in the top right corner.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\">                  </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                  </span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">To toggle Dark mode, click the moon-shaped                  button in the top right corner.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\">                  </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                  </span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">You can process two types of data                  extractions: </span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; font-weight:600; color:#0056b3;\">&quot;Genetic                  Data&quot;</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\"> and </span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; font-weight:600; color:#0056b3;\">&quot;Climatic Data.&quot;</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\"> </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                  </span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">You can return to the home menu via the                  </span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; font-weight:600; color:#0056b3;\">&quot;Home&quot;</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">                  button.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\"> </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                  </span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">Once you\'ve selected the method you want                  to apply to your data, a side menu with new buttons will appear, allowing you to                  choose and manipulate the files.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\">                  </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                  </span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">Results will be outputted in a CSV file                  that you can rename and place wherever you want.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\">                  </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                  </span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">For more specific information, click the                  </span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; font-weight:600; color:#0056b3;\">Help</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\"> button to get details about each                  algorithm.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\"> </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                  </span></p>\n"
+"<p align=\"center\" style=\" margin-top:40px; margin-bottom:0px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:14px; color:#888888;\">© 2024 iPhyloGeo. All rights                  reserved.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\">                  </span></p></body></html>"))
         self.sequenceAlignmentButtonPage1.setText(_translate("MainWindow", " Alignment"))
         self.statisticsButtonPage1.setText(_translate("MainWindow", " Statistics"))
         self.fileBrowserButtonPage1.setText(_translate("MainWindow", " File Browser"))
         self.clearButtonPage1.setText(_translate("MainWindow", " Clear"))
         self.geneticTreeButtonPage1.setText(_translate("MainWindow", "Genetic Tree"))
-        self.textEditGenStart.setHtml(
-            _translate(
-                "MainWindow",
-                '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n'
-                '<html><head><meta name="qrichtext" content="1" /><meta charset="utf-8" /><title>Get Started</title><style type="text/css">\n'
-                "p, li { white-space: pre-wrap; }\n"
-                "hr { height: 1px; border-width: 0; }\n"
-                'li.unchecked::marker { content: "\\2610"; }\n'
-                'li.checked::marker { content: "\\2612"; }\n'
-                '</style></head><body style=" font-family:\'Segoe UI\'; font-size:8pt; font-weight:400; font-style:normal;" bgcolor="#f4f4f4">\n'
-                '<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:\'MS Shell Dlg 2\';">                      </span></p>\n'
-                "<h1 align=\"center\" style=\" margin-top:40px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%; background-color:#ffffff;\"><span style=\" font-family:'Arial','sans-serif'; font-size:xx-large; font-weight:600; color:#0056b3;\">Get Started!</span><span style=\" font-family:'Arial','sans-serif'; font-size:xx-large; font-weight:600; color:#333333;\"> </span><span style=\" font-family:'MS Shell Dlg 2';\">                      </span></h1>\n"
-                "<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:'Arial','sans-serif'; font-size:18px; color:#333333;\">For                      the genetic data extraction, follow these steps to obtain the final                      results:</span><span style=\" font-family:'Arial','sans-serif'; font-size:16px; color:#333333;\"> </span><span style=\" font-family:'MS Shell Dlg 2';\">                      </span></p>\n"
-                "<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:'Arial','sans-serif'; font-size:18px; color:#333333;\">1.                      Select a </span><span style=\" font-family:'Arial','sans-serif'; font-size:18px; font-weight:600; color:#0056b3;\">.fasta</span><span style=\" font-family:'Arial','sans-serif'; font-size:18px; color:#333333;\">                      file using the File Browser button.</span><span style=\" font-family:'Arial','sans-serif'; font-size:16px; color:#333333;\">                      </span><span style=\" font-family:'MS Shell Dlg 2';\">                      </span></p>\n"
-                "<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:'Arial','sans-serif'; font-size:18px; color:#333333;\">2.                      Proceed to the sequence alignment using the Sequence                      button.</span><span style=\" font-family:'Arial','sans-serif'; font-size:16px; color:#333333;\"> </span><span style=\" font-family:'MS Shell Dlg 2';\">                      </span></p>\n"
-                "<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:'Arial','sans-serif'; font-size:18px; color:#333333;\">3.                      Create a genetic tree using the Genetic Tree button.</span><span style=\" font-family:'Arial','sans-serif'; font-size:16px; color:#333333;\"> </span><span style=\" font-family:'MS Shell Dlg 2';\">                      </span></p>\n"
-                "<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:'Arial','sans-serif'; font-size:18px; color:#333333;\">4.                      Export your results by clicking the Results button.</span><span style=\" font-family:'Arial','sans-serif'; font-size:16px; color:#333333;\"> </span><span style=\" font-family:'MS Shell Dlg 2';\">                      </span></p>\n"
-                "<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:'Arial','sans-serif'; font-size:18px; font-style:italic; color:#555555;\">For more specific information, click the                      </span><span style=\" font-family:'Arial','sans-serif'; font-size:18px; font-weight:600; font-style:italic; color:#555555;\">Help</span><span style=\" font-family:'Arial','sans-serif'; font-size:18px; font-style:italic; color:#555555;\"> button to get all the details you                      need.</span><span style=\" font-family:'Arial','sans-serif'; font-size:16px; color:#333333;\"> </span><span style=\" font-family:'MS Shell Dlg 2';\">                      </span></p>\n"
-                "<p align=\"center\" style=\" margin-top:40px; margin-bottom:0px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:'Arial','sans-serif'; font-size:14px; color:#888888;\">©                      2024 iPhyloGeo. All rights reserved.</span><span style=\" font-family:'Arial','sans-serif'; font-size:16px; color:#333333;\">                      </span></p></body></html>",
-            )
-        )
+        self.textEditGenStart.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><title>Get Started</title><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:8pt; font-weight:400; font-style:normal;\" bgcolor=\"#f4f4f4\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'MS Shell Dlg 2\';\">                      </span></p>\n"
+"<h1 align=\"center\" style=\" margin-top:40px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%; background-color:#ffffff;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:xx-large; font-weight:600; color:#0056b3;\">Get Started!</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:xx-large; font-weight:600; color:#333333;\"> </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:xx-large; font-weight:700;\">                      </span></h1>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">For                      the genetic data extraction, follow these steps to obtain the final                      results:</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\"> </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                      </span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">1.                      Select a </span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; font-weight:600; color:#0056b3;\">.fasta</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">                      file using the File Browser button.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\">                      </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                      </span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">2.                      Proceed to the sequence alignment using the Sequence                      button.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\"> </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                      </span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">3.                      Create a genetic tree using the Genetic Tree button.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\"> </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                      </span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">4.                      Export your results by clicking the Results button.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\"> </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                      </span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; font-style:italic; color:#555555;\">For more specific information, click the                      </span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; font-weight:600; font-style:italic; color:#555555;\">Help</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; font-style:italic; color:#555555;\"> button to get all the details you                      need.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\"> </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                      </span></p>\n"
+"<p align=\"center\" style=\" margin-top:40px; margin-bottom:0px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:14px; color:#888888;\">©                      2024 iPhyloGeo. All rights reserved.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\">                      </span></p></body></html>"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.GenTab1), _translate("MainWindow", "Get Started !"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.GenTab2), _translate("MainWindow", "Fasta File"))
         self.label_3.setText(_translate("MainWindow", "Window size"))
@@ -995,14 +992,9 @@ class Ui_MainWindow(object):
         self.downloadSimilarityButton.setText(_translate("MainWindow", "Download"))
         self.label_6.setText(_translate("MainWindow", "Starting Position"))
         self.label_7.setText(_translate("MainWindow", "Reference"))
-        self.GenStatsTitle.setText(
-            _translate(
-                "MainWindow",
-                '<html><head/><body><p><span style="\n'
-                '                        font-size:24pt; text-decoration: underline;">Alignment\n'
-                "                        Chart</span></p></body></html>",
-            )
-        )
+        self.GenStatsTitle.setText(_translate("MainWindow", "<html><head/><body><p><span style=\"\n"
+"                        font-size:24pt; text-decoration: underline;\">Alignment\n"
+"                        Chart</span></p></body></html>"))
         self.label_5.setText(_translate("MainWindow", "Window size"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.GenTab4), _translate("MainWindow", "Species Stats"))
         self.downloadGraphButton.setText(_translate("MainWindow", "Download Graph"))
@@ -1011,38 +1003,28 @@ class Ui_MainWindow(object):
         self.climaticTreeButtonPage2.setText(_translate("MainWindow", " Climatic Tree"))
         self.fileBrowserButtonPage2.setText(_translate("MainWindow", " File Browser"))
         self.statisticsButtonPage2.setText(_translate("MainWindow", " Statistics"))
-        self.textEditClimStart.setHtml(
-            _translate(
-                "MainWindow",
-                '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n'
-                '<html><head><meta name="qrichtext" content="1" /><meta charset="utf-8" /><title>Get Started</title><style type="text/css">\n'
-                "p, li { white-space: pre-wrap; }\n"
-                "hr { height: 1px; border-width: 0; }\n"
-                'li.unchecked::marker { content: "\\2610"; }\n'
-                'li.checked::marker { content: "\\2612"; }\n'
-                '</style></head><body style=" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;" bgcolor="#f4f4f4">\n'
-                '<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt;">                      </span></p>\n'
-                "<h1 align=\"center\" style=\" margin-top:40px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%; background-color:#ffffff;\"><span style=\" font-family:'Arial','sans-serif'; font-size:8pt; font-weight:600; color:#0056b3;\">Get Started!</span><span style=\" font-family:'Arial','sans-serif'; font-size:8pt; font-weight:600; color:#333333;\"> </span><span style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt;\">                      </span></h1>\n"
-                "<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;\">For                      the climatic data extraction, follow these steps to obtain the final results:                      </span><span style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt;\">                      </span></p>\n"
-                "<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;\">1.                      Select a </span><span style=\" font-family:'Arial','sans-serif'; font-size:8pt; font-weight:600; color:#0056b3;\">.csv</span><span style=\" font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;\"> file                      using the File Browser button. </span><span style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt;\">                      </span></p>\n"
-                "<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;\">2.                      Proceed to the climatic tree creation using the Climatic Tree button.                      </span><span style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt;\">                      </span></p>\n"
-                "<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;\">3.                      Generate the statistics using the Statistics button. </span><span style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt;\">                      </span></p>\n"
-                "<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;\">4.                      Export and visualize your results by clicking the Results button.                      </span><span style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt;\">                      </span></p>\n"
-                "<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:'Arial','sans-serif'; font-size:8pt; font-style:italic; color:#555555;\">For more specific information, click the                      </span><span style=\" font-family:'Arial','sans-serif'; font-size:8pt; font-weight:600; font-style:italic; color:#555555;\">Help</span><span style=\" font-family:'Arial','sans-serif'; font-size:8pt; font-style:italic; color:#555555;\"> button to get all the details you                      need.</span><span style=\" font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;\"> </span><span style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt;\">                      </span></p>\n"
-                "<p align=\"center\" style=\" margin-top:40px; margin-bottom:0px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:'Arial','sans-serif'; font-size:8pt; color:#888888;\">©                      2024 iPhyloGeo. All rights reserved.</span><span style=\" font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;\">                      </span></p></body></html>",
-            )
-        )
+        self.textEditClimStart.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><title>Get Started</title><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\" bgcolor=\"#f4f4f4\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt;\">                      </span></p>\n"
+"<h1 align=\"center\" style=\" margin-top:40px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%; background-color:#ffffff;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; font-weight:600; color:#0056b3;\">Get Started!</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; font-weight:600; color:#333333;\"> </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:700;\">                      </span></h1>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; color:#333333;\">For                      the climatic data extraction, follow these steps to obtain the final results:                      </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt;\">                      </span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; color:#333333;\">1.                      Select a </span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; font-weight:600; color:#0056b3;\">.csv</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; color:#333333;\"> file                      using the File Browser button. </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt;\">                      </span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; color:#333333;\">2.                      Proceed to the climatic tree creation using the Climatic Tree button.                      </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt;\">                      </span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; color:#333333;\">3.                      Generate the statistics using the Statistics button. </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt;\">                      </span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; color:#333333;\">4.                      Export and visualize your results by clicking the Results button.                      </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt;\">                      </span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; font-style:italic; color:#555555;\">For more specific information, click the                      </span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; font-weight:600; font-style:italic; color:#555555;\">Help</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; font-style:italic; color:#555555;\"> button to get all the details you                      need.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; color:#333333;\"> </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt;\">                      </span></p>\n"
+"<p align=\"center\" style=\" margin-top:40px; margin-bottom:0px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; color:#888888;\">©                      2024 iPhyloGeo. All rights reserved.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; color:#333333;\">                      </span></p></body></html>"))
         self.tabWidget2.setTabText(self.tabWidget2.indexOf(self.ClimTab1), _translate("MainWindow", "Get Started !"))
         self.tabWidget2.setTabText(self.tabWidget2.indexOf(self.ClimTab2), _translate("MainWindow", "Climatic Data"))
-        self.StatisticsTitle.setText(
-            _translate(
-                "MainWindow",
-                "\n"
-                '                        <html><head/><body><p><span style="\n'
-                "                        font-size:24pt; text-decoration:\n"
-                '                        underline;">Statistics</span></p></body></html>',
-            )
-        )
+        self.StatisticsTitle.setText(_translate("MainWindow", "\n"
+"                        <html><head/><body><p><span style=\"\n"
+"                        font-size:24pt; text-decoration:\n"
+"                        underline;\">Statistics</span></p></body></html>"))
         self.ClimaticChartSettingsTitle.setText(_translate("MainWindow", "Generate your Graph"))
         self.ClimaticChartSettingsTextAxisX.setText(_translate("MainWindow", "Insert X axis data"))
         self.ClimaticChartSettingsTextAxisY.setText(_translate("MainWindow", "Insert Y axis data"))
@@ -1061,37 +1043,18 @@ class Ui_MainWindow(object):
         self.submitButtonPage3.setText(_translate("MainWindow", "Save"))
         self.statisticsButtonPage3.setText(_translate("MainWindow", " Statistics"))
         self.clearButtonPage3.setText(_translate("MainWindow", " Clear"))
-        self.ResultsTitle.setText(
-            _translate(
-                "MainWindow",
-                '<html><head/><body><p><span style="\n'
-                "                  font-size:20pt;\n"
-                '                  font-weight:600;">Results</span></p></body></html>',
-            )
-        )
+        self.ResultsTitle.setText(_translate("MainWindow", "<html><head/><body><p><span style=\"\n"
+"                  font-size:20pt;\n"
+"                  font-weight:600;\">Results</span></p></body></html>"))
+        self.tabWidgetResult.setTabText(self.tabWidgetResult.indexOf(self.resultTab), _translate("MainWindow", "Results"))
+        self.ResultsStatsListTitle.setText(_translate("MainWindow", "Condition"))
+        self.ResultsStatsListTitle_2.setText(_translate("MainWindow", "trees"))
+        self.ResultsStatsTitle.setText(_translate("MainWindow", "<html><head/><body><p><span style=\"\n"
+"                    font-size:24pt; text-decoration:\n"
+"                    underline;\">Statistics</span></p></body></html>"))
+        self.downloadResultsPlotButton.setText(_translate("MainWindow", "Download"))
+        self.tabWidgetResult.setTabText(self.tabWidgetResult.indexOf(self.resultStatTab), _translate("MainWindow", "Statistics"))
         self.settingsButtonPage4.setText(_translate("MainWindow", " Settings"))
         self.submitButtonPage4.setText(_translate("MainWindow", "Save"))
         self.statisticsButtonPage4.setText(_translate("MainWindow", " Statistics"))
         self.clearButtonPage4.setText(_translate("MainWindow", " Clear"))
-        self.ResultsStatsListTitle.setText(_translate("MainWindow", "Condition"))
-        self.ResultsStatsListTitle_2.setText(_translate("MainWindow", "trees"))
-        self.ResultsStatsTitle.setText(
-            _translate(
-                "MainWindow",
-                '<html><head/><body><p><span style="\n'
-                "                    font-size:24pt; text-decoration:\n"
-                '                    underline;">Statistics</span></p></body></html>',
-            )
-        )
-        self.downloadResultsPlotButton.setText(_translate("MainWindow", "Download"))
-
-
-if __name__ == "__main__":
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec())

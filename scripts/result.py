@@ -20,6 +20,10 @@ class Result:
     def __init__(self, main):
         self.main = main
         
+    # Initializes the result page tabs and connects the tab change event to the on_tab_changed method
+    def initialize_result_page(self):
+        self.main.tabWidgetResult.currentChanged.connect(self.on_tab_changed)
+        self.main.tabWidgetResult.setCurrentIndex(0)
         
     def open_result_settings_window(self):
         """
@@ -120,10 +124,15 @@ class Result:
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}", "Error")
             
-            
+    def on_tab_changed(self, index):
+        if index == 1:
+            self.handle_tab_statistic_refresh()     
+
+    def handle_tab_statistic_refresh(self):
+        self.display_phylogeographic_trees()
             
     def display_phylogeographic_trees(self):
-        self.main.stackedWidget.setCurrentIndex(4)
+        self.main.tabWidgetResult.setCurrentIndex(1)
         self.results_dir = "scripts/results"
         file_path = os.path.join(self.results_dir, "geneticTrees.json")
 
