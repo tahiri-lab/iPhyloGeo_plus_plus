@@ -289,7 +289,7 @@ class Ui_MainWindow(object):
         icon6 = QtGui.QIcon()
         icon6.addPixmap(QtGui.QPixmap(":/inactive/result.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         icon6.addPixmap(QtGui.QPixmap(":/active/result.svg"), QtGui.QIcon.Mode.Active, QtGui.QIcon.State.On)
-        icon6.addPixmap(QtGui.QPixmap(".\\scripts\\Qt\\\n" "              :/active/result.svg"), QtGui.QIcon.Mode.Selected, QtGui.QIcon.State.On)
+        icon6.addPixmap(QtGui.QPixmap(".\\scripts\\Qt\\\n              :/active/result.svg"), QtGui.QIcon.Mode.Selected, QtGui.QIcon.State.On)
         self.resultsButton.setIcon(icon6)
         self.resultsButton.setIconSize(QtCore.QSize(60, 60))
         self.resultsButton.setFlat(False)
@@ -944,7 +944,7 @@ class Ui_MainWindow(object):
                 "\n"
                 "Here is your guide to using ***iPhyloGeo:***\n"
                 "\n"
-                "You can get help by clicking the Help button in the top right corner. \n"
+                "You can get help by clicking the Help button in the top right corner.\n"
                 "\n"
                 "To toggle Dark mode, click the moon-shaped button in the top right corner.\n"
                 "\n"
@@ -954,7 +954,7 @@ class Ui_MainWindow(object):
                 'You can return to the home menu via the **"Home"** button.\n'
                 "\n"
                 "Once you've selected the method you want to apply to your data, a side menu\n"
-                "with new buttons will appear, \n"
+                "with new buttons will appear,\n"
                 "\n"
                 "allowing you to choose and manipulate the files.\n"
                 "\n"
@@ -962,7 +962,7 @@ class Ui_MainWindow(object):
                 "you want.\n"
                 "\n"
                 "For more specific information, click the Help button to get details about each\n"
-                "algorithm.  \n"
+                "algorithm.\n"
                 "\n"
                 "**© 2024 iPhyloGeo. All rights reserved.**\n"
                 "\n"

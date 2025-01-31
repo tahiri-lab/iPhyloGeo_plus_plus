@@ -18,7 +18,7 @@ from PyQt6 import QtCore, QtWidgets
 from PyQt6.QtCore import Qt, QThread
 from PyQt6.QtGui import QIcon, QMovie, QPixmap
 from PyQt6.QtWidgets import QApplication, QFileDialog
-from Qt import loading
+from Qt import loading_ui
 from utils.error_dialog import show_error_dialog
 from utils.genetic_params_dialog import ParamDialog
 from utils.my_dumper import update_yaml_param
@@ -540,7 +540,7 @@ class Genetics:
             loading_screen.close()
             show_error_dialog(f"An unexpected error occurred: {error_message}")
 
-        if loading_screen := loading.Ui_LoadingDialog():
+        if loading_screen := loading_ui.Ui_LoadingDialog():
             loading_screen.setupUi(loading_screen)
             # loading_screen.close()
             # loading_screen = uic.loadUi("scripts/Qt/loading.ui")

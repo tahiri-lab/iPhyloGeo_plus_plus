@@ -12,7 +12,7 @@ from PyQt6.QtCore import Qt, QThread
 from PyQt6.QtGui import QColor, QIcon
 from PyQt6.QtWebEngineWidgets import QWebEngineView
 from PyQt6.QtWidgets import QGraphicsDropShadowEffect, QVBoxLayout
-from Qt import main
+from Qt import main_ui
 from result import Result
 from ui_helpers import create_shadow_effect, get_button_style, style_buttons
 from utils import resources_rc  # noqa: F401  # Import the compiled resource module for resolving image resource path
@@ -27,7 +27,7 @@ window_size = 50
 starting_position = 1
 
 
-class UiMainWindow(main.Ui_MainWindow, QtWidgets.QMainWindow):
+class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         self.genetics = Genetics(self)

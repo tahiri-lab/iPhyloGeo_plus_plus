@@ -67,7 +67,6 @@ class ClimaticGraphSettings:
             else:
                 raise ValueError(f"Invalid parameter: {key}")
 
-
     @classmethod
     def get_params(cls):
         return {key: getattr(cls, key) for key in cls.PARAMETER_KEYS}
