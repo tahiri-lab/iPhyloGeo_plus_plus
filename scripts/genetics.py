@@ -14,7 +14,7 @@ from Bio.Align import MultipleSeqAlignment
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 from matplotlib.ticker import MaxNLocator
-from PyQt6 import QtCore, QtWidgets, uic
+from PyQt6 import QtCore, QtWidgets
 from PyQt6.QtCore import Qt, QThread
 from PyQt6.QtGui import QIcon, QMovie, QPixmap
 from PyQt6.QtWidgets import QApplication, QFileDialog
@@ -240,6 +240,8 @@ class Genetics:
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}")
 
+        return [], []
+
     def calculate_consensus(self, alignment):
         """
         Calculate the consensus sequence for a given multiple sequence alignment.
@@ -409,7 +411,7 @@ class Genetics:
 
     def download_similarity_plot_chart(self):
         file_url = "scripts/results/similarity_plot.png"  # The file path
-        save_path, _ = QFileDialog.getSaveFileName(self, "Save File", "", "PNG Files (*.png);;All Files (*)")
+        save_path, _ = QFileDialog.getSaveFileName(self.main, "Save File", "", "PNG Files (*.png);;All Files (*)")
         if not save_path:
             return  # User cancelled th
         shutil.copy(file_url, save_path)  # e save dialog
@@ -544,7 +546,7 @@ class Genetics:
             # loading_screen = uic.loadUi("scripts/Qt/loading.ui")
             loading_screen.setWindowFlags(Qt.WindowType.FramelessWindowHint)  # Remove the title bar and frame
 
-            loading_screen.setWindowModality(Qt.ApplicationModal)
+            loading_screen.setWindowModality(Qt.WindowModality.ApplicationModal)
 
             # Set the QMovie for the movieLabel
             movie = QMovie(":active/dna.gif")  # Use the resource path for the gif
@@ -554,7 +556,7 @@ class Genetics:
             movie.setScaledSize(QtCore.QSize(100, 100))  # Set the desired size here
 
             # Ensure the QLabel is centered and the GIF is properly displayed
-            loading_screen.movieLabel.setAlignment(QtCore.Qt.AlignCenter)
+            loading_screen.movieLabel.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
             movie.start()
 
             # Show the loading screen
@@ -689,12 +691,13 @@ class Genetics:
         tip_labels = tree.get_tip_labels()
 
         # Draw the tree with customized style
-        canvas, axes, mark = tree.draw(
+        canvas, _, _ = tree.draw(
             width=921,
             height=450,
             tip_labels=tip_labels,  # These labels now have spaces
             tip_labels_style={"font-size": "15px"},
             fixed_order=tip_labels,
+            tip_labels_colors="black",
             edge_type="c",
         )
 
@@ -730,10 +733,9 @@ class Genetics:
             current_key = self.tree_keys[self.current_index]
             default_file_name = f"{current_key}.png"
 
-            options = QFileDialog.Options()
-            options |= QFileDialog.DontUseNativeDialog
+            options = QFileDialog.Option.DontUseNativeDialog
             file_path, _ = QFileDialog.getSaveFileName(
-                self,
+                self.main,
                 "Save Tree Image As",
                 default_file_name,
                 "PNG Files (*.png);;All Files (*)",

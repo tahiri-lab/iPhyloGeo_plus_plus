@@ -445,7 +445,7 @@ class Climat:
 
                 label_color = ClimaticGraphSettings.label_color
                 edge_color = ClimaticGraphSettings.edge_color
-                reticulation_color = ClimaticGraphSettings.reticulation_color
+                # reticulation_color = ClimaticGraphSettings.reticulation_color
                 layout = ClimaticGraphSettings.layout
                 proportional_edge_lengths = ClimaticGraphSettings.proportional_edge_lengths
                 label_internal_vertices = ClimaticGraphSettings.label_internal_vertices
