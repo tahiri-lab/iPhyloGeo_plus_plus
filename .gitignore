@@ -1,6 +1,5 @@
 # Ignore compiled bytecode files
-scripts/__pycache__/*
-scripts/utils/__pycache__/*
+**/__pycache__/*
 
 # Ignore virtual environment directory
 .venv
