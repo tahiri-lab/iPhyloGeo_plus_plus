@@ -206,13 +206,11 @@ class Result:
         current_key = self.tree_keys[self.current_index1]
         default_file_name = f"{current_key}.png"
 
-        options = QFileDialog.Option.DontUseNativeDialog
         file_path, _ = QFileDialog.getSaveFileName(
             self.main,
             "Save Graph As",
             default_file_name,
             "PNG Files (*.png);;All Files (*)",
-            options=options,
         )
 
         if file_path:
