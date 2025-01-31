@@ -5,7 +5,7 @@ import qtmodern.windows
 from aphylogeo.params import Params
 from climat import Climat
 from event_connector import QtEvents, connect_decorated_methods, connect_event
-from genetics import Genetics
+from Genetics.genetics import Genetics
 from navigation import Navigation
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtCore import Qt, QThread
@@ -180,7 +180,7 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
 
     @connect_event("geneticTreeButtonPage1", QtEvents.clicked)
     def display_newick_trees_click(self):
-        self.genetics.display_newick_trees()
+        self.genetics.geneticTree.display_newick_trees()
 
     @connect_event(["starting_position_spinbox_2", "window_size_spinbox_2"], QtEvents.valueChanged)
     def update_plot_click(self):
@@ -212,11 +212,11 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
 
     @connect_event("geneticTreescomboBox", QtEvents.currentIndexChanged)
     def show_tree_click(self, index):
-        self.genetics.show_tree(index)
+        self.genetics.geneticTree.show_tree(index)
 
     @connect_event("downloadGraphButton", QtEvents.clicked)
     def download_genetic_tree_graph_click(self):
-        self.genetics.download_genetic_tree_graph()
+        self.genetics.geneticTree.download_genetic_tree_graph()
 
     @connect_event("geneticSettingsButton", QtEvents.clicked)
     def open_genetic_settings_window_click(self):

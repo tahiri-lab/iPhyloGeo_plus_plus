@@ -9,7 +9,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_LoadingDialog(object):
+class Ui_LoadingDialog(QtWidgets.QDialog):
     def setupUi(self, LoadingDialog):
         LoadingDialog.setObjectName("LoadingDialog")
         LoadingDialog.resize(450, 369)
