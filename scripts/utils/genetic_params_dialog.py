@@ -1,18 +1,8 @@
 import sys
 
-from PyQt6.QtGui import QIntValidator
-from PyQt6.QtWidgets import (
-    QApplication,
-    QComboBox,
-    QDialog,
-    QFormLayout,
-    QLabel,
-    QLineEdit,
-    QPushButton,
-)
-
 from aphylogeo.params import Params
-
+from PyQt6.QtGui import QIntValidator
+from PyQt6.QtWidgets import QApplication, QComboBox, QDialog, QFormLayout, QLabel, QLineEdit, QPushButton
 from utils.my_dumper import update_yaml_param
 
 try:

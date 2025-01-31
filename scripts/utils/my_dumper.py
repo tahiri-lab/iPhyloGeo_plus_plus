@@ -3,6 +3,7 @@ import os
 import yaml
 from aphylogeo.params import Params
 
+
 class MyDumper(yaml.Dumper):
     """
     Custom YAML Dumper to modify the default indentation and list representation behavior.
@@ -79,7 +80,7 @@ def update_yaml_param(params, file_path, property_name, new_value):
     except FileNotFoundError:
         if isinstance(params, Params):
             data = params.PARAMETER_KEYS
-        else:        
+        else:
             data = params.get_params()
 
     # 2. Update the specified property

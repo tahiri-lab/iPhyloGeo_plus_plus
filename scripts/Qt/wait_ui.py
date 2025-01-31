@@ -28,17 +28,15 @@ class Ui_Dialog(object):
         self.verticalLayout.addItem(spacerItem)
         self.progressBar = QtWidgets.QProgressBar(parent=Dialog)
         self.progressBar.setMinimumSize(QtCore.QSize(0, 20))
-        self.progressBar.setStyleSheet(
-            "QProgressBar {\n"
-            "    border: 2px solid #5A5A5A;\n"
-            "    border-radius: 5px;\n"
-            "    background-color: #E0E0E0;\n"
-            "}\n"
-            "QProgressBar::chunk {\n"
-            "    background-color: #3498DB;\n"
-            "    width: 20px;\n"
-            "}"
-        )
+        self.progressBar.setStyleSheet("QProgressBar {\n"
+"    border: 2px solid #5A5A5A;\n"
+"    border-radius: 5px;\n"
+"    background-color: #E0E0E0;\n"
+"}\n"
+"QProgressBar::chunk {\n"
+"    background-color: #3498DB;\n"
+"    width: 20px;\n"
+"}")
         self.progressBar.setMinimum(0)
         self.progressBar.setMaximum(0)
         self.progressBar.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
@@ -57,7 +55,6 @@ class Ui_Dialog(object):
 
 if __name__ == "__main__":
     import sys
-
     app = QtWidgets.QApplication(sys.argv)
     Dialog = QtWidgets.QDialog()
     ui = Ui_Dialog()

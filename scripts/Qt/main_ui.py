@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'main.ui'
+# Form implementation generated from reading ui file '.\scripts\Qt\main.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.0
 #
@@ -21,7 +21,7 @@ class Ui_MainWindow(object):
         MainWindow.setMinimumSize(QtCore.QSize(1143, 670))
         MainWindow.setMaximumSize(QtCore.QSize(1143, 670))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../../../../../hazem/.designer/img/sherbrooke.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(QtGui.QPixmap(".\\scripts\\Qt\\../../../../../../hazem/.designer/img/sherbrooke.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         MainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
@@ -209,7 +209,7 @@ class Ui_MainWindow(object):
         self.appLogo = QtWidgets.QLabel(parent=self.top_frame)
         self.appLogo.setGeometry(QtCore.QRect(0, 10, 271, 81))
         self.appLogo.setText("")
-        self.appLogo.setPixmap(QtGui.QPixmap("../../img/other/Logo_decoupe.png"))
+        self.appLogo.setPixmap(QtGui.QPixmap(".\\scripts\\Qt\\../../img/other/Logo_decoupe.png"))
         self.appLogo.setScaledContents(True)
         self.appLogo.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.appLogo.setObjectName("appLogo")
@@ -285,7 +285,7 @@ class Ui_MainWindow(object):
         icon6 = QtGui.QIcon()
         icon6.addPixmap(QtGui.QPixmap(":/inactive/result.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         icon6.addPixmap(QtGui.QPixmap(":/active/result.svg"), QtGui.QIcon.Mode.Active, QtGui.QIcon.State.On)
-        icon6.addPixmap(QtGui.QPixmap("\n"
+        icon6.addPixmap(QtGui.QPixmap(".\\scripts\\Qt\\\n"
 "              :/active/result.svg"), QtGui.QIcon.Mode.Selected, QtGui.QIcon.State.On)
         self.resultsButton.setIcon(icon6)
         self.resultsButton.setIconSize(QtCore.QSize(60, 60))
@@ -308,7 +308,7 @@ class Ui_MainWindow(object):
         self.HomeTab.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.HomeTab.setObjectName("HomeTab")
         self.HomeText = QtWidgets.QTextEdit(parent=self.HomeTab)
-        self.HomeText.setGeometry(QtCore.QRect(10, 10, 1121, 531))
+        self.HomeText.setGeometry(QtCore.QRect(10, 30, 1121, 531))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -928,8 +928,8 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         self.stackedWidget.setCurrentIndex(3)
-        self.tabWidget.setCurrentIndex(2)
-        self.tabWidget2.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(4)
+        self.tabWidget2.setCurrentIndex(3)
         self.tabWidgetResult.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -942,25 +942,60 @@ class Ui_MainWindow(object):
         self.geneticDataButton.setShortcut(_translate("MainWindow", "Down"))
         self.homeButton.setToolTip(_translate("MainWindow", "Home"))
         self.homeButton.setShortcut(_translate("MainWindow", "Down"))
+        self.HomeText.setMarkdown(_translate("MainWindow", "**Welcome to iPhyloGeo**\n"
+"\n"
+"Thank you for downloading our software.\n"
+"\n"
+"Here is your guide to using ***iPhyloGeo:***\n"
+"\n"
+"You can get help by clicking the Help button in the top right corner.\n"
+"\n"
+"To toggle Dark mode, click the moon-shaped button in the top right corner.\n"
+"\n"
+"You can process two types of data extractions: **\"Genetic Data\"** and **\"Climatic\n"
+"Data\"**.\n"
+"\n"
+"You can return to the home menu via the **\"Home\"** button.\n"
+"\n"
+"Once you\'ve selected the method you want to apply to your data, a side menu\n"
+"with new buttons will appear,\n"
+"\n"
+"allowing you to choose and manipulate the files.\n"
+"\n"
+"Results will be outputted in a CSV file that you can rename and place wherever\n"
+"you want.\n"
+"\n"
+"For more specific information, click the Help button to get details about each\n"
+"algorithm.\n"
+"\n"
+"**© 2024 iPhyloGeo. All rights reserved.**\n"
+"\n"
+""))
         self.HomeText.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><title>iPhyloGeo Welcome</title><style type=\"text/css\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "hr { height: 1px; border-width: 0; }\n"
 "li.unchecked::marker { content: \"\\2610\"; }\n"
 "li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:8pt; font-weight:400; font-style:normal;\" bgcolor=\"#f4f4f4\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'MS Shell Dlg 2\';\">                  </span></p>\n"
-"<h1 align=\"center\" style=\" margin-top:40px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%; background-color:#ffffff;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:xx-large; font-weight:600; color:#0056b3;\">Welcome to iPhyloGeo</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:xx-large; font-weight:600; color:#333333;\"> </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:xx-large; font-weight:700;\">                  </span></h1>\n"
-"<h2 align=\"center\" style=\" margin-top:16px; margin-bottom:12px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:x-large; font-weight:600; color:#333333;\">Thank you for                  downloading our software. </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:x-large; font-weight:700;\">                  </span></h2>\n"
-"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">Here is your guide to using                  </span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; font-style:italic; color:#555555;\">iPhyloGeo</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">:</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\">                  </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                  </span></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">You can get help by clicking the Help                  button in the top right corner.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\">                  </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                  </span></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">To toggle Dark mode, click the moon-shaped                  button in the top right corner.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\">                  </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                  </span></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">You can process two types of data                  extractions: </span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; font-weight:600; color:#0056b3;\">&quot;Genetic                  Data&quot;</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\"> and </span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; font-weight:600; color:#0056b3;\">&quot;Climatic Data.&quot;</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\"> </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                  </span></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">You can return to the home menu via the                  </span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; font-weight:600; color:#0056b3;\">&quot;Home&quot;</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">                  button.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\"> </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                  </span></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">Once you\'ve selected the method you want                  to apply to your data, a side menu with new buttons will appear, allowing you to                  choose and manipulate the files.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\">                  </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                  </span></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">Results will be outputted in a CSV file                  that you can rename and place wherever you want.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\">                  </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                  </span></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">For more specific information, click the                  </span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; font-weight:600; color:#0056b3;\">Help</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\"> button to get details about each                  algorithm.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\"> </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                  </span></p>\n"
-"<p align=\"center\" style=\" margin-top:40px; margin-bottom:0px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:14px; color:#888888;\">© 2024 iPhyloGeo. All rights                  reserved.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\">                  </span></p></body></html>"))
+"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:8pt; font-weight:400; font-style:normal;\">\n"
+"<p align=\"center\" style=\" margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:20pt; font-weight:700;\">Welcome to iPhyloGeo</span></p>\n"
+"<p align=\"center\" style=\" margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">Thank you for downloading our software.</span></p>\n"
+"<p style=\" margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:16pt;\">Here is your guide to using </span><span style=\" font-size:16pt; font-weight:700; font-style:italic;\">iPhyloGeo:</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
+"<p style=\" margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt;\">You can get help by clicking the Help button in the top right corner. </span></p>\n"
+"<p style=\" margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt;\">To toggle Dark mode, click the moon-shaped button in the top right corner.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
+"<p style=\" margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt;\">You can process two types of data extractions: </span><span style=\" font-size:14pt; font-weight:700; color:#0000ff;\">&quot;Genetic Data&quot;</span><span style=\" font-size:14pt;\"> and </span><span style=\" font-size:14pt; font-weight:700; color:#0000ff;\">&quot;Climatic Data&quot;</span><span style=\" font-size:14pt;\">.</span></p>\n"
+"<p style=\" margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt;\">You can return to the home menu via the </span><span style=\" font-size:14pt; font-weight:700; color:#0000ff;\">&quot;Home&quot;</span><span style=\" font-size:14pt;\"> button.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
+"<p style=\" margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt;\">Once you\'ve selected the method you want to apply to your data, a side menu with new buttons will appear, </span></p>\n"
+"<p style=\" margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt;\">allowing you to choose and manipulate the files.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
+"<p style=\" margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt;\">Results will be outputted in a CSV file that you can rename and place wherever you want.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
+"<p style=\" margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt;\">For more specific information, click the Help button to get details about each algorithm.  </span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
+"<p align=\"center\" style=\" margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:700; color:#535353;\">© 2024 iPhyloGeo. All rights reserved.</span></p></body></html>"))
         self.sequenceAlignmentButtonPage1.setText(_translate("MainWindow", " Alignment"))
         self.statisticsButtonPage1.setText(_translate("MainWindow", " Statistics"))
         self.fileBrowserButtonPage1.setText(_translate("MainWindow", " File Browser"))
@@ -973,15 +1008,14 @@ class Ui_MainWindow(object):
 "li.unchecked::marker { content: \"\\2610\"; }\n"
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:\'Segoe UI\'; font-size:8pt; font-weight:400; font-style:normal;\" bgcolor=\"#f4f4f4\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'MS Shell Dlg 2\';\">                      </span></p>\n"
-"<h1 align=\"center\" style=\" margin-top:40px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%; background-color:#ffffff;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:xx-large; font-weight:600; color:#0056b3;\">Get Started!</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:xx-large; font-weight:600; color:#333333;\"> </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:xx-large; font-weight:700;\">                      </span></h1>\n"
-"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">For                      the genetic data extraction, follow these steps to obtain the final                      results:</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\"> </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                      </span></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">1.                      Select a </span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; font-weight:600; color:#0056b3;\">.fasta</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">                      file using the File Browser button.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\">                      </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                      </span></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">2.                      Proceed to the sequence alignment using the Sequence                      button.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\"> </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                      </span></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">3.                      Create a genetic tree using the Genetic Tree button.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\"> </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                      </span></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; color:#333333;\">4.                      Export your results by clicking the Results button.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\"> </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                      </span></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; font-style:italic; color:#555555;\">For more specific information, click the                      </span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; font-weight:600; font-style:italic; color:#555555;\">Help</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:18px; font-style:italic; color:#555555;\"> button to get all the details you                      need.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\"> </span><span style=\" font-family:\'MS Shell Dlg 2\';\">                      </span></p>\n"
-"<p align=\"center\" style=\" margin-top:40px; margin-bottom:0px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:14px; color:#888888;\">©                      2024 iPhyloGeo. All rights reserved.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16px; color:#333333;\">                      </span></p></body></html>"))
+"<h1 align=\"center\" style=\" margin-top:40px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%; background-color:#ffffff;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:36pt; font-weight:700; color:#0056b3;\">Get Started!</span></h1>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16pt; color:#333333;\">For the genetic data extraction, follow these steps to obtain the final results:</span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16pt; color:#333333;\">1. Select a </span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16pt; font-weight:600; color:#0056b3;\">.fasta </span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16pt; color:#333333;\">file using the File Browser button.</span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16pt; color:#333333;\">2. Proceed to the sequence alignment using the Sequence button.</span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16pt; color:#333333;\">3. Create a genetic tree using the Genetic Tree button.</span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16pt; color:#333333;\">4. Export your results by clicking the Results button.</span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16pt; font-style:italic; color:#555555;\">For more specific information, click the </span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16pt; font-weight:600; font-style:italic; color:#555555;\">Help</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16pt; font-style:italic; color:#555555;\"> button to get all the details you need.</span></p>\n"
+"<p align=\"center\" style=\" margin-top:40px; margin-bottom:0px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:11pt; color:#888888;\">© 2024 iPhyloGeo. All rights reserved.</span></p></body></html>"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.GenTab1), _translate("MainWindow", "Get Started !"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.GenTab2), _translate("MainWindow", "Fasta File"))
         self.label_3.setText(_translate("MainWindow", "Window size"))
@@ -1010,15 +1044,14 @@ class Ui_MainWindow(object):
 "li.unchecked::marker { content: \"\\2610\"; }\n"
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\" bgcolor=\"#f4f4f4\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt;\">                      </span></p>\n"
-"<h1 align=\"center\" style=\" margin-top:40px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%; background-color:#ffffff;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; font-weight:600; color:#0056b3;\">Get Started!</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; font-weight:600; color:#333333;\"> </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:700;\">                      </span></h1>\n"
-"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; color:#333333;\">For                      the climatic data extraction, follow these steps to obtain the final results:                      </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt;\">                      </span></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; color:#333333;\">1.                      Select a </span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; font-weight:600; color:#0056b3;\">.csv</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; color:#333333;\"> file                      using the File Browser button. </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt;\">                      </span></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; color:#333333;\">2.                      Proceed to the climatic tree creation using the Climatic Tree button.                      </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt;\">                      </span></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; color:#333333;\">3.                      Generate the statistics using the Statistics button. </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt;\">                      </span></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; color:#333333;\">4.                      Export and visualize your results by clicking the Results button.                      </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt;\">                      </span></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; font-style:italic; color:#555555;\">For more specific information, click the                      </span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; font-weight:600; font-style:italic; color:#555555;\">Help</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; font-style:italic; color:#555555;\"> button to get all the details you                      need.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; color:#333333;\"> </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt;\">                      </span></p>\n"
-"<p align=\"center\" style=\" margin-top:40px; margin-bottom:0px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; color:#888888;\">©                      2024 iPhyloGeo. All rights reserved.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:8pt; color:#333333;\">                      </span></p></body></html>"))
+"<h1 align=\"center\" style=\" margin-top:40px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%; background-color:#ffffff;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:36pt; font-weight:600; color:#0056b3;\">Get Started!</span></h1>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16pt; color:#333333;\">For the climatic data extraction, follow these steps to obtain the final results:</span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16pt; color:#333333;\">1. Select a </span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16pt; font-weight:600; color:#0056b3;\">.csv</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16pt; color:#333333;\"> file using the File Browser button.</span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16pt; color:#333333;\">2. Proceed to the climatic tree creation using the Climatic Tree button.</span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16pt; color:#333333;\">3. Generate the statistics using the Statistics button.</span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16pt; color:#333333;\">4. Export and visualize your results by clicking the Results button.</span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16pt; font-style:italic; color:#555555;\">For more specific information, click the </span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16pt; font-weight:600; font-style:italic; color:#555555;\">Help</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:16pt; font-style:italic; color:#555555;\"> button to get all the details you need.</span><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:11pt; color:#333333;\"> </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:11pt;\">      </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt;\">                </span></p>\n"
+"<p align=\"center\" style=\" margin-top:40px; margin-bottom:0px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;\"><span style=\" font-family:\'Arial\',\'sans-serif\'; font-size:11pt; color:#888888;\">© 2024 iPhyloGeo. All rights reserved.</span></p></body></html>"))
         self.tabWidget2.setTabText(self.tabWidget2.indexOf(self.ClimTab1), _translate("MainWindow", "Get Started !"))
         self.tabWidget2.setTabText(self.tabWidget2.indexOf(self.ClimTab2), _translate("MainWindow", "Climatic Data"))
         self.StatisticsTitle.setText(_translate("MainWindow", "\n"
@@ -1058,3 +1091,13 @@ class Ui_MainWindow(object):
         self.submitButtonPage4.setText(_translate("MainWindow", "Save"))
         self.statisticsButtonPage4.setText(_translate("MainWindow", " Statistics"))
         self.clearButtonPage4.setText(_translate("MainWindow", " Clear"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec())

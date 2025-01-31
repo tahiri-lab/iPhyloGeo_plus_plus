@@ -106,7 +106,7 @@ class HelpDialog(QDialog):
 
         layout.addChildLayout(content_layout)
         self.setLayout(layout)
-        self.resize(1500, 1000)
+        self.resize(1200, 800)
         self.show()
 
 

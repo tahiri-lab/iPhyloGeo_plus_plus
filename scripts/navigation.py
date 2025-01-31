@@ -1,13 +1,12 @@
 from PyQt6.QtGui import QIcon
-from utils.help import HelpDialog
 from utils.error_dialog import show_error_dialog
+from utils.help import HelpDialog
 
-class Navigation():
-    
+
+class Navigation:
     def __init__(self, main):
         self.main = main
-     
-              
+
     def show_home_section(self):
         """
         Display the home page of the application.
@@ -23,7 +22,7 @@ class Navigation():
             self.main.stackedWidget.setCurrentIndex(0)
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}")
-            
+
     def show_genetic_section(self):
         """
         Display the genetic data page of the application.
@@ -57,7 +56,7 @@ class Navigation():
             self.main.tabWidget2.setCurrentIndex(0)
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}")
-            
+
     def show_results_section(self):
         """
         Display the results page of the application.
@@ -72,7 +71,7 @@ class Navigation():
             self.main.stackedWidget.setCurrentIndex(3)
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}")
-           
+
     def open_help_window(self):
         """
         Initialize and display the 'How to Use' window.

@@ -10,9 +10,9 @@ def show_error_dialog(message, title="error"):
         message (str): The error message to display.
     """
     msgBox = QtWidgets.QMessageBox()
-    msgBox.setIcon(QtWidgets.QMessageBox.Critical)
+    msgBox.setIcon(QtWidgets.QMessageBox.Icon.Critical)
     msgBox.setWindowTitle(title)
     msgBox.setText(message)
-    msgBox.setStandardButtons(QtWidgets.QMessageBox.Ok)
-    msgBox.setDefaultButton(QtWidgets.QMessageBox.Ok)
+    msgBox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+    msgBox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.Ok)
     msgBox.exec()

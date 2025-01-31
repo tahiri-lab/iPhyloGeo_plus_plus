@@ -173,13 +173,11 @@ class Climat:
             return
 
         # Prompt the user to select a location to save the plot
-        options = QFileDialog.Option.DontUseNativeDialog
         file_path, _ = QFileDialog.getSaveFileName(
             self.main,
             "Save Plot As",
             os.path.basename(plot_path),
             "PNG Files (*.png);;All Files (*)",
-            options=options,
         )
         if file_path:
             if not file_path.lower().endswith(".png"):
@@ -445,7 +443,7 @@ class Climat:
 
                 label_color = ClimaticGraphSettings.label_color
                 edge_color = ClimaticGraphSettings.edge_color
-                reticulation_color = ClimaticGraphSettings.reticulation_color
+                # reticulation_color = ClimaticGraphSettings.reticulation_color
                 layout = ClimaticGraphSettings.layout
                 proportional_edge_lengths = ClimaticGraphSettings.proportional_edge_lengths
                 label_internal_vertices = ClimaticGraphSettings.label_internal_vertices
@@ -760,13 +758,11 @@ class Climat:
             current_key = self.tree_keys[self.current_index]
             default_file_name = f"{current_key}.png"
 
-            options = QFileDialog.Option.DontUseNativeDialog
             file_path, _ = QFileDialog.getSaveFileName(
                 self.main,
                 "Save Graph As",
                 default_file_name,
                 "PNG Files (*.png);;All Files (*)",
-                options=options,
             )
             if file_path:
                 if not file_path.lower().endswith(".png"):

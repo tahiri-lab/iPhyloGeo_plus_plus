@@ -5,15 +5,15 @@ import qtmodern.windows
 from aphylogeo.params import Params
 from climat import Climat
 from event_connector import QtEvents, connect_decorated_methods, connect_event
-from genetics import Genetics
+from Genetics.genetics import Genetics
 from navigation import Navigation
-from result import Result
 from PyQt6 import QtCore, QtGui, QtWidgets
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QThread
 from PyQt6.QtGui import QColor, QIcon
 from PyQt6.QtWebEngineWidgets import QWebEngineView
-from PyQt6.QtWidgets import  QGraphicsDropShadowEffect, QVBoxLayout
-from Qt import main
+from PyQt6.QtWidgets import QGraphicsDropShadowEffect, QVBoxLayout
+from Qt import main_ui
+from result import Result
 from ui_helpers import create_shadow_effect, get_button_style, style_buttons
 from utils import resources_rc  # noqa: F401  # Import the compiled resource module for resolving image resource path
 from utils.error_dialog import show_error_dialog
@@ -27,7 +27,7 @@ window_size = 50
 starting_position = 1
 
 
-class UiMainWindow(main.Ui_MainWindow, QtWidgets.QMainWindow):
+class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         self.genetics = Genetics(self)
@@ -46,13 +46,12 @@ class UiMainWindow(main.Ui_MainWindow, QtWidgets.QMainWindow):
         sets up styles and effects for UI elements, and initializes the state of the application.
         """
         try:
-            
             self.maplayout = QVBoxLayout(self.graphicsViewClimData)
             self.mapView = QWebEngineView(self.graphicsViewClimData)
             self.maplayout.addWidget(self.mapView)
             self.graphicsViewClimData.setLayout(self.maplayout)
-        
-            self.setObjectName("MainWindow")            
+
+            self.setObjectName("MainWindow")
             self.window_size_spinbox_2.setRange(1, 1000)
             self.starting_position_spinbox_2.setRange(1, 1000)
             self.isDarkMode = False  # Keep track of the state
@@ -66,8 +65,8 @@ class UiMainWindow(main.Ui_MainWindow, QtWidgets.QMainWindow):
                 self.homeButton,
                 self.resultsButton,
             ]
-            
-            self.buttons_Vertical = [
+
+            self.buttons_vertical = [
                 self.fileBrowserButtonPage1,
                 self.sequenceAlignmentButtonPage1,
                 self.clearButtonPage1,
@@ -114,7 +113,7 @@ class UiMainWindow(main.Ui_MainWindow, QtWidgets.QMainWindow):
                 shadow_effect.setOffset(3, 3)
                 button.setGraphicsEffect(shadow_effect)
 
-            for buttonV in self.buttons_Vertical:
+            for buttonV in self.buttons_vertical:
                 buttonV.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
                 buttonV.setStyleSheet(
                     """
@@ -181,7 +180,7 @@ class UiMainWindow(main.Ui_MainWindow, QtWidgets.QMainWindow):
 
     @connect_event("geneticTreeButtonPage1", QtEvents.clicked)
     def display_newick_trees_click(self):
-        self.genetics.display_newick_trees()
+        self.genetics.geneticTree.display_newick_trees()
 
     @connect_event(["starting_position_spinbox_2", "window_size_spinbox_2"], QtEvents.valueChanged)
     def update_plot_click(self):
@@ -213,11 +212,11 @@ class UiMainWindow(main.Ui_MainWindow, QtWidgets.QMainWindow):
 
     @connect_event("geneticTreescomboBox", QtEvents.currentIndexChanged)
     def show_tree_click(self, index):
-        self.genetics.show_tree(index)
+        self.genetics.geneticTree.show_tree(index)
 
     @connect_event("downloadGraphButton", QtEvents.clicked)
     def download_genetic_tree_graph_click(self):
-        self.genetics.download_genetic_tree_graph()
+        self.genetics.geneticTree.download_genetic_tree_graph()
 
     @connect_event("geneticSettingsButton", QtEvents.clicked)
     def open_genetic_settings_window_click(self):
@@ -283,20 +282,17 @@ class UiMainWindow(main.Ui_MainWindow, QtWidgets.QMainWindow):
     @connect_event("helpButton", QtEvents.clicked)
     def open_help_window_click(self):
         self.navigation.open_help_window()
-        
-        
-        
-        
-    #RESULT
-    
+
+    # RESULT
+
     @connect_event("settingsButtonPage3", QtEvents.clicked)
     def open_result_settings_window_click(self):
         self.result.open_result_settings_window()
-        
+
     @connect_event("submitButtonPage3", QtEvents.clicked)
     def show_filtered_results(self):
         self.result.show_filtered_results()
-        
+
     @connect_event("clearButtonPage4", QtEvents.clicked)
     def clear_result_click(self):
         self.result.clear_result()
@@ -317,8 +313,8 @@ class UiMainWindow(main.Ui_MainWindow, QtWidgets.QMainWindow):
 
     def stop_thread(self):
         self.genetics.stopWorker()
-        currThread = self.thread
-        if currThread is not None:
+        currThread = self.thread()
+        if currThread is QThread:
             if currThread.isRunning():
                 currThread.stop()
                 currThread.quit()
@@ -327,7 +323,7 @@ class UiMainWindow(main.Ui_MainWindow, QtWidgets.QMainWindow):
     def closeEvent(self, event):
         self.stop_thread()
         event.accept()
-   
+
     @connect_event("darkModeButton", QtEvents.clicked)
     def toggle_dark_mode(self):
         """
@@ -359,7 +355,7 @@ class UiMainWindow(main.Ui_MainWindow, QtWidgets.QMainWindow):
                 self.darkModeButton.setIcon(QIcon(":other/dark.png"))  # Set the 'dark' icon
 
             # Common settings for both modes
-            self.darkModeButton.setCursor(Qt.PointingHandCursor)
+            self.darkModeButton.setCursor(Qt.CursorShape.PointingHandCursor)
             self.darkModeButton.setStyleSheet(get_button_style(self.isDarkMode))
             self.darkModeButton.setGraphicsEffect(create_shadow_effect(10, 140))
 
@@ -372,7 +368,6 @@ class UiMainWindow(main.Ui_MainWindow, QtWidgets.QMainWindow):
     ################################################
 
 
-
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
 
@@ -382,14 +377,13 @@ if __name__ == "__main__":
 
     mw = qtmodern.windows.ModernWindow(window)
 
-    screen_geometry = app.primaryScreen().availableGeometry()
+    if primary_screen := app.primaryScreen():
+        screen_geometry = primary_screen.availableGeometry()
+        center_point = screen_geometry.center()
+        x = center_point.x() - mw.width() // 2
+        y = center_point.y() - mw.height() // 2
 
-    center_point = screen_geometry.center()
-    x = center_point.x() - mw.width() // 2
-    y = center_point.y() - mw.height() // 2
-
-    mw.move(x, y)
-
-    mw.show()
+        mw.move(x, y)
+        mw.show()
 
     sys.exit(app.exec())

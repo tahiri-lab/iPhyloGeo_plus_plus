@@ -1,22 +1,22 @@
 import json
 import os
-import toytree
-import toyplot.png
-import numpy as np
-from numpy.typing import ArrayLike
 from typing import cast
 
-from utils.result_settings_dialog import ResultSettingsDialog
+import numpy as np
 import pandas as pd
+import toyplot.png
+import toytree
 from aphylogeo import utils
 from aphylogeo.params import Params
-from PyQt6.QtWebEngineWidgets import QWebEngineView
+from numpy.typing import ArrayLike
 from PyQt6.QtGui import QPixmap
+from PyQt6.QtWebEngineWidgets import QWebEngineView
 from PyQt6.QtWidgets import QFileDialog, QVBoxLayout
 from utils.error_dialog import show_error_dialog
+from utils.result_settings_dialog import ResultSettingsDialog
+
 
 class Result:
-    
     def __init__(self, main):
         self.main = main
         
@@ -33,7 +33,7 @@ class Result:
 
         dialog = ResultSettingsDialog()
         dialog.exec()
-        
+
     def show_filtered_results(self):
         """
         Show the results filtered with a metric threshold provided by the user.
@@ -110,7 +110,7 @@ class Result:
 
         # Add the QWebEngineView to the QTextBrowser
         layout.addWidget(web_engine_view)
-        
+
     def clear_result(self):
         """
         Clear the text fields related to climatic data.
@@ -218,13 +218,11 @@ class Result:
         current_key = self.tree_keys[self.current_index1]
         default_file_name = f"{current_key}.png"
 
-        options = QFileDialog.Option.DontUseNativeDialog
         file_path, _ = QFileDialog.getSaveFileName(
-            self,
+            self.main,
             "Save Graph As",
             default_file_name,
             "PNG Files (*.png);;All Files (*)",
-            options=options,
         )
 
         if file_path:

@@ -1,6 +1,5 @@
 # Ignore compiled bytecode files
-scripts/__pycache__/*
-scripts/utils/__pycache__/*
+**/__pycache__/*
 
 # Ignore virtual environment directory
 .venv
@@ -16,4 +15,6 @@ scripts/results/*
 scripts/utils/params.yaml
 scripts/utils/ClimaticGraphSettings.yaml
 
-scripts/Qt/main_ui.py
+scripts/Qt/__pycache__/loading_ui.cpython-310.pyc
+
+scripts/Qt/__pycache__/main_ui.cpython-310.pyc

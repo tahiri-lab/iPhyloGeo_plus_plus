@@ -9,7 +9,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_LoadingDialog(QtWidgets.QDialog):
+class Ui_LoadingDialog(object):
     def setupUi(self, LoadingDialog):
         LoadingDialog.setObjectName("LoadingDialog")
         LoadingDialog.resize(450, 369)
@@ -36,19 +36,17 @@ class Ui_LoadingDialog(QtWidgets.QDialog):
         self.horizontalLayout.addItem(spacerItem1)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.checkListWidget = QtWidgets.QListWidget(parent=LoadingDialog)
-        self.checkListWidget.setStyleSheet(
-            "\n"
-            "                            QListWidget::item {\n"
-            "                            font-size: 14pt;\n"
-            "                            color: #333;\n"
-            "                            padding: 5px;\n"
-            "                            }\n"
-            "                            QListWidget::item::checked {\n"
-            "                            color: #2A9D8F;\n"
-            "                            text-decoration: line-through;\n"
-            "                            }\n"
-            "                        "
-        )
+        self.checkListWidget.setStyleSheet("\n"
+"                            QListWidget::item {\n"
+"                            font-size: 14pt;\n"
+"                            color: #333;\n"
+"                            padding: 5px;\n"
+"                            }\n"
+"                            QListWidget::item::checked {\n"
+"                            color: #2A9D8F;\n"
+"                            text-decoration: line-through;\n"
+"                            }\n"
+"                        ")
         self.checkListWidget.setObjectName("checkListWidget")
         item = QtWidgets.QListWidgetItem()
         self.checkListWidget.addItem(item)
@@ -62,20 +60,18 @@ class Ui_LoadingDialog(QtWidgets.QDialog):
         self.checkListWidget.addItem(item)
         self.verticalLayout.addWidget(self.checkListWidget)
         self.progressBar = QtWidgets.QProgressBar(parent=LoadingDialog)
-        self.progressBar.setStyleSheet(
-            "\n"
-            "                            QProgressBar {\n"
-            "                            border: 1px solid #bbb;\n"
-            "                            border-radius: 5px;\n"
-            "                            background-color: #eee;\n"
-            "                            text-align: center;\n"
-            "                            }\n"
-            "                            QProgressBar::chunk {\n"
-            "                            background-color: #2A9D8F;\n"
-            "                            width: 20px;\n"
-            "                            }\n"
-            "                        "
-        )
+        self.progressBar.setStyleSheet("\n"
+"                            QProgressBar {\n"
+"                            border: 1px solid #bbb;\n"
+"                            border-radius: 5px;\n"
+"                            background-color: #eee;\n"
+"                            text-align: center;\n"
+"                            }\n"
+"                            QProgressBar::chunk {\n"
+"                            background-color: #2A9D8F;\n"
+"                            width: 20px;\n"
+"                            }\n"
+"                        ")
         self.progressBar.setMinimum(0)
         self.progressBar.setMaximum(100)
         self.progressBar.setProperty("value", 0)
@@ -89,18 +85,13 @@ class Ui_LoadingDialog(QtWidgets.QDialog):
     def retranslateUi(self, LoadingDialog):
         _translate = QtCore.QCoreApplication.translate
         LoadingDialog.setWindowTitle(_translate("LoadingDialog", "Loading..."))
-        LoadingDialog.setStyleSheet(
-            _translate(
-                "LoadingDialog",
-                "\n"
-                "                QDialog {\n"
-                "                background-color: #ffffff; /* Set the background color to white */\n"
-                "                border-radius: 10px;\n"
-                "                border: 1px solid #ccc;\n"
-                "                }\n"
-                "            ",
-            )
-        )
+        LoadingDialog.setStyleSheet(_translate("LoadingDialog", "\n"
+"                QDialog {\n"
+"                background-color: #ffffff; /* Set the background color to white */\n"
+"                border-radius: 10px;\n"
+"                border: 1px solid #ccc;\n"
+"                }\n"
+"            "))
         self.loadingLabel.setText(_translate("LoadingDialog", "Loading, please wait..."))
         __sortingEnabled = self.checkListWidget.isSortingEnabled()
         self.checkListWidget.setSortingEnabled(False)
@@ -119,7 +110,6 @@ class Ui_LoadingDialog(QtWidgets.QDialog):
 
 if __name__ == "__main__":
     import sys
-
     app = QtWidgets.QApplication(sys.argv)
     LoadingDialog = QtWidgets.QDialog()
     ui = Ui_LoadingDialog()
