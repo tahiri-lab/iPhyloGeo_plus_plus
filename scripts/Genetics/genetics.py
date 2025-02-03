@@ -16,7 +16,7 @@ from PyQt6.QtGui import QIcon, QMovie, QPixmap
 from PyQt6.QtWidgets import QApplication, QFileDialog
 from Qt import loading_ui
 from utils.error_dialog import show_error_dialog
-from utils.genetic_params_dialog import ParamDialog
+from Genetics.genetic_params_dialog import ParamDialog
 from utils.my_dumper import update_yaml_param
 from worker import Worker
 from Genetics.genetics_plot_chart import read_msa, standardize_sequence_lengths, plot_alignment_chart

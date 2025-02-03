@@ -11,8 +11,8 @@ import matplotlib.pyplot as plt
 from PyQt6.QtWidgets import QFileDialog, QDialog
 from PyQt6.QtGui import QPixmap
 
-from utils.climatic_graph_settings import ClimaticGraphSettings
-from utils.climatic_preferences_dialog import ClimaticPreferencesDialog
+from Climatic.climatic_graph_settings import ClimaticGraphSettings
+from Climatic.climatic_preferences_dialog import ClimaticPreferencesDialog
 from utils.error_dialog import show_error_dialog
 
 try:
