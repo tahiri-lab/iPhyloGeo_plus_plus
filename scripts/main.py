@@ -3,7 +3,7 @@ import sys
 import qtmodern.styles
 import qtmodern.windows
 from aphylogeo.params import Params
-from climat import Climat
+from Climatic.climat import Climat
 from event_connector import QtEvents, connect_decorated_methods, connect_event
 from Genetics.genetics import Genetics
 from navigation import Navigation
@@ -246,19 +246,19 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
 
     @connect_event("climaticTreeButtonPage2", QtEvents.clicked)
     def display_climatic_trees_click(self):
-        self.climat.display_climatic_trees()
+        self.climat.climaticTree.display_climatic_trees()
 
     @connect_event("downloadGraphButton2", QtEvents.clicked)
     def download_climatic_tree_graph_click(self):
-        self.climat.download_climatic_tree_graph()
+        self.climat.climaticTree.download_climatic_tree_graph()
 
     @connect_event("preferencesButton", QtEvents.clicked)
     def open_climatic_tree_preferences_window_click(self):
-        self.climat.open_climatic_tree_preferences_window()
+        self.climat.climaticTree.open_climatic_tree_preferences_window()
 
     @connect_event("climaticTreescomboBox", QtEvents.currentIndexChanged)
     def show_selected_climatic_tree_click(self, index):
-        self.climat.show_selected_climatic_tree(index)
+        self.climat.climaticTree.show_selected_climatic_tree(index)
 
     # NAVIGATION
 

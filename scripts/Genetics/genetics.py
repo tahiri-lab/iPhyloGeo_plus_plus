@@ -1,4 +1,3 @@
-import json
 import os
 import shutil
 from collections import  defaultdict
@@ -6,8 +5,6 @@ from collections import  defaultdict
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
-import toyplot.png
-import toytree
 from aphylogeo.params import Params
 from Bio.Align import MultipleSeqAlignment
 from Bio.Seq import Seq
@@ -48,7 +45,7 @@ class Genetics:
         try:
             starting_position = self.main.starting_position_spinbox_2.value()
             window_size = self.main.window_size_spinbox_2.value()
-            output_path = "scripts/results/sequence_alignment_plot.png"
+            output_path = "results/sequence_alignment_plot.png"
 
             genetic_data = read_msa(self.msa)
             standardized_data = standardize_sequence_lengths(genetic_data)
@@ -160,7 +157,7 @@ class Genetics:
             ax.spines["left"].set_linewidth(1.2)
             ax.spines["bottom"].set_linewidth(1.2)
 
-            plot_path = "./scripts/results/similarity_plot.png"
+            plot_path = "./results/similarity_plot.png"
             fig.savefig(plot_path, bbox_inches="tight", dpi=300)
 
             pixmap = QPixmap(plot_path)
@@ -173,7 +170,7 @@ class Genetics:
             print(f"Error updating similarity plot: {e}")
 
     def download_similarity_plot_chart(self):
-        file_url = "scripts/results/similarity_plot.png"  # The file path
+        file_url = "results/similarity_plot.png"  # The file path
         save_path, _ = QFileDialog.getSaveFileName(self.main, "Save File", "", "PNG Files (*.png);;All Files (*)")
         if not save_path:
             return  # User cancelled th

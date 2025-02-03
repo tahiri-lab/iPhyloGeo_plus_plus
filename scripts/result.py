@@ -48,8 +48,8 @@ class Result:
         self.main.stackedWidget.setCurrentIndex(3)
 
         df = pd.read_csv(Params.file_name)
-        utils.filterResults(self.main.climat.climaticTrees, self.main.genetics.geneticTreeDict, df)
-        df_results = pd.read_csv("./scripts/results/output.csv")
+        utils.filterResults(self.main.climat.climaticTree.climaticTrees, self.main.genetics.geneticTreeDict, df)
+        df_results = pd.read_csv("./results/output.csv")
         df_results["Name of species"] = df_results["Name of species"].str.replace("_", " ")
         # Replace the first column values with Params.file_name just before visualization
         df_results.iloc[:, 0] = Params.reference_gene_file
@@ -133,7 +133,7 @@ class Result:
             
     def display_phylogeographic_trees(self):
         self.main.tabWidgetResult.setCurrentIndex(1)
-        self.results_dir = "scripts/results"
+        self.results_dir = "results"
         file_path = os.path.join(self.results_dir, "geneticTrees.json")
 
         with open(file_path, "r") as file:

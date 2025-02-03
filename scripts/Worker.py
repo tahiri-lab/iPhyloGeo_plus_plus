@@ -42,8 +42,8 @@ class Worker(QObject):
             msa = alignments.to_dict().get("msa")
 
             # Step 5: Save results
-            alignments.save_to_json(f"./scripts/results/aligned_{Params.reference_gene_file}.json")
-            trees.save_trees_to_json("./scripts/results/geneticTrees.json")
+            alignments.save_to_json(f"./results/aligned_{Params.reference_gene_file}.json")
+            trees.save_trees_to_json("./results/geneticTrees.json")
 
             # Emit finished signal with the genetic trees dictionary
             result = {"msa": msa, "geneticTrees": geneticTrees}

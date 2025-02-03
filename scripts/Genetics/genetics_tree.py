@@ -20,14 +20,14 @@ class GeneticTree:
         and updates the UI to display the trees using Toytree.
 
         Actions:
-            - Loads Newick format trees from 'scripts/results/geneticTrees.json'.
+            - Loads Newick format trees from 'results/geneticTrees.json'.
             - Formats the tree names by replacing underscores with ' nt '.
             - Updates the tree combo box with formatted tree names.
             - Displays the first tree in the list.
         """
 
         self.main.tabWidget.setCurrentIndex(4)
-        file_path = "scripts/results/geneticTrees.json"
+        file_path = "results/geneticTrees.json"
         with open(file_path, "r") as file:
             self.newick_json = json.load(file)
 
