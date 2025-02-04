@@ -15,8 +15,7 @@ from matplotlib.ticker import MaxNLocator
 from PyQt6 import QtCore, QtWidgets
 from PyQt6.QtCore import Qt, QThread
 from PyQt6.QtGui import QIcon, QMovie
-from PyQt6.QtWidgets import QApplication, QFileDialog
-from Qt import loading_ui
+from ui import loading_dialog
 from utils.download_file import download_file_local, download_file_temporary_PLT
 from utils.error_dialog import show_error_dialog
 from utils.my_dumper import update_yaml_param
@@ -183,8 +182,8 @@ class Genetics:
             - Enables the sequence alignment button and updates icons.
         """
         try:
-            options = QFileDialog.Option.ReadOnly
-            fullFileName, _ = QFileDialog.getOpenFileName(
+            options = QtWidgets.QFileDialog.Option.ReadOnly
+            fullFileName, _ = QtWidgets.QFileDialog.getOpenFileName(
                 None,
                 "Select FASTA file",
                 "./datasets",
@@ -272,10 +271,10 @@ class Genetics:
                 item.setCheckState(Qt.CheckState.Checked)
                 progress_value = int((step + 1) * (100 / loading_screen.checkListWidget.count()))
                 loading_screen.progressBar.setValue(progress_value)
-                QApplication.processEvents()
+                QtWidgets.QApplication.processEvents()
             else:
                 loading_screen.progressBar.setValue(100)
-                QApplication.processEvents()
+                QtWidgets.QApplication.processEvents()
 
         def handle_finished(result):
             loading_screen.close()
@@ -291,7 +290,7 @@ class Genetics:
             loading_screen.close()
             show_error_dialog(f"An unexpected error occurred: {error_message}")
 
-        if loading_screen := loading_ui.Ui_LoadingDialog():
+        if loading_screen := loading_dialog.LoadingDialog():
             loading_screen.setupUi(loading_screen)
             # loading_screen.close()
             # loading_screen = uic.loadUi("scripts/Qt/loading.ui")
@@ -331,7 +330,7 @@ class Genetics:
 
         # Use a loop to wait until the thread finishes and the result is set
         while self.workerThread.isRunning():
-            QApplication.processEvents()
+            QtWidgets.QApplication.processEvents()
 
         return self.geneticTrees
 
