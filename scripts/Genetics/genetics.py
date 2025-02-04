@@ -1,5 +1,5 @@
 import os
-from collections import  defaultdict
+from collections import defaultdict
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -8,19 +8,19 @@ from aphylogeo.params import Params
 from Bio.Align import MultipleSeqAlignment
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
+from Genetics.genetic_params_dialog import ParamDialog
+from Genetics.genetics_plot_chart import plot_alignment_chart, read_msa, standardize_sequence_lengths
+from Genetics.genetics_tree import GeneticTree
 from matplotlib.ticker import MaxNLocator
 from PyQt6 import QtCore, QtWidgets
 from PyQt6.QtCore import Qt, QThread
 from PyQt6.QtGui import QIcon, QMovie
 from PyQt6.QtWidgets import QApplication, QFileDialog
 from Qt import loading_ui
-from utils.error_dialog import show_error_dialog
-from Genetics.genetic_params_dialog import ParamDialog
-from utils.my_dumper import update_yaml_param
 from utils.download_file import download_file_local, download_file_temporary_PLT
+from utils.error_dialog import show_error_dialog
+from utils.my_dumper import update_yaml_param
 from worker import Worker
-from Genetics.genetics_plot_chart import read_msa, standardize_sequence_lengths, plot_alignment_chart
-from Genetics.genetics_tree import GeneticTree
 
 
 class Genetics:
@@ -30,7 +30,6 @@ class Genetics:
         self.worker = None
         self.msa = []
         self.geneticTrees = []
-
 
     def update_plot(self):
         """
@@ -154,7 +153,6 @@ class Genetics:
             ax.spines["right"].set_visible(False)
             ax.spines["left"].set_linewidth(1.2)
             ax.spines["bottom"].set_linewidth(1.2)
-
 
             pixmap = download_file_temporary_PLT("similarity_plot", fig)
 
@@ -369,7 +367,6 @@ class Genetics:
             self.geneticTreeDict = None
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}")
-
 
     def stopWorker(self):
         if self.worker:

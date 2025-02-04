@@ -655,7 +655,6 @@
               border-radius: 5px; /* Rounded corners */
               padding: 10px 20px; /* Button padding */
               font-weight: bold; /* Slightly bold text */
-              transition: background-color 0.3s ease border-color 0.3s ease;
               box-shadow 0.3s ease, transform 0.3s ease; /* Transitions for smooth effects */
               }
 
@@ -1289,8 +1288,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
                       border-radius: 8px; /* Rounded corners */
                       padding: 10px 20px; /* Padding */
                       border: 2px solid #2980b9; /* Border */
-                      transition: background-color 0.3s, border-color 0.3s, color 0.3s; /* Smooth
-                      transitions */
                       }
 
                       QPushButton:hover {
@@ -1341,8 +1338,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
                       border-radius: 8px; /* Rounded corners */
                       padding: 10px 20px; /* Padding */
                       border: 2px solid #2980b9; /* Border */
-                      transition: background-color 0.3s, border-color 0.3s, color 0.3s; /* Smooth
-                      transitions */
                       }
 
                       QPushButton:hover {

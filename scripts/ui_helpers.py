@@ -1,4 +1,4 @@
-from PyQt6 import QtGui, QtCore, QtWidgets
+from PyQt6 import QtCore, QtGui, QtWidgets
 
 
 def style_buttons(buttons, dark_mode):
@@ -22,7 +22,6 @@ def get_button_style(dark_mode):
             font-weight: bold;
             background-color: {background_color};
             border-radius: 20px;
-            transition: background-color 0.3s ease;
         }}
         QPushButton:hover {{
             background-color: {hover_color};

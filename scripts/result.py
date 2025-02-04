@@ -12,20 +12,20 @@ from numpy.typing import ArrayLike
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtWebEngineWidgets import QWebEngineView
 from PyQt6.QtWidgets import QVBoxLayout
+from utils.download_file import download_file_local
 from utils.error_dialog import show_error_dialog
 from utils.result_settings_dialog import ResultSettingsDialog
-from utils.download_file import download_file_local
 
 
 class Result:
     def __init__(self, main):
         self.main = main
-        
+
     # Initializes the result page tabs and connects the tab change event to the on_tab_changed method
     def initialize_result_page(self):
         self.main.tabWidgetResult.currentChanged.connect(self.on_tab_changed)
         self.main.tabWidgetResult.setCurrentIndex(0)
-        
+
     def open_result_settings_window(self):
         """
         Initialize and display the parameters window.
@@ -72,7 +72,6 @@ class Result:
             #styled-table td, #styled-table th {
                 border: 1px solid #ddd;
                 padding: 12px;
-                transition: all 0.3s ease-in-out;
             }
             #styled-table tr:nth-child(even) {
                 background-color: #f9f9f9;
@@ -124,14 +123,14 @@ class Result:
             # self.graphicsViewClimData.clear()
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}", "Error")
-            
+
     def on_tab_changed(self, index):
         if index == 1:
-            self.handle_tab_statistic_refresh()     
+            self.handle_tab_statistic_refresh()
 
     def handle_tab_statistic_refresh(self):
         self.display_phylogeographic_trees()
-            
+
     def display_phylogeographic_trees(self):
         self.main.tabWidgetResult.setCurrentIndex(1)
         self.results_dir = "results"
@@ -219,4 +218,3 @@ class Result:
         current_key = self.tree_keys[self.current_index1]
 
         download_file_local(str(current_key), self.main)
-

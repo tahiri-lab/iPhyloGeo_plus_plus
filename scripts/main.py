@@ -97,7 +97,6 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
                         font-weight: bold;
                         background-color: #DEDDDA;
                         border-radius: 20px;
-                        transition: background-color 0.3s ease;
                     }
                     QPushButton:hover {
                         background-color: #B7B7B6;
@@ -122,7 +121,6 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
                         background-color: #EEEEEE;
                         padding: 10px 20px;
                         font-weight: bold;
-                        transition: background-color 0.3s ease;
                     }
                     QPushButton:hover {
                         background-color: #D7D7D7;
@@ -146,7 +144,6 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
                     font-weight: bold;
                     background-color: #DEDDDA;
                     border-radius: 14px;
-                    transition: background-color 0.3s ease;
                 }
                 QPushButton:hover {
                     background-color: #B7B7B6;
@@ -296,7 +293,7 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
     @connect_event("clearButtonPage4", QtEvents.clicked)
     def clear_result_click(self):
         self.result.clear_result()
-        
+
     @connect_event(["statisticsButtonPage3"], QtEvents.clicked)
     def display_phylogeographic_trees_click(self):
         self.result.display_phylogeographic_trees()
