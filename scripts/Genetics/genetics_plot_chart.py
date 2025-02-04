@@ -1,4 +1,5 @@
 from utils.error_dialog import show_error_dialog
+from utils.download_file import download_file_temporary_PLT
 
 from Bio.Align import MultipleSeqAlignment
 from Bio.SeqRecord import SeqRecord
@@ -58,7 +59,7 @@ def standardize_sequence_lengths(genetic_data):
     except Exception as e:
         show_error_dialog(f"An unexpected error occurred: {e}")
 
-def plot_alignment_chart(genetic_data, starting_position, window_size, output_path):
+def plot_alignment_chart(genetic_data, starting_position, window_size):
     """
     Plots an alignment chart with conservation and sequence alignment.
 
@@ -176,9 +177,7 @@ def plot_alignment_chart(genetic_data, starting_position, window_size, output_pa
         )
 
         plt.subplots_adjust(left=0.2, right=0.95, top=0.95, bottom=0.05)
-        plt.savefig(output_path)
-        plt.close()
-
+        return download_file_temporary_PLT("sequence_alignment_plot")
     except KeyError as e:
         show_error_dialog(f"Key Error: {e}")
     except Exception as e:

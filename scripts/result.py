@@ -11,9 +11,10 @@ from aphylogeo.params import Params
 from numpy.typing import ArrayLike
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtWebEngineWidgets import QWebEngineView
-from PyQt6.QtWidgets import QFileDialog, QVBoxLayout
+from PyQt6.QtWidgets import QVBoxLayout
 from utils.error_dialog import show_error_dialog
 from utils.result_settings_dialog import ResultSettingsDialog
+from utils.download_file import download_file_local
 
 
 class Result:
@@ -216,19 +217,6 @@ class Result:
 
     def save_tree_graph(self):
         current_key = self.tree_keys[self.current_index1]
-        default_file_name = f"{current_key}.png"
 
-        file_path, _ = QFileDialog.getSaveFileName(
-            self.main,
-            "Save Graph As",
-            default_file_name,
-            "PNG Files (*.png);;All Files (*)",
-        )
+        download_file_local(str(current_key), self.main)
 
-        if file_path:
-            if not file_path.lower().endswith(".png"):
-                file_path += ".png"
-
-            with open(self.temp_img_path, "rb") as temp_file:
-                with open(file_path, "wb") as file:
-                    file.write(temp_file.read())

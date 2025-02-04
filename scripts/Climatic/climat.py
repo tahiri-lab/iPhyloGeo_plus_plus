@@ -1,7 +1,5 @@
 import io
-import os
 import re
-import shutil
 import folium
 
 from decimal import Decimal
@@ -13,11 +11,11 @@ from aphylogeo import utils
 from aphylogeo.params import Params
 
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QFileDialog, QTableWidget, QTableWidgetItem, QVBoxLayout
 
 from utils.error_dialog import show_error_dialog
 from utils.my_dumper import update_yaml_param
+from utils.download_file import download_file_local, download_file_temporary_PLT
 
 from Climatic.climat_tree import ClimaticTree
 
@@ -136,13 +134,8 @@ class Climat:
                 sns.violinplot(x=x_data, y=y_data, data=self.data, ax=ax)
                 ax.set_xlabel(x_data)  # Set the X-axis label
 
-        plot_path = os.path.join("results", f"{plot_type.lower().replace(' ', '_')}.png")
-        os.makedirs("results", exist_ok=True)
-        plt.savefig(plot_path)
-        plt.close(fig)
+        pixmap = download_file_temporary_PLT(plot_type, fig)
 
-        # Display plot in QLabel
-        pixmap = QPixmap(plot_path)
         self.main.ClimaticChart_2.setPixmap(pixmap)
         self.main.tabWidget2.setCurrentIndex(2)
 
@@ -156,26 +149,8 @@ class Climat:
             None
         """
         plot_type = self.main.PlotTypesCombobox.currentText()
-        if plot_type == "":
-            show_error_dialog("Please generate a plot first.")
-            return
+        download_file_local(plot_type, self.main)
 
-        plot_path = os.path.join("results", f"{plot_type.lower().replace(' ', '_')}.png")
-        if not os.path.exists(plot_path):
-            show_error_dialog("No plot found to download.")
-            return
-
-        # Prompt the user to select a location to save the plot
-        file_path, _ = QFileDialog.getSaveFileName(
-            self.main,
-            "Save Plot As",
-            os.path.basename(plot_path),
-            "PNG Files (*.png);;All Files (*)",
-        )
-        if file_path:
-            if not file_path.lower().endswith(".png"):
-                file_path += ".png"
-            shutil.copy(plot_path, file_path)
 
     def load_csv_climate_file(self):
         def create_sleek_table(df):

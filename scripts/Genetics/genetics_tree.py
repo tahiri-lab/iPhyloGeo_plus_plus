@@ -1,12 +1,11 @@
 import json
 import toyplot.png
 import toytree
-import shutil
 import os
 from PyQt6.QtGui import QPixmap
-from PyQt6.QtWidgets import QFileDialog
 
 from utils.error_dialog import show_error_dialog
+from utils.download_file import download_file_local
 
 class GeneticTree:
     def __init__(self, main):
@@ -126,18 +125,7 @@ class GeneticTree:
         """
         try:
             current_key = self.tree_keys[self.current_index]
-            default_file_name = f"{current_key}.png"
-
-            file_path, _ = QFileDialog.getSaveFileName(
-                self.main,
-                "Save Tree Image As",
-                default_file_name,
-                "PNG Files (*.png);;All Files (*)",
-            )
-            if file_path:
-                if not file_path.lower().endswith(".png"):
-                    file_path += ".png"
-                shutil.copy(self.tree_img_path, file_path)
+            download_file_local(current_key, self.main)
         except FileNotFoundError as e:
             show_error_dialog(f"The tree image file was not found: {e}", "File Not Found")
         except Exception as e:

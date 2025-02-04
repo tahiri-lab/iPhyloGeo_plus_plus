@@ -1,18 +1,16 @@
-import os
-
 import plotly.graph_objs as go
-import plotly.io as pio
 
 from Bio import Phylo
 import networkx as nx
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-from PyQt6.QtWidgets import QFileDialog, QDialog
-from PyQt6.QtGui import QPixmap
+from PyQt6.QtWidgets import QDialog
 
 from Climatic.climatic_graph_settings import ClimaticGraphSettings
 from Climatic.climatic_preferences_dialog import ClimaticPreferencesDialog
+
+from utils.download_file import download_file_local, download_file_temporary_PLT, download_file_temporary_PIO
 from utils.error_dialog import show_error_dialog
 
 try:
@@ -113,14 +111,15 @@ class ClimaticTree():
                 use_leaf_names = ClimaticGraphSettings.use_leaf_names
                 show_branch_length = ClimaticGraphSettings.show_branch_length
                 view_type = ClimaticGraphSettings.view_type
+                
+                tree = self.check_render_properties_tree(tree, proportional_edge_lengths, label_internal_vertices)
+                
                 if view_type == "network":
                     self.render_network_view(
                         tree,
                         label_color,
                         edge_color,
                         layout,
-                        proportional_edge_lengths,
-                        label_internal_vertices,
                         use_leaf_names,
                         show_branch_length,
                     )
@@ -128,8 +127,6 @@ class ClimaticTree():
                     self.render_tree_view(
                         tree,
                         label_color,
-                        proportional_edge_lengths,
-                        label_internal_vertices,
                         use_leaf_names,
                         show_branch_length,
                     )
@@ -140,16 +137,30 @@ class ClimaticTree():
             )
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}")
+            
+    def check_render_properties_tree(self, tree, proportional_edge_lengths, label_internal_vertices):
+        # Apply additional preferences to the tree
 
-#SAME HERE
+        # Proportional Edge Lengths
+        if proportional_edge_lengths:
+            for clade in tree.find_clades():
+                if clade.branch_length is None:
+                    clade.branch_length = 0.1  # Set a default length if not specified
+
+        # Label Internal Vertices
+        if label_internal_vertices:
+            for clade in tree.find_clades():
+                if not clade.is_terminal() and clade.name is None:
+                    clade.name = "Internal Node"
+                    
+        return tree
+
     def render_network_view(
         self,
         tree,
         label_color,
         edge_color,
         layout,
-        proportional_edge_lengths,
-        label_internal_vertices,
         use_leaf_names,
         show_branch_length,
     ):
@@ -174,16 +185,6 @@ class ClimaticTree():
         try:
             sns.set_palette("husl")
 
-            if proportional_edge_lengths:
-                for clade in tree.find_clades():
-                    if clade.branch_length is None:
-                        clade.branch_length = 0.1  # Set a default length if not specified
-
-            if label_internal_vertices:
-                for clade in tree.find_clades():
-                    if not clade.is_terminal() and clade.name is None:
-                        clade.name = "Internal Node"
-
             graph = Phylo.to_networkx(tree)
             pos = self.get_layout(graph, layout)
             edge_trace_result = self.create_edge_trace(tree, pos, edge_color, show_branch_length)
@@ -207,25 +208,18 @@ class ClimaticTree():
             for annotation in edge_annotations:
                 fig.add_annotation(annotation)
 
-            results_dir = "results"
-            os.makedirs(results_dir, exist_ok=True)
-            img_path = os.path.join(results_dir, f"{self.tree_keys[self.current_index]}.png")
-            pio.write_image(fig, img_path, format="png")
+            pixmap = download_file_temporary_PIO(self.tree_keys[self.current_index], fig)
 
-            pixmap = QPixmap(img_path)
             self.main.climaticTreesLabel.clear()
             self.main.climaticTreesLabel.setPixmap(pixmap)
             self.main.climaticTreesLabel.adjustSize()
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred while rendering the network view: {e}")
 
-#SELF READ ONLY
     def render_tree_view(
         self,
         tree,
         label_color,
-        proportional_edge_lengths,
-        label_internal_vertices,
         use_leaf_names,
         show_branch_length,
     ):
@@ -249,20 +243,6 @@ class ClimaticTree():
             fig = plt.figure(figsize=(9.11, 4.41))  # Limit size to 911x441 pixels
             ax = fig.add_subplot(1, 1, 1)
 
-            # Apply additional preferences to the tree
-
-            # Proportional Edge Lengths
-            if proportional_edge_lengths:
-                for clade in tree.find_clades():
-                    if clade.branch_length is None:
-                        clade.branch_length = 0.1  # Set a default length if not specified
-
-            # Label Internal Vertices
-            if label_internal_vertices:
-                for clade in tree.find_clades():
-                    if not clade.is_terminal() and clade.name is None:
-                        clade.name = "Internal Node"
-
             # Draw the tree using Matplotlib
             def label_func(clade):
                 label = clade.name if use_leaf_names and clade.is_terminal() else ""
@@ -278,20 +258,14 @@ class ClimaticTree():
 
             ax.axis("off")  # Remove axes
 
-            results_dir = "results"
-            os.makedirs(results_dir, exist_ok=True)
-            img_path = os.path.join(results_dir, f"{self.tree_keys[self.current_index]}.png")
-            plt.savefig(img_path, format="png")
-            plt.close(fig)
+            pixmap = download_file_temporary_PLT(self.tree_keys[self.current_index], fig)
 
-            pixmap = QPixmap(img_path)
             self.main.climaticTreesLabel.clear()
             self.main.climaticTreesLabel.setPixmap(pixmap)
             self.main.climaticTreesLabel.adjustSize()
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred while rendering the tree view: {e}")
 
-#NoSelf
     def create_node_trace(self, graph, pos, label_color, use_leaf_names):
         """
         Create a Plotly node trace for the phylogenetic tree network visualization.
@@ -424,23 +398,7 @@ class ClimaticTree():
         """
         try:
             current_key = self.tree_keys[self.current_index]
-            default_file_name = f"{current_key}.png"
-
-            file_path, _ = QFileDialog.getSaveFileName(
-                self.main,
-                "Save Graph As",
-                default_file_name,
-                "PNG Files (*.png);;All Files (*)",
-            )
-            if file_path:
-                if not file_path.lower().endswith(".png"):
-                    file_path += ".png"
-                results_dir = "results"
-                os.makedirs(results_dir, exist_ok=True)
-                img_path = os.path.join(results_dir, f"{self.tree_keys[self.current_index]}.png")
-                with open(img_path, "rb") as file:
-                    with open(file_path, "wb") as dest_file:
-                        dest_file.write(file.read())
+            download_file_local(current_key, self.main)
         except FileNotFoundError as e:
             show_error_dialog(f"The temporary image file was not found: {e}", "File Not Found")
         except Exception as e:

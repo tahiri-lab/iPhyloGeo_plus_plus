@@ -1,5 +1,4 @@
 import os
-import shutil
 from collections import  defaultdict
 
 import matplotlib.pyplot as plt
@@ -12,12 +11,13 @@ from Bio.SeqRecord import SeqRecord
 from matplotlib.ticker import MaxNLocator
 from PyQt6 import QtCore, QtWidgets
 from PyQt6.QtCore import Qt, QThread
-from PyQt6.QtGui import QIcon, QMovie, QPixmap
+from PyQt6.QtGui import QIcon, QMovie
 from PyQt6.QtWidgets import QApplication, QFileDialog
 from Qt import loading_ui
 from utils.error_dialog import show_error_dialog
 from Genetics.genetic_params_dialog import ParamDialog
 from utils.my_dumper import update_yaml_param
+from utils.download_file import download_file_local, download_file_temporary_PLT
 from worker import Worker
 from Genetics.genetics_plot_chart import read_msa, standardize_sequence_lengths, plot_alignment_chart
 from Genetics.genetics_tree import GeneticTree
@@ -45,13 +45,11 @@ class Genetics:
         try:
             starting_position = self.main.starting_position_spinbox_2.value()
             window_size = self.main.window_size_spinbox_2.value()
-            output_path = "results/sequence_alignment_plot.png"
 
             genetic_data = read_msa(self.msa)
             standardized_data = standardize_sequence_lengths(genetic_data)
-            plot_alignment_chart(standardized_data, starting_position, window_size, output_path)
+            pixmap = plot_alignment_chart(standardized_data, starting_position, window_size)
 
-            pixmap = QPixmap(output_path)
             self.main.seqAlignLabel.setPixmap(pixmap)
             self.main.tabWidget.setCurrentIndex(2)
 
@@ -157,10 +155,9 @@ class Genetics:
             ax.spines["left"].set_linewidth(1.2)
             ax.spines["bottom"].set_linewidth(1.2)
 
-            plot_path = "./results/similarity_plot.png"
-            fig.savefig(plot_path, bbox_inches="tight", dpi=300)
 
-            pixmap = QPixmap(plot_path)
+            pixmap = download_file_temporary_PLT("similarity_plot", fig)
+
             self.main.textEditGenStats_2.setPixmap(pixmap)
             self.main.textEditGenStats_2.setFixedSize(900, 400)
             self.main.textEditGenStats_2.setScaledContents(True)
@@ -170,11 +167,7 @@ class Genetics:
             print(f"Error updating similarity plot: {e}")
 
     def download_similarity_plot_chart(self):
-        file_url = "results/similarity_plot.png"  # The file path
-        save_path, _ = QFileDialog.getSaveFileName(self.main, "Save File", "", "PNG Files (*.png);;All Files (*)")
-        if not save_path:
-            return  # User cancelled th
-        shutil.copy(file_url, save_path)  # e save dialog
+        download_file_local("similarity_plot", self.main)
 
     def select_fasta_file(self):
         """
