@@ -69,6 +69,7 @@ class Navigation:
             self.main.homeButton.setIcon(QIcon(":other/home.svg"))
             self.main.resultsButton.setIcon(QIcon(":active/result.svg"))
             self.main.stackedWidget.setCurrentIndex(3)
+            self.main.tabWidgetResult.setCurrentIndex(0)
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}")
 

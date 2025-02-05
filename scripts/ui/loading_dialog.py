@@ -1,6 +1,6 @@
 from PyQt6 import QtWidgets
 
-from scripts.Qt.loading_ui import Ui_LoadingDialog
+from Qt.loading_ui import Ui_LoadingDialog
 
 
 class LoadingDialog(Ui_LoadingDialog, QtWidgets.QDialog):

@@ -1,6 +1,6 @@
 from enum import Enum
 from typing import List, Union
-
+from contextlib import contextmanager
 
 class QtEvents(str, Enum):
     # Buttons
@@ -23,6 +23,9 @@ class QtEvents(str, Enum):
 
     # Slider
     valueChanged = "valueChanged"
+    
+    #QTabWidget
+    currentChanged = "currentChanged"
 
 
 def connect_event(widgets: Union[str, List[str]], event: QtEvents):
@@ -49,3 +52,14 @@ def connect_decorated_methods(widget):
                 signal = getattr(found_widget, widget_info["event"])
 
                 signal.connect(connector_method)
+                
+                
+@contextmanager
+def blocked_signals(*widgets):
+    try:
+        for widget in widgets:
+            widget.blockSignals(True)
+        yield
+    finally:
+        for widget in widgets:
+            widget.blockSignals(False)

@@ -1,31 +1,20 @@
-import json
-import os
-from typing import cast
-
-import numpy as np
 import pandas as pd
-import toyplot.png
-import toytree
 from aphylogeo import utils
 from aphylogeo.params import Params
-from numpy.typing import ArrayLike
-from PyQt6.QtGui import QPixmap
 from PyQt6.QtWebEngineWidgets import QWebEngineView
 from PyQt6.QtWidgets import QVBoxLayout
-from utils.download_file import download_file_local
+
 from utils.error_dialog import show_error_dialog
 from utils.result_settings_dialog import ResultSettingsDialog
+from utils.download_file import download_file_local
+from utils.tree_graph import init_tree, generate_tree_with_bar
+from event_connector import blocked_signals
 
 
 class Result:
     def __init__(self, main):
         self.main = main
-
-    # Initializes the result page tabs and connects the tab change event to the on_tab_changed method
-    def initialize_result_page(self):
-        self.main.tabWidgetResult.currentChanged.connect(self.on_tab_changed)
-        self.main.tabWidgetResult.setCurrentIndex(0)
-
+        
     def open_result_settings_window(self):
         """
         Initialize and display the parameters window.
@@ -126,95 +115,34 @@ class Result:
 
     def on_tab_changed(self, index):
         if index == 1:
-            self.handle_tab_statistic_refresh()
-
-    def handle_tab_statistic_refresh(self):
-        self.display_phylogeographic_trees()
-
+            self.display_phylogeographic_trees()     
+            
     def display_phylogeographic_trees(self):
-        self.main.tabWidgetResult.setCurrentIndex(1)
-        self.results_dir = "results"
-        file_path = os.path.join(self.results_dir, "geneticTrees.json")
+        self.jsonData, self.tree_keys, formatted_tree_keys = init_tree()
+        
+        with blocked_signals(self.main.phyloTreescomboBox, self.main.criteriaComboBox, self.main.tabWidgetResult):
+            self.main.tabWidgetResult.setCurrentIndex(1)
+            
+            self.main.phyloTreescomboBox.clear()
+            self.main.phyloTreescomboBox.addItems(formatted_tree_keys)
 
-        with open(file_path, "r") as file:
-            self.phylo_json = json.load(file)
+            self.climatic_data = pd.read_csv(Params.file_name)
+            self.main.criteriaComboBox.clear()
+            self.main.criteriaComboBox.addItems(self.climatic_data.columns[1:])        
 
-        self.tree_keys = list(self.phylo_json.keys())
-        self.total_trees = len(self.tree_keys)
-
-        self.current_index1 = 0
-        self.main.phyloTreescomboBox.clear()
-
-        formatted_tree_keys = [self.rename_tree_key(key) for key in self.tree_keys]
-        self.main.phyloTreescomboBox.addItems(formatted_tree_keys)
-
-        self.climatic_data = pd.read_csv(Params.file_name)
-        self.main.criteriaComboBox.clear()
-        self.main.criteriaComboBox.addItems(self.climatic_data.columns[1:])
-
-        self.render_tree(self.current_index1)
-
-    def rename_tree_key(self, tree_key):
-        parts = tree_key.split("_")
-        if len(parts) == 2:
-            return f"{parts[0]} nt {parts[1]} nt"
-        return tree_key
+        self.render_tree(0)
 
     def render_tree(self, index):
-        if 0 <= index < self.total_trees:
-            self.current_index1 = index
-            key = self.tree_keys[index]
-            newick_str = self.phylo_json[key]
+        self.key = self.tree_keys[index]
+    
+        pixmap = generate_tree_with_bar(self.key, self.jsonData, self.main.criteriaComboBox.currentText(), self.climatic_data)
 
-            tree = toytree.tree(newick_str)
-            tip_labels = tree.get_tip_labels()
+        self.main.PhyloTreeLabel.clear()
+        self.main.PhyloTreeLabel.setPixmap(pixmap)
+        self.main.PhyloTreeLabel.adjustSize()
+        
 
-            if not hasattr(self, "climatic_data"):
-                return
-
-            selected_column = self.main.criteriaComboBox.currentText()
-
-            # Match the original labels from the CSV
-            ordered_climatic_data = self.climatic_data.set_index("id").reindex(tip_labels).reset_index()
-            bar_values = ordered_climatic_data[selected_column].values
-
-            # Ensure bar_values have no negative values
-            bar_values = np.clip(cast(ArrayLike, bar_values), a_min=0, a_max=None)
-
-            # Create a canvas for the plot
-            canvas = toyplot.Canvas(width=921, height=450)
-
-            # Add tree to canvas
-            ax0 = canvas.cartesian(bounds=(50, 300, 50, 400), ymin=0, ymax=tree.ntips, padding=15)
-
-            # Replace underscores with spaces for display purposes only
-            tree.draw(axes=ax0, tip_labels=[label.replace("_", " ") for label in tip_labels], tip_labels_colors="black")
-            ax0.show = False
-
-            # Add bar plot to canvas
-            ax1 = canvas.cartesian(bounds=(325, 900, 50, 400), ymin=0, ymax=tree.ntips, padding=15)
-            ax1.bars(
-                np.arange(tree.ntips),
-                bar_values,
-                along="y",
-            )
-
-            # Adjust the appearance for better visibility
-            ax1.show = True
-            ax1.y.show = False
-            ax1.x.ticks.show = True
-            ax1.x.label.text = selected_column
-
-            # Save and display the plot
-            self.temp_img_path = os.path.join(self.results_dir, f"{key}.png")
-            toyplot.png.render(canvas, self.temp_img_path)
-
-            pixmap = QPixmap(self.temp_img_path)
-            self.main.PhyloTreeLabel.clear()
-            self.main.PhyloTreeLabel.setPixmap(pixmap)
-            self.main.PhyloTreeLabel.adjustSize()
 
     def save_tree_graph(self):
-        current_key = self.tree_keys[self.current_index1]
+        download_file_local(self.key, self.main)
 
-        download_file_local(str(current_key), self.main)

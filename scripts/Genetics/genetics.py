@@ -291,9 +291,6 @@ class Genetics:
             show_error_dialog(f"An unexpected error occurred: {error_message}")
 
         if loading_screen := loading_dialog.LoadingDialog():
-            loading_screen.setupUi(loading_screen)
-            # loading_screen.close()
-            # loading_screen = uic.loadUi("scripts/Qt/loading.ui")
             loading_screen.setWindowFlags(Qt.WindowType.FramelessWindowHint)  # Remove the title bar and frame
 
             loading_screen.setWindowModality(Qt.WindowModality.ApplicationModal)

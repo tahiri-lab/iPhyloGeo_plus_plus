@@ -274,7 +274,6 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
     @connect_event("resultsButton", QtEvents.clicked)
     def show_results_section_click(self):
         self.navigation.show_results_section()
-        self.result.initialize_result_page()
 
     @connect_event("helpButton", QtEvents.clicked)
     def open_help_window_click(self):
@@ -305,6 +304,11 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
     @connect_event("downloadResultsPlotButton", QtEvents.clicked)
     def save_tree_graph_click(self):
         self.result.save_tree_graph()
+        
+    @connect_event("tabWidgetResult", QtEvents.currentChanged)
+    def on_result_tab_changed(self, index):
+        self.result.on_tab_changed(index)
+
 
     ################################
 
