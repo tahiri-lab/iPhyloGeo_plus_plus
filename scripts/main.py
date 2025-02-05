@@ -218,7 +218,15 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
     @connect_event("geneticSettingsButton", QtEvents.clicked)
     def open_genetic_settings_window_click(self):
         self.genetics.open_genetic_settings_window()
-
+        
+    @connect_event(["similarityWindowSizeSpinBox", "startingPositionSimilaritySpinBox"], QtEvents.valueChanged)
+    def update_similarity_plot_valueChanged(self):
+        self.genetics.update_similarity_plot()
+        
+    @connect_event(["referenceComboBox"], QtEvents.currentIndexChanged)
+    def update_similarity_plot_currentIndexChanged(self):
+        self.genetics.update_similarity_plot()
+        
     # CLIMATE
 
     @connect_event("statisticsButtonPage2", QtEvents.clicked)

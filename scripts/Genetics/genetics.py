@@ -19,6 +19,7 @@ from ui import loading_dialog
 from utils.download_file import download_file_local, download_file_temporary_PLT
 from utils.error_dialog import show_error_dialog
 from utils.my_dumper import update_yaml_param
+from event_connector import blocked_signals
 from worker import Worker
 
 
@@ -58,7 +59,6 @@ class Genetics:
 
     def initialize_species_list(self):
         # Load species names into the combo box
-        self.main.referenceComboBox.clear()
         unique_species = set()
         for _, value in self.msa.items():
             parts = value.strip().split("\n")
@@ -66,18 +66,10 @@ class Genetics:
                 header = parts[i].strip(">").replace("_", " ")  # Replace underscores with spaces
                 unique_species.add(header)
 
-        # Add unique species to the combo box
-        for species in unique_species:
-            self.main.referenceComboBox.addItem(species)
-
-        # Optionally set the first species as the default selected item
-        if self.main.referenceComboBox.count() > 0:
+        with blocked_signals(self.main.referenceComboBox):
+            self.main.referenceComboBox.clear()
+            self.main.referenceComboBox.addItems(unique_species)
             self.main.referenceComboBox.setCurrentIndex(0)
-
-        # Connect the value change signals to update the plot
-        self.main.similarityWindowSizeSpinBox.valueChanged.connect(self.update_similarity_plot)
-        self.main.startingPositionSimilaritySpinBox.valueChanged.connect(self.update_similarity_plot)
-        self.main.referenceComboBox.currentIndexChanged.connect(self.update_similarity_plot)
 
         # Generate the initial plot
         self.update_similarity_plot()
