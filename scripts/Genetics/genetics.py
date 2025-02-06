@@ -29,7 +29,7 @@ class Genetics:
         self.geneticTree = GeneticTree(main)
         self.worker = None
         self.msa = []
-        self.geneticTrees = []
+        self.geneticTrees = []       
 
     def update_plot(self):
         """
@@ -121,31 +121,32 @@ class Genetics:
             windowed_similarities = np.array(windowed_similarities)
 
             sns.set(style="whitegrid")
-            fig, ax = plt.subplots(figsize=(12, 8))
             x = np.arange(start_pos, len(reference_sequence) - window_size + 1, step_size)
 
-            for idx, record in enumerate(alignment):
-                ax.plot(x, windowed_similarities[idx], label=record.id, linewidth=2.0)
+            self.fig, self.ax = plt.subplots(figsize=(12, 8))
 
-            ax.set_xlabel("Position", fontsize=14)
-            ax.set_ylabel("Similarity", fontsize=14)
-            ax.set_title("Sequence Similarity Plot", fontsize=16, weight="bold")
-            ax.legend(
+            self.ax.set_xlabel("Position", fontsize=14)
+            self.ax.set_ylabel("Similarity", fontsize=14)
+            self.ax.set_title("Sequence Similarity Plot", fontsize=16, weight="bold")
+            self.ax.legend(
                 title="Species",
                 fontsize=12,
                 title_fontsize="13",
                 loc="upper right",
                 bbox_to_anchor=(1.2, 1),
             )
-            ax.xaxis.set_major_locator(MaxNLocator(integer=True))
-            ax.grid(True, linestyle="--", alpha=0.6)
+            self.ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+            self.ax.grid(True, linestyle="--", alpha=0.6)
 
-            ax.spines["top"].set_visible(False)
-            ax.spines["right"].set_visible(False)
-            ax.spines["left"].set_linewidth(1.2)
-            ax.spines["bottom"].set_linewidth(1.2)
+            self.ax.spines["top"].set_visible(False)
+            self.ax.spines["right"].set_visible(False)
+            self.ax.spines["left"].set_linewidth(1.2)
+            self.ax.spines["bottom"].set_linewidth(1.2)
+            
+            for idx, record in enumerate(alignment):
+                self.ax.plot(x, windowed_similarities[idx], label=record.id, linewidth=2.0)
 
-            pixmap = download_file_temporary_PLT("similarity_plot", fig)
+            pixmap = download_file_temporary_PLT("similarity_plot", self.fig)
 
             self.main.textEditGenStats_2.setPixmap(pixmap)
             self.main.textEditGenStats_2.setFixedSize(900, 400)

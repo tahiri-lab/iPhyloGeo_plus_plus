@@ -263,7 +263,7 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
 
     @connect_event("climaticTreescomboBox", QtEvents.currentIndexChanged)
     def show_selected_climatic_tree_click(self, index):
-        self.climat.climaticTree.show_selected_climatic_tree(index)
+        self.climat.climaticTree.show_climatic_tree(index)
 
     # NAVIGATION
 
