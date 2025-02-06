@@ -38,7 +38,11 @@ class Result:
         self.main.stackedWidget.setCurrentIndex(3)
 
         df = pd.read_csv(Params.file_name)
-        utils.filterResults(self.main.climat.climaticTree.climaticTrees, self.main.genetics.geneticTreeDict, df)
+        try:
+            utils.filterResults(self.main.climat.climaticTree.climaticTrees, self.main.genetics.geneticTreeDict, df)
+        except Exception as e:
+            show_error_dialog(str(e), "Aphylogeo Utils Error")
+            return
         df_results = pd.read_csv("./results/output.csv")
         df_results["Name of species"] = df_results["Name of species"].str.replace("_", " ")
         # Replace the first column values with Params.file_name just before visualization

@@ -20,7 +20,7 @@ from utils.download_file import download_file_local, download_file_temporary_PLT
 from utils.error_dialog import show_error_dialog
 from utils.my_dumper import update_yaml_param
 from event_connector import blocked_signals
-from worker import Worker
+from Worker import Worker
 
 
 class Genetics:
