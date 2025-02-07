@@ -14,6 +14,7 @@ from PyQt6.QtWebEngineWidgets import QWebEngineView
 from PyQt6.QtWidgets import QGraphicsDropShadowEffect, QVBoxLayout
 from Qt import main_ui
 from result import Result
+from ui_controllers import ClimatePageController, GeneticPageController, ResultPageController
 from ui_helpers import create_shadow_effect, get_button_style, style_buttons
 from utils import resources_rc  # noqa: F401  # Import the compiled resource module for resolving image resource path
 from utils.error_dialog import show_error_dialog
@@ -36,6 +37,9 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
         self.result = Result(self)
         self.setupUi(self)
         self.setup_ui()
+        self.geneticsPage = GeneticPageController(self)
+        self.climatePage = ClimatePageController(self)
+        self.resultPage = ResultPageController(self)
         connect_decorated_methods(self)
 
     def setup_ui(self):
@@ -173,100 +177,6 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
     def clear_results(self):
         self.textEditResults.clear()
 
-    # GENETICS
-
-    @connect_event("geneticTreeButtonPage1", QtEvents.clicked)
-    def display_newick_trees_click(self):
-        self.genetics.geneticTree.display_newick_trees()
-
-    @connect_event(["starting_position_spinbox_2", "window_size_spinbox_2"], QtEvents.valueChanged)
-    def update_plot_click(self):
-        self.genetics.update_plot()
-
-    @connect_event("statisticsButtonPage1", QtEvents.clicked)
-    def initialize_species_list_click(self):
-        self.genetics.initialize_species_list()
-
-    @connect_event("downloadSimilarityButton", QtEvents.clicked)
-    def download_similarity_plot_chart_click(self):
-        self.genetics.download_similarity_plot_chart()
-
-    @connect_event("fileBrowserButtonPage1", QtEvents.clicked)
-    def select_fasta_file_click(self):
-        self.genetics.select_fasta_file()
-
-    @connect_event("StartSequenceAlignmentButton", QtEvents.clicked)
-    def start_alignment_analysis_click(self):
-        self.genetics.start_alignment_analysis()
-
-    @connect_event("sequenceAlignmentButtonPage1", QtEvents.clicked)
-    def show_sequence_alignment_page_click(self):
-        self.genetics.show_sequence_alignment_page()
-
-    @connect_event("clearButtonPage1", QtEvents.clicked)
-    def clear_genetic_data_click(self):
-        self.genetics.clear_genetic_data()
-
-    @connect_event("geneticTreescomboBox", QtEvents.currentIndexChanged)
-    def show_tree_click(self, index):
-        self.genetics.geneticTree.show_tree(index)
-
-    @connect_event("downloadGraphButton", QtEvents.clicked)
-    def download_genetic_tree_graph_click(self):
-        self.genetics.geneticTree.download_genetic_tree_graph()
-
-    @connect_event("geneticSettingsButton", QtEvents.clicked)
-    def open_genetic_settings_window_click(self):
-        self.genetics.open_genetic_settings_window()
-        
-    @connect_event(["similarityWindowSizeSpinBox", "startingPositionSimilaritySpinBox"], QtEvents.valueChanged)
-    def update_similarity_plot_valueChanged(self):
-        self.genetics.update_similarity_plot()
-        
-    @connect_event(["referenceComboBox"], QtEvents.currentIndexChanged)
-    def update_similarity_plot_currentIndexChanged(self):
-        self.genetics.update_similarity_plot()
-        
-    # CLIMATE
-
-    @connect_event("statisticsButtonPage2", QtEvents.clicked)
-    def load_climate_statistics_click(self):
-        self.climat.load_climate_statistics()
-
-    @connect_event(["ClimaticChartSettingsAxisX", "ClimaticChartSettingsAxisY", "PlotTypesCombobox"], QtEvents.currentIndexChanged)
-    def generate_climate_graph_click(self):
-        self.climat.generate_climate_graph()
-
-    @connect_event("climatePlotDownloadButton", QtEvents.clicked)
-    def download_climate_plot_click(self):
-        self.climat.download_climate_plot()
-
-    @connect_event("fileBrowserButtonPage2", QtEvents.clicked)
-    def load_csv_climate_file_click(self):
-        self.climat.load_csv_climate_file()
-
-    @connect_event("clearButtonPage2", QtEvents.clicked)
-    def clear_climmatic_data_click(self):
-        self.climat.clear_climmatic_data()
-
-    @connect_event("climaticTreeButtonPage2", QtEvents.clicked)
-    def display_climatic_trees_click(self):
-        self.climat.climaticTree.display_climatic_trees()
-
-    @connect_event("downloadGraphButton2", QtEvents.clicked)
-    def download_climatic_tree_graph_click(self):
-        self.climat.climaticTree.download_climatic_tree_graph()
-
-    @connect_event("preferencesButton", QtEvents.clicked)
-    def open_climatic_tree_preferences_window_click(self):
-        self.climat.climaticTree.open_climatic_tree_preferences_window()
-
-    @connect_event("climaticTreescomboBox", QtEvents.currentIndexChanged)
-    def show_selected_climatic_tree_click(self, index):
-        self.climat.climaticTree.show_climatic_tree(index)
-
-    # NAVIGATION
-
     @connect_event("homeButton", QtEvents.clicked)
     def show_home_section_click(self):
         self.navigation.show_home_section()
@@ -286,37 +196,6 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
     @connect_event("helpButton", QtEvents.clicked)
     def open_help_window_click(self):
         self.navigation.open_help_window()
-
-    # RESULT
-
-    @connect_event("settingsButtonPage3", QtEvents.clicked)
-    def open_result_settings_window_click(self):
-        self.result.open_result_settings_window()
-
-    @connect_event("submitButtonPage3", QtEvents.clicked)
-    def show_filtered_results(self):
-        self.result.show_filtered_results()
-
-    @connect_event("clearButtonPage4", QtEvents.clicked)
-    def clear_result_click(self):
-        self.result.clear_result()
-
-    @connect_event(["statisticsButtonPage3"], QtEvents.clicked)
-    def display_phylogeographic_trees_click(self):
-        self.result.display_phylogeographic_trees()
-
-    @connect_event(["phyloTreescomboBox", "criteriaComboBox"], QtEvents.currentIndexChanged)
-    def render_tree_click(self, index):
-        self.result.render_tree(index)
-
-    @connect_event("downloadResultsPlotButton", QtEvents.clicked)
-    def save_tree_graph_click(self):
-        self.result.save_tree_graph()
-        
-    @connect_event("tabWidgetResult", QtEvents.currentChanged)
-    def on_result_tab_changed(self, index):
-        self.result.on_tab_changed(index)
-
 
     ################################
 

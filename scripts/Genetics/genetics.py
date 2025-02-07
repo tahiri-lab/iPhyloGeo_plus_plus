@@ -8,6 +8,7 @@ from aphylogeo.params import Params
 from Bio.Align import MultipleSeqAlignment
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
+from event_connector import blocked_signals
 from Genetics.genetic_params_dialog import ParamDialog
 from Genetics.genetics_plot_chart import plot_alignment_chart, read_msa, standardize_sequence_lengths
 from Genetics.genetics_tree import GeneticTree
@@ -19,8 +20,7 @@ from ui import loading_dialog
 from utils.download_file import download_file_local, download_file_temporary_PLT
 from utils.error_dialog import show_error_dialog
 from utils.my_dumper import update_yaml_param
-from event_connector import blocked_signals
-from Worker import Worker
+from worker import Worker
 
 
 class Genetics:
@@ -29,7 +29,7 @@ class Genetics:
         self.geneticTree = GeneticTree(main)
         self.worker = None
         self.msa = []
-        self.geneticTrees = []       
+        self.geneticTrees = []
 
     def update_plot(self):
         """
@@ -142,7 +142,7 @@ class Genetics:
             self.ax.spines["right"].set_visible(False)
             self.ax.spines["left"].set_linewidth(1.2)
             self.ax.spines["bottom"].set_linewidth(1.2)
-            
+
             for idx, record in enumerate(alignment):
                 self.ax.plot(x, windowed_similarities[idx], label=record.id, linewidth=2.0)
 

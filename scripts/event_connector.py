@@ -1,6 +1,7 @@
+from contextlib import contextmanager
 from enum import Enum
 from typing import List, Union
-from contextlib import contextmanager
+
 
 class QtEvents(str, Enum):
     # Buttons
@@ -23,8 +24,8 @@ class QtEvents(str, Enum):
 
     # Slider
     valueChanged = "valueChanged"
-    
-    #QTabWidget
+
+    # QTabWidget
     currentChanged = "currentChanged"
 
 
@@ -52,8 +53,21 @@ def connect_decorated_methods(widget):
                 signal = getattr(found_widget, widget_info["event"])
 
                 signal.connect(connector_method)
-                
-                
+
+
+def connect_decorated_methods_parent(controller, parent):
+    """Connects all decorated methods to their respective widgets"""
+    for attr_name in dir(controller):
+        print(attr_name)
+        connector_method = getattr(controller, attr_name, None)
+        if hasattr(connector_method, "_widget_info"):
+            widget_info = connector_method._widget_info
+            for name in widget_info["widget_name"]:
+                found_widget = getattr(parent, name)
+                signal = getattr(found_widget, widget_info["event"])
+                signal.connect(connector_method)
+
+
 @contextmanager
 def blocked_signals(*widgets):
     try:
