@@ -23,8 +23,8 @@ class ResultPageController:
         self.main_window.result.display_phylogeographic_trees()
 
     @connect_event(["phyloTreescomboBox", "criteriaComboBox"], QtEvents.currentIndexChanged)
-    def render_tree_click(self, index):
-        self.main_window.result.render_tree(index)
+    def render_tree_click(self):
+        self.main_window.result.render_tree()
 
     @connect_event("downloadResultsPlotButton", QtEvents.clicked)
     def save_tree_graph_click(self):

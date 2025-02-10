@@ -134,10 +134,10 @@ class Result:
             self.main.criteriaComboBox.clear()
             self.main.criteriaComboBox.addItems(self.climatic_data.columns[1:])        
 
-        self.render_tree(0)
+        self.render_tree()
 
-    def render_tree(self, index):
-        self.key = self.tree_keys[index]
+    def render_tree(self):
+        self.key = self.tree_keys[self.main.phyloTreescomboBox.currentIndex()]
     
         pixmap = generate_tree_with_bar(self.key, self.jsonData, self.main.criteriaComboBox.currentText(), self.climatic_data)
 
