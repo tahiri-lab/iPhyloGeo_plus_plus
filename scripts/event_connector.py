@@ -58,7 +58,6 @@ def connect_decorated_methods(widget):
 def connect_decorated_methods_parent(controller, parent):
     """Connects all decorated methods to their respective widgets"""
     for attr_name in dir(controller):
-        print(attr_name)
         connector_method = getattr(controller, attr_name, None)
         if hasattr(connector_method, "_widget_info"):
             widget_info = connector_method._widget_info

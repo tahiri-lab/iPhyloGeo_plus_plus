@@ -14,7 +14,7 @@ class ResultPageController:
     def show_filtered_results(self):
         self.main_window.result.show_filtered_results()
 
-    @connect_event("clearButtonPage4", QtEvents.clicked)
+    @connect_event("clearButtonPage3", QtEvents.clicked)
     def clear_result_click(self):
         self.main_window.result.clear_result()
 

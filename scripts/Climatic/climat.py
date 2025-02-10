@@ -187,11 +187,9 @@ class Climat:
                 update_yaml_param(Params, "scripts/utils/params.yaml", "data_names", clim_data_names)
 
                 self.main.textEditClimData.clear()
-                sleek_table = create_sleek_table(df)
+                self.sleek_table = create_sleek_table(df)
 
-                # Add the table widget to the textEditClimData layout
-                layout = QVBoxLayout(self.main.textEditClimData)
-                layout.addWidget(sleek_table)
+                self.main.climatTableLayout.addWidget(self.sleek_table)
 
                 self.climaticTree.climaticTrees = utils.climaticPipeline(df)
                 self.tree_keys = list(self.climaticTree.climaticTrees.keys())
@@ -220,10 +218,21 @@ class Climat:
         This method disables buttons related to climatic data and clears the necessary fields.
         """
         try:
+            with blocked_signals(self.main.ClimaticChartSettingsAxisX, self.main.ClimaticChartSettingsAxisY):
+                self.main.ClimaticChartSettingsAxisX.clear()
+                self.main.ClimaticChartSettingsAxisY.clear()
+                
+            self.climaticTree.climaticTrees.clear()
+            self.main.ClimaticChart_2.clear()
+            self.main.climaticTreesLabel.clear()
+            self.main.climatTableLayout.removeWidget(self.sleek_table)
+            self.sleek_table.deleteLater()          
+            self.main.mapView.setHtml("")          
+            
             self.main.statisticsButtonPage2.setEnabled(False)
             self.main.climaticTreeButtonPage2.setEnabled(False)
             self.main.resultsButton.setEnabled(False)
-            self.climaticTree.climaticTrees.clear()
+            self.main.tabWidget2.setCurrentIndex(0)
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}", "Error")
             

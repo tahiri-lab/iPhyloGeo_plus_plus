@@ -113,7 +113,10 @@ class Result:
         """
         try:
             self.main.textEditResults.clear()
-            # self.graphicsViewClimData.clear()
+            self.main.genetics.clear_genetic_data()
+            self.main.climat.clear_climmatic_data()
+            self.main.stackedWidget.setCurrentIndex(0)
+            self.main.resultsButton.setEnabled(False)
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}", "Error")
 

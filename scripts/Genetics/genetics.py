@@ -309,12 +309,14 @@ class Genetics:
             self.main.textEditFasta.clear()
             self.main.seqAlignLabel.clear()
             self.main.textEditGenStats_2.clear()
+            self.main.GeneticTreeLabel.clear()
+            self.geneticTreeDict = None
+            
             self.main.sequenceAlignmentButtonPage1.setEnabled(False)
             self.main.statisticsButtonPage1.setEnabled(False)
             self.main.geneticTreeButtonPage1.setEnabled(False)
-            self.main.GeneticTreeLabel.clear()
             self.main.resultsButton.setEnabled(False)
-            self.geneticTreeDict = None
+            self.main.tabWidget.setCurrentIndex(0)
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}")
 

@@ -54,6 +54,8 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
             self.mapView = QWebEngineView(self.graphicsViewClimData)
             self.maplayout.addWidget(self.mapView)
             self.graphicsViewClimData.setLayout(self.maplayout)
+            
+            self.climatTableLayout = QVBoxLayout(self.textEditClimData)
 
             self.setObjectName("MainWindow")
             self.window_size_spinbox_2.setRange(1, 1000)
@@ -173,9 +175,6 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
                 "Unexpected Error",
             )
 
-    @connect_event("clearButtonPage3", QtEvents.clicked)
-    def clear_results(self):
-        self.textEditResults.clear()
 
     @connect_event("homeButton", QtEvents.clicked)
     def show_home_section_click(self):
