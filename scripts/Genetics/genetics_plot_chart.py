@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from collections import Counter
 
+from collections import defaultdict
+
 def read_msa(msa_data):
     """
     Reads multiple sequence alignment (MSA) data and organizes it into a dictionary.
@@ -18,21 +20,16 @@ def read_msa(msa_data):
     Returns:
         dict: A dictionary with sequence identifiers as keys and concatenated sequences as values.
     """
-    try:
-        genetic_data = {}
+    try:       
+        msa = defaultdict(str)
         for _, value in msa_data.items():
-            lines = value.strip().split("\n")
-            current_id = None
-            for line in lines:
-                if line.startswith(">"):
-                    current_id = line[1:].strip()
-                    if current_id not in genetic_data:
-                        genetic_data[current_id] = []
-                else:
-                    genetic_data[current_id].append(line.strip())
-
-        genetic_data = {sequence_id: "".join(sequences) for sequence_id, sequences in genetic_data.items()}
-        return genetic_data
+                parts = value.strip().split("\n")
+                for i in range(0, len(parts), 2):
+                    header = parts[i].strip(">")
+                    sequence = parts[i + 1]
+                    msa[header.replace("_", " ")] += sequence  # Replace underscores with spaces
+                                   
+        return msa
 
     except KeyError as e:
         show_error_dialog(f"Key Error: {e}")
@@ -73,9 +70,6 @@ def plot_alignment_chart(genetic_data, starting_position, window_size):
         None
     """
     try:
-        # Replace underscores with spaces in the keys of genetic_data
-        genetic_data = {key.replace("_", " "): value for key, value in genetic_data.items()}
-
         end_position = starting_position + window_size
         truncated_data = {key: value[starting_position:end_position] for key, value in genetic_data.items()}
         alignment = MultipleSeqAlignment([SeqRecord(Seq(seq), id=key) for key, seq in truncated_data.items()])

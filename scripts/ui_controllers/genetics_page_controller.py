@@ -1,4 +1,5 @@
 from event_connector import QtEvents, connect_decorated_methods_parent, connect_event
+from Genetics.genetics import open_genetic_settings_window
 
 
 class GeneticPageController:
@@ -48,7 +49,7 @@ class GeneticPageController:
 
     @connect_event("geneticSettingsButton", QtEvents.clicked)
     def open_genetic_settings_window_click(self):
-        self.main_window.genetics.open_genetic_settings_window()
+        open_genetic_settings_window()
 
     @connect_event(["similarityWindowSizeSpinBox", "startingPositionSimilaritySpinBox"], QtEvents.valueChanged)
     def update_similarity_plot_valueChanged(self):

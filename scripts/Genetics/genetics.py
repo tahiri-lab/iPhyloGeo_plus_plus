@@ -1,5 +1,4 @@
 import os
-from collections import defaultdict
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -28,8 +27,8 @@ class Genetics:
         self.main = main
         self.geneticTree = GeneticTree(main)
         self.worker = None
-        self.msa = []
-        self.geneticTrees = []
+        self.msa = {}
+        self.geneticTrees = []       
 
     def update_plot(self):
         """
@@ -45,8 +44,7 @@ class Genetics:
             starting_position = self.main.starting_position_spinbox_2.value()
             window_size = self.main.window_size_spinbox_2.value()
 
-            genetic_data = read_msa(self.msa)
-            standardized_data = standardize_sequence_lengths(genetic_data)
+            standardized_data = standardize_sequence_lengths(self.msa)
             pixmap = plot_alignment_chart(standardized_data, starting_position, window_size)
 
             self.main.seqAlignLabel.setPixmap(pixmap)
@@ -59,12 +57,7 @@ class Genetics:
 
     def initialize_species_list(self):
         # Load species names into the combo box
-        unique_species = set()
-        for _, value in self.msa.items():
-            parts = value.strip().split("\n")
-            for i in range(0, len(parts), 2):
-                header = parts[i].strip(">").replace("_", " ")  # Replace underscores with spaces
-                unique_species.add(header)
+        unique_species = set(self.msa.keys())
 
         with blocked_signals(self.main.referenceComboBox):
             self.main.referenceComboBox.clear()
@@ -80,17 +73,7 @@ class Genetics:
             start_pos = self.main.startingPositionSimilaritySpinBox.value()
             reference_species = self.main.referenceComboBox.currentText().replace(" ", "_")  # Convert back to original format
 
-            sequences = defaultdict(str)
-            for _, value in self.msa.items():
-                parts = value.strip().split("\n")
-                for i in range(0, len(parts), 2):
-                    header = parts[i].strip(">")
-                    sequence = parts[i + 1]
-                    sequences[header.replace("_", " ")] += sequence  # Replace underscores with spaces
-
-            if reference_species.replace("_", " ") not in sequences:
-                print(f"Reference species {reference_species} not found in MSA data.")
-                return
+            sequences = self.msa
 
             max_len = max(len(seq) for seq in sequences.values())
             padded_records = []
@@ -154,7 +137,7 @@ class Genetics:
 
             self.main.tabWidget.setCurrentIndex(3)
         except Exception as e:
-            print(f"Error updating similarity plot: {e}")
+            show_error_dialog(f"Error updating similarity plot: {e}")
 
     def download_similarity_plot_chart(self):
         download_file_local("similarity_plot", self.main)
@@ -199,31 +182,8 @@ class Genetics:
 
                 with open(fullFileName, "r") as f:
                     self.clear_genetic_data()
-                    content = f.read()
-                    sequence = ""
-                    for line in content.splitlines():
-                        if line.startswith(">"):
-                            species_title = line[1:].replace("_", " ")  # Replace underscores with whitespace
-                            line = f'<span style="color: darkgreen; font-size: 24px;">{species_title}</span>'
-                            sequence += "<br>" + line + "<br>"
-                        else:
-                            nucleotide_colors = {
-                                "A": "green",
-                                "C": "blue",
-                                "G": "red",
-                                "T": "black",
-                            }
-                            colored_line = ""
-                            for char in line:
-                                color = nucleotide_colors.get(char, "")
-                                if color:
-                                    colored_line += f'<span style="color: {color}; font-size: 20px;">{char}</span>'
-                                else:
-                                    colored_line += char
-                            sequence += colored_line + " "
-
                     self.main.textEditFasta.setHtml(
-                        f"<div style='background-color: #ffffff; color: #000000; padding: 10px; white-space: pre-wrap; word-wrap: break-word;'>{sequence}</div>"
+                        f"<div style='background-color: #ffffff; color: #000000; padding: 10px; white-space: pre-wrap; word-wrap: break-word;'>{generate_html_from_fasta(f)}</div>"
                     )
                     self.main.sequenceAlignmentButtonPage1.setEnabled(True)
                     self.main.sequenceAlignmentButtonPage1.setIcon(QIcon(":inactive/sequence.svg"))
@@ -271,7 +231,8 @@ class Genetics:
 
         def handle_finished(result):
             loading_screen.close()
-            self.msa = result["msa"]
+            msa = result["msa"]
+            self.msa = read_msa(msa)
             self.geneticTrees = result["geneticTrees"]
             self.main.geneticTreeButtonPage1.setEnabled(True)
             self.update_plot()
@@ -361,6 +322,31 @@ class Genetics:
         if self.worker:
             self.worker.stop()
 
-    def open_genetic_settings_window(self):
-        dialog = ParamDialog()
-        dialog.exec()
+def open_genetic_settings_window():
+    dialog = ParamDialog()
+    dialog.exec()
+
+def generate_html_from_fasta(file):   
+    content = file.read()
+    sequence = ""
+    for line in content.splitlines():
+        if line.startswith(">"):
+            species_title = line[1:].replace("_", " ")  # Replace underscores with whitespace
+            line = f'<span style="color: darkgreen; font-size: 24px;">{species_title}</span>'
+            sequence += "<br>" + line + "<br>"
+        else:
+            nucleotide_colors = {
+                "A": "green",
+                "C": "blue",
+                "G": "red",
+                "T": "black",
+            }
+            colored_line = ""
+            for char in line:
+                color = nucleotide_colors.get(char, "")
+                if color:
+                    colored_line += f'<span style="color: {color}; font-size: 20px;">{char}</span>'
+                else:
+                    colored_line += char
+            sequence += colored_line + " "
+    return sequence
