@@ -56,7 +56,7 @@ def standardize_sequence_lengths(genetic_data):
     except Exception as e:
         show_error_dialog(f"An unexpected error occurred: {e}")
 
-def plot_alignment_chart(genetic_data, starting_position, window_size):
+def plot_alignment_chart(genetic_data, starting_position, window_size, isDarkMode):
     """
     Plots an alignment chart with conservation and sequence alignment.
 
@@ -74,7 +74,7 @@ def plot_alignment_chart(genetic_data, starting_position, window_size):
         truncated_data = {key: value[starting_position:end_position] for key, value in genetic_data.items()}
         alignment = MultipleSeqAlignment([SeqRecord(Seq(seq), id=key) for key, seq in truncated_data.items()])
 
-        _, (ax1, ax2) = plt.subplots(2, 1, figsize=(9, 4), gridspec_kw={"height_ratios": [1, 8]})
+        _, (ax1, ax2) = plt.subplots(2, 1, figsize=(9, 4), gridspec_kw={"height_ratios": [1, 8]}, facecolor="gray" if isDarkMode else "white")
         ax1.set_axis_off()
         ax2.set_axis_off()
 

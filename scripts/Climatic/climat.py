@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from aphylogeo import utils
 from aphylogeo.params import Params
 
-from PyQt6.QtWidgets import QFileDialog, QVBoxLayout
+from PyQt6.QtWidgets import QFileDialog
 
 from utils.error_dialog import show_error_dialog
 from utils.my_dumper import update_yaml_param

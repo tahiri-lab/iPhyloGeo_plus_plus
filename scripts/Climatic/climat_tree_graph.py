@@ -49,9 +49,13 @@ def get_tree_graph(tree):
         label_color = ClimaticGraphSettings.label_color
         use_leaf_names = ClimaticGraphSettings.use_leaf_names
         show_branch_length = ClimaticGraphSettings.show_branch_length
+        edge_color = ClimaticGraphSettings.edge_color
         
         fig = plt.figure(figsize=(9.11, 4.41))  # Limit size to 911x441 pixels
         ax = fig.add_subplot(1, 1, 1)
+        
+        for clade in tree.find_clades():
+            clade.color = edge_color
 
         # Draw the tree using Matplotlib
         def label_func(clade):
@@ -103,6 +107,9 @@ def create_node_trace(graph, pos):
                 line_width=2,
                 color=label_color,
             ),
+            textfont=dict(
+                color=label_color
+            )
         )
 
         for node in graph.nodes():

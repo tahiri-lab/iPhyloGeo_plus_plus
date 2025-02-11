@@ -107,11 +107,9 @@ class ParamDialog(QDialog):
         self.setStyleSheet(
             """
             QWidget {
-                background-color: #f0f0f0;
                 font-family: Arial, sans-serif;
             }
             QLabel {
-                color: #333;
                 font-size: 14px;
             }
             QLineEdit {

@@ -27,7 +27,7 @@ class HelpDialog(QDialog):
         title_label = QLabel("Help - aPhyloGeo")
         title_label.setFont(QFont("Helvetica", 28, QFont.Weight.Bold))
         title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        title_label.setStyleSheet("color: #2C3E50; margin-bottom: 20px;")
+        title_label.setStyleSheet("margin-bottom: 20px;")
         content_layout.addRow(title_label)
 
         sections = [
@@ -77,7 +77,7 @@ class HelpDialog(QDialog):
 
             section_title = QLabel(section["title"])
             section_title.setFont(QFont("Helvetica", 22, QFont.Weight.Bold))
-            section_title.setStyleSheet("color: #2C3E50; margin-bottom: 10px;")
+            section_title.setStyleSheet("margin-bottom: 10px;")
             section_title.setWordWrap(True)
             section_layout.addWidget(section_title)
 
@@ -90,7 +90,7 @@ class HelpDialog(QDialog):
             for instruction in section["instructions"]:
                 instruction_label = QLabel(f"- {instruction}")
                 instruction_label.setFont(QFont("Helvetica", 14))
-                instruction_label.setStyleSheet("color: #2C3E50; margin-left: 20px;")
+                instruction_label.setStyleSheet("margin-left: 20px;")
                 instruction_label.setWordWrap(True)
                 section_layout.addWidget(instruction_label)
 

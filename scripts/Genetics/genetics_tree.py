@@ -43,7 +43,7 @@ class GeneticTree:
         """
         self.key = self.tree_keys[index]
         
-        pixmap = generate_tree(self.key, self.jsonData)
+        pixmap = generate_tree(self.key, self.jsonData, self.main.isDarkMode)
 
         # Clear the QLabel before setting the new QPixmap
         self.main.GeneticTreeLabel.clear()

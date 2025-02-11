@@ -14,12 +14,10 @@ def create_sleek_table(df):
     table_widget.setStyleSheet(
         """
         QTableWidget {
-            background-color: #f2f2f2;
             border: 1px solid #ddd;
         }
         QHeaderView::section {
             background-color: #4CAF50;
-            color: white;
             font-weight: bold;
             border: none;
             padding: 5px;

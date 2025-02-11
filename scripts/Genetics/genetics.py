@@ -45,7 +45,7 @@ class Genetics:
             window_size = self.main.window_size_spinbox_2.value()
 
             standardized_data = standardize_sequence_lengths(self.msa)
-            pixmap = plot_alignment_chart(standardized_data, starting_position, window_size)
+            pixmap = plot_alignment_chart(standardized_data, starting_position, window_size, self.main.isDarkMode)
 
             self.main.seqAlignLabel.setPixmap(pixmap)
             self.main.tabWidget.setCurrentIndex(2)
@@ -106,7 +106,7 @@ class Genetics:
             sns.set(style="whitegrid")
             x = np.arange(start_pos, len(reference_sequence) - window_size + 1, step_size)
 
-            self.fig, self.ax = plt.subplots(figsize=(12, 8))
+            self.fig, self.ax = plt.subplots(figsize=(12, 8), facecolor="gray" if self.main.isDarkMode else "white")
 
             self.ax.set_xlabel("Position", fontsize=14)
             self.ax.set_ylabel("Similarity", fontsize=14)
@@ -183,10 +183,9 @@ class Genetics:
                 with open(fullFileName, "r") as f:
                     self.clear_genetic_data()
                     self.main.textEditFasta.setHtml(
-                        f"<div style='background-color: #ffffff; color: #000000; padding: 10px; white-space: pre-wrap; word-wrap: break-word;'>{generate_html_from_fasta(f)}</div>"
+                        f"<div style='padding: 10px; white-space: pre-wrap; word-wrap: break-word;'>{generate_html_from_fasta(f, self.main.isDarkMode)}</div>"
                     )
                     self.main.sequenceAlignmentButtonPage1.setEnabled(True)
-                    self.main.sequenceAlignmentButtonPage1.setIcon(QIcon(":inactive/sequence.svg"))
                     self.main.tabWidget.setCurrentIndex(1)
         except FileNotFoundError as e:
             show_error_dialog(f"File Not Found Error: {e}")
@@ -234,8 +233,8 @@ class Genetics:
             msa = result["msa"]
             self.msa = read_msa(msa)
             self.geneticTrees = result["geneticTrees"]
-            self.main.geneticTreeButtonPage1.setEnabled(True)
             self.update_plot()
+            self.main.geneticTreeButtonPage1.setEnabled(True)
             self.main.statisticsButtonPage1.setEnabled(True)
             if self.main.climaticTreeButtonPage2.isEnabled():
                 self.main.resultsButton.setEnabled(True)
@@ -328,7 +327,7 @@ def open_genetic_settings_window():
     dialog = ParamDialog()
     dialog.exec()
 
-def generate_html_from_fasta(file):   
+def generate_html_from_fasta(file, isDarkMode):   
     content = file.read()
     sequence = ""
     for line in content.splitlines():
@@ -341,7 +340,7 @@ def generate_html_from_fasta(file):
                 "A": "green",
                 "C": "blue",
                 "G": "red",
-                "T": "black",
+                "T": "gray" if isDarkMode else "black",
             }
             colored_line = ""
             for char in line:

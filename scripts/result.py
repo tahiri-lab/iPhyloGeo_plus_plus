@@ -142,7 +142,7 @@ class Result:
     def render_tree(self):
         self.key = self.tree_keys[self.main.phyloTreescomboBox.currentIndex()]
     
-        pixmap = generate_tree_with_bar(self.key, self.jsonData, self.main.criteriaComboBox.currentText(), self.climatic_data)
+        pixmap = generate_tree_with_bar(self.key, self.jsonData, self.main.criteriaComboBox.currentText(), self.climatic_data, self.main.isDarkMode)
 
         self.main.PhyloTreeLabel.clear()
         self.main.PhyloTreeLabel.setPixmap(pixmap)

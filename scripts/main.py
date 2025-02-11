@@ -82,7 +82,6 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
                 self.statisticsButtonPage3,
                 self.submitButtonPage4,
                 self.statisticsButtonPage4,
-                self.StartSequenceAlignmentButton,
                 self.clearButtonPage3,
                 self.clearButtonPage4,
             ]

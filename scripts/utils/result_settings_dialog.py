@@ -269,7 +269,7 @@ class ResultSettingsDialog(QDialog):
         self.bootstrapValue.setText(_translate("Dialog", "Bootstrap threshold"))
         self.metricThreshold.setText(_translate("Dialog", "Metric threshold"))
         self.paramsDetails.setTitle(_translate("Dialog", "Details"))
-        self.textEdit.setPlaceholderText(_translate("Dialog", "Hover over the parameter you want details about..."))
+        self.textEdit.setText(_translate("Dialog", "Hover over the parameter you want details about..."))
 
     def saveData(self):
         metrics = self.comboBox_metrics.currentIndex()
@@ -289,14 +289,12 @@ class ResultSettingsDialog(QDialog):
         self.setStyleSheet(
             """
             QDialog {
-                background-color: #f8f9fa;
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             }
             QGroupBox {
                 border: 1px solid #d1d1d1;
                 border-radius: 5px;
                 margin-top: 5px;
-                background-color: #fff;
             }
             QGroupBox::title {
                 subcontrol-origin: margin;
@@ -304,11 +302,9 @@ class ResultSettingsDialog(QDialog):
                 padding: 3px 5px;
                 font-size: 13px;
                 font-weight: bold;
-                color: #343a40;
             }
             QLabel {
                 font-size: 12px;
-                color: #495057;
             }
             QPushButton {
                 background-color: #007bff;
@@ -331,24 +327,18 @@ class ResultSettingsDialog(QDialog):
                 border: 1px solid #ced4da;
                 border-radius: 5px;
                 padding: 5px;
-                background-color: #fff;
-                color: #495057;
                 font-size: 12px;
             }
             QComboBox {
                 border: 1px solid #ced4da;
                 border-radius: 5px;
                 padding: 5px;
-                background-color: #fff;
-                color: #495057;
                 font-size: 12px;
             }
             QSpinBox {
                 border: 1px solid #ced4da;
                 border-radius: 5px;
                 padding: 5px;
-                background-color: #fff;
-                color: #495057;
                 font-size: 12px;
             }
         """
