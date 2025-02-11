@@ -3,9 +3,7 @@ import sys
 import qtmodern.styles
 import qtmodern.windows
 from aphylogeo.params import Params
-from Climatic.climat import Climat
 from event_connector import QtEvents, connect_decorated_methods, connect_event
-from Genetics.genetics import Genetics
 from navigation import Navigation
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtCore import Qt, QThread
@@ -13,7 +11,6 @@ from PyQt6.QtGui import QColor, QIcon
 from PyQt6.QtWebEngineWidgets import QWebEngineView
 from PyQt6.QtWidgets import QGraphicsDropShadowEffect, QVBoxLayout
 from Qt import main_ui
-from result import Result
 from ui_controllers import ClimatePageController, GeneticPageController, ResultPageController
 from ui_helpers import create_shadow_effect, get_button_style, style_buttons
 from utils import resources_rc  # noqa: F401  # Import the compiled resource module for resolving image resource path
@@ -31,10 +28,7 @@ starting_position = 1
 class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        self.genetics = Genetics(self)
-        self.climat = Climat(self)
         self.navigation = Navigation(self)
-        self.result = Result(self)
         self.setupUi(self)
         self.setup_ui()
         self.geneticsPage = GeneticPageController(self)
@@ -54,7 +48,7 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
             self.mapView = QWebEngineView(self.graphicsViewClimData)
             self.maplayout.addWidget(self.mapView)
             self.graphicsViewClimData.setLayout(self.maplayout)
-            
+
             self.climatTableLayout = QVBoxLayout(self.textEditClimData)
 
             self.setObjectName("MainWindow")
@@ -175,7 +169,6 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
                 "Unexpected Error",
             )
 
-
     @connect_event("homeButton", QtEvents.clicked)
     def show_home_section_click(self):
         self.navigation.show_home_section()
@@ -199,7 +192,7 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
     ################################
 
     def stop_thread(self):
-        self.genetics.stopWorker()
+        self.geneticsPage.genetics.stopWorker()
         currThread = self.thread()
         if currThread is QThread:
             if currThread.isRunning():
