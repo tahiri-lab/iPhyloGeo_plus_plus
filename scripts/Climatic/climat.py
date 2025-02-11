@@ -20,6 +20,7 @@ class Climat:
     def __init__(self, main):
         self.main = main
         self.climaticTree = ClimaticTree(main)
+        self.sleek_table = None
 
     def load_climate_statistics(self):
         """
@@ -187,6 +188,10 @@ class Climat:
                 update_yaml_param(Params, "scripts/utils/params.yaml", "data_names", clim_data_names)
 
                 self.main.textEditClimData.clear()
+                if self.sleek_table is not None:
+                    self.main.climatTableLayout.removeWidget(self.sleek_table)
+                    self.sleek_table.deleteLater()  
+                    
                 self.sleek_table = create_sleek_table(df)
 
                 self.main.climatTableLayout.addWidget(self.sleek_table)

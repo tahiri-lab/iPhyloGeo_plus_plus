@@ -1,11 +1,11 @@
 from event_connector import QtEvents, connect_decorated_methods_parent, connect_event
 
-from scripts.result import Result
+from result import Result
 
 
 class ResultPageController:
     def __init__(self, main_window) -> None:
-        self.result = Result(self)
+        self.result = Result(main_window)
         connect_decorated_methods_parent(self, main_window)
 
     @connect_event("settingsButtonPage3", QtEvents.clicked)

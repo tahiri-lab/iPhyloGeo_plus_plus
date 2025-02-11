@@ -18,6 +18,7 @@ def create_sleek_table(df):
         }
         QHeaderView::section {
             background-color: #4CAF50;
+            color: white;
             font-weight: bold;
             border: none;
             padding: 5px;

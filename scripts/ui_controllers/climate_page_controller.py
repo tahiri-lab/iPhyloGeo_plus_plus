@@ -4,7 +4,7 @@ from event_connector import QtEvents, connect_decorated_methods_parent, connect_
 
 class ClimatePageController:
     def __init__(self, main_window) -> None:
-        self.climat = Climat(self)
+        self.climat = Climat(main_window)
         connect_decorated_methods_parent(self, main_window)
 
     @connect_event("statisticsButtonPage2", QtEvents.clicked)

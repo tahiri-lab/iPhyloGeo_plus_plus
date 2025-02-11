@@ -4,7 +4,7 @@ from Genetics.genetics import Genetics, open_genetic_settings_window
 
 class GeneticPageController:
     def __init__(self, main_window) -> None:
-        self.genetics = Genetics(self)
+        self.genetics = Genetics(main_window)
         connect_decorated_methods_parent(self, main_window)
 
     @connect_event("geneticTreeButtonPage1", QtEvents.clicked)
