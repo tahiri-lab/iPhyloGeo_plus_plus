@@ -231,7 +231,8 @@ class Climat:
             self.main.ClimaticChart_2.clear()
             self.main.climaticTreesLabel.clear()
             self.main.climatTableLayout.removeWidget(self.sleek_table)
-            self.sleek_table.deleteLater()          
+            self.sleek_table.deleteLater()
+            self.sleek_table = None          
             self.main.mapView.setHtml("")          
             
             self.main.statisticsButtonPage2.setEnabled(False)
