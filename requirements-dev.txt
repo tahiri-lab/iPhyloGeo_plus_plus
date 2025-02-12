@@ -11,3 +11,6 @@ pathspec==0.12.1
 pre_commit==4.0.1
 ruff==0.7.3
 virtualenv==20.27.1
+PySide6==6.8.1.1
+PySide6_Addons==6.8.1.1
+PySide6_Essentials==6.8.1.1

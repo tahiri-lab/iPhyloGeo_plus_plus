@@ -497,10 +497,10 @@
      <string notr="true">background-color: rgb(222, 221, 218);</string>
     </property>
     <property name="frameShape">
-     <enum>QFrame::NoFrame</enum>
+     <enum>QFrame::Shape::NoFrame</enum>
     </property>
     <property name="frameShadow">
-     <enum>QFrame::Sunken</enum>
+     <enum>QFrame::Shadow::Sunken</enum>
     </property>
     <widget class="QPushButton" name="helpButton">
      <property name="geometry">
@@ -518,7 +518,7 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="../../img/resources.qrc">
+      <iconset>
        <normaloff>:/other/help.svg</normaloff>:/other/help.svg</iconset>
      </property>
      <property name="iconSize">
@@ -558,7 +558,7 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="../../img/resources.qrc">
+      <iconset>
        <normaloff>:/inactive/climaticData.svg</normaloff>:/inactive/climaticData.svg</iconset>
      </property>
      <property name="iconSize">
@@ -593,7 +593,7 @@
       <bool>true</bool>
      </property>
      <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <set>Qt::AlignmentFlag::AlignCenter</set>
      </property>
     </widget>
     <widget class="QPushButton" name="geneticDataButton">
@@ -620,7 +620,7 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="../../img/resources.qrc">
+      <iconset>
        <normaloff>:/inactive/genetic.svg</normaloff>:/inactive/genetic.svg</iconset>
      </property>
      <property name="iconSize">
@@ -650,41 +650,40 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-                            color: white; /* White text */
-                            border: none;
-                            border-radius: 5px; /* Rounded corners */
-                            padding: 10px 20px; /* Button padding */
-                            font-weight: bold; /* Slightly bold text */
-                            transition: background-color 0.3s ease border-color 0.3s ease;
-                            box-shadow 0.3s ease, transform 0.3s ease; /* Transitions for smooth effects */
-                            }
+              color: white; /* White text */
+              border: none;
+              border-radius: 5px; /* Rounded corners */
+              padding: 10px 20px; /* Button padding */
+              font-weight: bold; /* Slightly bold text */
+              box-shadow 0.3s ease, transform 0.3s ease; /* Transitions for smooth effects */
+              }
 
-                            QPushButton:hover {
-                            background-color: #444; /* Slightly lighter on hover */
-                            border-color: #777; /* Even lighter border on hover */
-                            box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.3); /* Subtle glow effect */
-                            transform: scale(1.05); /* Slightly increase size on hover */
-                            }
+              QPushButton:hover {
+              background-color: #444; /* Slightly lighter on hover */
+              border-color: #777; /* Even lighter border on hover */
+              box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.3); /* Subtle glow effect */
+              transform: scale(1.05); /* Slightly increase size on hover */
+              }
 
-                            /* Optional: Color Pulsing Animation */
-                            @keyframes pulse {
+              /* Optional: Color Pulsing Animation */
+              @keyframes pulse {
 
-                            0% { background-color: #444; }
+              0% { background-color: #444; }
 
-                            100% { background-color: #555; }
-                            }
+              100% { background-color: #555; }
+              }
 
-                            QPushButton:hover {
-                            /* ... other hover styles ... */
-                            animation: pulse 1.5s infinite alternate; /* Adjust speed and behavior if needed */
-                            }
-                        </string>
+              QPushButton:hover {
+              /* ... other hover styles ... */
+              animation: pulse 1.5s infinite alternate; /* Adjust speed and behavior if needed */
+              }
+            </string>
      </property>
      <property name="text">
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="../../img/resources.qrc">
+      <iconset>
        <normaloff>:/other/dark.png</normaloff>:/other/dark.png</iconset>
      </property>
      <property name="iconSize">
@@ -709,13 +708,13 @@
       </font>
      </property>
      <property name="toolTip">
-      <string>Genetic Data</string>
+      <string>Home</string>
      </property>
      <property name="text">
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="../../img/resources.qrc">
+      <iconset>
        <normaloff>:/active/home.png</normaloff>:/active/home.png</iconset>
      </property>
      <property name="iconSize">
@@ -750,10 +749,11 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="../../img/resources.qrc">
+      <iconset>
        <normaloff>:/inactive/result.svg</normaloff>
        <activeon>:/active/result.svg</activeon>
-       <selectedon>:/active/result.svg</selectedon>:/inactive/result.svg</iconset>
+       <selectedon>
+              :/active/result.svg</selectedon>:/inactive/result.svg</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -798,16 +798,16 @@
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
+       <enum>QFrame::Shape::NoFrame</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
+       <enum>QFrame::Shadow::Raised</enum>
       </property>
       <widget class="QTextEdit" name="HomeText">
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>10</y>
+         <y>30</y>
          <width>1121</width>
          <height>531</height>
         </rect>
@@ -826,22 +826,63 @@
        <property name="readOnly">
         <bool>true</bool>
        </property>
+       <property name="markdown">
+        <string>**Welcome to iPhyloGeo**
+
+Thank you for downloading our software.
+
+Here is your guide to using ***iPhyloGeo:***
+
+You can get help by clicking the Help button in the top right corner. 
+
+To toggle Dark mode, click the moon-shaped button in the top right corner.
+
+You can process two types of data extractions: **&quot;Genetic Data&quot;** and **&quot;Climatic
+Data&quot;**.
+
+You can return to the home menu via the **&quot;Home&quot;** button.
+
+Once you've selected the method you want to apply to your data, a side menu
+with new buttons will appear, 
+
+allowing you to choose and manipulate the files.
+
+Results will be outputted in a CSV file that you can rename and place wherever
+you want.
+
+For more specific information, click the Help button to get details about each
+algorithm.  
+
+**© 2024 iPhyloGeo. All rights reserved.**
+
+</string>
+       </property>
        <property name="html">
         <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;title&gt;iPhyloGeo Welcome&lt;/title&gt;&lt;style type=&quot;text/css&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; font-weight:400; font-style:normal;&quot; bgcolor=&quot;#f4f4f4&quot;&gt;
-&lt;h1 align=&quot;center&quot; style=&quot; margin-top:40px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:xx-large; font-weight:600; color:#0056b3;&quot;&gt;Welcome to iPhyloGeo&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:xx-large; font-weight:600; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/h1&gt;
-&lt;h2 align=&quot;center&quot; style=&quot; margin-top:16px; margin-bottom:12px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:x-large; font-weight:600; color:#333333;&quot;&gt;Thank you for downloading our software. &lt;/span&gt;&lt;/h2&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; color:#333333;&quot;&gt;Here is your guide to using &lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; font-style:italic; color:#555555;&quot;&gt;iPhyloGeo&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; color:#333333;&quot;&gt;:&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16px; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; color:#333333;&quot;&gt;You can get help by clicking the Help button in the top right corner.&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16px; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; color:#333333;&quot;&gt;To toggle Dark mode, click the moon-shaped button in the top right corner.&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16px; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; color:#333333;&quot;&gt;You can process two types of data extractions: &lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; font-weight:600; color:#0056b3;&quot;&gt;&amp;quot;Genetic Data&amp;quot;&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; color:#333333;&quot;&gt; and &lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; font-weight:600; color:#0056b3;&quot;&gt;&amp;quot;Climatic Data.&amp;quot;&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16px; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; color:#333333;&quot;&gt;You can return to the home menu via the &lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; font-weight:600; color:#0056b3;&quot;&gt;&amp;quot;Home&amp;quot;&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; color:#333333;&quot;&gt; button.&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16px; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; color:#333333;&quot;&gt;Once you've selected the method you want to apply to your data, a side menu with new buttons will appear, allowing you to choose and manipulate the files.&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16px; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; color:#333333;&quot;&gt;Results will be outputted in a CSV file that you can rename and place wherever you want.&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16px; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; color:#333333;&quot;&gt;For more specific information, click the &lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; font-weight:600; color:#0056b3;&quot;&gt;Help&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; color:#333333;&quot;&gt; button to get details about each algorithm.&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16px; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:40px; margin-bottom:0px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:14px; color:#888888;&quot;&gt;© 2024 iPhyloGeo. All rights reserved.&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16px; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: &quot;\2610&quot;; }
+li.checked::marker { content: &quot;\2612&quot;; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:700;&quot;&gt;Welcome to iPhyloGeo&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Thank you for downloading our software.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Here is your guide to using &lt;/span&gt;&lt;span style=&quot; font-size:16pt; font-weight:700; font-style:italic;&quot;&gt;iPhyloGeo:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;You can get help by clicking the Help button in the top right corner. &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;To toggle Dark mode, click the moon-shaped button in the top right corner.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;You can process two types of data extractions: &lt;/span&gt;&lt;span style=&quot; font-size:14pt; font-weight:700; color:#0000ff;&quot;&gt;&amp;quot;Genetic Data&amp;quot;&lt;/span&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt; and &lt;/span&gt;&lt;span style=&quot; font-size:14pt; font-weight:700; color:#0000ff;&quot;&gt;&amp;quot;Climatic Data&amp;quot;&lt;/span&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;You can return to the home menu via the &lt;/span&gt;&lt;span style=&quot; font-size:14pt; font-weight:700; color:#0000ff;&quot;&gt;&amp;quot;Home&amp;quot;&lt;/span&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt; button.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Once you've selected the method you want to apply to your data, a side menu with new buttons will appear, &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;allowing you to choose and manipulate the files.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Results will be outputted in a CSV file that you can rename and place wherever you want.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;For more specific information, click the Help button to get details about each algorithm.  &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:5px; margin-bottom:5px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:700; color:#535353;&quot;&gt;© 2024 iPhyloGeo. All rights reserved.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </widget>
@@ -857,10 +898,10 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
+       <enum>QFrame::Shape::NoFrame</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
+       <enum>QFrame::Shadow::Raised</enum>
       </property>
       <widget class="QPushButton" name="sequenceAlignmentButtonPage1">
        <property name="enabled">
@@ -878,7 +919,7 @@ p, li { white-space: pre-wrap; }
         <string> Alignment</string>
        </property>
        <property name="icon">
-        <iconset resource="../../img/resources.qrc">
+        <iconset>
          <normaloff>:/inactive/sequence.svg</normaloff>:/inactive/sequence.svg</iconset>
        </property>
        <property name="iconSize">
@@ -904,10 +945,10 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="text">
-        <string>    Statistics</string>
+        <string> Statistics</string>
        </property>
        <property name="icon">
-        <iconset resource="../../img/resources.qrc">
+        <iconset>
          <normaloff>:/inactive/statistics.svg</normaloff>:/inactive/statistics.svg</iconset>
        </property>
        <property name="iconSize">
@@ -935,10 +976,10 @@ p, li { white-space: pre-wrap; }
         </font>
        </property>
        <property name="text">
-        <string>   File Browser</string>
+        <string> File Browser</string>
        </property>
        <property name="icon">
-        <iconset resource="../../img/resources.qrc">
+        <iconset>
          <normaloff>:/other/Browse.svg</normaloff>:/other/Browse.svg</iconset>
        </property>
        <property name="iconSize">
@@ -972,10 +1013,10 @@ p, li { white-space: pre-wrap; }
         </font>
        </property>
        <property name="text">
-        <string>     Clear</string>
+        <string> Clear</string>
        </property>
        <property name="icon">
-        <iconset resource="../../img/resources.qrc">
+        <iconset>
          <normaloff>:/other/erase.svg</normaloff>:/other/erase.svg</iconset>
        </property>
        <property name="iconSize">
@@ -1007,7 +1048,7 @@ p, li { white-space: pre-wrap; }
         <string>Genetic Tree</string>
        </property>
        <property name="icon">
-        <iconset resource="../../img/resources.qrc">
+        <iconset>
          <normaloff>:/inactive/tree.svg</normaloff>:/inactive/tree.svg</iconset>
        </property>
        <property name="iconSize">
@@ -1037,10 +1078,10 @@ p, li { white-space: pre-wrap; }
        </sizepolicy>
       </property>
       <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
+       <enum>QFrame::Shape::NoFrame</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
+       <enum>QFrame::Shadow::Raised</enum>
       </property>
       <widget class="QTabWidget" name="tabWidget">
        <property name="geometry">
@@ -1083,17 +1124,20 @@ p, li { white-space: pre-wrap; }
          </property>
          <property name="html">
           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;title&gt;Get Started&lt;/title&gt;&lt;style type=&quot;text/css&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;title&gt;Get Started&lt;/title&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; font-weight:400; font-style:normal;&quot; bgcolor=&quot;#f4f4f4&quot;&gt;
-&lt;h1 align=&quot;center&quot; style=&quot; margin-top:40px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:xx-large; font-weight:600; color:#0056b3;&quot;&gt;Get Started!&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:xx-large; font-weight:600; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/h1&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; color:#333333;&quot;&gt;For the genetic data extraction, follow these steps to obtain the final results:&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16px; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; color:#333333;&quot;&gt;1. Select a &lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; font-weight:600; color:#0056b3;&quot;&gt;.fasta&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; color:#333333;&quot;&gt; file using the File Browser button.&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16px; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; color:#333333;&quot;&gt;2. Proceed to the sequence alignment using the Sequence button.&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16px; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; color:#333333;&quot;&gt;3. Create a genetic tree using the Genetic Tree button.&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16px; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; color:#333333;&quot;&gt;4. Export your results by clicking the Results button.&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16px; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; font-style:italic; color:#555555;&quot;&gt;For more specific information, click the &lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; font-weight:600; font-style:italic; color:#555555;&quot;&gt;Help&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:18px; font-style:italic; color:#555555;&quot;&gt; button to get all the details you need.&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16px; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:40px; margin-bottom:0px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:14px; color:#888888;&quot;&gt;© 2024 iPhyloGeo. All rights reserved.&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16px; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: &quot;\2610&quot;; }
+li.checked::marker { content: &quot;\2612&quot;; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;h1 align=&quot;center&quot; style=&quot; margin-top:40px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:36pt; font-weight:700; color:#0056b3;&quot;&gt;Get Started!&lt;/span&gt;&lt;/h1&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16pt;&quot;&gt;For the genetic data extraction, follow these steps to obtain the final results:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16pt;&quot;&gt;1. Select a &lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16pt; font-weight:600; color:#0056b3;&quot;&gt;.fasta &lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16pt;&quot;&gt;file using the File Browser button.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16pt;&quot;&gt;2. Proceed to the sequence alignment using the Sequence button.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16pt;&quot;&gt;3. Create a genetic tree using the Genetic Tree button.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16pt;&quot;&gt;4. Export your results by clicking the Results button.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16pt; font-style:italic;&quot;&gt;For more specific information, click the &lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16pt; font-weight:600; font-style:italic;&quot;&gt;Help&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16pt; font-style:italic;&quot;&gt; button to get all the details you need.&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:40px; margin-bottom:0px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:11pt; color:#888888;&quot;&gt;© 2024 iPhyloGeo. All rights reserved.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </widget>
@@ -1154,10 +1198,10 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="frameShape">
-          <enum>QFrame::NoFrame</enum>
+          <enum>QFrame::Shape::NoFrame</enum>
          </property>
          <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
+          <enum>QFrame::Shadow::Raised</enum>
          </property>
          <widget class="QSpinBox" name="starting_position_spinbox_2">
           <property name="enabled">
@@ -1230,36 +1274,34 @@ p, li { white-space: pre-wrap; }
          <property name="font">
           <font>
            <pointsize>-1</pointsize>
-           <weight>75</weight>
            <bold>true</bold>
            <kerning>true</kerning>
           </font>
          </property>
          <property name="styleSheet">
           <string notr="true">QPushButton {
-    /* Basic styling */
-    background-color: #008331; /* Button color */
-    color: white; /* Text color */
-    font-size: 14px; /* Font size */
-    font-weight: bold; /* Bold text */
-    border-radius: 8px; /* Rounded corners */
-    padding: 10px 20px; /* Padding */
-    border: 2px solid #2980b9; /* Border */
-    transition: background-color 0.3s, border-color 0.3s, color 0.3s; /* Smooth transitions */
-}
+                      /* Basic styling */
+                      background-color: #008331; /* Button color */
+                      color: white; /* Text color */
+                      font-size: 14px; /* Font size */
+                      font-weight: bold; /* Bold text */
+                      border-radius: 8px; /* Rounded corners */
+                      padding: 10px 20px; /* Padding */
+                      border: 2px solid #2980b9; /* Border */
+                      }
 
-QPushButton:hover {
-    /* Hover state styling */
-    background-color: #7a9244; /* Darker blue on hover */
-    border-color: #1c5980; /* Darker border on hover */
-}
+                      QPushButton:hover {
+                      /* Hover state styling */
+                      background-color: #7a9244; /* Darker blue on hover */
+                      border-color: #1c5980; /* Darker border on hover */
+                      }
 
-QPushButton:pressed {
-    /* Pressed state styling */
-    background-color: #1c5980; /* Even darker blue on press */
-    border-color: #145374; /* Darker border on press */
-    color: #ecf0f1; /* Lighter text on press */
-}</string>
+                      QPushButton:pressed {
+                      /* Pressed state styling */
+                      background-color: #1c5980; /* Even darker blue on press */
+                      border-color: #145374; /* Darker border on press */
+                      color: #ecf0f1; /* Lighter text on press */
+                      }</string>
          </property>
          <property name="text">
           <string>Start</string>
@@ -1288,29 +1330,28 @@ QPushButton:pressed {
          </property>
          <property name="styleSheet">
           <string notr="true">QPushButton {
-    /* Basic styling */
-    background-color: #3498db; /* Button color */
-    color: white; /* Text color */
-    font-size: 14px; /* Font size */
-    font-weight: bold; /* Bold text */
-    border-radius: 8px; /* Rounded corners */
-    padding: 10px 20px; /* Padding */
-    border: 2px solid #2980b9; /* Border */
-    transition: background-color 0.3s, border-color 0.3s, color 0.3s; /* Smooth transitions */
-}
+                      /* Basic styling */
+                      background-color: #3498db; /* Button color */
+                      color: white; /* Text color */
+                      font-size: 14px; /* Font size */
+                      font-weight: bold; /* Bold text */
+                      border-radius: 8px; /* Rounded corners */
+                      padding: 10px 20px; /* Padding */
+                      border: 2px solid #2980b9; /* Border */
+                      }
 
-QPushButton:hover {
-    /* Hover state styling */
-    background-color: #2980b9; /* Darker blue on hover */
-    border-color: #1c5980; /* Darker border on hover */
-}
+                      QPushButton:hover {
+                      /* Hover state styling */
+                      background-color: #2980b9; /* Darker blue on hover */
+                      border-color: #1c5980; /* Darker border on hover */
+                      }
 
-QPushButton:pressed {
-    /* Pressed state styling */
-    background-color: #1c5980; /* Even darker blue on press */
-    border-color: #145374; /* Darker border on press */
-    color: #ecf0f1; /* Lighter text on press */
-}</string>
+                      QPushButton:pressed {
+                      /* Pressed state styling */
+                      background-color: #1c5980; /* Even darker blue on press */
+                      border-color: #145374; /* Darker border on press */
+                      color: #ecf0f1; /* Lighter text on press */
+                      }</string>
          </property>
          <property name="text">
           <string>Settings</string>
@@ -1331,10 +1372,10 @@ QPushButton:pressed {
           </rect>
          </property>
          <property name="frameShape">
-          <enum>QFrame::NoFrame</enum>
+          <enum>QFrame::Shape::NoFrame</enum>
          </property>
          <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
+          <enum>QFrame::Shadow::Raised</enum>
          </property>
          <widget class="QFrame" name="GenStatsFilters">
           <property name="geometry">
@@ -1346,10 +1387,10 @@ QPushButton:pressed {
            </rect>
           </property>
           <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
+           <enum>QFrame::Shape::NoFrame</enum>
           </property>
           <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
+           <enum>QFrame::Shadow::Raised</enum>
           </property>
           <widget class="QPushButton" name="downloadSimilarityButton">
            <property name="geometry">
@@ -1429,10 +1470,12 @@ QPushButton:pressed {
            </font>
           </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt; text-decoration: underline;&quot;&gt;Alignment Chart&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot;
+                        font-size:24pt; text-decoration: underline;&quot;&gt;Alignment
+                        Chart&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignCenter</set>
+           <set>Qt::AlignmentFlag::AlignCenter</set>
           </property>
          </widget>
          <widget class="QLabel" name="textEditGenStats_2">
@@ -1564,10 +1607,10 @@ QPushButton:pressed {
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
+       <enum>QFrame::Shape::NoFrame</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
+       <enum>QFrame::Shadow::Raised</enum>
       </property>
       <widget class="QPushButton" name="clearButtonPage2">
        <property name="geometry">
@@ -1584,10 +1627,10 @@ QPushButton:pressed {
         </font>
        </property>
        <property name="text">
-        <string>     Clear</string>
+        <string> Clear</string>
        </property>
        <property name="icon">
-        <iconset resource="../../img/resources.qrc">
+        <iconset>
          <normaloff>:/other/erase.svg</normaloff>:/other/erase.svg</iconset>
        </property>
        <property name="iconSize">
@@ -1616,10 +1659,10 @@ QPushButton:pressed {
         </rect>
        </property>
        <property name="text">
-        <string>   Climatic Tree</string>
+        <string> Climatic Tree</string>
        </property>
        <property name="icon">
-        <iconset resource="../../img/resources.qrc">
+        <iconset>
          <normaloff>:/inactive/climatic.svg</normaloff>:/inactive/climatic.svg</iconset>
        </property>
        <property name="iconSize">
@@ -1647,10 +1690,10 @@ QPushButton:pressed {
         </font>
        </property>
        <property name="text">
-        <string>   File Browser</string>
+        <string> File Browser</string>
        </property>
        <property name="icon">
-        <iconset resource="../../img/resources.qrc">
+        <iconset>
          <normaloff>:/other/Browse.svg</normaloff>:/other/Browse.svg</iconset>
        </property>
        <property name="iconSize">
@@ -1679,10 +1722,10 @@ QPushButton:pressed {
         </rect>
        </property>
        <property name="text">
-        <string>    Statistics</string>
+        <string> Statistics</string>
        </property>
        <property name="icon">
-        <iconset resource="../../img/resources.qrc">
+        <iconset>
          <normaloff>:/inactive/statistics.svg</normaloff>:/inactive/statistics.svg</iconset>
        </property>
        <property name="iconSize">
@@ -1706,10 +1749,10 @@ QPushButton:pressed {
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
+       <enum>QFrame::Shape::NoFrame</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
+       <enum>QFrame::Shadow::Raised</enum>
       </property>
       <widget class="QTabWidget" name="tabWidget2">
        <property name="geometry">
@@ -1721,7 +1764,7 @@ QPushButton:pressed {
         </rect>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>3</number>
        </property>
        <widget class="QWidget" name="ClimTab1">
         <attribute name="title">
@@ -1738,17 +1781,20 @@ QPushButton:pressed {
          </property>
          <property name="html">
           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;title&gt;Get Started&lt;/title&gt;&lt;style type=&quot;text/css&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;title&gt;Get Started&lt;/title&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot; bgcolor=&quot;#f4f4f4&quot;&gt;
-&lt;h1 align=&quot;center&quot; style=&quot; margin-top:40px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; font-weight:600; color:#0056b3;&quot;&gt;Get Started!&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; font-weight:600; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/h1&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt;For the climatic data extraction, follow these steps to obtain the final results: &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt;1. Select a &lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; font-weight:600; color:#0056b3;&quot;&gt;.csv&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt; file using the File Browser button. &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt;2. Proceed to the climatic tree creation using the Climatic Tree button. &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt;3. Generate the statistics using the Statistics button. &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt;4. Export and visualize your results by clicking the Results button. &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; font-style:italic; color:#555555;&quot;&gt;For more specific information, click the &lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; font-weight:600; font-style:italic; color:#555555;&quot;&gt;Help&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; font-style:italic; color:#555555;&quot;&gt; button to get all the details you need.&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:40px; margin-bottom:0px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#888888;&quot;&gt;© 2024 iPhyloGeo. All rights reserved.&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:8pt; color:#333333;&quot;&gt; &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: &quot;\2610&quot;; }
+li.checked::marker { content: &quot;\2612&quot;; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;h1 align=&quot;center&quot; style=&quot; margin-top:40px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:36pt; font-weight:600; color:#0056b3;&quot;&gt;Get Started!&lt;/span&gt;&lt;/h1&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16pt;&quot;&gt;For the climatic data extraction, follow these steps to obtain the final results:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16pt;&quot;&gt;1. Select a &lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16pt; font-weight:600; color:#0056b3;&quot;&gt;.csv&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16pt;&quot;&gt; file using the File Browser button.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16pt;&quot;&gt;2. Proceed to the climatic tree creation using the Climatic Tree button.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16pt;&quot;&gt;3. Generate the statistics using the Statistics button.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:57px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16pt;&quot;&gt;4. Export and visualize your results by clicking the Results button.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:20px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16pt; font-style:italic;&quot;&gt;For more specific information, click the &lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16pt; font-weight:600; font-style:italic;&quot;&gt;Help&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:16pt; font-style:italic;&quot;&gt; button to get all the details you need.&lt;/span&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:11pt;&quot;&gt; &lt;/span&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:11pt;&quot;&gt;      &lt;/span&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt;&quot;&gt;                &lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:40px; margin-bottom:0px; margin-left:37px; margin-right:37px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Arial','sans-serif'; font-size:11pt; color:#888888;&quot;&gt;© 2024 iPhyloGeo. All rights reserved.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </widget>
@@ -1791,10 +1837,10 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="frameShape">
-          <enum>QFrame::NoFrame</enum>
+          <enum>QFrame::Shape::NoFrame</enum>
          </property>
          <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
+          <enum>QFrame::Shadow::Raised</enum>
          </property>
          <widget class="QLabel" name="StatisticsTitle">
           <property name="geometry">
@@ -1811,10 +1857,13 @@ p, li { white-space: pre-wrap; }
            </font>
           </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt; text-decoration: underline;&quot;&gt;Statistics&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>
+                        &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot;
+                        font-size:24pt; text-decoration:
+                        underline;&quot;&gt;Statistics&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignCenter</set>
+           <set>Qt::AlignmentFlag::AlignCenter</set>
           </property>
          </widget>
          <widget class="QLabel" name="ClimaticChartSettings">
@@ -1888,7 +1937,7 @@ p, li { white-space: pre-wrap; }
            <string>Generate your Graph</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignCenter</set>
+           <set>Qt::AlignmentFlag::AlignCenter</set>
           </property>
          </widget>
          <widget class="QLabel" name="ClimaticChartSettingsTextAxisX">
@@ -1907,7 +1956,7 @@ p, li { white-space: pre-wrap; }
            <string>Insert X axis data</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignCenter</set>
+           <set>Qt::AlignmentFlag::AlignCenter</set>
           </property>
          </widget>
          <widget class="QComboBox" name="ClimaticChartSettingsAxisX">
@@ -1926,7 +1975,7 @@ p, li { white-space: pre-wrap; }
            </sizepolicy>
           </property>
           <property name="layoutDirection">
-           <enum>Qt::LeftToRight</enum>
+           <enum>Qt::LayoutDirection::LeftToRight</enum>
           </property>
           <property name="autoFillBackground">
            <bool>false</bool>
@@ -1935,10 +1984,10 @@ p, li { white-space: pre-wrap; }
            <bool>false</bool>
           </property>
           <property name="insertPolicy">
-           <enum>QComboBox::InsertAtBottom</enum>
+           <enum>QComboBox::InsertPolicy::InsertAtBottom</enum>
           </property>
           <property name="sizeAdjustPolicy">
-           <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
+           <enum>QComboBox::SizeAdjustPolicy::AdjustToMinimumContentsLengthWithIcon</enum>
           </property>
           <property name="frame">
            <bool>true</bool>
@@ -1960,7 +2009,7 @@ p, li { white-space: pre-wrap; }
            <string>Insert Y axis data</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignCenter</set>
+           <set>Qt::AlignmentFlag::AlignCenter</set>
           </property>
          </widget>
          <widget class="QComboBox" name="ClimaticChartSettingsAxisY">
@@ -2048,7 +2097,7 @@ p, li { white-space: pre-wrap; }
            <string>choose Plot Type</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignCenter</set>
+           <set>Qt::AlignmentFlag::AlignCenter</set>
           </property>
          </widget>
          <widget class="QPushButton" name="climatePlotDownloadButton">
@@ -2080,10 +2129,10 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="frameShape">
-          <enum>QFrame::NoFrame</enum>
+          <enum>QFrame::Shape::NoFrame</enum>
          </property>
          <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
+          <enum>QFrame::Shadow::Raised</enum>
          </property>
          <widget class="QLabel" name="climaticTreesLabel">
           <property name="geometry">
@@ -2162,10 +2211,10 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
+       <enum>QFrame::Shape::NoFrame</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
+       <enum>QFrame::Shadow::Raised</enum>
       </property>
       <widget class="QPushButton" name="settingsButtonPage3">
        <property name="geometry">
@@ -2177,10 +2226,10 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="text">
-        <string>   Settings</string>
+        <string> Settings</string>
        </property>
        <property name="icon">
-        <iconset resource="../../img/resources.qrc">
+        <iconset>
          <normaloff>:/inactive/settings.svg</normaloff>:/inactive/settings.svg</iconset>
        </property>
        <property name="iconSize">
@@ -2206,7 +2255,7 @@ p, li { white-space: pre-wrap; }
         <string>Save</string>
        </property>
        <property name="icon">
-        <iconset resource="../../img/resources.qrc">
+        <iconset>
          <normaloff>:/inactive/submit.svg</normaloff>:/inactive/submit.svg</iconset>
        </property>
        <property name="iconSize">
@@ -2229,10 +2278,10 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="text">
-        <string>   Statistics</string>
+        <string> Statistics</string>
        </property>
        <property name="icon">
-        <iconset resource="../../img/resources.qrc">
+        <iconset>
          <normaloff>:/inactive/statistics.svg</normaloff>:/inactive/statistics.svg</iconset>
        </property>
        <property name="iconSize">
@@ -2260,10 +2309,10 @@ p, li { white-space: pre-wrap; }
         </font>
        </property>
        <property name="text">
-        <string>     Clear</string>
+        <string> Clear</string>
        </property>
        <property name="icon">
-        <iconset resource="../../img/resources.qrc">
+        <iconset>
          <normaloff>:/other/erase.svg</normaloff>:/other/erase.svg</iconset>
        </property>
        <property name="iconSize">
@@ -2290,10 +2339,10 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
+       <enum>QFrame::Shape::NoFrame</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
+       <enum>QFrame::Shadow::Raised</enum>
       </property>
       <widget class="QLabel" name="ResultsTitle">
        <property name="geometry">
@@ -2310,21 +2359,219 @@ p, li { white-space: pre-wrap; }
         </font>
        </property>
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt; font-weight:600;&quot;&gt;Results&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot;
+                  font-size:20pt;
+                  font-weight:600;&quot;&gt;Results&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
       </widget>
-      <widget class="QTextBrowser" name="textEditResults">
+      <widget class="QTabWidget" name="tabWidgetResult">
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>60</y>
+         <y>30</y>
          <width>931</width>
          <height>461</height>
         </rect>
        </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="resultTab">
+        <attribute name="title">
+         <string>Results</string>
+        </attribute>
+        <widget class="QTextBrowser" name="textEditResults">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>931</width>
+           <height>461</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="resultStatTab">
+        <attribute name="title">
+         <string>Statistics</string>
+        </attribute>
+        <widget class="QFrame" name="frameResultsStats">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>921</width>
+           <height>541</height>
+          </rect>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Shape::NoFrame</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Shadow::Raised</enum>
+         </property>
+         <widget class="QFrame" name="ResultsStatsFilters">
+          <property name="geometry">
+           <rect>
+            <x>550</x>
+            <y>0</y>
+            <width>371</width>
+            <height>81</height>
+           </rect>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Shape::NoFrame</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Shadow::Raised</enum>
+          </property>
+          <widget class="QComboBox" name="criteriaComboBox">
+           <property name="geometry">
+            <rect>
+             <x>160</x>
+             <y>10</y>
+             <width>201</width>
+             <height>30</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="frame">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="ResultsStatsListTitle">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>10</y>
+             <width>161</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="whatsThis">
+            <string/>
+           </property>
+           <property name="text">
+            <string>Condition</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignmentFlag::AlignCenter</set>
+           </property>
+          </widget>
+          <widget class="QComboBox" name="phyloTreescomboBox">
+           <property name="geometry">
+            <rect>
+             <x>160</x>
+             <y>50</y>
+             <width>201</width>
+             <height>30</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="frame">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="ResultsStatsListTitle_2">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>50</y>
+             <width>161</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="whatsThis">
+            <string/>
+           </property>
+           <property name="text">
+            <string>trees</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignmentFlag::AlignCenter</set>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QLabel" name="ResultsStatsTitle">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>541</width>
+            <height>81</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot;
+                    font-size:24pt; text-decoration:
+                    underline;&quot;&gt;Statistics&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignmentFlag::AlignCenter</set>
+          </property>
+         </widget>
+         <widget class="QLabel" name="PhyloTreeLabel">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>921</width>
+            <height>450</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>921</width>
+            <height>450</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>921</width>
+            <height>450</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="downloadResultsPlotButton">
+          <property name="geometry">
+           <rect>
+            <x>420</x>
+            <y>30</y>
+            <width>93</width>
+            <height>28</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Download</string>
+          </property>
+         </widget>
+         <zorder>PhyloTreeLabel</zorder>
+         <zorder>ResultsStatsFilters</zorder>
+         <zorder>ResultsStatsTitle</zorder>
+         <zorder>downloadResultsPlotButton</zorder>
+        </widget>
+       </widget>
       </widget>
      </widget>
     </widget>
@@ -2339,10 +2586,10 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
+       <enum>QFrame::Shape::NoFrame</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
+       <enum>QFrame::Shadow::Raised</enum>
       </property>
       <widget class="QPushButton" name="settingsButtonPage4">
        <property name="geometry">
@@ -2354,10 +2601,10 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="text">
-        <string>   Settings</string>
+        <string> Settings</string>
        </property>
        <property name="icon">
-        <iconset resource="../../img/resources.qrc">
+        <iconset>
          <normaloff>:/inactive/settings.svg</normaloff>:/inactive/settings.svg</iconset>
        </property>
        <property name="iconSize">
@@ -2383,7 +2630,7 @@ p, li { white-space: pre-wrap; }
         <string>Save</string>
        </property>
        <property name="icon">
-        <iconset resource="../../img/resources.qrc">
+        <iconset>
          <normaloff>:/inactive/submit.svg</normaloff>:/inactive/submit.svg</iconset>
        </property>
        <property name="iconSize">
@@ -2406,10 +2653,10 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="text">
-        <string>   Statistics</string>
+        <string> Statistics</string>
        </property>
        <property name="icon">
-        <iconset resource="../../img/resources.qrc">
+        <iconset>
          <normaloff>:/inactive/statistics.svg</normaloff>:/inactive/statistics.svg</iconset>
        </property>
        <property name="iconSize">
@@ -2437,10 +2684,10 @@ p, li { white-space: pre-wrap; }
         </font>
        </property>
        <property name="text">
-        <string>     Clear</string>
+        <string> Clear</string>
        </property>
        <property name="icon">
-        <iconset resource="../../img/resources.qrc">
+        <iconset>
          <normaloff>:/other/erase.svg</normaloff>:/other/erase.svg</iconset>
        </property>
        <property name="iconSize">
@@ -2461,192 +2708,23 @@ p, li { white-space: pre-wrap; }
       <property name="geometry">
        <rect>
         <x>200</x>
-        <y>0</y>
+        <y>-20</y>
         <width>921</width>
         <height>571</height>
        </rect>
       </property>
       <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
+       <enum>QFrame::Shape::NoFrame</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
+       <enum>QFrame::Shadow::Raised</enum>
       </property>
-      <widget class="QFrame" name="frameResultsStats">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>921</width>
-         <height>541</height>
-        </rect>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::NoFrame</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
-       </property>
-       <widget class="QFrame" name="ResultsStatsFilters">
-        <property name="geometry">
-         <rect>
-          <x>550</x>
-          <y>0</y>
-          <width>371</width>
-          <height>81</height>
-         </rect>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::NoFrame</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
-        </property>
-        <widget class="QComboBox" name="criteriaComboBox">
-         <property name="geometry">
-          <rect>
-           <x>160</x>
-           <y>10</y>
-           <width>201</width>
-           <height>30</height>
-          </rect>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="frame">
-          <bool>true</bool>
-         </property>
-        </widget>
-        <widget class="QLabel" name="ResultsStatsListTitle">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>10</y>
-           <width>161</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="whatsThis">
-          <string/>
-         </property>
-         <property name="text">
-          <string>Condition</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QComboBox" name="phyloTreescomboBox">
-         <property name="geometry">
-          <rect>
-           <x>160</x>
-           <y>50</y>
-           <width>201</width>
-           <height>30</height>
-          </rect>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="frame">
-          <bool>true</bool>
-         </property>
-        </widget>
-        <widget class="QLabel" name="ResultsStatsListTitle_2">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>50</y>
-           <width>161</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="whatsThis">
-          <string/>
-         </property>
-         <property name="text">
-          <string>trees</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </widget>
-       <widget class="QLabel" name="ResultsStatsTitle">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>541</width>
-          <height>81</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>16</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt; text-decoration: underline;&quot;&gt;Statistics&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-       <widget class="QLabel" name="PhyloTreeLabel">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>80</y>
-          <width>921</width>
-          <height>450</height>
-         </rect>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>921</width>
-          <height>450</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>921</width>
-          <height>450</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="downloadResultsPlotButton">
-        <property name="geometry">
-         <rect>
-          <x>420</x>
-          <y>30</y>
-          <width>93</width>
-          <height>28</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Download</string>
-        </property>
-       </widget>
-      </widget>
      </widget>
     </widget>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources>
-  <include location="../../img/resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

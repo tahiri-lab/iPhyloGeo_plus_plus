@@ -48,7 +48,7 @@ The iPhyloGeo++ tool is an advanced bioinformatics application specifically desi
 # Features
 - **Cross-Platform Compatibility:** Compatible with Windows, macOS, and Linux.
 - **Comprehensive Data Integration:** Merges genetic sequences with climatic data for robust analysis.
-- **Intuitive User Interface:** Developed with PyQt5 to ensure ease of use.
+- **Intuitive User Interface:** Developed with PyQt6 to ensure ease of use.
 - **Advanced Visualization Tools:** Provides visualization of phylogenetic trees and climatic data on interactive maps.
 - **Enhanced Comparative Analysis:** Facilitates the comparison of different phylogenetic trees.
 
