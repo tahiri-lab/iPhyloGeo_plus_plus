@@ -39,7 +39,7 @@ class Result:
 
         df = pd.read_csv(Params.file_name)
         try:
-            utils.filterResults(self.main.climat.climaticTree.climaticTrees, self.main.genetics.geneticTreeDict, df)
+            utils.filterResults(self.main.climatePage.climat.climaticTree.climaticTrees, self.main.geneticsPage.genetics.geneticTreeDict, df)
         except Exception as e:
             show_error_dialog(str(e), "Aphylogeo Utils Error")
             return
@@ -113,8 +113,8 @@ class Result:
         """
         try:
             self.main.textEditResults.clear()
-            self.main.genetics.clear_genetic_data()
-            self.main.climat.clear_climmatic_data()
+            self.main.geneticsPage.genetics.clear_genetic_data()
+            self.main.climatePage.climat.clear_climmatic_data()
             self.main.stackedWidget.setCurrentIndex(0)
             self.main.resultsButton.setEnabled(False)
         except Exception as e:
