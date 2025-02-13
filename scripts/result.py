@@ -8,12 +8,14 @@ from utils.error_dialog import show_error_dialog
 from utils.result_settings_dialog import ResultSettingsDialog
 from utils.download_file import download_file_local
 from utils.tree_graph import init_tree, generate_tree_with_bar
+from utils.custom_table import create_sleek_table
 from event_connector import blocked_signals
 
 
 class Result:
     def __init__(self, main):
         self.main = main
+        self.table = None
         
     def open_result_settings_window(self):
         """
@@ -35,74 +37,27 @@ class Result:
         Raises:
             AttributeError: If the sequence alignment has not been performed before attempting to generate the tree.
         """
-        self.main.stackedWidget.setCurrentIndex(3)
+        self.main.tabWidgetResult.setCurrentIndex(0)
 
         df = pd.read_csv(Params.file_name)
         try:
             utils.filterResults(self.main.climatePage.climat.climaticTree.climaticTrees, self.main.geneticsPage.genetics.geneticTreeDict, df)
         except Exception as e:
-            show_error_dialog(str(e), "Aphylogeo Utils Error")
+            show_error_dialog("The data given is not correct, make sure that you loaded the correct files in the previous steps.")
             return
         df_results = pd.read_csv("./results/output.csv")
         df_results["Name of species"] = df_results["Name of species"].str.replace("_", " ")
         # Replace the first column values with Params.file_name just before visualization
         df_results.iloc[:, 0] = Params.reference_gene_file
 
-        # Convert to HTML table with sleek, modern styling
-        html_table = df_results.to_html(index=False, border=0, classes="dataframe", table_id="styled-table")
+        if self.table is not None:
+            self.main.resultTableLayout.removeWidget(self.table)
+            self.table.deleteLater()  
+            self.table = None
+            
+        self.table = create_sleek_table(df_results)
 
-        # Add CSS styles for a professional look with smooth hover animations
-        html_style = """
-        <style>
-            #styled-table {
-                font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
-                border-collapse: collapse;
-                width: 100%;
-                border-radius: 5px;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-                overflow: hidden;
-            }
-            #styled-table td, #styled-table th {
-                border: 1px solid #ddd;
-                padding: 12px;
-            }
-            #styled-table tr:nth-child(even) {
-                background-color: #f9f9f9;
-            }
-            #styled-table tr:hover {
-                background-color: #f1f1f1;
-                transform: scale(1.01);
-            }
-            #styled-table th {
-                padding-top: 12px;
-                padding-bottom: 12px;
-                text-align: left;
-                background-color: #4CAF50;
-                color: white;
-            }
-            #styled-table td {
-                padding-left: 12px;
-                padding-right: 12px;
-            }
-        </style>
-        """
-
-        # Combine the HTML style and table
-        html_content = html_style + html_table
-
-        # Set up the QWebEngineView
-        web_engine_view = QWebEngineView()
-        web_engine_view.setHtml(html_content)
-
-        # Clear the existing content and layout of the QTextBrowser (if any)
-        layout = QVBoxLayout(self.main.textEditResults)
-        for i in reversed(range(layout.count())):
-            widget_to_remove = layout.itemAt(i).widget()
-            layout.removeWidget(widget_to_remove)
-            widget_to_remove.setParent(None)
-
-        # Add the QWebEngineView to the QTextBrowser
-        layout.addWidget(web_engine_view)
+        self.main.resultTableLayout.addWidget(self.table)
 
     def clear_result(self):
         """
@@ -116,6 +71,9 @@ class Result:
             self.main.geneticsPage.genetics.clear_genetic_data()
             self.main.climatePage.climat.clear_climmatic_data()
             self.main.stackedWidget.setCurrentIndex(0)
+            self.main.resultTableLayout.removeWidget(self.table)
+            self.table.deleteLater()
+            self.table = None  
             self.main.resultsButton.setEnabled(False)
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}", "Error")

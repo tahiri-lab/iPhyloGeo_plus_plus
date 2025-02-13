@@ -785,7 +785,7 @@
      </sizepolicy>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="HomePage">
      <widget class="QFrame" name="HomeTab">
@@ -1093,7 +1093,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
         </rect>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>3</number>
        </property>
        <widget class="QWidget" name="GenTab1">
         <attribute name="title">
@@ -1764,7 +1764,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
         </rect>
        </property>
        <property name="currentIndex">
-        <number>3</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="ClimTab1">
         <attribute name="title">
@@ -2389,8 +2389,14 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <x>0</x>
            <y>0</y>
            <width>931</width>
-           <height>461</height>
+           <height>431</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>931</width>
+           <height>0</height>
+          </size>
          </property>
         </widget>
        </widget>

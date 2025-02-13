@@ -50,6 +50,7 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
             self.graphicsViewClimData.setLayout(self.maplayout)
 
             self.climatTableLayout = QVBoxLayout(self.textEditClimData)
+            self.resultTableLayout = QVBoxLayout(self.textEditResults)
 
             self.setObjectName("MainWindow")
             self.window_size_spinbox_2.setRange(1, 1000)

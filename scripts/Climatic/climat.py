@@ -10,10 +10,12 @@ from PyQt6.QtWidgets import QFileDialog
 from utils.error_dialog import show_error_dialog
 from utils.my_dumper import update_yaml_param
 from utils.download_file import download_file_local, download_file_temporary_PLT
+from utils.custom_table import create_sleek_table
 from event_connector import blocked_signals
 
 from Climatic.climat_tree import ClimaticTree
-from Climatic.climat_data import get_folium_data, create_sleek_table
+from Climatic.climat_data import get_folium_data
+
 
 
 class Climat:
@@ -192,7 +194,7 @@ class Climat:
                     self.main.climatTableLayout.removeWidget(self.sleek_table)
                     self.sleek_table.deleteLater()  
                     
-                self.sleek_table = create_sleek_table(df)
+                self.sleek_table = create_sleek_table(df, True)
 
                 self.main.climatTableLayout.addWidget(self.sleek_table)
 

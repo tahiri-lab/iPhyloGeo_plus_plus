@@ -810,7 +810,8 @@ class Ui_MainWindow(object):
         self.resultTab = QtWidgets.QWidget()
         self.resultTab.setObjectName("resultTab")
         self.textEditResults = QtWidgets.QTextBrowser(parent=self.resultTab)
-        self.textEditResults.setGeometry(QtCore.QRect(0, 0, 931, 461))
+        self.textEditResults.setGeometry(QtCore.QRect(0, 0, 931, 431))
+        self.textEditResults.setMinimumSize(QtCore.QSize(931, 0))
         self.textEditResults.setObjectName("textEditResults")
         self.tabWidgetResult.addTab(self.resultTab, "")
         self.resultStatTab = QtWidgets.QWidget()
@@ -922,9 +923,9 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
-        self.tabWidget.setCurrentIndex(2)
-        self.tabWidget2.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(3)
+        self.tabWidget.setCurrentIndex(3)
+        self.tabWidget2.setCurrentIndex(1)
         self.tabWidgetResult.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
