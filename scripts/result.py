@@ -1,8 +1,6 @@
 import pandas as pd
 from aphylogeo import utils
 from aphylogeo.params import Params
-from PyQt6.QtWebEngineWidgets import QWebEngineView
-from PyQt6.QtWidgets import QVBoxLayout
 
 from utils.error_dialog import show_error_dialog
 from utils.result_settings_dialog import ResultSettingsDialog
@@ -56,7 +54,6 @@ class Result:
             self.table = None
             
         self.table = create_sleek_table(df_results)
-
         self.main.resultTableLayout.addWidget(self.table)
 
     def clear_result(self):

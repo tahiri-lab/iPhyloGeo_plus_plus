@@ -14,7 +14,7 @@ from Genetics.genetics_tree import GeneticTree
 from matplotlib.ticker import MaxNLocator
 from PyQt6 import QtCore, QtWidgets
 from PyQt6.QtCore import Qt, QThread
-from PyQt6.QtGui import QIcon, QMovie
+from PyQt6.QtGui import QMovie
 from ui import loading_dialog
 from utils.download_file import download_file_local, download_file_temporary_PLT
 from utils.error_dialog import show_error_dialog
@@ -28,7 +28,22 @@ class Genetics:
         self.geneticTree = GeneticTree(main)
         self.worker = None
         self.msa = {}
-        self.geneticTrees = []       
+        self.geneticTrees = []    
+        
+        
+    def setup_plot(self):
+        sns.set(style="whitegrid")
+        self.fig, self.ax = plt.subplots(figsize=(12, 8), facecolor="gray" if self.main.isDarkMode else "white")
+
+        self.ax.set_xlabel("Position", fontsize=14)
+        self.ax.set_ylabel("Similarity", fontsize=14)
+        self.ax.set_title("Sequence Similarity Plot", fontsize=16, weight="bold")
+        self.ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+        self.ax.grid(True, linestyle="--", alpha=0.6)
+        self.ax.spines["top"].set_visible(False)
+        self.ax.spines["right"].set_visible(False)
+        self.ax.spines["left"].set_linewidth(1.2)
+        self.ax.spines["bottom"].set_linewidth(1.2)
 
     def update_plot(self):
         """
@@ -102,29 +117,10 @@ class Genetics:
                 windowed_similarities.append(sliding_window_avg(sim, window_size, step_size))
 
             windowed_similarities = np.array(windowed_similarities)
-
-            sns.set(style="whitegrid")
+            
+            self.setup_plot()
+            
             x = np.arange(start_pos, len(reference_sequence) - window_size + 1, step_size)
-
-            self.fig, self.ax = plt.subplots(figsize=(12, 8), facecolor="gray" if self.main.isDarkMode else "white")
-
-            self.ax.set_xlabel("Position", fontsize=14)
-            self.ax.set_ylabel("Similarity", fontsize=14)
-            self.ax.set_title("Sequence Similarity Plot", fontsize=16, weight="bold")
-            self.ax.legend(
-                title="Species",
-                fontsize=12,
-                title_fontsize="13",
-                loc="upper right",
-                bbox_to_anchor=(1.2, 1),
-            )
-            self.ax.xaxis.set_major_locator(MaxNLocator(integer=True))
-            self.ax.grid(True, linestyle="--", alpha=0.6)
-
-            self.ax.spines["top"].set_visible(False)
-            self.ax.spines["right"].set_visible(False)
-            self.ax.spines["left"].set_linewidth(1.2)
-            self.ax.spines["bottom"].set_linewidth(1.2)
 
             for idx, record in enumerate(alignment):
                 self.ax.plot(x, windowed_similarities[idx], label=record.id, linewidth=2.0)

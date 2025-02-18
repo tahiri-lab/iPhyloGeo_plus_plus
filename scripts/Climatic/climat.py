@@ -199,9 +199,6 @@ class Climat:
                 self.main.climatTableLayout.addWidget(self.sleek_table)
 
                 self.climaticTree.climaticTrees = utils.climaticPipeline(df)
-                self.tree_keys = list(self.climaticTree.climaticTrees.keys())
-                self.total_trees = len(self.tree_keys)
-                self.current_index = 0
                 self.main.climaticTreeButtonPage2.setEnabled(True)
                 self.main.statisticsButtonPage2.setEnabled(True)
                 self.main.tabWidget2.setCurrentIndex(1)
