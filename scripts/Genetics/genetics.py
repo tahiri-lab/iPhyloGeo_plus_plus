@@ -19,7 +19,7 @@ from ui import loading_dialog
 from utils.download_file import download_file_local, download_file_temporary_PLT
 from utils.error_dialog import show_error_dialog
 from utils.my_dumper import update_yaml_param
-from Worker import Worker
+from worker1 import Worker
 
 
 class Genetics:
