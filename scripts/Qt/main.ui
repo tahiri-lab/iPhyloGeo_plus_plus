@@ -833,7 +833,7 @@ Thank you for downloading our software.
 
 Here is your guide to using ***iPhyloGeo:***
 
-You can get help by clicking the Help button in the top right corner. 
+You can get help by clicking the Help button in the top right corner.
 
 To toggle Dark mode, click the moon-shaped button in the top right corner.
 
@@ -843,7 +843,7 @@ Data&quot;**.
 You can return to the home menu via the **&quot;Home&quot;** button.
 
 Once you've selected the method you want to apply to your data, a side menu
-with new buttons will appear, 
+with new buttons will appear,
 
 allowing you to choose and manipulate the files.
 
@@ -851,7 +851,7 @@ Results will be outputted in a CSV file that you can rename and place wherever
 you want.
 
 For more specific information, click the Help button to get details about each
-algorithm.  
+algorithm.
 
 **© 2024 iPhyloGeo. All rights reserved.**
 
@@ -1273,7 +1273,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
          </property>
          <property name="font">
           <font>
-           <pointsize>-1</pointsize>
            <bold>true</bold>
            <kerning>true</kerning>
           </font>

@@ -1,10 +1,11 @@
 import re
 from decimal import Decimal
 
-from PyQt6.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView
 from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QHeaderView, QTableWidget, QTableWidgetItem
 
-def create_sleek_table(df, hardCodeSize = False):
+
+def create_sleek_table(df, hardCodeSize=False):
     num_rows, num_columns = df.shape
     table_widget = QTableWidget(num_rows, num_columns)
     table_widget.setStyleSheet(
@@ -27,7 +28,7 @@ def create_sleek_table(df, hardCodeSize = False):
     """
     )
     table_widget.setAlternatingRowColors(True)
-    
+
     if horizontal_header := table_widget.horizontalHeader():
         horizontal_header.setStretchLastSection(True)
         horizontal_header.setVisible(True)
@@ -55,10 +56,9 @@ def create_sleek_table(df, hardCodeSize = False):
     return table_widget
 
 
-def transform_string_to_fit_table(value : str):
+def transform_string_to_fit_table(value: str):
     if value.__contains__(".") and value.split(".")[1].__len__() >= 3 and re.search("^[0-9\\-]*\\.[0-9]*", value) is not None:
         value = str(round(Decimal(value), 3))
     elif len(value) > 10 and value.__contains__(" "):
         value = value.replace(" ", "\n", 1)
     return value
-    

@@ -1,8 +1,11 @@
+from typing import Dict, cast
+
 from aphylogeo import utils
 from aphylogeo.alignement import AlignSequences
 from aphylogeo.genetic_trees import GeneticTrees
 from aphylogeo.params import Params
 from PyQt6.QtCore import QObject, pyqtSignal
+from utils.file_caching import FileCaching
 
 
 class Worker(QObject):
@@ -16,6 +19,10 @@ class Worker(QObject):
         self.running = True
 
     def run(self):
+        if (result := FileCaching.get_cached_result_file(self.filepath)) is not None:
+            self.progress.emit(3)
+            self.finished.emit(result)
+            return
         try:
             # Step 1: Load sequences
             self.progress.emit(0)
@@ -39,10 +46,12 @@ class Worker(QObject):
             trees = GeneticTrees(trees_dict=geneticTrees, format="newick")
 
             # Step 4: Preparing results
-            msa = alignments.to_dict().get("msa")
+            msa = cast(Dict[str, str], alignments.to_dict().get("msa"))
 
             # Step 5: Save results
-            alignments.save_to_json(f"./results/aligned_{Params.reference_gene_file}.json")
+            FileCaching.save_genetic_tree_result(self.filepath, f"./results/{Params.reference_gene_file}_output.json", msa, trees.trees)
+            # alignments.save_to_json(f"./results/aligned_{Params.reference_gene_file}.json")
+            # trees.save_trees_to_json(f"./results/geneticTrees_{Params.reference_gene_file}.json")
             trees.save_trees_to_json("./results/geneticTrees.json")
 
             # Emit finished signal with the genetic trees dictionary

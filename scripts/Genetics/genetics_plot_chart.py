@@ -1,14 +1,13 @@
-from utils.error_dialog import show_error_dialog
-from utils.download_file import download_file_temporary_PLT
+from collections import Counter, defaultdict
 
-from Bio.Align import MultipleSeqAlignment
-from Bio.SeqRecord import SeqRecord
-from Bio.Seq import Seq
-import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-from collections import Counter
+import matplotlib.pyplot as plt
+from Bio.Align import MultipleSeqAlignment
+from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
+from utils.download_file import download_file_temporary_PLT
+from utils.error_dialog import show_error_dialog
 
-from collections import defaultdict
 
 def read_msa(msa_data):
     """
@@ -20,21 +19,22 @@ def read_msa(msa_data):
     Returns:
         dict: A dictionary with sequence identifiers as keys and concatenated sequences as values.
     """
-    try:       
+    try:
         msa = defaultdict(str)
         for _, value in msa_data.items():
-                parts = value.strip().split("\n")
-                for i in range(0, len(parts), 2):
-                    header = parts[i].strip(">")
-                    sequence = parts[i + 1]
-                    msa[header.replace("_", " ")] += sequence  # Replace underscores with spaces
-                                   
+            parts = value.strip().split("\n")
+            for i in range(0, len(parts), 2):
+                header = parts[i].strip(">")
+                sequence = parts[i + 1]
+                msa[header.replace("_", " ")] += sequence  # Replace underscores with spaces
+
         return msa
 
     except KeyError as e:
         show_error_dialog(f"Key Error: {e}")
     except Exception as e:
         show_error_dialog(f"An unexpected error occurred: {e}")
+
 
 def standardize_sequence_lengths(genetic_data):
     """
@@ -55,6 +55,7 @@ def standardize_sequence_lengths(genetic_data):
         show_error_dialog(f"Value Error: {e}")
     except Exception as e:
         show_error_dialog(f"An unexpected error occurred: {e}")
+
 
 def plot_alignment_chart(genetic_data, starting_position, window_size, isDarkMode):
     """
@@ -176,7 +177,8 @@ def plot_alignment_chart(genetic_data, starting_position, window_size, isDarkMod
         show_error_dialog(f"Key Error: {e}")
     except Exception as e:
         show_error_dialog(f"An unexpected error occurred: {e}")
-        
+
+
 def calculate_conservation_and_gaps(alignment):
     """
     Calculate conservation and gap frequencies for a given multiple sequence alignment.
@@ -209,6 +211,7 @@ def calculate_conservation_and_gaps(alignment):
         show_error_dialog(f"An unexpected error occurred: {e}")
 
     return [], []
+
 
 def calculate_consensus(alignment):
     """

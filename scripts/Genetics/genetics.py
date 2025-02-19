@@ -1,4 +1,5 @@
 import os
+from typing import Any, Dict
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -28,11 +29,11 @@ class Genetics:
         self.geneticTree = GeneticTree(main)
         self.worker = None
         self.msa = {}
-        self.geneticTrees = []    
-        
-        
+        self.geneticTrees = []
+
     def setup_plot(self):
-        sns.set(style="whitegrid")
+        sns.set_style("whitegrid")
+
         self.fig, self.ax = plt.subplots(figsize=(12, 8), facecolor="gray" if self.main.isDarkMode else "white")
 
         self.ax.set_xlabel("Position", fontsize=14)
@@ -117,9 +118,9 @@ class Genetics:
                 windowed_similarities.append(sliding_window_avg(sim, window_size, step_size))
 
             windowed_similarities = np.array(windowed_similarities)
-            
+
             self.setup_plot()
-            
+
             x = np.arange(start_pos, len(reference_sequence) - window_size + 1, step_size)
 
             for idx, record in enumerate(alignment):
@@ -224,7 +225,7 @@ class Genetics:
                 loading_screen.progressBar.setValue(100)
                 QtWidgets.QApplication.processEvents()
 
-        def handle_finished(result):
+        def handle_finished(result: Dict[str, Any]):
             loading_screen.close()
             msa = result["msa"]
             self.msa = read_msa(msa)
@@ -306,7 +307,7 @@ class Genetics:
             self.main.textEditGenStats_2.clear()
             self.main.GeneticTreeLabel.clear()
             self.geneticTreeDict = None
-            
+
             self.main.sequenceAlignmentButtonPage1.setEnabled(False)
             self.main.statisticsButtonPage1.setEnabled(False)
             self.main.geneticTreeButtonPage1.setEnabled(False)
@@ -319,11 +320,13 @@ class Genetics:
         if self.worker:
             self.worker.stop()
 
+
 def open_genetic_settings_window():
     dialog = ParamDialog()
     dialog.exec()
 
-def generate_html_from_fasta(file, isDarkMode):   
+
+def generate_html_from_fasta(file, isDarkMode):
     content = file.read()
     sequence = ""
     for line in content.splitlines():

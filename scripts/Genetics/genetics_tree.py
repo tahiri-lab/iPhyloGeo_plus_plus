@@ -1,12 +1,13 @@
-from utils.error_dialog import show_error_dialog
+from event_connector import blocked_signals
 from utils.download_file import download_file_local
-from utils.tree_graph import init_tree, generate_tree
-from event_connector  import blocked_signals
+from utils.error_dialog import show_error_dialog
+from utils.tree_graph import generate_tree, init_tree
+
 
 class GeneticTree:
     def __init__(self, main):
         self.main = main
-        
+
     def display_newick_trees(self):
         """
         Display Newick format trees in the application using Toytree.
@@ -22,7 +23,7 @@ class GeneticTree:
         """
 
         self.main.tabWidget.setCurrentIndex(4)
-        
+
         self.jsonData, self.tree_keys, formatted_tree_keys = init_tree()
 
         with blocked_signals(self.main.geneticTreescomboBox):
@@ -42,7 +43,7 @@ class GeneticTree:
             None
         """
         self.key = self.tree_keys[index]
-        
+
         pixmap = generate_tree(self.key, self.jsonData, self.main.isDarkMode)
 
         # Clear the QLabel before setting the new QPixmap
