@@ -58,8 +58,15 @@ class FileCaching:
         if cached_file is None:
             return None
         result = None
-        with open(cached_file, "r") as f:
-            result = json.load(f)
+        try:
+            with open(cached_file, "r") as f:
+                result = json.load(f)
+        except OSError:
+            print("Could not get the file in the cache")
+            cls._cache.pop(file_hash)
+            cls._save_cache()
+            return None
+
         return result
 
     @classmethod

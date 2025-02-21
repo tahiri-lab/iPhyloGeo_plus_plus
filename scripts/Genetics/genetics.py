@@ -19,6 +19,7 @@ from PyQt6.QtGui import QMovie
 from ui import loading_dialog
 from utils.download_file import download_file_local, download_file_temporary_PLT
 from utils.error_dialog import show_error_dialog
+from utils.file_caching import FileCaching
 from utils.my_dumper import update_yaml_param
 from worker import Worker
 
@@ -259,6 +260,11 @@ class Genetics:
             # Show the loading screen
             loading_screen.show()
         QtWidgets.QApplication.processEvents()
+
+        if (result := FileCaching.get_cached_result_file(Params.reference_gene_filepath)) is not None:
+            print("Using cached result")
+            handle_finished(result)
+            return result["geneticTrees"]
 
         self.workerThread = QThread()
         self.worker = Worker(Params.reference_gene_filepath)

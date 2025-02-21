@@ -1,5 +1,6 @@
 import json
 import os
+from pathlib import Path
 from typing import cast
 
 import numpy as np
@@ -12,9 +13,10 @@ from PyQt6.QtGui import QPixmap
 
 
 def init_tree():
-    file_path = f"results/geneticTrees_{Params.reference_gene_file}.json"
+    filename = Path(Params.reference_gene_filepath).stem
+    file_path = f"./results/{filename}_output.json"
     with open(file_path, "r") as file:
-        newick_json = json.load(file)
+        newick_json = json.load(file)["geneticTrees"]
 
     tree_keys = list(newick_json.keys())
 

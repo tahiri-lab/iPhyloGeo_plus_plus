@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Dict, cast
 
 from aphylogeo import utils
@@ -49,10 +50,11 @@ class Worker(QObject):
             msa = cast(Dict[str, str], alignments.to_dict().get("msa"))
 
             # Step 5: Save results
-            FileCaching.save_genetic_tree_result(self.filepath, f"./results/{Params.reference_gene_file}_output.json", msa, trees.trees)
+            filename = Path(self.filepath).stem
+            print(f"Saving results to ./results/{filename}_output.json")
+            FileCaching.save_genetic_tree_result(self.filepath, f"./results/{filename}_output.json", msa, trees.trees)
             # alignments.save_to_json(f"./results/aligned_{Params.reference_gene_file}.json")
             # trees.save_trees_to_json(f"./results/geneticTrees_{Params.reference_gene_file}.json")
-            trees.save_trees_to_json("./results/geneticTrees.json")
 
             # Emit finished signal with the genetic trees dictionary
             result = {"msa": msa, "geneticTrees": geneticTrees}
