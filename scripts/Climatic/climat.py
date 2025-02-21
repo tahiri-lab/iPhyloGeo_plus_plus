@@ -1,21 +1,16 @@
+import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-import matplotlib.pyplot as plt
-
 from aphylogeo import utils
 from aphylogeo.params import Params
-
+from Climatic.climat_data import get_folium_data
+from Climatic.climat_tree import ClimaticTree
+from event_connector import blocked_signals
 from PyQt6.QtWidgets import QFileDialog
-
+from utils.custom_table import create_sleek_table
+from utils.download_file import download_file_local, download_file_temporary_PLT
 from utils.error_dialog import show_error_dialog
 from utils.my_dumper import update_yaml_param
-from utils.download_file import download_file_local, download_file_temporary_PLT
-from utils.custom_table import create_sleek_table
-from event_connector import blocked_signals
-
-from Climatic.climat_tree import ClimaticTree
-from Climatic.climat_data import get_folium_data
-
 
 
 class Climat:
@@ -47,10 +42,9 @@ class Climat:
             self.main.ClimaticChartSettingsAxisY.addItems(columns)
             self.main.ClimaticChartSettingsAxisY.setCurrentIndex(1)
             self.main.tabWidget2.setCurrentIndex(2)
-            
+
         self.generate_climate_graph()
-        
-    
+
     def generate_climate_graph(self):
         """
         Generate and display a graph based on the selected X and Y axis data and the chosen plot type.
@@ -72,7 +66,7 @@ class Climat:
 
         # Replace underscores with spaces in the first column's data
         self.data[first_column_name] = self.data[first_column_name].str.replace("_", " ")
-        
+
         match plot_type:
             case "Bar Graph":
                 self.generate_bar_graph(x_data, y_data, ax, first_column_name)
@@ -88,61 +82,58 @@ class Climat:
         pixmap = download_file_temporary_PLT(plot_type, fig)
 
         self.main.ClimaticChart_2.setPixmap(pixmap)
-        
-        
+
     def generate_basic_graph(self, x_data, y_data, ax, first_column_name, kind):
-            self.data.plot(kind=kind, x=x_data, y=y_data, ax=ax)
-            # Add first column values as labels
-            for i, txt in enumerate(self.data[first_column_name]):
-                ax.text(
-                    i,
-                    round_numbers(self.data[y_data][i]),
-                    txt,
-                    ha="center",
-                    va="bottom",
-                )
+        self.data.plot(kind=kind, x=x_data, y=y_data, ax=ax)
+        # Add first column values as labels
+        for i, txt in enumerate(self.data[first_column_name]):
+            ax.text(
+                i,
+                round_numbers(self.data[y_data][i]),
+                txt,
+                ha="center",
+                va="bottom",
+            )
 
     def generate_bar_graph(self, x_data, y_data, ax, first_column_name):
-            self.generate_basic_graph(x_data, y_data, ax, first_column_name, "bar")
-                
+        self.generate_basic_graph(x_data, y_data, ax, first_column_name, "bar")
+
     def generate_scatter_plot(self, x_data, y_data, ax, first_column_name):
-            self.data.plot(kind="scatter", x=x_data, y=y_data, ax=ax)
-            # Add first column values as labels
-            for i, txt in enumerate(self.data[first_column_name]):
-                ax.annotate(
-                    txt,
-                    (
-                        round_numbers(self.data[x_data][i]),
-                        round_numbers(self.data[y_data][i]),
-                    ),
-                )
-                
-    def generate_line_plot(self, x_data, y_data, ax, first_column_name):
-            self.generate_basic_graph(x_data, y_data, ax, first_column_name, "line")
-                
-    def generate_pie_plot(self, x_data, y_data, ax, first_column_name):
-            self.data.set_index(x_data).plot(
-                kind="pie",
-                y=y_data,
-                labels=self.data[first_column_name],
-                ax=ax,
-                legend=False,
+        self.data.plot(kind="scatter", x=x_data, y=y_data, ax=ax)
+        # Add first column values as labels
+        for i, txt in enumerate(self.data[first_column_name]):
+            ax.annotate(
+                txt,
+                (
+                    round_numbers(self.data[x_data][i]),
+                    round_numbers(self.data[y_data][i]),
+                ),
             )
-            
+
+    def generate_line_plot(self, x_data, y_data, ax, first_column_name):
+        self.generate_basic_graph(x_data, y_data, ax, first_column_name, "line")
+
+    def generate_pie_plot(self, x_data, y_data, ax, first_column_name):
+        self.data.set_index(x_data).plot(
+            kind="pie",
+            y=y_data,
+            labels=self.data[first_column_name],
+            ax=ax,
+            legend=False,
+        )
+
     def generate_violin_plot(self, x_data, y_data, ax):
-            if pd.api.types.is_numeric_dtype(self.data[x_data]):
-                # Bin the data and use midpoints for readability
-                self.data["x_binned"] = pd.cut(self.data[x_data], bins=10)
-                self.data["x_binned_mid"] = self.data["x_binned"].apply(lambda x: x.mid).astype(float)
-                self.data["x_binned_mid"] = self.data["x_binned_mid"].round(1).astype(str)  # Round to 1 decimal place
-                sns.violinplot(x="x_binned_mid", y=y_data, data=self.data, ax=ax)
-                ax.set_xlabel(x_data)  # Set the X-axis label
-            else:
-                sns.violinplot(x=x_data, y=y_data, data=self.data, ax=ax)
-                ax.set_xlabel(x_data)  # Set the X-axis label
-                
-                
-    
+        if pd.api.types.is_numeric_dtype(self.data[x_data]):
+            # Bin the data and use midpoints for readability
+            self.data["x_binned"] = pd.cut(self.data[x_data], bins=10)
+            self.data["x_binned_mid"] = self.data["x_binned"].apply(lambda x: x.mid).astype(float)
+            self.data["x_binned_mid"] = self.data["x_binned_mid"].round(1).astype(str)  # Round to 1 decimal place
+            sns.violinplot(x="x_binned_mid", y=y_data, data=self.data, ax=ax)
+            ax.set_xlabel(x_data)  # Set the X-axis label
+        else:
+            sns.violinplot(x=x_data, y=y_data, data=self.data, ax=ax)
+            ax.set_xlabel(x_data)  # Set the X-axis label
+
     def download_climate_plot(self):
         """
         Download the generated plot.
@@ -154,7 +145,6 @@ class Climat:
         """
         plot_type = self.main.PlotTypesCombobox.currentText()
         download_file_local(plot_type, self.main)
-
 
     def load_csv_climate_file(self):
         try:
@@ -192,8 +182,8 @@ class Climat:
                 self.main.textEditClimData.clear()
                 if self.sleek_table is not None:
                     self.main.climatTableLayout.removeWidget(self.sleek_table)
-                    self.sleek_table.deleteLater()  
-                    
+                    self.sleek_table.deleteLater()
+
                 self.sleek_table = create_sleek_table(df, True)
 
                 self.main.climatTableLayout.addWidget(self.sleek_table)
@@ -225,22 +215,22 @@ class Climat:
             with blocked_signals(self.main.ClimaticChartSettingsAxisX, self.main.ClimaticChartSettingsAxisY):
                 self.main.ClimaticChartSettingsAxisX.clear()
                 self.main.ClimaticChartSettingsAxisY.clear()
-                
+
             self.climaticTree.climaticTrees.clear()
             self.main.ClimaticChart_2.clear()
             self.main.climaticTreesLabel.clear()
             self.main.climatTableLayout.removeWidget(self.sleek_table)
             self.sleek_table.deleteLater()
-            self.sleek_table = None          
-            self.main.mapView.setHtml("")          
-            
+            self.sleek_table = None
+            self.main.mapView.setHtml("")
+
             self.main.statisticsButtonPage2.setEnabled(False)
             self.main.climaticTreeButtonPage2.setEnabled(False)
             self.main.resultsButton.setEnabled(False)
             self.main.tabWidget2.setCurrentIndex(0)
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}", "Error")
-            
-            
+
+
 def round_numbers(val, digits=3):
     return round(val, digits)

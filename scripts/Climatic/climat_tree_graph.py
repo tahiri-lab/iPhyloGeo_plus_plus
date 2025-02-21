@@ -1,25 +1,24 @@
+import matplotlib.pyplot as plt
 import networkx as nx
 import plotly.graph_objs as go
-from utils.error_dialog import show_error_dialog
-
-from Bio import Phylo
 import seaborn as sns
-import matplotlib.pyplot as plt
+from Bio import Phylo
 from Climatic.climatic_graph_settings import ClimaticGraphSettings
+from utils.error_dialog import show_error_dialog
 
 
 def get_network_graph(tree):
-    try:        
+    try:
         sns.set_palette("husl")
 
         graph = Phylo.to_networkx(tree)
         pos = get_layout(graph)
-        
+
         edge_trace_result = create_edge_trace(tree, pos)
         if edge_trace_result is None:
             raise TypeError("The edge_trace is None")
         edge_trace, edge_annotations = edge_trace_result
-        
+
         node_trace = create_node_trace(graph, pos)
 
         fig = go.Figure(data=[edge_trace, node_trace])
@@ -36,24 +35,23 @@ def get_network_graph(tree):
         # Add edge annotations for branch lengths
         for annotation in edge_annotations:
             fig.add_annotation(annotation)
-            
+
         return fig
-            
+
     except Exception as e:
         show_error_dialog(f"An unexpected error occurred while rendering the network view: {e}")
-        
-        
+
+
 def get_tree_graph(tree):
     try:
-        
         label_color = ClimaticGraphSettings.label_color
         use_leaf_names = ClimaticGraphSettings.use_leaf_names
         show_branch_length = ClimaticGraphSettings.show_branch_length
         edge_color = ClimaticGraphSettings.edge_color
-        
+
         fig = plt.figure(figsize=(9.11, 4.41))  # Limit size to 911x441 pixels
         ax = fig.add_subplot(1, 1, 1)
-        
+
         for clade in tree.find_clades():
             clade.color = edge_color
 
@@ -71,7 +69,7 @@ def get_tree_graph(tree):
         )
 
         ax.axis("off")  # Remove axes
-        
+
         return fig
     except Exception as e:
         show_error_dialog(f"An unexpected error occurred while rendering the tree view: {e}")
@@ -107,9 +105,7 @@ def create_node_trace(graph, pos):
                 line_width=2,
                 color=label_color,
             ),
-            textfont=dict(
-                color=label_color
-            )
+            textfont=dict(color=label_color),
         )
 
         for node in graph.nodes():
@@ -138,7 +134,7 @@ def get_layout(graph):
     """
     try:
         layout = ClimaticGraphSettings.layout
-        
+
         if layout == "horizontal":
             return nx.spring_layout(graph, scale=2)
         elif layout == "vertical":
@@ -151,7 +147,8 @@ def get_layout(graph):
             raise ValueError(f"Unknown layout type: {layout}")
     except Exception as e:
         show_error_dialog(f"An unexpected error occurred while getting the layout: {e}")
-        
+
+
 def create_edge_trace(tree, pos):
     """
     Create a Plotly edge trace for the phylogenetic tree network visualization.
@@ -168,7 +165,7 @@ def create_edge_trace(tree, pos):
     try:
         edge_color = ClimaticGraphSettings.edge_color
         show_branch_length = ClimaticGraphSettings.show_branch_length
-        
+
         edge_trace = go.Scatter(
             x=[],
             y=[],
