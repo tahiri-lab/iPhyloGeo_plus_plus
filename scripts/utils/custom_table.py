@@ -30,13 +30,10 @@ def create_sleek_table(df, hardCodeSize=False):
     table_widget.setAlternatingRowColors(True)
 
     if horizontal_header := table_widget.horizontalHeader():
-        horizontal_header.setStretchLastSection(True)
         horizontal_header.setVisible(True)
         horizontal_header.setDefaultAlignment(Qt.AlignmentFlag.AlignCenter)
-        if hardCodeSize:
-            horizontal_header.setDefaultSectionSize(150)
-        else:
-            horizontal_header.setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)
+        horizontal_header.setMinimumSectionSize(100)
+        horizontal_header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
 
     if vertical_header := table_widget.verticalHeader():
         vertical_header.setVisible(False)

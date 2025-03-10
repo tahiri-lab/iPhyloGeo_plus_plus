@@ -78,13 +78,9 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
                 self.climaticTreeButtonPage2,
                 self.statisticsButtonPage2,
                 self.settingsButtonPage3,
-                self.settingsButtonPage4,
                 self.submitButtonPage3,
                 self.statisticsButtonPage3,
-                self.submitButtonPage4,
-                self.statisticsButtonPage4,
                 self.clearButtonPage3,
-                self.clearButtonPage4,
             ]
 
             # Define cursor and stylesheet for all buttons
@@ -254,7 +250,7 @@ if __name__ == "__main__":
     qtmodern.styles.light(app)
 
     window = UiMainWindow()
-
+    
     mw = qtmodern.windows.ModernWindow(window)
 
     if primary_screen := app.primaryScreen():
@@ -262,7 +258,7 @@ if __name__ == "__main__":
         center_point = screen_geometry.center()
         x = center_point.x() - mw.width() // 2
         y = center_point.y() - mw.height() // 2
-
+        
         mw.move(x, y)
         mw.show()
 

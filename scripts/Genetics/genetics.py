@@ -130,8 +130,6 @@ class Genetics:
             pixmap = download_file_temporary_PLT("similarity_plot", self.fig)
 
             self.main.textEditGenStats_2.setPixmap(pixmap)
-            self.main.textEditGenStats_2.setFixedSize(900, 400)
-            self.main.textEditGenStats_2.setScaledContents(True)
 
             self.main.tabWidget.setCurrentIndex(3)
         except Exception as e:

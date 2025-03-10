@@ -54,7 +54,8 @@ class Worker(QObject):
             print(f"Saving results to ./results/{filename}_output.json")
             FileCaching.save_genetic_tree_result(self.filepath, f"./results/{filename}_output.json", msa, trees.trees)
             # alignments.save_to_json(f"./results/aligned_{Params.reference_gene_file}.json")
-            # trees.save_trees_to_json(f"./results/geneticTrees_{Params.reference_gene_file}.json")
+            trees.save_trees_to_json(f"./results/geneticTrees_{Params.reference_gene_file}.json")
+            #trees.save_trees_to_json("./results/geneticTrees.json")
 
             # Emit finished signal with the genetic trees dictionary
             result = {"msa": msa, "geneticTrees": geneticTrees}
