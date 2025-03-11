@@ -88,3 +88,4 @@ urllib3==2.2.2
 win32-setctime==1.1.0
 xyzservices==2024.6.0
 yarl==1.9.4
+cartopy==0.24.1

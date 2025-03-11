@@ -33,7 +33,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../../../../../../hazem/.designer/img/sherbrooke.png</normaloff>../../../../../../hazem/.designer/img/sherbrooke.png</iconset>
+    <normaloff>../../../../../hazem/.designer/img/sherbrooke.png</normaloff>../../../../../hazem/.designer/img/sherbrooke.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="sizePolicy">
@@ -833,7 +833,7 @@ Thank you for downloading our software.
 
 Here is your guide to using ***iPhyloGeo:***
 
-You can get help by clicking the Help button in the top right corner.
+You can get help by clicking the Help button in the top right corner. 
 
 To toggle Dark mode, click the moon-shaped button in the top right corner.
 
@@ -843,7 +843,7 @@ Data&quot;**.
 You can return to the home menu via the **&quot;Home&quot;** button.
 
 Once you've selected the method you want to apply to your data, a side menu
-with new buttons will appear,
+with new buttons will appear, 
 
 allowing you to choose and manipulate the files.
 
@@ -851,7 +851,7 @@ Results will be outputted in a CSV file that you can rename and place wherever
 you want.
 
 For more specific information, click the Help button to get details about each
-algorithm.
+algorithm.  
 
 **© 2024 iPhyloGeo. All rights reserved.**
 
@@ -1093,7 +1093,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
         </rect>
        </property>
        <property name="currentIndex">
-        <number>3</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="GenTab1">
         <attribute name="title">
@@ -1273,6 +1273,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
          </property>
          <property name="font">
           <font>
+           <pointsize>-1</pointsize>
            <bold>true</bold>
            <kerning>true</kerning>
           </font>
@@ -2376,7 +2377,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
         </rect>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="resultTab">
         <attribute name="title">
@@ -2575,6 +2576,30 @@ li.checked::marker { content: &quot;\2612&quot;; }
          <zorder>ResultsStatsFilters</zorder>
          <zorder>ResultsStatsTitle</zorder>
          <zorder>downloadResultsPlotButton</zorder>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="resultMapTab">
+        <attribute name="title">
+         <string>Map</string>
+        </attribute>
+        <widget class="QLabel" name="mapImage">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>921</width>
+           <height>431</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignCenter</set>
+         </property>
         </widget>
        </widget>
       </widget>

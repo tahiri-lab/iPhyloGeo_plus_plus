@@ -5,11 +5,19 @@ from event_connector import blocked_signals
 from utils.custom_table import create_sleek_table
 from utils.download_file import download_file_local
 from utils.error_dialog import show_error_dialog
+from PyQt6 import QtGui
 from utils.result_settings_dialog import ResultSettingsDialog
 from utils.tree_graph import generate_tree_with_bar, init_tree
+from utils.tree_map import generate_tree_map
 
+RESULT_TAB = 0
+STATS_TAB = 1	
+MAP_TAB = 2
 
 class Result:
+
+
+
     def __init__(self, main):
         self.main = main
         self.table = None
@@ -75,8 +83,25 @@ class Result:
             show_error_dialog(f"An unexpected error occurred: {e}", "Error")
 
     def on_tab_changed(self, index):
-        if index == 1:
+        if index == STATS_TAB:
             self.display_phylogeographic_trees()
+        if index == MAP_TAB:
+            self.show_map()
+
+    def show_map(self):
+        try:
+            # Get Genetic data
+            firstTreeKey, _ = next(iter(self.main.geneticsPage.genetics.geneticTrees.items()))
+            currentTree = self.tree_keys[self.main.phyloTreescomboBox.currentText()] if self.main.phyloTreescomboBox.currentIndex() != -1 else firstTreeKey
+            treeData = self.main.geneticsPage.genetics.geneticTreeDict.get(currentTree)
+            # Get Climatic data
+            gpsFile = pd.read_csv(Params.file_name)
+        except Exception:
+            show_error_dialog("The data given is not correct, make sure that you loaded the correct files in the previous steps.")
+            return
+        
+        generate_tree_map(treeData, gpsFile)
+        self.main.mapImage.setPixmap(QtGui.QPixmap("results/figure_tree2map.png"))
 
     def display_phylogeographic_trees(self):
         self.jsonData, self.tree_keys, formatted_tree_keys = init_tree()
