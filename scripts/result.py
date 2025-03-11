@@ -38,7 +38,7 @@ class Result:
 
         df = pd.read_csv(Params.file_name)
         try:
-            utils.filterResults(self.main.climatePage.climat.climaticTree.climaticTrees, self.main.geneticsPage.genetics.geneticTreeDict, df)
+            utils.filterResults(self.main.climatePage.climat.climaticTree.climaticTrees, self.main.geneticsPage.genetics.geneticTrees, df)
         except Exception:
             show_error_dialog("The data given is not correct, make sure that you loaded the correct files in the previous steps.")
             return

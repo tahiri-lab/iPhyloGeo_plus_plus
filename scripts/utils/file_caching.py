@@ -1,7 +1,9 @@
 import hashlib
 import json
 import os
+import io
 from typing import Any, Dict
+from Bio import Phylo
 
 
 class FileCaching:
@@ -43,10 +45,7 @@ class FileCaching:
     def save_genetic_tree_result(cls, input_file_path: str, output_file_path: str, aligments: Dict[str, Any], genetic_trees: Dict[str, Any]) -> None:
         """Save the genetic tree result to the cache."""
         with open(output_file_path, "w") as f:
-            formatted_genetic_tree = {}
-            for key, value in genetic_trees.items():
-                formatted_genetic_tree[key] = value.format("newick")
-            json.dump({"msa": aligments, "geneticTrees": formatted_genetic_tree}, f)
+            json.dump({"msa": aligments, "geneticTrees": genetic_trees}, f)
         cls.cache_result(input_file_path, output_file_path)
 
     @classmethod
@@ -61,6 +60,12 @@ class FileCaching:
         try:
             with open(cached_file, "r") as f:
                 result = json.load(f)
+            trees = {}
+            for key, value in result["geneticTrees"].items():
+                with io.StringIO(value.strip()) as file:
+                    trees[key] = Phylo.read(file, format="newick")
+            result["geneticTrees"] = trees
+                
         except OSError:
             print("Could not get the file in the cache")
             cls._cache.pop(file_hash)

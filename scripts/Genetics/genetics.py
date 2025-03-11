@@ -192,11 +192,11 @@ class Genetics:
         """
         Perform sequence alignment and store the resulting genetic tree dictionary.
 
-        This method calls the `callSeqAlign` method to perform sequence alignment and stores the resulting genetic tree dictionary in the `geneticTreeDict` attribute.
+        This method calls the `callSeqAlign` method to perform sequence alignment and stores the resulting genetic tree dictionary in the `geneticTrees` attribute.
         """
         self.main.starting_position_spinbox_2.setEnabled(True)
         self.main.window_size_spinbox_2.setEnabled(True)
-        self.geneticTreeDict = self.call_seq_align()
+        self.call_seq_align()
 
     def call_seq_align(self):
         """
@@ -262,7 +262,7 @@ class Genetics:
         if (result := FileCaching.get_cached_result_file(Params.reference_gene_filepath)) is not None:
             print("Using cached result")
             handle_finished(result)
-            return result["geneticTrees"]
+            return
 
         self.workerThread = QThread()
         self.worker = Worker(Params.reference_gene_filepath)
@@ -282,8 +282,6 @@ class Genetics:
         # Use a loop to wait until the thread finishes and the result is set
         while self.workerThread.isRunning():
             QtWidgets.QApplication.processEvents()
-
-        return self.geneticTrees
 
     def show_sequence_alignment_page(self):
         """
@@ -310,7 +308,7 @@ class Genetics:
             self.main.seqAlignLabel.clear()
             self.main.textEditGenStats_2.clear()
             self.main.GeneticTreeLabel.clear()
-            self.geneticTreeDict = None
+            self.geneticTrees = None
 
             self.main.sequenceAlignmentButtonPage1.setEnabled(False)
             self.main.statisticsButtonPage1.setEnabled(False)

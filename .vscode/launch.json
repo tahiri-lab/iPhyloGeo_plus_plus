@@ -6,7 +6,8 @@
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/scripts/main.py",
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "justMyCode": false
         }
     ]
 }
