@@ -59,7 +59,7 @@ class Climat:
         y_data = self.main.ClimaticChartSettingsAxisY.currentText()
         plot_type = self.main.PlotTypesCombobox.currentText()
 
-        fig, ax = plt.subplots(figsize=(5.2, 5))  # Set figure size to 520x500 pixels (each inch is 100 pixels)
+        fig, ax = plt.subplots(figsize=(6.5, 6))
 
         # Identify the first column
         first_column_name = self.data.columns[0]
@@ -78,7 +78,10 @@ class Climat:
                 self.generate_pie_plot(x_data, y_data, ax, first_column_name)
             case "Violin Plot":
                 self.generate_violin_plot(x_data, y_data, ax)
+            case "Correlation":
+                self.generate_correlation_plot(ax)
 
+        fig.tight_layout(pad=3.0)
         pixmap = download_file_temporary_PLT(plot_type, fig)
 
         self.main.ClimaticChart_2.setPixmap(pixmap)
@@ -123,17 +126,22 @@ class Climat:
         )
 
     def generate_violin_plot(self, x_data, y_data, ax):
-        if pd.api.types.is_numeric_dtype(self.data[x_data]):
+        plotData = self.data.copy()
+        if pd.api.types.is_numeric_dtype(plotData[x_data]):
             # Bin the data and use midpoints for readability
-            self.data["x_binned"] = pd.cut(self.data[x_data], bins=10)
-            self.data["x_binned_mid"] = self.data["x_binned"].apply(lambda x: x.mid).astype(float)
-            self.data["x_binned_mid"] = self.data["x_binned_mid"].round(1).astype(str)  # Round to 1 decimal place
-            sns.violinplot(x="x_binned_mid", y=y_data, data=self.data, ax=ax)
+            plotData["x_binned"] = pd.cut(plotData[x_data], bins=10)
+            plotData["x_binned_mid"] = plotData["x_binned"].apply(lambda x: x.mid).astype(float)
+            plotData["x_binned_mid"] = plotData["x_binned_mid"].round(1).astype(str)  # Round to 1 decimal place
+            sns.violinplot(x="x_binned_mid", y=y_data, data=plotData, ax=ax)
             ax.set_xlabel(x_data)  # Set the X-axis label
         else:
-            sns.violinplot(x=x_data, y=y_data, data=self.data, ax=ax)
+            sns.violinplot(x=x_data, y=y_data, data=plotData, ax=ax)
             ax.set_xlabel(x_data)  # Set the X-axis label
-
+            
+    def generate_correlation_plot(self, ax):
+        matrix_correlation = self.data.iloc[:, 1:].corr(method="spearman").round(2)
+        sns.heatmap(matrix_correlation, ax=ax, cbar_kws={'pad': 0.02}, square=True, vmin=0, vmax=1)
+         
     def download_climate_plot(self):
         """
         Download the generated plot.

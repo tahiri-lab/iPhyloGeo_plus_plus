@@ -2351,7 +2351,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                  <property name="frameShadow">
                   <enum>QFrame::Shadow::Raised</enum>
                  </property>
-                 <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="2,3">
+                 <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="2,4">
                   <property name="spacing">
                    <number>4</number>
                   </property>
@@ -2625,6 +2625,11 @@ li.checked::marker { content: &quot;\2612&quot;; }
                        <item>
                         <property name="text">
                          <string>Pie Plot</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>Correlation</string>
                         </property>
                        </item>
                       </widget>
