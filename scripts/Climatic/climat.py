@@ -1,6 +1,5 @@
-import matplotlib.pyplot as plt
+import plotly.express as px
 import pandas as pd
-import seaborn as sns
 from aphylogeo import utils
 from aphylogeo.params import Params
 from Climatic.climat_data import get_folium_data
@@ -8,7 +7,7 @@ from Climatic.climat_tree import ClimaticTree
 from event_connector import blocked_signals
 from PyQt6.QtWidgets import QFileDialog
 from utils.custom_table import create_sleek_table
-from utils.download_file import download_file_local, download_file_temporary_PLT
+from utils.download_file import download_file_local
 from utils.error_dialog import show_error_dialog
 from utils.my_dumper import update_yaml_param
 
@@ -59,88 +58,88 @@ class Climat:
         y_data = self.main.ClimaticChartSettingsAxisY.currentText()
         plot_type = self.main.PlotTypesCombobox.currentText()
 
-        fig, ax = plt.subplots(figsize=(6.5, 6))
-
         # Identify the first column
         first_column_name = self.data.columns[0]
 
         # Replace underscores with spaces in the first column's data
         self.data[first_column_name] = self.data[first_column_name].str.replace("_", " ")
-
+        
+        self.main.ClimaticChartSettingsAxisX.setEnabled(True)
+        self.main.ClimaticChartSettingsAxisY.setEnabled(True)
+        
         match plot_type:
-            case "Bar Graph":
-                self.generate_bar_graph(x_data, y_data, ax, first_column_name)
             case "Scatter Plot":
-                self.generate_scatter_plot(x_data, y_data, ax, first_column_name)
+                fig = self.generate_scatter_plot(x_data, y_data, first_column_name)
             case "Line Plot":
-                self.generate_line_plot(x_data, y_data, ax, first_column_name)
-            case "Pie Plot":
-                self.generate_pie_plot(x_data, y_data, ax, first_column_name)
+                fig = self.generate_line_plot(x_data, y_data, first_column_name)
+            case "Bar Graph":
+                fig = self.generate_bar_graph(x_data, y_data, first_column_name)
             case "Violin Plot":
-                self.generate_violin_plot(x_data, y_data, ax)
+                fig = self.generate_violin_plot(x_data, y_data, first_column_name)
+            case "Pie Plot":
+                fig = self.generate_pie_plot(x_data, y_data, first_column_name)
             case "Correlation":
-                self.generate_correlation_plot(ax)
+                fig = self.generate_correlation_plot()
+                self.main.ClimaticChartSettingsAxisX.setEnabled(False)
+                self.main.ClimaticChartSettingsAxisY.setEnabled(False)
+            case _:
+                fig = self.generate_bar_graph(x_data, y_data, first_column_name)
+                  
+        self.main.climatGraphView.setHtml(fig.to_html(include_plotlyjs='cdn'))
 
-        fig.tight_layout(pad=3.0)
-        pixmap = download_file_temporary_PLT(plot_type, fig)
-
-        self.main.ClimaticChart_2.setPixmap(pixmap)
-
-    def generate_basic_graph(self, x_data, y_data, ax, first_column_name, kind):
-        self.data.plot(kind=kind, x=x_data, y=y_data, ax=ax)
-        # Add first column values as labels
-        for i, txt in enumerate(self.data[first_column_name]):
-            ax.text(
-                i,
-                round_numbers(self.data[y_data][i]),
-                txt,
-                ha="center",
-                va="bottom",
-            )
-
-    def generate_bar_graph(self, x_data, y_data, ax, first_column_name):
-        self.generate_basic_graph(x_data, y_data, ax, first_column_name, "bar")
-
-    def generate_scatter_plot(self, x_data, y_data, ax, first_column_name):
-        self.data.plot(kind="scatter", x=x_data, y=y_data, ax=ax)
-        # Add first column values as labels
-        for i, txt in enumerate(self.data[first_column_name]):
-            ax.annotate(
-                txt,
-                (
-                    round_numbers(self.data[x_data][i]),
-                    round_numbers(self.data[y_data][i]),
-                ),
-            )
-
-    def generate_line_plot(self, x_data, y_data, ax, first_column_name):
-        self.generate_basic_graph(x_data, y_data, ax, first_column_name, "line")
-
-    def generate_pie_plot(self, x_data, y_data, ax, first_column_name):
-        self.data.set_index(x_data).plot(
-            kind="pie",
-            y=y_data,
-            labels=self.data[first_column_name],
-            ax=ax,
-            legend=False,
+    def generate_bar_graph(self, x_data, y_data,  first_column_name):
+        fig = px.bar(
+        data_frame = self.data,
+        x=x_data,
+        y=y_data,
+        hover_name=first_column_name
         )
+        return fig 
 
-    def generate_violin_plot(self, x_data, y_data, ax):
-        plotData = self.data.copy()
-        if pd.api.types.is_numeric_dtype(plotData[x_data]):
-            # Bin the data and use midpoints for readability
-            plotData["x_binned"] = pd.cut(plotData[x_data], bins=10)
-            plotData["x_binned_mid"] = plotData["x_binned"].apply(lambda x: x.mid).astype(float)
-            plotData["x_binned_mid"] = plotData["x_binned_mid"].round(1).astype(str)  # Round to 1 decimal place
-            sns.violinplot(x="x_binned_mid", y=y_data, data=plotData, ax=ax)
-            ax.set_xlabel(x_data)  # Set the X-axis label
-        else:
-            sns.violinplot(x=x_data, y=y_data, data=plotData, ax=ax)
-            ax.set_xlabel(x_data)  # Set the X-axis label
+    def generate_scatter_plot(self, x_data, y_data, first_column_name):
+        fig = px.scatter(
+            data_frame = self.data,
+            x = x_data,
+            y = y_data,
+            hover_name = first_column_name
+        )
+        return fig
+
+    def generate_line_plot(self, x_data, y_data, first_column_name):
+        fig = px.line(
+            data_frame = self.data,
+            x = x_data,
+            y = y_data,
+            hover_data=[first_column_name],
+            markers=True
+        )
+        return fig
+
+    def generate_pie_plot(self, x_data, y_data, first_column_name):
+        fig = px.pie(
+        data_frame = self.data,
+        names=self.data[first_column_name],
+        values=y_data,
+        hover_data=[x_data]
+        )
+        return fig
+
+    def generate_violin_plot(self, x_data, y_data, first_column_name):   
+        fig = px.violin(
+            data_frame = self.data,
+            x = x_data,
+            y = y_data,
+            hover_name = first_column_name
+        )
+        return fig
             
-    def generate_correlation_plot(self, ax):
+    def generate_correlation_plot(self):
         matrix_correlation = self.data.iloc[:, 1:].corr(method="spearman").round(2)
-        sns.heatmap(matrix_correlation, ax=ax, cbar_kws={'pad': 0.02}, square=True, vmin=0, vmax=1)
+        fig = px.imshow(
+            matrix_correlation,
+            aspect="auto"
+        )
+        return fig
          
     def download_climate_plot(self):
         """

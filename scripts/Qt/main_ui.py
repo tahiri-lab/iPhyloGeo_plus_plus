@@ -1132,19 +1132,10 @@ class Ui_MainWindow(object):
         spacerItem19 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
         self.verticalLayout_15.addItem(spacerItem19)
         self.horizontalLayout_11.addWidget(self.verticalWidget)
-        self.ClimaticChart_2 = QtWidgets.QLabel(parent=self.frameClimStats)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.ClimaticChart_2.sizePolicy().hasHeightForWidth())
-        self.ClimaticChart_2.setSizePolicy(sizePolicy)
-        self.ClimaticChart_2.setMinimumSize(QtCore.QSize(0, 0))
-        self.ClimaticChart_2.setMaximumSize(QtCore.QSize(10000, 10000))
-        self.ClimaticChart_2.setText("")
-        self.ClimaticChart_2.setScaledContents(True)
-        self.ClimaticChart_2.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.ClimaticChart_2.setObjectName("ClimaticChart_2")
-        self.horizontalLayout_11.addWidget(self.ClimaticChart_2)
+        self.climatGraphView = QtWebEngineWidgets.QWebEngineView(parent=self.frameClimStats)
+        self.climatGraphView.setUrl(QtCore.QUrl("about:blank"))
+        self.climatGraphView.setObjectName("climatGraphView")
+        self.horizontalLayout_11.addWidget(self.climatGraphView)
         self.horizontalLayout_11.setStretch(0, 2)
         self.horizontalLayout_11.setStretch(1, 4)
         self.horizontalLayout_10.addWidget(self.frameClimStats)
@@ -1609,6 +1600,7 @@ class Ui_MainWindow(object):
         self.ResultsStatsListTitle.setText(_translate("MainWindow", "Condition"))
         self.ResultsStatsListTitle_2.setText(_translate("MainWindow", "trees"))
         self.tabWidgetResult.setTabText(self.tabWidgetResult.indexOf(self.resultStatTab), _translate("MainWindow", "Statistics"))
+from PyQt6 import QtWebEngineWidgets
 
 
 if __name__ == "__main__":
