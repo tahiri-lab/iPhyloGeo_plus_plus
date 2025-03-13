@@ -137,7 +137,7 @@ class ClimaticTree:
             None
         """
         try:
-            download_file_local(self.current_key, self.main)
+            download_file_local(self.current_key)
         except FileNotFoundError as e:
             show_error_dialog(f"The temporary image file was not found: {e}", "File Not Found")
         except Exception as e:

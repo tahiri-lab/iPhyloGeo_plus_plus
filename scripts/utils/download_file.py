@@ -20,8 +20,18 @@ def download_file_temporary_PIO(name, fig):
     pio.write_image(fig, img_path, format="png")
     return QPixmap(img_path)
 
+def download_local_with_fig(fig):
+    file_path, _ = QFileDialog.getSaveFileName(
+        None,
+        "Save Plot As",
+        None,
+        "PNG Files (*.png);;All Files (*)",
+    )
+    if file_path:
+        pio.write_image(fig, file_path, format="png", scale=1.5)
 
-def download_file_local(name, parent):
+
+def download_file_local(name):
     img_path = format_string_create_directory(name)
 
     if not os.path.exists(img_path):
@@ -30,7 +40,7 @@ def download_file_local(name, parent):
 
     # Prompt the user to select a location to save the plot
     file_path, _ = QFileDialog.getSaveFileName(
-        parent,
+        None,
         "Save Plot As",
         os.path.basename(img_path),
         "PNG Files (*.png);;All Files (*)",

@@ -7,7 +7,7 @@ from Climatic.climat_tree import ClimaticTree
 from event_connector import blocked_signals
 from PyQt6.QtWidgets import QFileDialog
 from utils.custom_table import create_sleek_table
-from utils.download_file import download_file_local
+from utils.download_file import download_local_with_fig
 from utils.error_dialog import show_error_dialog
 from utils.my_dumper import update_yaml_param
 
@@ -17,6 +17,10 @@ class Climat:
         self.main = main
         self.climaticTree = ClimaticTree(main)
         self.sleek_table = None
+        self.customConfig ={
+                'modeBarButtonsToRemove': ['toImage'],
+                'displaylogo' : False
+            }
 
     def load_climate_statistics(self):
         """
@@ -29,6 +33,9 @@ class Climat:
             None
         """
         self.data = pd.read_csv(Params.file_name)
+        self.first_column_name = self.data.columns[0]
+        self.data[self.first_column_name] = self.data[self.first_column_name].str.replace("_", " ")
+        
         columns = self.data.columns.tolist()
 
         if columns:
@@ -57,89 +64,75 @@ class Climat:
         x_data = self.main.ClimaticChartSettingsAxisX.currentText()
         y_data = self.main.ClimaticChartSettingsAxisY.currentText()
         plot_type = self.main.PlotTypesCombobox.currentText()
-
-        # Identify the first column
-        first_column_name = self.data.columns[0]
-
-        # Replace underscores with spaces in the first column's data
-        self.data[first_column_name] = self.data[first_column_name].str.replace("_", " ")
         
         self.main.ClimaticChartSettingsAxisX.setEnabled(True)
         self.main.ClimaticChartSettingsAxisY.setEnabled(True)
         
         match plot_type:
             case "Scatter Plot":
-                fig = self.generate_scatter_plot(x_data, y_data, first_column_name)
+                self.generate_scatter_plot(x_data, y_data)
             case "Line Plot":
-                fig = self.generate_line_plot(x_data, y_data, first_column_name)
+                self.generate_line_plot(x_data, y_data)
             case "Bar Graph":
-                fig = self.generate_bar_graph(x_data, y_data, first_column_name)
+                self.generate_bar_graph(x_data, y_data)
             case "Violin Plot":
-                fig = self.generate_violin_plot(x_data, y_data, first_column_name)
+                self.generate_violin_plot(x_data, y_data)
             case "Pie Plot":
-                fig = self.generate_pie_plot(x_data, y_data, first_column_name)
+                self.generate_pie_plot(x_data, y_data)
             case "Correlation":
-                fig = self.generate_correlation_plot()
+                self.generate_correlation_plot()
                 self.main.ClimaticChartSettingsAxisX.setEnabled(False)
                 self.main.ClimaticChartSettingsAxisY.setEnabled(False)
-            case _:
-                fig = self.generate_bar_graph(x_data, y_data, first_column_name)
                   
-        self.main.climatGraphView.setHtml(fig.to_html(include_plotlyjs='cdn'))
+        self.main.climatGraphView.setHtml(self.fig.to_html(include_plotlyjs='cdn', config= self.customConfig))
 
-    def generate_bar_graph(self, x_data, y_data,  first_column_name):
-        fig = px.bar(
+    def generate_bar_graph(self, x_data, y_data):
+        self.fig = px.bar(
         data_frame = self.data,
         x=x_data,
         y=y_data,
-        hover_name=first_column_name
+        hover_name= self.first_column_name
         )
-        return fig 
 
-    def generate_scatter_plot(self, x_data, y_data, first_column_name):
-        fig = px.scatter(
+    def generate_scatter_plot(self, x_data, y_data):
+        self.fig = px.scatter(
             data_frame = self.data,
             x = x_data,
             y = y_data,
-            hover_name = first_column_name
+            hover_name = self.first_column_name
         )
-        return fig
 
-    def generate_line_plot(self, x_data, y_data, first_column_name):
-        fig = px.line(
+    def generate_line_plot(self, x_data, y_data):
+        self.fig = px.line(
             data_frame = self.data,
             x = x_data,
             y = y_data,
-            hover_data=[first_column_name],
+            hover_data=[self.first_column_name],
             markers=True
         )
-        return fig
 
-    def generate_pie_plot(self, x_data, y_data, first_column_name):
-        fig = px.pie(
+    def generate_pie_plot(self, x_data, y_data):
+        self.fig = px.pie(
         data_frame = self.data,
-        names=self.data[first_column_name],
+        names=self.data[self.first_column_name],
         values=y_data,
         hover_data=[x_data]
         )
-        return fig
 
-    def generate_violin_plot(self, x_data, y_data, first_column_name):   
-        fig = px.violin(
+    def generate_violin_plot(self, x_data, y_data):   
+        self.fig = px.violin(
             data_frame = self.data,
             x = x_data,
             y = y_data,
-            hover_name = first_column_name
+            hover_name = self.first_column_name
         )
-        return fig
-            
+           
     def generate_correlation_plot(self):
         matrix_correlation = self.data.iloc[:, 1:].corr(method="spearman").round(2)
-        fig = px.imshow(
+        self.fig = px.imshow(
             matrix_correlation,
             aspect="auto"
         )
-        return fig
          
     def download_climate_plot(self):
         """
@@ -150,8 +143,7 @@ class Climat:
         Returns:
             None
         """
-        plot_type = self.main.PlotTypesCombobox.currentText()
-        download_file_local(plot_type, self.main)
+        download_local_with_fig(self.fig)
 
     def load_csv_climate_file(self):
         try:

@@ -51,10 +51,6 @@ class GeneticPageController:
     def open_genetic_settings_window_click(self):
         open_genetic_settings_window()
 
-    @connect_event(["similarityWindowSizeSpinBox", "startingPositionSimilaritySpinBox"], QtEvents.valueChanged)
-    def update_similarity_plot_valueChanged(self):
-        self.genetics.update_similarity_plot()
-
     @connect_event(["referenceComboBox"], QtEvents.currentIndexChanged)
     def update_similarity_plot_currentIndexChanged(self):
         self.genetics.update_similarity_plot()
