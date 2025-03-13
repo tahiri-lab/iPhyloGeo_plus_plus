@@ -3,8 +3,6 @@ from typing import Any, Dict
 
 import pandas as pd
 import plotly.express as px
-from PyQt6.QtWidgets import QFileDialog
-import plotly.io as pio
 
 import numpy as np
 from aphylogeo.params import Params
@@ -34,7 +32,7 @@ class Genetics:
         self.msa = {}
         self.geneticTrees = []
         self.customConfig ={
-                'modeBarButtonsToRemove': ['toImage'],
+                'modeBarButtonsToRemove': ['toImage', 'autoScale'],
                 'displaylogo' : False
             }
 

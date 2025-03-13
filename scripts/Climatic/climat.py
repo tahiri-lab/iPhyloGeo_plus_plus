@@ -18,7 +18,7 @@ class Climat:
         self.climaticTree = ClimaticTree(main)
         self.sleek_table = None
         self.customConfig ={
-                'modeBarButtonsToRemove': ['toImage'],
+                'modeBarButtonsToRemove': ['toImage', 'autoScale', 'select2d', 'lasso2d'],
                 'displaylogo' : False
             }
 
