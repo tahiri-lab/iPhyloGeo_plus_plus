@@ -128,4 +128,4 @@ class Result:
         self.main.PhyloTreeLabel.adjustSize()
 
     def save_tree_graph(self):
-        download_file_local(self.key, self.main)
+        download_file_local(self.key)

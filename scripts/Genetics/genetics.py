@@ -1,9 +1,10 @@
 import os
 from typing import Any, Dict
 
-import matplotlib.pyplot as plt
+import pandas as pd
+import plotly.express as px
+
 import numpy as np
-import seaborn as sns
 from aphylogeo.params import Params
 from Bio.Align import MultipleSeqAlignment
 from Bio.Seq import Seq
@@ -12,12 +13,11 @@ from event_connector import blocked_signals
 from Genetics.genetic_params_dialog import ParamDialog
 from Genetics.genetics_plot_chart import plot_alignment_chart, read_msa, standardize_sequence_lengths
 from Genetics.genetics_tree import GeneticTree
-from matplotlib.ticker import MaxNLocator
 from PyQt6 import QtCore, QtWidgets
 from PyQt6.QtCore import Qt, QThread
 from PyQt6.QtGui import QMovie
 from ui import loading_dialog
-from utils.download_file import download_file_local, download_file_temporary_PLT
+from utils.download_file import download_local_with_fig
 from utils.error_dialog import show_error_dialog
 from utils.file_caching import FileCaching
 from utils.my_dumper import update_yaml_param
@@ -31,21 +31,10 @@ class Genetics:
         self.worker = None
         self.msa = {}
         self.geneticTrees = []
-
-    def setup_plot(self):
-        sns.set_style("whitegrid")
-
-        self.fig, self.ax = plt.subplots(figsize=(12, 8), facecolor="gray" if self.main.isDarkMode else "white")
-
-        self.ax.set_xlabel("Position", fontsize=14)
-        self.ax.set_ylabel("Similarity", fontsize=14)
-        self.ax.set_title("Sequence Similarity Plot", fontsize=16, weight="bold")
-        self.ax.xaxis.set_major_locator(MaxNLocator(integer=True))
-        self.ax.grid(True, linestyle="--", alpha=0.6)
-        self.ax.spines["top"].set_visible(False)
-        self.ax.spines["right"].set_visible(False)
-        self.ax.spines["left"].set_linewidth(1.2)
-        self.ax.spines["bottom"].set_linewidth(1.2)
+        self.customConfig ={
+                'modeBarButtonsToRemove': ['toImage', 'autoScale'],
+                'displaylogo' : False
+            }
 
     def update_plot(self):
         """
@@ -86,8 +75,6 @@ class Genetics:
 
     def update_similarity_plot(self):
         try:
-            window_size = self.main.similarityWindowSizeSpinBox.value()
-            start_pos = self.main.startingPositionSimilaritySpinBox.value()
             reference_species = self.main.referenceComboBox.currentText().replace(" ", "_")  # Convert back to original format
 
             sequences = self.msa
@@ -101,43 +88,85 @@ class Genetics:
             alignment = MultipleSeqAlignment(padded_records)
             reference_index = [record.id for record in alignment].index(reference_species.replace("_", " "))
             reference_sequence = str(alignment[reference_index].seq)
+            del alignment[reference_index]
+            
             similarities = []
-
-            for record in alignment:
-                similarity = [1 if ref == res else 0 for ref, res in zip(reference_sequence[start_pos:], str(record.seq)[start_pos:])]
+            for record in alignment:            
+                similarity = [1 if ref == res else 0 for ref, res in zip(reference_sequence, str(record.seq))]
                 similarities.append(similarity)
-
             similarities = np.array(similarities)
-
+            
+            
             def sliding_window_avg(arr, window_size, step_size):
                 return [np.mean(arr[i : i + window_size]) for i in range(0, len(arr) - window_size + 1, step_size)]
 
             step_size = 10  # Adjusted step size for better plotting
+            windowSize = 100
 
             windowed_similarities = []
             for sim in similarities:
-                windowed_similarities.append(sliding_window_avg(sim, window_size, step_size))
+                windowed_similarities.append(sliding_window_avg(sim, windowSize, step_size))
 
             windowed_similarities = np.array(windowed_similarities)
 
-            self.setup_plot()
+            x = np.arange(0, len(reference_sequence) - windowSize + 1, step_size)
 
-            x = np.arange(start_pos, len(reference_sequence) - window_size + 1, step_size)
-
+            data = {
+                "Position": [],
+                "Similarity": [],
+                "Sequence": []
+            }
             for idx, record in enumerate(alignment):
-                self.ax.plot(x, windowed_similarities[idx], label=record.id, linewidth=2.0)
+                for pos, sim_val in zip(x, windowed_similarities[idx]):
+                    data["Position"].append(pos)
+                    data["Similarity"].append(sim_val)
+                    data["Sequence"].append(record.id)
+            df = pd.DataFrame(data)
 
-            pixmap = download_file_temporary_PLT("similarity_plot", self.fig)
+            self.fig = px.line(
+                df,
+                x="Position",
+                y="Similarity",
+                color="Sequence",
+                custom_data=["Sequence"],
+                labels={
+                    "Position": "Position",
+                    "Similarity": "Similarity",
+                    "Sequence": "Sequence ID"
+                },
+            )
+            
+            self.similarity_plot_style()
+            
+            fig_html = self.fig.to_html(include_plotlyjs="cdn", config = self.customConfig)
 
-            self.main.textEditGenStats_2.setPixmap(pixmap)
+            self.main.textEditGenStats_2.setHtml(fig_html)
 
             self.main.tabWidget.setCurrentIndex(3)
         except Exception as e:
             show_error_dialog(f"Error updating similarity plot: {e}")
+            
+    def similarity_plot_style(self):
+        if self.main.isDarkMode:
+            self.fig.update_layout(template="plotly_dark")
+        else:
+            self.fig.update_layout(template="plotly_white")
+
+        self.fig.update_layout(
+            hovermode="x",
+            title_text="Sequence Similarity Plot",
+            title_x=0.5,                            
+            title_y=0.95,                          
+            title_pad=dict(t=0, b=10)               
+        )
+        
+        self.fig.update_traces(
+            hovertemplate="<b>Sequence:</b> %{customdata[0]}<br>"
+                            "<b>Similarity:</b> %{y:.2f}<extra></extra>")
 
     def download_similarity_plot_chart(self):
-        download_file_local("similarity_plot", self.main)
-
+        download_local_with_fig(self.fig)
+            
     def select_fasta_file(self):
         """
         Open a dialog to select a FASTA file, update parameters, and display the content with color-coded sequences.
@@ -306,7 +335,6 @@ class Genetics:
         try:
             self.main.textEditFasta.clear()
             self.main.seqAlignLabel.clear()
-            self.main.textEditGenStats_2.clear()
             self.main.GeneticTreeLabel.clear()
             self.geneticTrees = None
 

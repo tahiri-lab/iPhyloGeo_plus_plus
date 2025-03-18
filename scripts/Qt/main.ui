@@ -826,7 +826,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="HomePage">
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -1658,7 +1658,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                    <height>250</height>
                   </size>
                  </property>
-                 <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="3,1,1,1,1">
+                 <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="3,1,1">
                   <property name="spacing">
                    <number>20</number>
                   </property>
@@ -1678,118 +1678,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
                      <set>Qt::AlignmentFlag::AlignCenter</set>
                     </property>
                    </widget>
-                  </item>
-                  <item>
-                   <layout class="QVBoxLayout" name="verticalLayout_20">
-                    <property name="spacing">
-                     <number>0</number>
-                    </property>
-                    <item>
-                     <spacer name="verticalSpacer_7">
-                      <property name="orientation">
-                       <enum>Qt::Orientation::Vertical</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>20</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                    <item>
-                     <widget class="QLabel" name="label_5">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="text">
-                       <string>Window size</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QSpinBox" name="similarityWindowSizeSpinBox">
-                      <property name="minimum">
-                       <number>1</number>
-                      </property>
-                      <property name="maximum">
-                       <number>1000</number>
-                      </property>
-                      <property name="value">
-                       <number>100</number>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="verticalSpacer_6">
-                      <property name="orientation">
-                       <enum>Qt::Orientation::Vertical</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>20</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <layout class="QVBoxLayout" name="verticalLayout_21">
-                    <property name="spacing">
-                     <number>0</number>
-                    </property>
-                    <item>
-                     <spacer name="verticalSpacer_9">
-                      <property name="orientation">
-                       <enum>Qt::Orientation::Vertical</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>20</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                    <item>
-                     <widget class="QLabel" name="label_6">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="text">
-                       <string>Starting Position</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QSpinBox" name="startingPositionSimilaritySpinBox">
-                      <property name="maximum">
-                       <number>9999999</number>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="verticalSpacer_8">
-                      <property name="orientation">
-                       <enum>Qt::Orientation::Vertical</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>20</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
                   </item>
                   <item>
                    <layout class="QVBoxLayout" name="verticalLayout_22">
@@ -1863,33 +1751,11 @@ li.checked::marker { content: &quot;\2612&quot;; }
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="textEditGenStats_2">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>900</width>
-                   <height>400</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>100000</width>
-                   <height>100000</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="scaledContents">
-                  <bool>true</bool>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+                <widget class="QWebEngineView" name="textEditGenStats_2">
+                 <property name="url">
+                  <url>
+                   <string>about:blank</string>
+                  </url>
                  </property>
                 </widget>
                </item>
@@ -1950,6 +1816,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
                    </spacer>
                   </item>
                   <item>
+                   <widget class="QComboBox" name="geneticTreescomboBox"/>
+                  </item>
+                  <item>
                    <widget class="QPushButton" name="downloadGraphButton">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
@@ -1966,16 +1835,13 @@ li.checked::marker { content: &quot;\2612&quot;; }
                     <property name="maximumSize">
                      <size>
                       <width>16777215</width>
-                      <height>70</height>
+                      <height>50</height>
                      </size>
                     </property>
                     <property name="text">
                      <string>Download Graph</string>
                     </property>
                    </widget>
-                  </item>
-                  <item>
-                   <widget class="QComboBox" name="geneticTreescomboBox"/>
                   </item>
                  </layout>
                 </widget>
@@ -2253,7 +2119,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <item>
             <widget class="QTabWidget" name="tabWidget2">
              <property name="currentIndex">
-              <number>2</number>
+              <number>3</number>
              </property>
              <widget class="QWidget" name="ClimTab1">
               <attribute name="title">
@@ -2351,7 +2217,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                  <property name="frameShadow">
                   <enum>QFrame::Shadow::Raised</enum>
                  </property>
-                 <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="2,3">
+                 <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="2,4">
                   <property name="spacing">
                    <number>4</number>
                   </property>
@@ -2627,6 +2493,11 @@ li.checked::marker { content: &quot;\2612&quot;; }
                          <string>Pie Plot</string>
                         </property>
                        </item>
+                       <item>
+                        <property name="text">
+                         <string>Correlation</string>
+                        </property>
+                       </item>
                       </widget>
                      </item>
                      <item>
@@ -2711,33 +2582,11 @@ li.checked::marker { content: &quot;\2612&quot;; }
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="ClimaticChart_2">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>0</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>10000</width>
-                      <height>10000</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string/>
-                    </property>
-                    <property name="scaledContents">
-                     <bool>true</bool>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignmentFlag::AlignCenter</set>
+                   <widget class="QWebEngineView" name="climatGraphView">
+                    <property name="url">
+                     <url>
+                      <string>about:blank</string>
+                     </url>
                     </property>
                    </widget>
                   </item>
@@ -3470,6 +3319,13 @@ li.checked::marker { content: &quot;\2612&quot;; }
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QWebEngineView</class>
+   <extends>QWidget</extends>
+   <header location="global">QtWebEngineWidgets/QWebEngineView</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
