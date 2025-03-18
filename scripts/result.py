@@ -92,8 +92,8 @@ class Result:
         try:
             # Get Genetic data
             firstTreeKey, _ = next(iter(self.main.geneticsPage.genetics.geneticTrees.items()))
-            currentTree = self.tree_keys[self.main.phyloTreescomboBox.currentText()] if self.main.phyloTreescomboBox.currentIndex() != -1 else firstTreeKey
-            treeData = self.main.geneticsPage.genetics.geneticTrees.get(currentTree)
+            currentTree = self.tree_keys[self.main.phyloTreescomboBox.currentIndex()] if self.main.phyloTreescomboBox.currentIndex() != -1 else firstTreeKey
+            treeData = self.main.geneticsPage.genetics.geneticTrees.get(currentTree) or self.main.geneticsPage.genetics.geneticTrees.get(firstTreeKey)
             # Get Climatic data
             gpsFile = pd.read_csv(Params.file_name)
         except Exception:

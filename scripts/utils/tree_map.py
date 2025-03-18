@@ -153,9 +153,9 @@ def calc_node_positions(tree, x_start, y_start, y_step):
         x_pos = x_start + tree.branch_length if tree.branch_length else x_start
         name_length = len(tree.name) if tree.name else 0
         if name_length <= MINOFFSET:
-            x_pos += 0.02 * name_length
+            x_pos += 0.01 * name_length
         else:
-            x_pos += 0.013 * name_length
+            x_pos += 0.009 * name_length
         y_pos = y_start
         y_start += y_step
     else:
