@@ -44,7 +44,7 @@ class Result:
         """
         self.main.tabWidgetResult.setCurrentIndex(0)
 
-        df = pd.read_csv(Params.file_name)
+        df = self.main.climatePage.climat.data.copy()
         try:
             utils.filterResults(self.main.climatePage.climat.climaticTree.climaticTrees, self.main.geneticsPage.genetics.geneticTrees, df)
         except Exception:
@@ -95,7 +95,7 @@ class Result:
             currentTree = self.tree_keys[self.main.phyloTreescomboBox.currentText()] if self.main.phyloTreescomboBox.currentIndex() != -1 else firstTreeKey
             treeData = self.main.geneticsPage.genetics.geneticTrees.get(currentTree)
             # Get Climatic data
-            gpsFile = pd.read_csv(Params.file_name)
+            gpsFile = self.main.climatePage.climat.data.copy()
         except Exception:
             show_error_dialog("The data given is not correct, make sure that you loaded the correct files in the previous steps.")
             return
@@ -112,7 +112,7 @@ class Result:
             self.main.phyloTreescomboBox.clear()
             self.main.phyloTreescomboBox.addItems(formatted_tree_keys)
 
-            self.climatic_data = pd.read_csv(Params.file_name)
+            self.climatic_data = self.main.climatePage.climat.data.copy()
             self.main.criteriaComboBox.clear()
             self.main.criteriaComboBox.addItems(self.climatic_data.columns[1:])
 

@@ -826,7 +826,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="HomePage">
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -1212,7 +1212,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <item>
             <widget class="QTabWidget" name="tabWidget">
              <property name="currentIndex">
-              <number>2</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="GenTab1">
               <attribute name="title">
@@ -2100,7 +2100,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
           <property name="frameShadow">
            <enum>QFrame::Shadow::Raised</enum>
           </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <layout class="QVBoxLayout" name="verticalLayout_20">
            <property name="spacing">
             <number>0</number>
            </property>
@@ -2111,7 +2111,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
             <number>0</number>
            </property>
            <property name="rightMargin">
-            <number>5</number>
+            <number>6</number>
            </property>
            <property name="bottomMargin">
             <number>0</number>
@@ -2119,13 +2119,13 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <item>
             <widget class="QTabWidget" name="tabWidget2">
              <property name="currentIndex">
-              <number>3</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="ClimTab1">
               <attribute name="title">
                <string>Get Started !</string>
               </attribute>
-              <layout class="QVBoxLayout" name="verticalLayout_3">
+              <layout class="QVBoxLayout" name="verticalLayout_21" stretch="1,6">
                <property name="spacing">
                 <number>0</number>
                </property>
@@ -2142,7 +2142,103 @@ li.checked::marker { content: &quot;\2612&quot;; }
                 <number>0</number>
                </property>
                <item>
+                <widget class="QWidget" name="climate_data_settings" native="true">
+                 <property name="autoFillBackground">
+                  <bool>true</bool>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_14" stretch="1,1,1,1,1,4">
+                  <property name="leftMargin">
+                   <number>10</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QLabel" name="label_2">
+                    <property name="text">
+                     <string>Max Correlation</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QDoubleSpinBox" name="max_correlation_climat">
+                    <property name="decimals">
+                     <number>4</number>
+                    </property>
+                    <property name="maximum">
+                     <double>1.000000000000000</double>
+                    </property>
+                    <property name="value">
+                     <double>1.000000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_11">
+                    <property name="orientation">
+                     <enum>Qt::Orientation::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label">
+                    <property name="text">
+                     <string>Min Variance</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QDoubleSpinBox" name="min_variance_climat">
+                    <property name="decimals">
+                     <number>4</number>
+                    </property>
+                    <property name="maximum">
+                     <double>100000.000000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_10">
+                    <property name="orientation">
+                     <enum>Qt::Orientation::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
                 <widget class="QTextBrowser" name="textEditClimStart">
+                 <property name="autoFillBackground">
+                  <bool>true</bool>
+                 </property>
+                 <property name="frameShape">
+                  <enum>QFrame::Shape::StyledPanel</enum>
+                 </property>
+                 <property name="verticalScrollBarPolicy">
+                  <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+                 </property>
+                 <property name="horizontalScrollBarPolicy">
+                  <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+                 </property>
                  <property name="html">
                   <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;title&gt;Get Started&lt;/title&gt;&lt;style type=&quot;text/css&quot;&gt;

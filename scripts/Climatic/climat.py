@@ -1,5 +1,6 @@
 import plotly.express as px
 import pandas as pd
+import numpy as np
 from aphylogeo import utils
 from aphylogeo.params import Params
 from Climatic.climat_data import get_folium_data
@@ -31,11 +32,7 @@ class Climat:
 
         Returns:
             None
-        """
-        self.data = pd.read_csv(Params.file_name)
-        self.first_column_name = self.data.columns[0]
-        self.data[self.first_column_name] = self.data[self.first_column_name].str.replace("_", " ")
-        
+        """        
         columns = self.data.columns.tolist()
 
         if columns:
@@ -158,22 +155,23 @@ class Climat:
 
             if fullFilePath:
                 update_yaml_param(Params, "scripts/utils/params.yaml", "file_name", fullFilePath)
-                df = pd.read_csv(fullFilePath)
-                columns = df.columns.tolist()
-
-                if len(columns) < 2:
-                    raise ValueError("The CSV file must contain at least two columns for latitude and longitude.")
-
+                
+                self.data = pd.read_csv(fullFilePath)
+                columns = self.data.columns.tolist()
+                self.first_column_name = self.data.columns[0]
+                self.data[columns[0]] = self.data[columns[0]].str.replace("_", " ")
+                
                 latitude_col = columns[-1]
                 longitude_col = columns[-2]
+                lat = self.data[latitude_col].tolist()
+                long = self.data[longitude_col].tolist()
+                
+                self.filter_data()
+                columns = self.data.columns.tolist()
+                
+                if len(columns) < 3:
+                    raise ValueError("The data has not enough columns. Either change the csv file or adjust the filters.")
 
-                lat = df[latitude_col].tolist()
-                long = df[longitude_col].tolist()
-
-                df[columns[0]] = df[columns[0]].str.replace("_", " ")
-
-                self.species = df[columns[0]].tolist()
-                self.factors = df.drop(columns=[longitude_col, latitude_col]).values.tolist()
                 clim_data_names = columns[1:]
                 update_yaml_param(Params, "scripts/utils/params.yaml", "names", columns)
                 update_yaml_param(Params, "scripts/utils/params.yaml", "data_names", clim_data_names)
@@ -183,11 +181,11 @@ class Climat:
                     self.main.climatTableLayout.removeWidget(self.sleek_table)
                     self.sleek_table.deleteLater()
 
-                self.sleek_table = create_sleek_table(df, True)
+                self.sleek_table = create_sleek_table(self.data, True)
 
                 self.main.climatTableLayout.addWidget(self.sleek_table)
 
-                self.climaticTree.climaticTrees = utils.climaticPipeline(df)
+                self.climaticTree.climaticTrees = utils.climaticPipeline(self.data)
                 self.main.climaticTreeButtonPage2.setEnabled(True)
                 self.main.statisticsButtonPage2.setEnabled(True)
                 self.main.tabWidget2.setCurrentIndex(1)
@@ -203,6 +201,38 @@ class Climat:
             show_error_dialog(f"Value Error: {e}")
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}")
+            
+    def filter_data(self):
+        variance = self.data.var(numeric_only=True)
+        numeric_to_keep = set(variance[variance > self.main.min_variance_climat.value()].index.tolist())
+        
+        final_columns = [col for col in self.data.columns if (col not in variance.index or col in numeric_to_keep)]
+        
+        self.data = self.data[final_columns]
+        
+        cols = list(self.data.columns[1:])
+        data_processed = self.data.copy()
+        threshold = self.main.max_correlation_climat.value()
+        
+        while True:
+            corr_matrix = data_processed[cols].corr(method="spearman").round(2).abs()
+            upper_tri = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
+            
+            max_corr = upper_tri.max().max()
+            if max_corr < threshold:
+                break
+            
+            col_correlation_scores = {}
+            for col in upper_tri.columns:
+                high_corr = upper_tri[col][upper_tri[col] >= threshold]
+                if not high_corr.empty:
+                    col_correlation_scores[col] = high_corr.mean()
+            
+            if col_correlation_scores:
+                column_to_drop = max(col_correlation_scores, key=col_correlation_scores.get)
+                cols.remove(column_to_drop)
+            
+        self.data = data_processed[[self.data.columns[0]] + cols]   
 
     def clear_climmatic_data(self):
         """
