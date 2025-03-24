@@ -65,7 +65,6 @@ def plot_alignment_chart(genetic_data, starting_position, window_size, isDarkMod
         genetic_data (dict): A dictionary with sequence identifiers as keys and sequences as values.
         starting_position (int): The starting position for the alignment window.
         window_size (int): The size of the alignment window.
-        output_path (str): The path to save the output plot.
 
     Returns:
         None

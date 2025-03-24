@@ -188,7 +188,7 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
     ################################
 
     def stop_thread(self):
-        self.geneticsPage.genetics.stopWorker()
+        self.geneticsPage.genetics.geneticAlignment.stopWorker()
         currThread = self.thread()
         if currThread is QThread:
             if currThread.isRunning():

@@ -46,7 +46,7 @@ class Result:
 
         df = self.main.climatePage.climat.data.copy()
         try:
-            utils.filterResults(self.main.climatePage.climat.climaticTree.climaticTrees, self.main.geneticsPage.genetics.geneticTrees, df)
+            utils.filterResults(self.main.climatePage.climat.climaticTree.climaticTrees, self.main.geneticsPage.genetics.geneticAlignment.geneticTrees, df)
         except Exception:
             show_error_dialog("The data given is not correct, make sure that you loaded the correct files in the previous steps.")
             return
@@ -91,9 +91,9 @@ class Result:
     def show_map(self):
         try:
             # Get Genetic data
-            firstTreeKey, _ = next(iter(self.main.geneticsPage.genetics.geneticTrees.items()))
+            firstTreeKey, _ = next(iter(self.main.geneticsPage.genetics.geneticAlignment.geneticTrees.items()))
             currentTree = self.tree_keys[self.main.phyloTreescomboBox.currentText()] if self.main.phyloTreescomboBox.currentIndex() != -1 else firstTreeKey
-            treeData = self.main.geneticsPage.genetics.geneticTrees.get(currentTree)
+            treeData = self.main.geneticsPage.genetics.geneticAlignment.geneticTrees.get(currentTree)
             # Get Climatic data
             gpsFile = self.main.climatePage.climat.data.copy()
         except Exception:
