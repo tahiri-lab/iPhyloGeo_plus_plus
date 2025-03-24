@@ -38,12 +38,8 @@ class Climat:
                 self.data = pd.read_csv(fullFilePath)
                 columns = self.data.columns.tolist()
                 self.data[columns[0]] = self.data[columns[0]].str.replace("_", " ")
-                self.climaticStatistics.data = self.data
                 
-                latitude_col = columns[-1]
-                longitude_col = columns[-2]
-                lat = self.data[latitude_col].tolist()
-                long = self.data[longitude_col].tolist()
+                self.setup_climatic_data_page(columns)
                 
                 self.filter_data()
                 columns = self.data.columns.tolist()
@@ -55,20 +51,10 @@ class Climat:
                 update_yaml_param(Params, "scripts/utils/params.yaml", "names", columns)
                 update_yaml_param(Params, "scripts/utils/params.yaml", "data_names", clim_data_names)
 
-                self.main.textEditClimData.clear()
-                if self.sleek_table is not None:
-                    self.main.climatTableLayout.removeWidget(self.sleek_table)
-                    self.sleek_table.deleteLater()
-
-                self.sleek_table = create_sleek_table(self.data, True)
-
-                self.main.climatTableLayout.addWidget(self.sleek_table)
-
                 self.climaticTree.climaticTrees = utils.climaticPipeline(self.data)
                 self.main.climaticTreeButtonPage2.setEnabled(True)
                 self.main.statisticsButtonPage2.setEnabled(True)
                 self.main.tabWidget2.setCurrentIndex(1)
-                self.main.mapView.setHtml(get_folium_data(lat, long))
 
                 if self.main.statisticsButtonPage1.isEnabled():
                     self.main.resultsButton.setEnabled(True)
@@ -111,8 +97,28 @@ class Climat:
                 column_to_drop = max(col_correlation_scores, key=col_correlation_scores.get)
                 cols.remove(column_to_drop)
             
-        self.data = data_processed[[self.data.columns[0]] + cols]   
+        self.data = data_processed[[self.data.columns[0]] + cols]  
+        self.climaticStatistics.data = self.data
+        
 
+    def setup_climatic_data_page(self, columns):
+        
+        self.main.textEditClimData.clear()
+        if self.sleek_table is not None:
+            self.main.climatTableLayout.removeWidget(self.sleek_table)
+            self.sleek_table.deleteLater()
+
+        self.sleek_table = create_sleek_table(self.data, True)
+
+        self.main.climatTableLayout.addWidget(self.sleek_table)
+        
+        latitude_col = columns[-1]
+        longitude_col = columns[-2]
+        lat = self.data[latitude_col].tolist()
+        long = self.data[longitude_col].tolist()
+        
+        self.main.mapView.setHtml(get_folium_data(lat, long))
+        
     def clear_climmatic_data(self):
         """
         Clear the text fields related to climatic data.

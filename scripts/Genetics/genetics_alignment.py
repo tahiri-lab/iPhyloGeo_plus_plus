@@ -155,7 +155,7 @@ class GeneticAlignment:
         while self.workerThread.isRunning():
             QtWidgets.QApplication.processEvents()
             
-    def stopWorker(self):
+    def stop_worker(self):
         if self.worker:
             self.worker.stop()
             
