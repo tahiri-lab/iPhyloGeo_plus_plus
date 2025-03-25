@@ -1,8 +1,9 @@
 import sys
+import shutil
 
 import qtmodern.styles
 import qtmodern.windows
-from aphylogeo.params import Params
+from aphylogeo.params import Params, os
 from event_connector import QtEvents, connect_decorated_methods, connect_event
 from navigation import Navigation
 from PyQt6 import QtCore, QtGui, QtWidgets
@@ -248,15 +249,18 @@ if __name__ == "__main__":
     qtmodern.styles.light(app)
 
     window = UiMainWindow()
-    
+
     mw = qtmodern.windows.ModernWindow(window)
+
+    if os.path.exists("scripts/utils/params.yaml") is False:
+        shutil.copy("scripts/utils/params_default.yaml", "scripts/utils/params.yaml")
 
     if primary_screen := app.primaryScreen():
         screen_geometry = primary_screen.availableGeometry()
         center_point = screen_geometry.center()
         x = center_point.x() - mw.width() // 2
         y = center_point.y() - mw.height() // 2
-        
+
         mw.move(x, y)
         mw.show()
 

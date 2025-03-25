@@ -1,6 +1,6 @@
-file_name: C:/Users/lolow/Desktop/.Toulouse/2023 2024/Stage/Projet/iPhyloGeo_plus_plus_0613/datasets/geo_with_loc.csv
+file_name: ""
 data_names: [ALLSKY_SFC_SW_DWN, T2M, QV2M, PRECTOTCORR, WS10M]
-reference_gene_dir: C:/Users/lolow/Desktop/.Toulouse/2023 2024/Stage/Projet/iPhyloGeo_plus_plus_0613/datasets
+reference_gene_dir: ""
 reference_gene_file: small_seq.fasta
 makeDebugFiles: False
 

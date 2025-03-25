@@ -4,7 +4,7 @@ from typing import Dict, cast
 from aphylogeo import utils
 from aphylogeo.alignement import AlignSequences
 from aphylogeo.genetic_trees import GeneticTrees
-from aphylogeo.params import Params
+from aphylogeo.params import Params, os
 from PyQt6.QtCore import QObject, pyqtSignal
 from utils.file_caching import FileCaching
 
@@ -50,6 +50,8 @@ class Worker(QObject):
             msa = cast(Dict[str, str], alignments.to_dict().get("msa"))
 
             # Step 5: Save results
+            if os.path.exists("./results/") is False:
+                os.mkdir("./results/")
             filename = Path(self.filepath).stem
             print(f"Saving results to ./results/{filename}_output.json")
             FileCaching.save_genetic_tree_result(self.filepath, f"./results/{filename}_output.json", msa, trees.get_trees_str())
