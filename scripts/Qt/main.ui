@@ -826,7 +826,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="HomePage">
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -1212,7 +1212,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <item>
             <widget class="QTabWidget" name="tabWidget">
              <property name="currentIndex">
-              <number>0</number>
+              <number>2</number>
              </property>
              <widget class="QWidget" name="GenTab1">
               <attribute name="title">
@@ -1419,7 +1419,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                     </property>
                     <property name="font">
                      <font>
-                      <pointsize>-1</pointsize>
+                      <pointsize>1</pointsize>
                       <bold>true</bold>
                       <kerning>true</kerning>
                      </font>

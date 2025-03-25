@@ -15,9 +15,6 @@ STATS_TAB = 1
 MAP_TAB = 2
 
 class Result:
-
-
-
     def __init__(self, main):
         self.main = main
         self.table = None

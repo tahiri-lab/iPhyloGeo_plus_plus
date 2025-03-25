@@ -21,8 +21,6 @@ try:
 except FileNotFoundError:
     Params.validate_and_set_params(Params.PARAMETER_KEYS)
 
-window_size = 50
-starting_position = 1
 
 
 class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
