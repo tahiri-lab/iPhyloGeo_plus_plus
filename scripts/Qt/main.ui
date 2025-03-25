@@ -546,7 +546,7 @@
          </property>
          <property name="maximumSize">
           <size>
-           <width>100000</width>
+           <width>350</width>
            <height>10000</height>
           </size>
          </property>
@@ -826,7 +826,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="HomePage">
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -953,10 +953,10 @@ li.checked::marker { content: &quot;\2612&quot;; }
       <widget class="QWidget" name="GeneticDataPage">
        <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,5">
         <property name="spacing">
-         <number>0</number>
+         <number>10</number>
         </property>
         <property name="leftMargin">
-         <number>5</number>
+         <number>0</number>
         </property>
         <property name="topMargin">
          <number>0</number>
@@ -992,13 +992,13 @@ li.checked::marker { content: &quot;\2612&quot;; }
             <number>30</number>
            </property>
            <property name="leftMargin">
-            <number>0</number>
+            <number>5</number>
            </property>
            <property name="topMargin">
             <number>0</number>
            </property>
            <property name="rightMargin">
-            <number>7</number>
+            <number>5</number>
            </property>
            <property name="bottomMargin">
             <number>10</number>
@@ -1208,11 +1208,26 @@ li.checked::marker { content: &quot;\2612&quot;; }
           <property name="frameShadow">
            <enum>QFrame::Shadow::Raised</enum>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_7">
+          <layout class="QVBoxLayout" name="verticalLayout_7" stretch="0">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>6</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
            <item>
             <widget class="QTabWidget" name="tabWidget">
              <property name="currentIndex">
-              <number>2</number>
+              <number>3</number>
              </property>
              <widget class="QWidget" name="GenTab1">
               <attribute name="title">
@@ -1246,6 +1261,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
                   <font>
                    <pointsize>8</pointsize>
                   </font>
+                 </property>
+                 <property name="frameShape">
+                  <enum>QFrame::Shape::StyledPanel</enum>
                  </property>
                  <property name="readOnly">
                   <bool>true</bool>
@@ -1300,9 +1318,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
               <attribute name="title">
                <string>Sequence Alignment</string>
               </attribute>
-              <layout class="QVBoxLayout" name="verticalLayout_19" stretch="2,4">
+              <layout class="QVBoxLayout" name="verticalLayout_19" stretch="1,4">
                <property name="spacing">
-                <number>0</number>
+                <number>6</number>
                </property>
                <property name="leftMargin">
                 <number>0</number>
@@ -1419,7 +1437,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                     </property>
                     <property name="font">
                      <font>
-                      <pointsize>1</pointsize>
+                      <pointsize>-1</pointsize>
                       <bold>true</bold>
                       <kerning>true</kerning>
                      </font>
@@ -1632,6 +1650,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
                <string>Species Stats</string>
               </attribute>
               <layout class="QVBoxLayout" name="verticalLayout_10" stretch="1,4">
+               <property name="spacing">
+                <number>0</number>
+               </property>
                <property name="leftMargin">
                 <number>0</number>
                </property>
@@ -1795,9 +1816,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
                    <height>250</height>
                   </size>
                  </property>
-                 <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="4,1,1">
+                 <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="3,1,1">
                   <property name="spacing">
-                   <number>15</number>
+                   <number>20</number>
                   </property>
                   <property name="rightMargin">
                    <number>10</number>
@@ -1839,7 +1860,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                      </size>
                     </property>
                     <property name="text">
-                     <string>Download Graph</string>
+                     <string>Download</string>
                     </property>
                    </widget>
                   </item>
@@ -1881,7 +1902,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
        </layout>
       </widget>
       <widget class="QWidget" name="ClimaticDataPage">
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,5">
         <property name="spacing">
          <number>10</number>
         </property>
@@ -1900,7 +1921,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <item>
          <widget class="QFrame" name="ClimaticDataSideButtons">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <sizepolicy hsizetype="Maximum" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -1917,18 +1938,18 @@ li.checked::marker { content: &quot;\2612&quot;; }
           <property name="frameShadow">
            <enum>QFrame::Shadow::Raised</enum>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
+          <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,1,1,1">
            <property name="spacing">
             <number>50</number>
            </property>
            <property name="leftMargin">
-            <number>0</number>
+            <number>5</number>
            </property>
            <property name="topMargin">
             <number>0</number>
            </property>
            <property name="rightMargin">
-            <number>0</number>
+            <number>5</number>
            </property>
            <property name="bottomMargin">
             <number>10</number>
@@ -2089,7 +2110,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <item>
          <widget class="QFrame" name="ClimaticDataTabs">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -2100,22 +2121,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
           <property name="frameShadow">
            <enum>QFrame::Shadow::Raised</enum>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_20">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="leftMargin">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>6</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
+          <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1">
            <item>
             <widget class="QTabWidget" name="tabWidget2">
              <property name="currentIndex">
@@ -2716,7 +2722,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                  <property name="frameShadow">
                   <enum>QFrame::Shadow::Raised</enum>
                  </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_16" stretch="0,0">
+                 <layout class="QVBoxLayout" name="verticalLayout_16" stretch="1,4">
                   <property name="spacing">
                    <number>10</number>
                   </property>
@@ -2858,7 +2864,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
        </layout>
       </widget>
       <widget class="QWidget" name="ResultsPage">
-       <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,4">
+       <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,5">
         <property name="spacing">
          <number>10</number>
         </property>
@@ -2877,14 +2883,20 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <item>
          <widget class="QFrame" name="ResultsSideButtons">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <sizepolicy hsizetype="Maximum" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="maximumSize">
+          <property name="minimumSize">
            <size>
             <width>200</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
             <height>16777215</height>
            </size>
           </property>
@@ -2899,13 +2911,13 @@ li.checked::marker { content: &quot;\2612&quot;; }
             <number>50</number>
            </property>
            <property name="leftMargin">
-            <number>0</number>
+            <number>5</number>
            </property>
            <property name="topMargin">
             <number>0</number>
            </property>
            <property name="rightMargin">
-            <number>0</number>
+            <number>5</number>
            </property>
            <property name="bottomMargin">
             <number>10</number>
@@ -3063,7 +3075,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
           <property name="frameShadow">
            <enum>QFrame::Shadow::Raised</enum>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_12">
+          <layout class="QVBoxLayout" name="verticalLayout_12" stretch="1,10">
            <property name="leftMargin">
             <number>0</number>
            </property>
@@ -3071,7 +3083,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
             <number>0</number>
            </property>
            <property name="rightMargin">
-            <number>0</number>
+            <number>6</number>
            </property>
            <property name="bottomMargin">
             <number>0</number>
@@ -3096,7 +3108,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <item>
             <widget class="QTabWidget" name="tabWidgetResult">
              <property name="currentIndex">
-              <number>2</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="resultTab">
               <property name="sizePolicy">
@@ -3264,6 +3276,21 @@ li.checked::marker { content: &quot;\2612&quot;; }
                      <enum>QFrame::Shadow::Raised</enum>
                     </property>
                     <layout class="QGridLayout" name="gridLayout">
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>9</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="spacing">
+                      <number>0</number>
+                     </property>
                      <item row="0" column="0">
                       <widget class="QLabel" name="ResultsStatsListTitle">
                        <property name="whatsThis">
