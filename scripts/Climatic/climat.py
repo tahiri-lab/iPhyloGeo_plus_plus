@@ -39,9 +39,8 @@ class Climat:
                 columns = self.data.columns.tolist()
                 self.data[columns[0]] = self.data[columns[0]].str.replace("_", " ")
                 
-                self.setup_climatic_data_page(columns)
+                self.setup_climatic_data_page(columns, True)
                 
-                self.filter_data()
                 columns = self.data.columns.tolist()
                 
                 if len(columns) < 3:
@@ -101,21 +100,24 @@ class Climat:
         self.climaticStatistics.data = self.data
         
 
-    def setup_climatic_data_page(self, columns):
+    def setup_climatic_data_page(self, columns, filter = True):
         
         self.main.textEditClimData.clear()
         if self.sleek_table is not None:
             self.main.climatTableLayout.removeWidget(self.sleek_table)
             self.sleek_table.deleteLater()
-
-        self.sleek_table = create_sleek_table(self.data, True)
-
-        self.main.climatTableLayout.addWidget(self.sleek_table)
-        
+            
         latitude_col = columns[-1]
         longitude_col = columns[-2]
         lat = self.data[latitude_col].tolist()
         long = self.data[longitude_col].tolist()
+        
+        if filter:
+            self.filter_data()
+
+        self.sleek_table = create_sleek_table(self.data, True)
+
+        self.main.climatTableLayout.addWidget(self.sleek_table)
         
         self.main.mapView.setHtml(get_folium_data(lat, long))
         
