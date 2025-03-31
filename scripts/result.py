@@ -99,9 +99,10 @@ class Result:
 
         try:
             # Get Genetic data
-            firstTreeKey, _ = next(iter(self.main.geneticsPage.genetics.geneticTrees.items()))
+            trees = self.main.geneticsPage.genetics.geneticStatistics.geneticAlignment.geneticTrees
+            firstTreeKey, _ = next(iter(trees.items()))
             currentTree = self.tree_keys[self.main.phyloTreescomboBox.currentIndex()] if self.main.phyloTreescomboBox.currentIndex() != -1 else firstTreeKey
-            treeData = self.main.geneticsPage.genetics.geneticTrees.get(currentTree) or self.main.geneticsPage.genetics.geneticTrees.get(firstTreeKey)
+            treeData = trees.get(currentTree) or trees.get(firstTreeKey)
             # Get Climatic data
             gpsFile = self.main.climatePage.climat.data.copy()
         except Exception:

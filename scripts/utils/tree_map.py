@@ -123,8 +123,8 @@ def generate_tree_map(treeData, gps, progress_callback=None):
 
     for index, row in df.iterrows():
         # Get corresponding list of coordinates and color from gps DataFrame
-        if row['ID'] in gps_grouped:
-            species_coords_list = gps_grouped[row['ID']]
+        if row['ID'].replace("_", " ") in gps_grouped:
+            species_coords_list = gps_grouped[row['ID'].replace("_", " ")]
 
             num_coords = len(df)
 
