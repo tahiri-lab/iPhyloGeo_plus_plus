@@ -5,7 +5,7 @@ from event_connector import blocked_signals
 from utils.custom_table import create_sleek_table
 from utils.download_file import download_file_local
 from utils.error_dialog import show_error_dialog
-from PyQt6 import QtGui
+from PyQt6 import QtGui, QtWidgets
 from utils.result_settings_dialog import ResultSettingsDialog
 from utils.tree_graph import generate_tree_with_bar, init_tree
 from utils.tree_map import generate_tree_map
@@ -86,19 +86,31 @@ class Result:
             self.show_map()
 
     def show_map(self):
+        self.main.tabWidgetResult.setCurrentIndex(2)
+        ### LOADING ###
+        def update_progress_bar(value):
+                self.main.mapImageBar.setValue(value)
+                QtWidgets.QApplication.processEvents()
+        if self.main.mapImage.pixmap() is None:
+
+            self.main.mapImageBar.setVisible(True)
+            QtWidgets.QApplication.processEvents()
+        ### LOADING ###
+
         try:
             # Get Genetic data
-            firstTreeKey, _ = next(iter(self.main.geneticsPage.genetics.geneticAlignment.geneticTrees.items()))
-            currentTree = self.tree_keys[self.main.phyloTreescomboBox.currentText()] if self.main.phyloTreescomboBox.currentIndex() != -1 else firstTreeKey
-            treeData = self.main.geneticsPage.genetics.geneticAlignment.geneticTrees.get(currentTree)
+            firstTreeKey, _ = next(iter(self.main.geneticsPage.genetics.geneticTrees.items()))
+            currentTree = self.tree_keys[self.main.phyloTreescomboBox.currentIndex()] if self.main.phyloTreescomboBox.currentIndex() != -1 else firstTreeKey
+            treeData = self.main.geneticsPage.genetics.geneticTrees.get(currentTree) or self.main.geneticsPage.genetics.geneticTrees.get(firstTreeKey)
             # Get Climatic data
             gpsFile = self.main.climatePage.climat.data.copy()
         except Exception:
             show_error_dialog("The data given is not correct, make sure that you loaded the correct files in the previous steps.")
             return
         
-        generate_tree_map(treeData, gpsFile)
+        generate_tree_map(treeData, gpsFile, progress_callback=update_progress_bar)
         self.main.mapImage.setPixmap(QtGui.QPixmap("results/figure_tree2map.png"))
+        self.main.mapImageBar.setVisible(False)
 
     def display_phylogeographic_trees(self):
         self.jsonData, self.tree_keys, formatted_tree_keys = init_tree()
