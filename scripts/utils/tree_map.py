@@ -1,8 +1,6 @@
 import matplotlib
 matplotlib.use('Agg')  # Prevents matplotlib from opening a new window
 
-import os
-from arrow import get
 import matplotlib.pyplot as plt
 from matplotlib.patches import ConnectionPatch, ConnectionStyle
 import matplotlib.colors as mcolors  
@@ -12,21 +10,32 @@ import pandas as pd
 from Bio import Phylo
 
 
-def generate_tree_map(treeData, gps):
+def generate_tree_map(treeData, gps, progress_callback=None):
+
+    total_steps = 8  # Total number of steps in the function
+    current_step = 0
+
+    def update_progress():
+        nonlocal current_step
+        current_step += 1
+        if progress_callback:
+            progress_callback(int((current_step / total_steps) * 100))
+ 
     # --------------------------------------
     # ------------  Phylogenetic MAP -------
     # --------------------------------------
     # Create a new map with PlateCarree projection
     fig = plt.figure(figsize=(26, 11))
+    update_progress()
 
     # Calculate positions for all nodes
     y_step = 1
     tree = treeData
     calc_node_positions(tree.root, 0, 0, y_step)
-
+    update_progress()
     # Create a figure for the subplot
     ax_tree = fig.add_subplot(121)
-
+    update_progress()
     # --------------------------------------
     # ------------  Color Groups -----------
     # --------------------------------------
@@ -47,7 +56,7 @@ def generate_tree_map(treeData, gps):
     gps['color'] = gps.apply(lambda row: get_color(row['LONG'], row['LAT']), axis=1)
     text_colors_id = dict(zip(gps['id'], gps['color']))
     text_colors_coords = dict(zip(zip(gps['LONG'], gps['LAT']), gps['color']))
-
+    update_progress()
     # --------------------------------------
     # ------------ Drawing Tree ------------
     # --------------------------------------
@@ -71,7 +80,7 @@ def generate_tree_map(treeData, gps):
 
     # Create DataFrame with node coordinates
     df = pd.DataFrame(rows, columns=["ID", "Coordinates"])
-
+    update_progress()
     # --------------------------------------
     # ------------  GRAPH MAP --------------
     # --------------------------------------
@@ -103,7 +112,7 @@ def generate_tree_map(treeData, gps):
     ax2.set_xlabel("Longitude")
     ax2.set_ylabel("Latitude")
     ax2.set_title("Species Coordinates", fontsize=18)
-
+    update_progress()
     # --------------------------------------
     # ------------  Line mapping -----------
     # --------------------------------------
@@ -133,11 +142,12 @@ def generate_tree_map(treeData, gps):
                     connectionstyle= ConnectionStyle("Arc3", rad=rad_value)
                 )
                 fig.add_artist(con)
-
+    update_progress()
     plt.tight_layout()
     output_file = 'results/figure_tree2map.png'
     plt.savefig(output_file, format='png')
     plt.close(fig)
+    update_progress()
 
 
 
