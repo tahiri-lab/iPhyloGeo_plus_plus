@@ -40,12 +40,12 @@
   </tr>
 </table>
 
-
-
 # About the Project
+
 The iPhyloGeo++ tool is an advanced bioinformatics application specifically designed for the integration and analysis of phylogeographic data. By leveraging both genetic and climatic information, it offers comprehensive insights into the evolutionary processes and geographical distribution of various species.
 
 # Features
+
 - **Cross-Platform Compatibility:** Compatible with Windows, macOS, and Linux.
 - **Comprehensive Data Integration:** Merges genetic sequences with climatic data for robust analysis.
 - **Intuitive User Interface:** Developed with PyQt6 to ensure ease of use.
@@ -53,68 +53,96 @@ The iPhyloGeo++ tool is an advanced bioinformatics application specifically desi
 - **Enhanced Comparative Analysis:** Facilitates the comparison of different phylogenetic trees.
 
 # [Installation](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/Getting-Started)
-**1. Clone the repository**
+
+## 1. Clone the repository
+
 ```sh
 git clone https://github.com/tahiri-lab/iPhyloGeo_plus_plus.git
 cd iPhyloGeo_plus_plus
 ```
 
-**2. Set Up a Virtual Environment**
-```sh
-python3 -m venv iPhyloGeo++_env   # Use only `python` instead of `python3` if it doesn't work
+## 2. Install Poetry
 
-# Linux
-source iPhyloGeo++_env/bin/activate
+Refer to the official installation guide [here](https://python-poetry.org/docs/#installation)
 
-# Windows
-iPhyloGeo++_env\Scripts\activate
+### Install with the [official installer](https://python-poetry.org/docs/#installing-with-the-official-installer)
+
+#### Windows:
+
+```ps
+(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -
 ```
 
-**3. Install Dependencies**
+#### Linux:
+
 ```sh
-pip install -r requirements.txt
+curl -sSL https://install.python-poetry.org | python3 -
 ```
 
-**4. Install Development Dependencies(Optional)**
+### Install with `pipx`
+
 ```sh
-pip install -r dev-requirements.txt
+pipx install poetry
 ```
 
-**5. Set Up Pre-commit Hooks(Optional)**
+## 2. Install the dependencies
+
+Once `Poetry` installed, you can install the project's dependencies.
+Go in the project directory and run the commands
+
 ```sh
-pre-commit install
+# This will ensure that the virtual env will be created in the project directory
+poetry config virtualenvs.in-project true
+
+# Install the dependencies
+poetry install
 ```
 
-**6. Run the Application**
+## 3. Run the Application
+
+Once Poetry installed with the project's dependencies, you can activate the virtual env or run directly with poetry.
+
 ```sh
-python3 scripts/main.py
+# Using the "vanilla" python way.
+./.venv/Scripts/activate
+
+# Using Poetry
+iex (poetry env activate)
+
+# Alternatively, you can run the script directly without activating the venv.
+poetry run python ./scripts/main.py
 ```
 
 # [Usage](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/Discover-the-application)
+
 ## Loading Genetic Data
+
 <p align="center"><img src="./img/other/genetic.gif" alt="Genetic demonstration"></p>
 
-
 1. **Navigate to File Browser on the Genetic Page:**
+
 - Access the genetic data interface through the File Browser tab.
 - Select and Load Your Fasta File:
 
 To help you, you can go to the <a href="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/Discover-the-application">Wiki</a> to understand how to navigate into the iPhyloGeo application.
 
 2. **Choose your Fasta file containing the genetic sequences. Supported formats should be specified (e.g., .fasta, .fa).**
+
 - Ensure the file adheres to the correct format and structure.
 - Perform Sequence Alignment, Statistics, and Generate Genetic Trees:
 
 3. **Sequence Alignment:**
+
 - Utilize built-in tools for aligning sequences, detailing available algorithms (e.g., MUSCLE, ClustalW).
 - Statistics: Generate statistics such as nucleotide frequencies, sequence length distribution, and GC content.
 - Genetic Trees: Construct phylogenetic trees using methods like Neighbor-Joining, Maximum Likelihood, or Bayesian inference. Visualize trees with options for customization (e.g., color-coding branches, annotating clades).
 
-
 ## Loading Climatic Data
+
 <p align="center"><img src="./img/other/climatic.gif" alt="Climatic demonstration"></p>
 
 1. **Navigate to File Browser on the Climatic Page:**
+
 - Access the climatic data interface through the File Browser tab.
 - Select and Load Your CSV File Containing Climatic Data:
 - Choose your CSV file with climatic information. Supported data formats and required structure should be clarified.
@@ -124,24 +152,31 @@ To help you, you can go to the <a href="https://github.com/tahiri-lab/iPhyloGeo_
 - Display and interact with the visual representations of the climatic data, including maps, tables, and statistical summaries.
 
 ## Displaying Results
+
 <p align="center"><img src="./img/other/results.gif" alt="Results demonstration"></p>
 
 1. **Navigate to the Results Page:**
+
 - Access the results interface.
 
 2. **Adjust the Parameters as Needed:**
+
 - Modify settings to refine the analysis.
 
 3. **Click on Submit to View the Phylogenetic Results:**
+
 - Generate and display the results based on the input data and parameters.
 
 4. **Navigate to the Stats Button for Phylogenetic Trees Visualization:**
+
 - Use the stats button to visualize the phylogenetic trees and related statistics.
 
-
 To help you, you can follow the <a href="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/Tutorial">Tutorial</a> part of the Wiki to achieve all these steps.
+
 # Project Structure
+
 This project is organized into several key directories to help you navigate and understand the codebase.
+
 - **img/:** Contains images used by the README and the application.
 - **datasets/:** Includes sample data for testing purposes.
 - **scripts/:** Houses the Python files for the project.
@@ -149,7 +184,9 @@ This project is organized into several key directories to help you navigate and 
 - **scripts/main.py:** Main application entry point.
 
 # Contributing
+
 We welcome contributions to iPhyloGeo++. Please follow these steps:
+
 1. Fork the repository.
 2. Create a new branch (`git checkout -b feature-branch`).
 3. Set up pre-commit hooks (`pre-commit install`).
@@ -161,7 +198,7 @@ We welcome contributions to iPhyloGeo++. Please follow these steps:
 
 💡 If you are using our algorithm in your research, please cite our recent papers:
 
-1️⃣  Li, W. & Tahiri, N. (2024). Host-Virus Cophylogeny Trajectories: Investigating Molecular Relationships between Coronaviruses and Bat Hosts. [Viruses, 16(7), p.1133](https://www.mdpi.com/1999-4915/16/7/1133)
+1️⃣ Li, W. & Tahiri, N. (2024). Host-Virus Cophylogeny Trajectories: Investigating Molecular Relationships between Coronaviruses and Bat Hosts. [Viruses, 16(7), p.1133](https://www.mdpi.com/1999-4915/16/7/1133)
 
 2️⃣ Gagnon, J. & Tahiri, N. (2024). Ecological and Spatial Influences on the Genetics of Cumacea (Crustacea: Peracarida) in the Northern North Atlantic.
 [Proceeding in SciPy 2024, Tacoma, WA, USA](https://proceedings.scipy.org/articles/NVYF1037)
@@ -173,4 +210,9 @@ We welcome contributions to iPhyloGeo++. Please follow these steps:
 [Proceeding in SciPy 2022, Auxtin, TX, USA](https://conference.scipy.org/proceedings/scipy2022/pdfs/nadia_tahiri.pdf)
 
 # Contact
+
 Please email us at: <Nadia.Tahiri@USherbrooke.ca> for any questions or feedback.
+
+```
+
+```
