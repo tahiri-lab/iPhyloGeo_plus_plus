@@ -117,7 +117,7 @@ poetry run python ./scripts/main.py
 
 ## Loading Genetic Data
 
-<p align="center"><img src="./img/other/genetic.gif" alt="Genetic demonstration"></p>
+<p align="center"><img src="./img/readme-pic/Genetics.gif" alt="Genetic demonstration"></p>
 
 1. **Navigate to File Browser on the Genetic Page:**
 
@@ -139,7 +139,7 @@ To help you, you can go to the <a href="https://github.com/tahiri-lab/iPhyloGeo_
 
 ## Loading Climatic Data
 
-<p align="center"><img src="./img/other/climatic.gif" alt="Climatic demonstration"></p>
+<p align="center"><img src="./img/readme-pic/Climat.gif" alt="Climatic demonstration"></p>
 
 1. **Navigate to File Browser on the Climatic Page:**
 
@@ -153,7 +153,7 @@ To help you, you can go to the <a href="https://github.com/tahiri-lab/iPhyloGeo_
 
 ## Displaying Results
 
-<p align="center"><img src="./img/other/results.gif" alt="Results demonstration"></p>
+<p align="center"><img src="./img/readme-pic/Result.gif" alt="Results demonstration"></p>
 
 1. **Navigate to the Results Page:**
 
@@ -180,7 +180,7 @@ This project is organized into several key directories to help you navigate and 
 - **img/:** Contains images used by the README and the application.
 - **datasets/:** Includes sample data for testing purposes.
 - **scripts/:** Houses the Python files for the project.
-- **requirements.txt:** List of dependencies.
+- **poetry.lock:** List of dependencies.
 - **scripts/main.py:** Main application entry point.
 
 # Contributing
