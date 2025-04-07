@@ -1,20 +1,24 @@
 import pandas as pd
 from aphylogeo import utils
 from aphylogeo.params import Params
-from PyQt6.QtWebEngineWidgets import QWebEngineView
-from PyQt6.QtWidgets import QVBoxLayout
-
-from utils.error_dialog import show_error_dialog
-from utils.result_settings_dialog import ResultSettingsDialog
-from utils.download_file import download_file_local
-from utils.tree_graph import init_tree, generate_tree_with_bar
 from event_connector import blocked_signals
+from utils.custom_table import create_sleek_table
+from utils.download_file import download_file_local
+from utils.error_dialog import show_error_dialog
+from PyQt6 import QtGui, QtWidgets
+from utils.result_settings_dialog import ResultSettingsDialog
+from utils.tree_graph import generate_tree_with_bar, init_tree
+from utils.tree_map import generate_tree_map
 
+RESULT_TAB = 0
+STATS_TAB = 1	
+MAP_TAB = 2
 
 class Result:
     def __init__(self, main):
         self.main = main
-        
+        self.table = None
+
     def open_result_settings_window(self):
         """
         Initialize and display the parameters window.
@@ -35,74 +39,26 @@ class Result:
         Raises:
             AttributeError: If the sequence alignment has not been performed before attempting to generate the tree.
         """
-        self.main.stackedWidget.setCurrentIndex(3)
+        self.main.tabWidgetResult.setCurrentIndex(0)
 
-        df = pd.read_csv(Params.file_name)
+        df = self.main.climatePage.climat.data.copy()
         try:
-            utils.filterResults(self.main.climatePage.climat.climaticTree.climaticTrees, self.main.geneticsPage.genetics.geneticTreeDict, df)
-        except Exception as e:
-            show_error_dialog(str(e), "Aphylogeo Utils Error")
+            utils.filterResults(self.main.climatePage.climat.climaticTree.climaticTrees, self.main.geneticsPage.genetics.geneticAlignment.geneticTrees, df)
+        except Exception:
+            show_error_dialog("The data given is not correct, make sure that you loaded the correct files in the previous steps.")
             return
         df_results = pd.read_csv("./results/output.csv")
         df_results["Name of species"] = df_results["Name of species"].str.replace("_", " ")
         # Replace the first column values with Params.file_name just before visualization
         df_results.iloc[:, 0] = Params.reference_gene_file
 
-        # Convert to HTML table with sleek, modern styling
-        html_table = df_results.to_html(index=False, border=0, classes="dataframe", table_id="styled-table")
+        if self.table is not None:
+            self.main.resultTableLayout.removeWidget(self.table)
+            self.table.deleteLater()
+            self.table = None
 
-        # Add CSS styles for a professional look with smooth hover animations
-        html_style = """
-        <style>
-            #styled-table {
-                font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
-                border-collapse: collapse;
-                width: 100%;
-                border-radius: 5px;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-                overflow: hidden;
-            }
-            #styled-table td, #styled-table th {
-                border: 1px solid #ddd;
-                padding: 12px;
-            }
-            #styled-table tr:nth-child(even) {
-                background-color: #f9f9f9;
-            }
-            #styled-table tr:hover {
-                background-color: #f1f1f1;
-                transform: scale(1.01);
-            }
-            #styled-table th {
-                padding-top: 12px;
-                padding-bottom: 12px;
-                text-align: left;
-                background-color: #4CAF50;
-                color: white;
-            }
-            #styled-table td {
-                padding-left: 12px;
-                padding-right: 12px;
-            }
-        </style>
-        """
-
-        # Combine the HTML style and table
-        html_content = html_style + html_table
-
-        # Set up the QWebEngineView
-        web_engine_view = QWebEngineView()
-        web_engine_view.setHtml(html_content)
-
-        # Clear the existing content and layout of the QTextBrowser (if any)
-        layout = QVBoxLayout(self.main.textEditResults)
-        for i in reversed(range(layout.count())):
-            widget_to_remove = layout.itemAt(i).widget()
-            layout.removeWidget(widget_to_remove)
-            widget_to_remove.setParent(None)
-
-        # Add the QWebEngineView to the QTextBrowser
-        layout.addWidget(web_engine_view)
+        self.table = create_sleek_table(df_results)
+        self.main.resultTableLayout.addWidget(self.table)
 
     def clear_result(self):
         """
@@ -116,40 +72,70 @@ class Result:
             self.main.geneticsPage.genetics.clear_genetic_data()
             self.main.climatePage.climat.clear_climmatic_data()
             self.main.stackedWidget.setCurrentIndex(0)
+            self.main.resultTableLayout.removeWidget(self.table)
+            self.table.deleteLater()
+            self.table = None
             self.main.resultsButton.setEnabled(False)
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}", "Error")
 
     def on_tab_changed(self, index):
-        if index == 1:
-            self.display_phylogeographic_trees()     
-            
+        if index == STATS_TAB:
+            self.display_phylogeographic_trees()
+        if index == MAP_TAB:
+            self.show_map()
+
+    def show_map(self):
+        self.main.tabWidgetResult.setCurrentIndex(2)
+        ### LOADING ###
+        def update_progress_bar(value):
+                self.main.mapImageBar.setValue(value)
+                QtWidgets.QApplication.processEvents()
+        if self.main.mapImage.pixmap() is None:
+
+            self.main.mapImageBar.setVisible(True)
+            QtWidgets.QApplication.processEvents()
+        ### LOADING ###
+
+        try:
+            # Get Genetic data
+            trees = self.main.geneticsPage.genetics.geneticStatistics.geneticAlignment.geneticTrees
+            firstTreeKey, _ = next(iter(trees.items()))
+            currentTree = self.tree_keys[self.main.phyloTreescomboBox.currentIndex()] if self.main.phyloTreescomboBox.currentIndex() != -1 else firstTreeKey
+            treeData = trees.get(currentTree) or trees.get(firstTreeKey)
+            # Get Climatic data
+            gpsFile = self.main.climatePage.climat.data.copy()
+        except Exception:
+            show_error_dialog("The data given is not correct, make sure that you loaded the correct files in the previous steps.")
+            return
+        
+        generate_tree_map(treeData, gpsFile, progress_callback=update_progress_bar)
+        self.main.mapImage.setPixmap(QtGui.QPixmap("results/figure_tree2map.png"))
+        self.main.mapImageBar.setVisible(False)
+
     def display_phylogeographic_trees(self):
         self.jsonData, self.tree_keys, formatted_tree_keys = init_tree()
-        
+
         with blocked_signals(self.main.phyloTreescomboBox, self.main.criteriaComboBox, self.main.tabWidgetResult):
             self.main.tabWidgetResult.setCurrentIndex(1)
-            
+
             self.main.phyloTreescomboBox.clear()
             self.main.phyloTreescomboBox.addItems(formatted_tree_keys)
 
-            self.climatic_data = pd.read_csv(Params.file_name)
+            self.climatic_data = self.main.climatePage.climat.data.copy()
             self.main.criteriaComboBox.clear()
-            self.main.criteriaComboBox.addItems(self.climatic_data.columns[1:])        
+            self.main.criteriaComboBox.addItems(self.climatic_data.columns[1:])
 
         self.render_tree()
 
     def render_tree(self):
         self.key = self.tree_keys[self.main.phyloTreescomboBox.currentIndex()]
-    
+
         pixmap = generate_tree_with_bar(self.key, self.jsonData, self.main.criteriaComboBox.currentText(), self.climatic_data, self.main.isDarkMode)
 
         self.main.PhyloTreeLabel.clear()
         self.main.PhyloTreeLabel.setPixmap(pixmap)
         self.main.PhyloTreeLabel.adjustSize()
-        
-
 
     def save_tree_graph(self):
-        download_file_local(self.key, self.main)
-
+        download_file_local(self.key)

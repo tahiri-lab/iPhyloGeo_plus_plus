@@ -1,8 +1,9 @@
 import sys
+import shutil
 
 import qtmodern.styles
 import qtmodern.windows
-from aphylogeo.params import Params
+from aphylogeo.params import Params, os
 from event_connector import QtEvents, connect_decorated_methods, connect_event
 from navigation import Navigation
 from PyQt6 import QtCore, QtGui, QtWidgets
@@ -21,8 +22,6 @@ try:
 except FileNotFoundError:
     Params.validate_and_set_params(Params.PARAMETER_KEYS)
 
-window_size = 50
-starting_position = 1
 
 
 class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
@@ -50,6 +49,7 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
             self.graphicsViewClimData.setLayout(self.maplayout)
 
             self.climatTableLayout = QVBoxLayout(self.textEditClimData)
+            self.resultTableLayout = QVBoxLayout(self.textEditResults)
 
             self.setObjectName("MainWindow")
             self.window_size_spinbox_2.setRange(1, 1000)
@@ -77,13 +77,9 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
                 self.climaticTreeButtonPage2,
                 self.statisticsButtonPage2,
                 self.settingsButtonPage3,
-                self.settingsButtonPage4,
                 self.submitButtonPage3,
                 self.statisticsButtonPage3,
-                self.submitButtonPage4,
-                self.statisticsButtonPage4,
                 self.clearButtonPage3,
-                self.clearButtonPage4,
             ]
 
             # Define cursor and stylesheet for all buttons
@@ -191,7 +187,7 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
     ################################
 
     def stop_thread(self):
-        self.geneticsPage.genetics.stopWorker()
+        self.geneticsPage.genetics.geneticAlignment.stop_worker()
         currThread = self.thread()
         if currThread is QThread:
             if currThread.isRunning():
@@ -255,6 +251,9 @@ if __name__ == "__main__":
     window = UiMainWindow()
 
     mw = qtmodern.windows.ModernWindow(window)
+
+    if os.path.exists("scripts/utils/params.yaml") is False:
+        shutil.copy("scripts/utils/params_default.yaml", "scripts/utils/params.yaml")
 
     if primary_screen := app.primaryScreen():
         screen_geometry = primary_screen.availableGeometry()

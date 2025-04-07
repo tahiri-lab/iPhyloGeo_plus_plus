@@ -9,15 +9,15 @@ class ClimatePageController:
 
     @connect_event("statisticsButtonPage2", QtEvents.clicked)
     def load_climate_statistics_click(self):
-        self.climat.load_climate_statistics()
+        self.climat.climaticStatistics.load_climate_statistics()
 
     @connect_event(["ClimaticChartSettingsAxisX", "ClimaticChartSettingsAxisY", "PlotTypesCombobox"], QtEvents.currentIndexChanged)
     def generate_climate_graph_click(self):
-        self.climat.generate_climate_graph()
+        self.climat.climaticStatistics.generate_climate_graph()
 
     @connect_event("climatePlotDownloadButton", QtEvents.clicked)
     def download_climate_plot_click(self):
-        self.climat.download_climate_plot()
+        self.climat.climaticStatistics.download_climate_plot()
 
     @connect_event("fileBrowserButtonPage2", QtEvents.clicked)
     def load_csv_climate_file_click(self):

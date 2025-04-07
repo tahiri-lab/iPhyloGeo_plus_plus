@@ -1,7 +1,7 @@
 
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QLabel
-
+from PyQt6 import QtGui
 
 class HoverLabel(QLabel):
     def __init__(self, text, hover_text, text_edit, image_label, hover_image_path, *args, **kwargs):
@@ -11,6 +11,12 @@ class HoverLabel(QLabel):
         self.text_edit = text_edit
         self.image_label = image_label
         self.hover_image_path = hover_image_path
+        
+        font = QtGui.QFont()
+        font.setPointSize(8)
+        self.setFont(font)
+        self.setIndent(10)
+        self.setObjectName(text)
 
     def enterEvent(self, event):
         self.text_edit.clear()

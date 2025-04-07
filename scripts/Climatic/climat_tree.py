@@ -1,12 +1,10 @@
-from PyQt6.QtWidgets import QDialog
-
+from Climatic.climat_tree_graph import get_network_graph, get_tree_graph
 from Climatic.climatic_graph_settings import ClimaticGraphSettings
 from Climatic.climatic_preferences_dialog import ClimaticPreferencesDialog
-from Climatic.climat_tree_graph import get_network_graph, get_tree_graph
-
-from utils.download_file import download_file_local, download_file_temporary_PLT, download_file_temporary_PIO
-from utils.error_dialog import show_error_dialog
 from event_connector import blocked_signals
+from PyQt6.QtWidgets import QDialog
+from utils.download_file import download_file_local, download_file_temporary_PIO, download_file_temporary_PLT
+from utils.error_dialog import show_error_dialog
 
 try:
     ClimaticGraphSettings.load_from_file("./scripts/utils/ClimaticGraphSettings.yaml")
@@ -15,7 +13,7 @@ except FileNotFoundError:
     pass
 
 
-class ClimaticTree():
+class ClimaticTree:
     def __init__(self, main):
         self.climaticTrees = dict()
         self.main = main
@@ -34,15 +32,16 @@ class ClimaticTree():
         try:
             self.tree_keys = list(self.climaticTrees.keys())
             self.total_trees = len(self.tree_keys)
-            
+
             with blocked_signals(self.main.climaticTreescomboBox):
                 self.main.climaticTreescomboBox.clear()
                 self.main.climaticTreescomboBox.addItems(self.tree_keys)
-            
+
             self.current_key = self.tree_keys[0]
             self.show_climatic_tree(0)
-            
+
             self.main.tabWidget2.setCurrentIndex(3)
+
         except KeyError as e:
             show_error_dialog(
                 f"An error occurred while accessing the climatic trees: {e}",
@@ -68,9 +67,9 @@ class ClimaticTree():
                 self.current_key = self.tree_keys[index]
                 tree = self.climaticTrees[self.current_key]
                 tree = check_render_properties_tree(tree)
-        
+
                 view_type = ClimaticGraphSettings.view_type
-                if view_type == "network":                 
+                if view_type == "network":
                     self.render_network_view(tree)
                 else:
                     self.render_tree_view(tree)
@@ -81,7 +80,6 @@ class ClimaticTree():
             )
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred: {e}")
-            
 
     def render_network_view(self, tree):
         """
@@ -96,7 +94,7 @@ class ClimaticTree():
         """
         try:
             fig = get_network_graph(tree)
-                                
+
             pixmap = download_file_temporary_PIO(self.current_key, fig)
 
             self.main.climaticTreesLabel.clear()
@@ -119,7 +117,7 @@ class ClimaticTree():
         """
         try:
             fig = get_tree_graph(tree)
-            
+
             pixmap = download_file_temporary_PLT(self.current_key, fig)
 
             self.main.climaticTreesLabel.clear()
@@ -139,13 +137,12 @@ class ClimaticTree():
             None
         """
         try:
-            download_file_local(self.current_key, self.main)
+            download_file_local(self.current_key)
         except FileNotFoundError as e:
             show_error_dialog(f"The temporary image file was not found: {e}", "File Not Found")
         except Exception as e:
             show_error_dialog(f"An unexpected error occurred while downloading the climatic tree graph: {e}")
 
-    
     def open_climatic_tree_preferences_window(self):
         """
         Open the preferences dialog and update the application settings based on user input.
@@ -158,8 +155,8 @@ class ClimaticTree():
         dialog = ClimaticPreferencesDialog()
         if dialog.exec() == QDialog.DialogCode.Accepted:
             self.show_climatic_tree(self.main.climaticTreescomboBox.currentIndex())
-                     
-            
+
+
 def check_render_properties_tree(tree):
     label_internal_vertices = ClimaticGraphSettings.label_internal_vertices
     proportional_edge_lengths = ClimaticGraphSettings.proportional_edge_lengths
@@ -176,5 +173,5 @@ def check_render_properties_tree(tree):
         for clade in tree.find_clades():
             if not clade.is_terminal() and clade.name is None:
                 clade.name = "Internal Node"
-                
+
     return tree

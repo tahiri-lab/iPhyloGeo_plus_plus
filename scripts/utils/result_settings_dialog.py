@@ -3,12 +3,11 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QLabel
 from PyQt6.QtWidgets import QApplication, QDialog, QGridLayout
+
 from utils.hover_label import HoverLabel
 from utils.my_dumper import update_yaml_param
 
-
 from aphylogeo.params import Params
-
 
 class ResultSettingsDialog(QDialog):
     def __init__(self):
@@ -24,17 +23,126 @@ class ResultSettingsDialog(QDialog):
 
         layout = QGridLayout()
 
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.sizePolicy().hasHeightForWidth())
         self.setSizePolicy(sizePolicy)
 
+        layout.addItem(self.setup_buttons(), 1, 0)
+
+        content_layout = QGridLayout()
+        content_layout.setHorizontalSpacing(50)
+
+        self.userParams, self.userParamsLayout = create_box_and_layout(self, 11, "userParams")
+
+        content_layout.addWidget(self.userParams, 0, 0)
+
+        self.paramsDetails, paramsDetailsLayout = create_box_and_layout(self, 11, "paramsDetails")
+
+        content_layout.addWidget(self.paramsDetails, 0, 1)
+        
+        HoverLabel.image_label = QLabel()
+        HoverLabel.image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        HoverLabel.image_label.setPixmap(QPixmap("./img/other/final.png"))
+        paramsDetailsLayout.addWidget(HoverLabel.image_label)
+
+        self.textEdit = QtWidgets.QTextEdit(self.paramsDetails)
+        
+        sizePolicy.setHeightForWidth(self.textEdit.sizePolicy().hasHeightForWidth())
+        self.textEdit.setSizePolicy(sizePolicy)
+
+        self.textEdit.setReadOnly(True)
+        self.textEdit.setObjectName("textEdit")
+        
+        paramsDetailsLayout.addWidget(self.textEdit)
+
+        self.methodBox, self.methodBoxLayout  = create_box_and_layout(self.userParams, 9, "methodBox")
+  
+        self.metrics = HoverLabel(
+            "Calculus method",
+            "Select the method for calculating phylogenetic distances. Options include:\n- Robinson & Foulds: Measures the difference in tree topologies.\n- Least Square: Minimizes the sum of squared differences between observed and predicted distances.\n- Euclidean Distance: Measures the straight-line distance between points in a multi-dimensional space.",
+            self.textEdit,
+            HoverLabel.image_label,
+            "./img/other/calculus.png",
+        )
+        self.methodBoxLayout.addWidget(self.metrics, 0, 0, 1, 1)
+
+        self.comboBox_metrics = QtWidgets.QComboBox(self.methodBox)
+        
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.comboBox_metrics.sizePolicy().hasHeightForWidth())  
+        self.comboBox_metrics.setSizePolicy(sizePolicy)
+        
+        self.comboBox_metrics.setObjectName("comboBox_metrics")
+        self.comboBox_metrics.addItem("")
+        self.comboBox_metrics.addItem("")
+        self.comboBox_metrics.addItem("")
+        
+        self.methodBoxLayout.addWidget(self.comboBox_metrics, 0, 1, 1, 1)
+
+        self.thresholdBox, self.thresholdBoxLayout = create_box_and_layout(self.userParams, 9, "thresholdBox")
+       
+        self.spinBox_bootstrap = QtWidgets.QSpinBox(self.thresholdBox)
+        
+        self.spinBox_bootstrap.setMinimum(0)
+        self.spinBox_bootstrap.setMaximum(1000)
+        self.spinBox_bootstrap.setObjectName("spinBox_bootstrap")
+        self.spinBox_bootstrap.setFixedHeight(25)
+        
+        self.thresholdBoxLayout.addWidget(self.spinBox_bootstrap, 0, 1, 1, 1)
+
+        self.bootstrapValue = HoverLabel(
+            "Bootstrap threshold",
+            "Set the bootstrap threshold for phylogenetic tree support. Higher values provide more reliable results but require longer computation time. Bootstrap values are used to assess the reliability of inferred phylogenetic trees.",
+            self.textEdit,
+            HoverLabel.image_label,
+            "./img/other/bootstrap.png",
+        )
+        self.thresholdBoxLayout.addWidget(self.bootstrapValue, 0, 0, 1, 1)
+
+        self.spinBox_metricThreshold = QtWidgets.QSpinBox(self.thresholdBox)
+        self.spinBox_metricThreshold.setObjectName("spinBox_metricThreshold")
+        self.spinBox_metricThreshold.setFixedHeight(25)
+        
+        self.thresholdBoxLayout.addWidget(self.spinBox_metricThreshold, 1, 1, 1, 1)
+
+        self.metricThreshold = HoverLabel(
+            "Metric threshold",
+            "Set the threshold for distance metrics. Higher thresholds provide more accurate results but increase computational load. This parameter controls the cutoff for considering distances in the analysis.",
+            self.textEdit,
+            HoverLabel.image_label,
+            "./img/other/metric.png",
+        )
+        self.thresholdBoxLayout.addWidget(self.metricThreshold, 1, 0, 1, 1)
+        
+        
+        self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetNoConstraint)
+        self.verticalLayout.setSpacing(6)
+        self.verticalLayout.setObjectName("verticalLayout")
+        
+        self.verticalLayout.addWidget(self.methodBox)
+        self.verticalLayout.addWidget(self.thresholdBox)
+        self.userParamsLayout.addLayout(self.verticalLayout, 5, 0, 1, 1)
+
+        self.resetValues()
+
+        layout.addItem(content_layout, 0, 0)
+
+        self.setLayout(layout)
+        self.retranslateUi()
+        self.show()
+        
+    def setup_buttons(self):
+        
         button_layout = QGridLayout()
         button_layout.setHorizontalSpacing(30)
         button_layout.setVerticalSpacing(20)
         button_layout.setContentsMargins(50, 30, 50, 0)
-
+        
         self.reset_button = QtWidgets.QPushButton()
         self.reset_button.setObjectName("reset_button")
         button_layout.addWidget(self.reset_button, 0, 0)
@@ -46,212 +154,16 @@ class ResultSettingsDialog(QDialog):
         self.cancel_button = QtWidgets.QPushButton()
         self.cancel_button.setObjectName("cancel_button")
         button_layout.addWidget(self.cancel_button, 0, 2)
-
-        layout.addItem(button_layout, 1, 0)
-
-        content_layout = QGridLayout()
-
-        self.userParams = QtWidgets.QGroupBox(self)
-        content_layout.addWidget(self.userParams, 0, 0)
-        content_layout.setHorizontalSpacing(50)
-
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.userParams.sizePolicy().hasHeightForWidth())
-        self.userParams.setSizePolicy(sizePolicy)
-
-        font = QtGui.QFont()
-        font.setPointSize(11)
-        self.userParams.setFont(font)
-
-        self.userParams.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.userParams.setCheckable(False)
-        self.userParams.setObjectName("userParams")
-
-        self.gridLayout_2 = QtWidgets.QGridLayout(self.userParams)
-        self.gridLayout_2.setContentsMargins(8, 20, 8, 8)
-        self.gridLayout_2.setSpacing(6)
-        self.gridLayout_2.setObjectName("gridLayout_2")
-
-        self.verticalLayout = QtWidgets.QVBoxLayout()
-        self.verticalLayout.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetNoConstraint)
-        self.verticalLayout.setSpacing(6)
-        self.verticalLayout.setObjectName("verticalLayout")
-
-        self.paramsDetails = QtWidgets.QGroupBox(self)
-        content_layout.addWidget(self.paramsDetails, 0, 1)
-
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.paramsDetails.sizePolicy().hasHeightForWidth())
-        self.paramsDetails.setSizePolicy(sizePolicy)
-
-        font.setPointSize(11)
-        self.paramsDetails.setFont(font)
-
-        self.paramsDetails.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.paramsDetails.setCheckable(False)
-        self.paramsDetails.setObjectName("paramsDetails")
-
-        group_box_layout = QtWidgets.QVBoxLayout()
-        self.paramsDetails.setLayout(group_box_layout)
-
-        HoverLabel.image_label = QLabel()
-        HoverLabel.image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        HoverLabel.image_label.setPixmap(QPixmap("./img/other/final.png"))
-        group_box_layout.addWidget(HoverLabel.image_label)
-
-        self.textEdit = QtWidgets.QTextEdit(self.paramsDetails)
-        group_box_layout.addWidget(self.textEdit)
-
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.textEdit.sizePolicy().hasHeightForWidth())
-        self.textEdit.setSizePolicy(sizePolicy)
-
-        self.textEdit.setMinimumSize(QtCore.QSize(380, 130))
-
-        font.setPointSize(8)
-        self.textEdit.setFont(font)
-
-        self.textEdit.setReadOnly(True)
-        self.textEdit.setObjectName("textEdit")
-
-        self.methodBox = QtWidgets.QGroupBox(self.userParams)
-
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Minimum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.methodBox.sizePolicy().hasHeightForWidth())
-        self.methodBox.setSizePolicy(sizePolicy)
-
-        font.setPointSize(9)
-        self.methodBox.setFont(font)
-
-        self.methodBox.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
-        self.methodBox.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.methodBox.setFlat(True)
-        self.methodBox.setCheckable(False)
-        self.methodBox.setObjectName("methodBox")
-        self.verticalLayout.addWidget(self.methodBox)
-
-        self.gridLayout_3 = QtWidgets.QGridLayout(self.methodBox)
-        self.gridLayout_3.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetDefaultConstraint)
-        self.gridLayout_3.setContentsMargins(5, 5, 5, 5)
-        self.gridLayout_3.setSpacing(5)
-        self.gridLayout_3.setObjectName("gridLayout_3")
-        font.setPointSize(8)
-
-        self.metrics = HoverLabel(
-            "Calculus method",
-            "Select the method for calculating phylogenetic distances. Options include:\n- Robinson & Foulds: Measures the difference in tree topologies.\n- Least Square: Minimizes the sum of squared differences between observed and predicted distances.\n- Euclidean Distance: Measures the straight-line distance between points in a multi-dimensional space.",
-            self.textEdit,
-            HoverLabel.image_label,
-            "./img/other/calculus.png",
-        )
-        self.metrics.setFont(font)
-        self.metrics.setIndent(10)
-        self.metrics.setObjectName("metrics")
-        self.gridLayout_3.addWidget(self.metrics, 0, 0, 1, 1)
-
-        self.comboBox_metrics = QtWidgets.QComboBox(self.methodBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.comboBox_metrics.sizePolicy().hasHeightForWidth())
-        self.comboBox_metrics.setSizePolicy(sizePolicy)
-        font.setPointSize(8)
-        self.comboBox_metrics.setFont(font)
-        self.comboBox_metrics.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
-        self.comboBox_metrics.setIconSize(QtCore.QSize(20, 20))
-        self.comboBox_metrics.setFrame(True)
-        self.comboBox_metrics.setObjectName("comboBox_metrics")
-        self.comboBox_metrics.addItem("")
-        self.comboBox_metrics.addItem("")
-        self.comboBox_metrics.addItem("")
-        self.gridLayout_3.addWidget(self.comboBox_metrics, 0, 1, 1, 1)
-
-        self.thresholdBox = QtWidgets.QGroupBox(self.userParams)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Minimum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.thresholdBox.sizePolicy().hasHeightForWidth())
-        self.thresholdBox.setSizePolicy(sizePolicy)
-        font.setPointSize(9)
-        self.thresholdBox.setFont(font)
-        self.thresholdBox.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
-        self.thresholdBox.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.thresholdBox.setFlat(True)
-        self.thresholdBox.setCheckable(False)
-        self.thresholdBox.setObjectName("thresholdBox")
-
-        self.gridLayout_4 = QtWidgets.QGridLayout(self.thresholdBox)
-        self.gridLayout_4.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetDefaultConstraint)
-        self.gridLayout_4.setContentsMargins(5, 5, 5, 5)
-        self.gridLayout_4.setSpacing(5)
-        self.gridLayout_4.setObjectName("gridLayout_4")
-
-        self.spinBox_bootstrap = QtWidgets.QSpinBox(self.thresholdBox)
-        font.setPointSize(8)
-        self.spinBox_bootstrap.setFont(font)
-        self.spinBox_bootstrap.setMinimum(0)
-        self.spinBox_bootstrap.setMaximum(1000)
-        self.spinBox_bootstrap.setSingleStep(1)
-        self.spinBox_bootstrap.setObjectName("spinBox_bootstrap")
-        self.gridLayout_4.addWidget(self.spinBox_bootstrap, 0, 1, 1, 1)
-
-        self.bootstrapValue = HoverLabel(
-            "Bootstrap threshold",
-            "Set the bootstrap threshold for phylogenetic tree support. Higher values provide more reliable results but require longer computation time. Bootstrap values are used to assess the reliability of inferred phylogenetic trees.",
-            self.textEdit,
-            HoverLabel.image_label,
-            "./img/other/bootstrap.png",
-        )
-        font.setPointSize(8)
-        self.bootstrapValue.setFont(font)
-        self.bootstrapValue.setIndent(10)
-        self.bootstrapValue.setObjectName("bootstrapValue")
-        self.gridLayout_4.addWidget(self.bootstrapValue, 0, 0, 1, 1)
-
-        self.spinBox_metricThreshold = QtWidgets.QSpinBox(self.thresholdBox)
-        font.setPointSize(8)
-        self.spinBox_metricThreshold.setFont(font)
-        self.spinBox_metricThreshold.setProperty("value", 60)
-        self.spinBox_metricThreshold.setObjectName("spinBox_metricThreshold")
-        self.gridLayout_4.addWidget(self.spinBox_metricThreshold, 1, 1, 1, 1)
-
-        self.metricThreshold = HoverLabel(
-            "Metric threshold",
-            "Set the threshold for distance metrics. Higher thresholds provide more accurate results but increase computational load. This parameter controls the cutoff for considering distances in the analysis.",
-            self.textEdit,
-            HoverLabel.image_label,
-            "./img/other/metric.png",
-        )
-        font.setPointSize(8)
-        self.metricThreshold.setFont(font)
-        self.metricThreshold.setIndent(10)
-        self.metricThreshold.setObjectName("metricThreshold")
-        self.gridLayout_4.addWidget(self.metricThreshold, 1, 0, 1, 1)
-        self.verticalLayout.addWidget(self.thresholdBox)
-        self.gridLayout_2.addLayout(self.verticalLayout, 5, 0, 1, 1)
-
-        self.comboBox_metrics.setProperty("value", Params.distance_method)
-        self.spinBox_metricThreshold.setProperty("value", Params.dist_threshold)
-        self.spinBox_bootstrap.setProperty("value", Params.bootstrap_threshold)
-
-        layout.addItem(content_layout, 0, 0)
-
+        
+        
         self.ok_button.clicked.connect(self.saveData)
         self.ok_button.clicked.connect(self.close)
         self.cancel_button.clicked.connect(self.close)
         self.reset_button.clicked.connect(self.resetValues)
-
-        self.setLayout(layout)
-        self.retranslateUi()
-        self.show()
-        #  QtCore.QMetaObject.connectSlotsByName(Dialog)
+        
+        return button_layout
+    
+        
 
     def retranslateUi(self):  # noqa: N803
         _translate = QtCore.QCoreApplication.translate
@@ -345,6 +257,36 @@ class ResultSettingsDialog(QDialog):
         )
 
 
+
+def create_box_and_layout(parent, fontSize, name):
+    
+    groupBox = QtWidgets.QGroupBox(parent)
+
+    sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
+    sizePolicy.setHorizontalStretch(0)
+    sizePolicy.setVerticalStretch(0)
+    sizePolicy.setHeightForWidth(groupBox.sizePolicy().hasHeightForWidth())
+    groupBox.setSizePolicy(sizePolicy)    
+
+    font = QtGui.QFont()
+    font.setPointSize(fontSize)
+    groupBox.setFont(font)
+
+    groupBox.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+    groupBox.setCheckable(False)
+    groupBox.setObjectName(name)
+    
+    layout = QtWidgets.QGridLayout(groupBox)
+    if fontSize == 11:
+        layout.setContentsMargins(8, 20, 8, 8)
+    else:
+        layout.setContentsMargins(5, 5, 5, 5)
+        
+    layout.setSpacing(5)
+    layout.setObjectName(name + "layout")
+    
+    return groupBox, layout
+    
 if __name__ == "__main__":
     import sys
 
