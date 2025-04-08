@@ -109,6 +109,9 @@ Once Poetry installed with the project's dependencies, you can activate the virt
 # Using Poetry
 iex (poetry env activate)
 
+# After activating the environment
+python ./scripts/main.py
+
 # Alternatively, you can run the script directly without activating the venv.
 poetry run python ./scripts/main.py
 ```
