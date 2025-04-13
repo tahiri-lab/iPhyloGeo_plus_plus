@@ -8,7 +8,7 @@ from PyQt6.QtWidgets import QApplication, QDialog, QWidget, QVBoxLayout, QLabel,
 class HelpDialog(QDialog):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Help - aPhyloGeo")
+        self.setWindowTitle("Help - iPhyloGeo")
         self.setGeometry(100, 100, 800, 600)
         self.initUI()
 
@@ -24,7 +24,7 @@ class HelpDialog(QDialog):
         scroll_area.setWidget(content_widget)
         content_layout = QFormLayout(content_widget)
 
-        title_label = QLabel("Help - aPhyloGeo")
+        title_label = QLabel("Help - iPhyloGeo")
         title_label.setFont(QFont("Helvetica", 28, QFont.Weight.Bold))
         title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title_label.setStyleSheet("margin-bottom: 20px;")
@@ -40,10 +40,10 @@ class HelpDialog(QDialog):
                 ],
             },
             {
-                "title": "Sequence Alignment",
-                "description": 'To create the sequence alignment of the obtained data, click on "Sequence Alignment".',
+                "title": "Alignment",
+                "description": 'To create the sequence alignment of the obtained data, click on "Alignment".',
                 "instructions": [
-                    'Get the "Genetic Data" of your file. This step may take some time and resources.',
+                    'Click on "Start". This step may take some time and resources.',
                     "Once the alignment is completed, you will see a line for each variant whose RNA sequence has been aligned.",
                 ],
             },
