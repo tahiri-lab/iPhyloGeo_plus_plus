@@ -65,7 +65,7 @@ class FileCaching:
                 with io.StringIO(value.strip()) as file:
                     trees[key] = Phylo.read(file, format="newick")
             result["geneticTrees"] = trees
-                
+
         except OSError:
             print("Could not get the file in the cache")
             cls._cache.pop(file_hash)

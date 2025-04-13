@@ -3,6 +3,7 @@ import sys
 from aphylogeo.params import Params
 from PyQt6.QtGui import QIntValidator
 from PyQt6.QtWidgets import QApplication, QComboBox, QDialog, QFormLayout, QLabel, QLineEdit, QPushButton
+from utils.file_caching import FileCaching
 from utils.my_dumper import update_yaml_param
 
 try:
@@ -55,12 +56,10 @@ class ParamDialog(QDialog):
         # Fit method
         self.fit_method_label = QLabel("Fit Method:")
         self.fit_method_input = QComboBox()
-        self.fit_method_input.addItems(
-            [
-                "Wider Fit by elongating with Gap (starAlignment)",
-                "Narrow-fit prevent elongation with gap when possible",
-            ]
-        )
+        self.fit_method_input.addItems([
+            "Wider Fit by elongating with Gap (starAlignment)",
+            "Narrow-fit prevent elongation with gap when possible",
+        ])
         self.fit_method_input.setCurrentIndex(int(Params.fit_method) - 1)  # Default to Wider Fit
         layout.addRow(self.fit_method_label, self.fit_method_input)
 
@@ -80,18 +79,16 @@ class ParamDialog(QDialog):
         # Method similarity
         self.method_similarity_label = QLabel("Method Similarity:")
         self.method_similarity_input = QComboBox()
-        self.method_similarity_input.addItems(
-            [
-                "Hamming distance",
-                "Levenshtein distance",
-                "Damerau-Levenshtein distance",
-                "Jaro similarity",
-                "Jaro-Winkler similarity",
-                "Smith–Waterman similarity",
-                "Jaccard similarity",
-                "Sørensen-Dice similarity",
-            ]
-        )
+        self.method_similarity_input.addItems([
+            "Hamming distance",
+            "Levenshtein distance",
+            "Damerau-Levenshtein distance",
+            "Jaro similarity",
+            "Jaro-Winkler similarity",
+            "Smith–Waterman similarity",
+            "Jaccard similarity",
+            "Sørensen-Dice similarity",
+        ])
         self.method_similarity_input.setCurrentIndex(int(Params.method_similarity) - 1)  # Default to Hamming distance
         layout.addRow(self.method_similarity_label, self.method_similarity_input)
 
@@ -155,6 +152,7 @@ class ParamDialog(QDialog):
         }
         for property_name, new_value in self.params.items():
             update_yaml_param(Params, "scripts/utils/params.yaml", property_name, new_value)
+        FileCaching.clear_cache()
         self.accept()  # Close the dialog and indicate success
 
 
