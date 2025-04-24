@@ -612,7 +612,7 @@ requires-dist = [
     { name = "pyqt6", specifier = ">=6.8.1" },
     { name = "pyqt6-webengine", specifier = ">=6.8.0,<7.0.0" },
     { name = "pyqt6-webengine-qt6", specifier = ">=6.8.2,<7.0.0" },
-    { name = "pyside6", specifier = ">=6.9.0" },
+    { name = "pyside6", specifier = "==6.9.0" },
     { name = "qtmodern", specifier = ">=0.2.0,<0.3.0" },
     { name = "qtpy", specifier = ">=2.4.3,<3.0.0" },
     { name = "seaborn", specifier = ">=0.13.2,<0.14.0" },
