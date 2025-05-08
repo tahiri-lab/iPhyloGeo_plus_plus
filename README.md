@@ -85,7 +85,13 @@ curl -sSL https://install.python-poetry.org | python3 -
 pipx install poetry
 ```
 
-## 2. Install the dependencies
+## 3. Install GhostScript
+
+### [Download the installer](https://www.ghostscript.com/releases/gsdnld.html)
+
+Download the AGPL Release for your desired OS
+
+## 4. Install the dependencies
 
 Once `Poetry` installed, you can install the project's dependencies.
 Go in the project directory and run the commands
@@ -98,23 +104,9 @@ poetry config virtualenvs.in-project true
 poetry install
 ```
 
-## 3. Run the Application
+## 5. Run the application
 
-Once Poetry installed with the project's dependencies, you can activate the virtual env or run directly with poetry.
-
-```sh
-# Using the "vanilla" python way.
-./.venv/Scripts/activate
-
-# Using Poetry
-iex (poetry env activate)
-
-# After activating the environment
-python ./scripts/main.py
-
-# Alternatively, you can run the script directly without activating the venv.
-poetry run python ./scripts/main.py
-```
+You can then double click on `start.bat`. If you get errors, you can try to run `start-no-gpu.bat`
 
 # [Usage](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/Discover-the-application)
 

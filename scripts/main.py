@@ -23,7 +23,6 @@ except FileNotFoundError:
     Params.validate_and_set_params(Params.PARAMETER_KEYS)
 
 
-
 class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
@@ -243,10 +242,15 @@ class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
     ################################################
 
 
+DISABLE_GPU_FLAG = "--disable-gpu"
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
 
     qtmodern.styles.light(app)
+
+    if DISABLE_GPU_FLAG in sys.argv:
+        os.environ["QTWEBENGINE_CHROMIUM_FLAGS"] = "--disable-gpu"
 
     window = UiMainWindow()
 
