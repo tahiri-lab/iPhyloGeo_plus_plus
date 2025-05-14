@@ -26,6 +26,7 @@
           <li><a href="#about-the-project">About the Project</a></li>
           <li><a href="#features">Features</a></li>
           <li><a href="#installation">Installation</a></li>
+          <li><a href="#troubleshooting">Troubleshooting</a></li>
           <li><a href="#usage">Usage</a></li>
           <li><a href="#project-structure">Project Structure</a></li>
           <li><a href="#contributing">Contributing</a></li>
@@ -52,7 +53,7 @@ The iPhyloGeo++ tool is an advanced bioinformatics application specifically desi
 - **Advanced Visualization Tools:** Provides visualization of phylogenetic trees and climatic data on interactive maps.
 - **Enhanced Comparative Analysis:** Facilitates the comparison of different phylogenetic trees.
 
-# [Installation](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/Getting-Started)
+# [Installation](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/#3-getting-started)
 
 ## 1. Clone the repository
 
@@ -108,7 +109,11 @@ poetry install
 
 You can then double click on `start.bat`. If you get errors, you can try to run `start-no-gpu.bat`
 
-# [Usage](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/Discover-the-application)
+# [Troubleshooting](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/4.-Troubleshooting)
+
+Having issues? Click [here](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/4.-Troubleshooting) to access the Troubleshooting section, where you'll find solutions to common problems.
+
+# [Usage](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/5.-Discover-the-application)
 
 ## Loading Genetic Data
 
@@ -119,7 +124,7 @@ You can then double click on `start.bat`. If you get errors, you can try to run 
 - Access the genetic data interface through the File Browser tab.
 - Select and Load Your Fasta File:
 
-To help you, you can go to the <a href="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/Discover-the-application">Wiki</a> to understand how to navigate into the iPhyloGeo application.
+To help you, you can go to the <a href="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/5.-Discover-the-application">Wiki</a> to understand how to navigate into the iPhyloGeo application.
 
 2. **Choose your Fasta file containing the genetic sequences. Supported formats should be specified (e.g., .fasta, .fa).**
 
@@ -166,7 +171,7 @@ To help you, you can go to the <a href="https://github.com/tahiri-lab/iPhyloGeo_
 
 - Use the stats button to visualize the phylogenetic trees and related statistics.
 
-To help you, you can follow the <a href="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/Tutorial">Tutorial</a> part of the Wiki to achieve all these steps.
+To help you, you can follow the <a href="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/6.-Tutorial">Tutorial</a> part of the Wiki to achieve all these steps.
 
 # Project Structure
 
@@ -189,7 +194,7 @@ We welcome contributions to iPhyloGeo++. Please follow these steps:
 5. Push to the branch (`git push origin feature-branch`).
 6. Create a new Pull Request.
 
-# ✔️ References
+# References
 
 💡 If you are using our algorithm in your research, please cite our recent papers:
 
