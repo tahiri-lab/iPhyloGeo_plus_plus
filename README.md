@@ -194,6 +194,10 @@ We welcome contributions to iPhyloGeo++. Please follow these steps:
 5. Push to the branch (`git push origin feature-branch`).
 6. Create a new Pull Request.
 
+For contributors: if you want to modify the user interface, please use Qt Designer.  
+You can find the official installation instructions [here](https://doc.qt.io/qt-5/gettingstarted.html).
+
+
 # References
 
 💡 If you are using our algorithm in your research, please cite our recent papers:
