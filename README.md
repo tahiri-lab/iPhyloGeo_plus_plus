@@ -196,7 +196,7 @@ We welcome contributions to iPhyloGeo++. Please follow these steps:
 
 For contributors: if you want to modify the user interface, please use Qt Designer.  
 You can find the official installation instructions [here](https://doc.qt.io/qt-5/gettingstarted.html).
-
+You can get more information from the [Edit Interface section of the wiki](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/7.-Edit-Interface).
 
 # References
 
