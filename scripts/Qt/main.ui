@@ -826,7 +826,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="HomePage">
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -1227,7 +1227,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <item>
             <widget class="QTabWidget" name="tabWidget">
              <property name="currentIndex">
-              <number>3</number>
+              <number>4</number>
              </property>
              <widget class="QWidget" name="GenTab1">
               <attribute name="title">
@@ -1318,7 +1318,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
               <attribute name="title">
                <string>Sequence Alignment</string>
               </attribute>
-              <layout class="QVBoxLayout" name="verticalLayout_19" stretch="1,4">
+              <layout class="QVBoxLayout" name="verticalLayout_19" stretch="0,4,0">
                <property name="spacing">
                 <number>6</number>
                </property>
@@ -1348,7 +1348,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                    <height>250</height>
                   </size>
                  </property>
-                 <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="1,2,1,1,1,1">
+                 <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,0,2,0,0">
                   <property name="spacing">
                    <number>30</number>
                   </property>
@@ -1365,57 +1365,13 @@ li.checked::marker { content: &quot;\2612&quot;; }
                    <number>20</number>
                   </property>
                   <item>
-                   <widget class="QPushButton" name="geneticSettingsButton">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>70</height>
-                     </size>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">QPushButton {
-                      /* Basic styling */
-                      background-color: #3498db; /* Button color */
-                      color: white; /* Text color */
-                      font-size: 14px; /* Font size */
-                      font-weight: bold; /* Bold text */
-                      border-radius: 8px; /* Rounded corners */
-                      padding: 10px 20px; /* Padding */
-                      border: 2px solid #2980b9; /* Border */
-                      }
-
-                      QPushButton:hover {
-                      /* Hover state styling */
-                      background-color: #2980b9; /* Darker blue on hover */
-                      border-color: #1c5980; /* Darker border on hover */
-                      }
-
-                      QPushButton:pressed {
-                      /* Pressed state styling */
-                      background-color: #1c5980; /* Even darker blue on press */
-                      border-color: #145374; /* Darker border on press */
-                      color: #ecf0f1; /* Lighter text on press */
-                      }</string>
-                    </property>
-                    <property name="text">
-                     <string>Settings</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <spacer name="horizontalSpacer_5">
+                   <spacer name="horizontalSpacer_15">
                     <property name="orientation">
                      <enum>Qt::Orientation::Horizontal</enum>
                     </property>
                     <property name="sizeHint" stdset="0">
                      <size>
-                      <width>40</width>
+                      <width>35</width>
                       <height>20</height>
                      </size>
                     </property>
@@ -1437,38 +1393,33 @@ li.checked::marker { content: &quot;\2612&quot;; }
                     </property>
                     <property name="font">
                      <font>
-                      <pointsize>-1</pointsize>
                       <bold>true</bold>
                       <kerning>true</kerning>
                      </font>
                     </property>
                     <property name="styleSheet">
                      <string notr="true">QPushButton {
-                      /* Basic styling */
-                      background-color: #008331; /* Button color */
-                      color: white; /* Text color */
-                      font-size: 14px; /* Font size */
-                      font-weight: bold; /* Bold text */
-                      border-radius: 8px; /* Rounded corners */
-                      padding: 10px 20px; /* Padding */
-                      border: 2px solid #2980b9; /* Border */
-                      }
+    border: none;
+    background-color: transparent;
+    background-image: url(img/disabled/start.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    min-width: 100px;
+    min-height: 100px;
+    border-radius: 50px;
+}
 
-                      QPushButton:hover {
-                      /* Hover state styling */
-                      background-color: #7a9244; /* Darker blue on hover */
-                      border-color: #1c5980; /* Darker border on hover */
-                      }
+QPushButton:hover {
+    background-color: #7F7F7F;
+}
 
-                      QPushButton:pressed {
-                      /* Pressed state styling */
-                      background-color: #1c5980; /* Even darker blue on press */
-                      border-color: #145374; /* Darker border on press */
-                      color: #ecf0f1; /* Lighter text on press */
-                      }</string>
+QPushButton:pressed {
+    background-color: #3F3F3F;
+}
+</string>
                     </property>
                     <property name="text">
-                     <string>Start</string>
+                     <string/>
                     </property>
                     <property name="iconSize">
                      <size>
@@ -1485,7 +1436,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                    </widget>
                   </item>
                   <item>
-                   <spacer name="horizontalSpacer_6">
+                   <spacer name="horizontalSpacer_5">
                     <property name="orientation">
                      <enum>Qt::Orientation::Horizontal</enum>
                     </property>
@@ -1498,116 +1449,57 @@ li.checked::marker { content: &quot;\2612&quot;; }
                    </spacer>
                   </item>
                   <item>
-                   <layout class="QVBoxLayout" name="verticalLayout_17">
-                    <property name="spacing">
-                     <number>0</number>
+                   <widget class="QPushButton" name="geneticSettingsButton">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
                     </property>
-                    <item>
-                     <spacer name="verticalSpacer_12">
-                      <property name="orientation">
-                       <enum>Qt::Orientation::Vertical</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>20</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                    <item>
-                     <widget class="QLabel" name="label_3">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="text">
-                       <string>Window size</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QSpinBox" name="window_size_spinbox_2">
-                      <property name="enabled">
-                       <bool>false</bool>
-                      </property>
-                      <property name="value">
-                       <number>35</number>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="verticalSpacer_13">
-                      <property name="orientation">
-                       <enum>Qt::Orientation::Vertical</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>20</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>70</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">QPushButton {
+    border: none;
+    background-color: transparent;
+    background-image: url(img/disabled/setbutton.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    min-width: 100px;
+    min-height: 100px;
+    border-radius: 50px;
+}
+
+QPushButton:hover {
+    background-color: #7F7F7F;
+}
+
+QPushButton:pressed {
+    background-color: #3F3F3F;
+}
+</string>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                   </widget>
                   </item>
                   <item>
-                   <layout class="QVBoxLayout" name="verticalLayout_18">
-                    <property name="spacing">
-                     <number>0</number>
+                   <spacer name="horizontalSpacer_14">
+                    <property name="orientation">
+                     <enum>Qt::Orientation::Horizontal</enum>
                     </property>
-                    <item>
-                     <spacer name="verticalSpacer_14">
-                      <property name="orientation">
-                       <enum>Qt::Orientation::Vertical</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>20</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                    <item>
-                     <widget class="QLabel" name="label_4">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="text">
-                       <string>Starting position</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QSpinBox" name="starting_position_spinbox_2">
-                      <property name="enabled">
-                       <bool>false</bool>
-                      </property>
-                      <property name="value">
-                       <number>1</number>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="verticalSpacer_15">
-                      <property name="orientation">
-                       <enum>Qt::Orientation::Vertical</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>20</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
                   </item>
                  </layout>
                 </widget>
@@ -1642,6 +1534,104 @@ li.checked::marker { content: &quot;\2612&quot;; }
                   <bool>true</bool>
                  </property>
                 </widget>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_16">
+                 <property name="sizeConstraint">
+                  <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <spacer name="horizontalSpacer_13">
+                   <property name="orientation">
+                    <enum>Qt::Orientation::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_3">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Window size</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="window_size_spinbox_2">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="value">
+                    <number>35</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_6">
+                   <property name="orientation">
+                    <enum>Qt::Orientation::Horizontal</enum>
+                   </property>
+                   <property name="sizeType">
+                    <enum>QSizePolicy::Policy::Fixed</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>80</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_4">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Starting position</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="starting_position_spinbox_2">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="value">
+                    <number>1</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_12">
+                   <property name="orientation">
+                    <enum>Qt::Orientation::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
                </item>
               </layout>
              </widget>
@@ -1679,26 +1669,46 @@ li.checked::marker { content: &quot;\2612&quot;; }
                    <height>250</height>
                   </size>
                  </property>
-                 <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="3,1,1">
+                 <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="3,0,1,0,1,0">
                   <property name="spacing">
                    <number>20</number>
                   </property>
                   <item>
                    <widget class="QLabel" name="GenStatsTitle">
+                    <property name="maximumSize">
+                     <size>
+                      <width>250</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
                     <property name="font">
                      <font>
                       <pointsize>16</pointsize>
                      </font>
                     </property>
+                    <property name="midLineWidth">
+                     <number>0</number>
+                    </property>
                     <property name="text">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot;
-                        font-size:24pt; text-decoration: underline;&quot;&gt;Alignment
-                        Chart&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt;&quot;&gt;Alignment Chart&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignmentFlag::AlignCenter</set>
                     </property>
                    </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_22">
+                    <property name="orientation">
+                     <enum>Qt::Orientation::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>350</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
                   </item>
                   <item>
                    <layout class="QVBoxLayout" name="verticalLayout_22">
@@ -1750,6 +1760,19 @@ li.checked::marker { content: &quot;\2612&quot;; }
                    </layout>
                   </item>
                   <item>
+                   <spacer name="horizontalSpacer_21">
+                    <property name="orientation">
+                     <enum>Qt::Orientation::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>30</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
                    <widget class="QPushButton" name="downloadSimilarityButton">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
@@ -1759,21 +1782,55 @@ li.checked::marker { content: &quot;\2612&quot;; }
                     </property>
                     <property name="maximumSize">
                      <size>
-                      <width>16777215</width>
-                      <height>50</height>
+                      <width>100</width>
+                      <height>100</height>
                      </size>
                     </property>
+                    <property name="styleSheet">
+                     <string notr="true">QPushButton {
+    border: none;
+    background-color: transparent;
+    background-image: url(img/disabled/download.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    min-width: 100px;
+    min-height: 100px;
+    border-radius: 50px;
+}
+
+QPushButton:hover {
+    background-color: #7F7F7F;
+}
+
+QPushButton:pressed {
+    background-color: #3F3F3F;
+}
+</string>
+                    </property>
                     <property name="text">
-                     <string>Download</string>
+                     <string/>
                     </property>
                    </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_20">
+                    <property name="orientation">
+                     <enum>Qt::Orientation::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
                   </item>
                  </layout>
                 </widget>
                </item>
                <item>
-                <widget class="QWebEngineView" name="textEditGenStats_2">
-                 <property name="url">
+                <widget class="QWebEngineView" name="textEditGenStats_2" native="true">
+                 <property name="url" stdset="0">
                   <url>
                    <string>about:blank</string>
                   </url>
@@ -1816,7 +1873,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                    <height>250</height>
                   </size>
                  </property>
-                 <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="3,1,1">
+                 <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="0,3,0,0,1,0">
                   <property name="spacing">
                    <number>20</number>
                   </property>
@@ -1824,23 +1881,111 @@ li.checked::marker { content: &quot;\2612&quot;; }
                    <number>10</number>
                   </property>
                   <item>
+                   <widget class="QLabel" name="label_8">
+                    <property name="maximumSize">
+                     <size>
+                      <width>250</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>16</pointsize>
+                      <bold>false</bold>
+                      <kerning>true</kerning>
+                     </font>
+                    </property>
+                    <property name="mouseTracking">
+                     <bool>true</bool>
+                    </property>
+                    <property name="text">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt;&quot;&gt;Phylogenetic Tree&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
                    <spacer name="horizontalSpacer_7">
                     <property name="orientation">
                      <enum>Qt::Orientation::Horizontal</enum>
                     </property>
+                    <property name="sizeType">
+                     <enum>QSizePolicy::Policy::Fixed</enum>
+                    </property>
                     <property name="sizeHint" stdset="0">
                      <size>
-                      <width>40</width>
+                      <width>350</width>
                       <height>20</height>
                      </size>
                     </property>
                    </spacer>
                   </item>
                   <item>
-                   <widget class="QComboBox" name="geneticTreescomboBox"/>
+                   <layout class="QVBoxLayout" name="verticalLayout_20">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <spacer name="verticalSpacer_8">
+                      <property name="orientation">
+                       <enum>Qt::Orientation::Vertical</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>20</width>
+                        <height>50</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="label_6">
+                      <property name="text">
+                       <string>Reference</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QComboBox" name="geneticTreescomboBox"/>
+                    </item>
+                    <item>
+                     <spacer name="verticalSpacer_9">
+                      <property name="orientation">
+                       <enum>Qt::Orientation::Vertical</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>20</width>
+                        <height>50</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_23">
+                    <property name="orientation">
+                     <enum>Qt::Orientation::Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                     <enum>QSizePolicy::Policy::Fixed</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>30</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
                   </item>
                   <item>
                    <widget class="QPushButton" name="downloadGraphButton">
+                    <property name="enabled">
+                     <bool>true</bool>
+                    </property>
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                       <horstretch>0</horstretch>
@@ -1849,20 +1994,57 @@ li.checked::marker { content: &quot;\2612&quot;; }
                     </property>
                     <property name="minimumSize">
                      <size>
-                      <width>0</width>
-                      <height>35</height>
+                      <width>100</width>
+                      <height>100</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
-                      <width>16777215</width>
-                      <height>50</height>
+                      <width>100</width>
+                      <height>100</height>
                      </size>
                     </property>
+                    <property name="styleSheet">
+                     <string notr="true">QPushButton {
+    border: none;
+    background-color: transparent;
+    background-image: url(img/disabled/download.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    min-width: 100px;
+    min-height: 100px;
+    border-radius: 50px;
+}
+
+QPushButton:hover {
+    background-color: #7F7F7F;
+}
+
+QPushButton:pressed {
+    background-color: #3F3F3F;
+}
+</string>
+                    </property>
                     <property name="text">
-                     <string>Download</string>
+                     <string/>
                     </property>
                    </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_19">
+                    <property name="orientation">
+                     <enum>Qt::Orientation::Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                     <enum>QSizePolicy::Policy::Fixed</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
                   </item>
                  </layout>
                 </widget>
@@ -2125,7 +2307,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <item>
             <widget class="QTabWidget" name="tabWidget2">
              <property name="currentIndex">
-              <number>0</number>
+              <number>3</number>
              </property>
              <widget class="QWidget" name="ClimTab1">
               <attribute name="title">
@@ -2287,7 +2469,13 @@ li.checked::marker { content: &quot;\2612&quot;; }
                 <number>0</number>
                </property>
                <item>
-                <widget class="QTextBrowser" name="textEditClimData"/>
+                <widget class="QTextBrowser" name="textEditClimData">
+                 <property name="font">
+                  <font>
+                   <family>Courier</family>
+                  </font>
+                 </property>
+                </widget>
                </item>
                <item>
                 <widget class="QGraphicsView" name="graphicsViewClimData"/>
@@ -2364,10 +2552,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                         </font>
                        </property>
                        <property name="text">
-                        <string>
-                        &lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot;
-                        font-size:24pt; text-decoration:
-                        underline;&quot;&gt;Statistics&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt;&quot;&gt;Statistics&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                        </property>
                        <property name="alignment">
                         <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -2647,8 +2832,29 @@ li.checked::marker { content: &quot;\2612&quot;; }
                            <height>16777215</height>
                           </size>
                          </property>
+                         <property name="styleSheet">
+                          <string notr="true">QPushButton {
+    border: none;
+    background-color: transparent;
+    background-image: url(img/disabled/download.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    min-width: 100px;
+    min-height: 100px;
+    border-radius: 50px;
+}
+
+QPushButton:hover {
+    background-color: #7F7F7F;
+}
+
+QPushButton:pressed {
+    background-color: #3F3F3F;
+}
+</string>
+                         </property>
                          <property name="text">
-                          <string>Download</string>
+                          <string/>
                          </property>
                         </widget>
                        </item>
@@ -2684,8 +2890,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
                    </widget>
                   </item>
                   <item>
-                   <widget class="QWebEngineView" name="climatGraphView">
-                    <property name="url">
+                   <widget class="QWebEngineView" name="climatGraphView" native="true">
+                    <property name="url" stdset="0">
                      <url>
                       <string>about:blank</string>
                      </url>
@@ -2746,7 +2952,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                       <verstretch>0</verstretch>
                      </sizepolicy>
                     </property>
-                    <layout class="QHBoxLayout" name="horizontalLayout_12" stretch="1,2,1,1">
+                    <layout class="QHBoxLayout" name="horizontalLayout_12" stretch="0,1,0,0,2,1,0">
                      <property name="leftMargin">
                       <number>0</number>
                      </property>
@@ -2760,6 +2966,19 @@ li.checked::marker { content: &quot;\2612&quot;; }
                       <number>0</number>
                      </property>
                      <item>
+                      <spacer name="horizontalSpacer_16">
+                       <property name="orientation">
+                        <enum>Qt::Orientation::Horizontal</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>40</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                     <item>
                       <widget class="QPushButton" name="preferencesButton">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
@@ -2769,14 +2988,104 @@ li.checked::marker { content: &quot;\2612&quot;; }
                        </property>
                        <property name="minimumSize">
                         <size>
-                         <width>0</width>
-                         <height>50</height>
+                         <width>100</width>
+                         <height>100</height>
                         </size>
                        </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>100</width>
+                         <height>100</height>
+                        </size>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton {
+    border: none;
+    background-color: transparent;
+    background-image: url(img/disabled/setbutton.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    min-width: 100px;
+    min-height: 100px;
+    border-radius: 50px;
+}
+
+QPushButton:hover {
+    background-color: #7F7F7F;
+}
+
+QPushButton:pressed {
+    background-color: #3F3F3F;
+}
+</string>
+                       </property>
                        <property name="text">
-                        <string>Preferences</string>
+                        <string/>
                        </property>
                       </widget>
+                     </item>
+                     <item>
+                      <spacer name="horizontalSpacer_18">
+                       <property name="orientation">
+                        <enum>Qt::Orientation::Horizontal</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>40</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                     <item>
+                      <layout class="QVBoxLayout" name="verticalLayout_18">
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <item>
+                        <spacer name="verticalSpacer_6">
+                         <property name="orientation">
+                          <enum>Qt::Orientation::Vertical</enum>
+                         </property>
+                         <property name="sizeHint" stdset="0">
+                          <size>
+                           <width>20</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                        </spacer>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="label_5">
+                         <property name="text">
+                          <string>Variable to plot:</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QComboBox" name="climaticTreescomboBox">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <spacer name="verticalSpacer_7">
+                         <property name="orientation">
+                          <enum>Qt::Orientation::Vertical</enum>
+                         </property>
+                         <property name="sizeHint" stdset="0">
+                          <size>
+                           <width>20</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                        </spacer>
+                       </item>
+                      </layout>
                      </item>
                      <item>
                       <spacer name="horizontalSpacer_3">
@@ -2801,24 +3110,54 @@ li.checked::marker { content: &quot;\2612&quot;; }
                        </property>
                        <property name="minimumSize">
                         <size>
-                         <width>0</width>
-                         <height>50</height>
+                         <width>100</width>
+                         <height>100</height>
                         </size>
                        </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>100</width>
+                         <height>100</height>
+                        </size>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton {
+    border: none;
+    background-color: transparent;
+    background-image: url(img/disabled/download.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    min-width: 100px;
+    min-height: 100px;
+    border-radius: 50px;
+}
+
+QPushButton:hover {
+    background-color: #7F7F7F;
+}
+
+QPushButton:pressed {
+    background-color: #3F3F3F;
+}
+</string>
+                       </property>
                        <property name="text">
-                        <string>Download Graph</string>
+                        <string/>
                        </property>
                       </widget>
                      </item>
                      <item>
-                      <widget class="QComboBox" name="climaticTreescomboBox">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
+                      <spacer name="horizontalSpacer_17">
+                       <property name="orientation">
+                        <enum>Qt::Orientation::Horizontal</enum>
                        </property>
-                      </widget>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>40</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
                      </item>
                     </layout>
                    </widget>
@@ -3108,7 +3447,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <item>
             <widget class="QTabWidget" name="tabWidgetResult">
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="resultTab">
               <property name="sizePolicy">
@@ -3182,7 +3521,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                  <property name="frameShadow">
                   <enum>QFrame::Shadow::Raised</enum>
                  </property>
-                 <layout class="QHBoxLayout" name="horizontalLayout_13" stretch="2,2,1,1,1,4">
+                 <layout class="QHBoxLayout" name="horizontalLayout_13" stretch="2,2,1,0,1,4">
                   <property name="spacing">
                    <number>0</number>
                   </property>
@@ -3203,9 +3542,12 @@ li.checked::marker { content: &quot;\2612&quot;; }
                     <property name="orientation">
                      <enum>Qt::Orientation::Horizontal</enum>
                     </property>
+                    <property name="sizeType">
+                     <enum>QSizePolicy::Policy::Fixed</enum>
+                    </property>
                     <property name="sizeHint" stdset="0">
                      <size>
-                      <width>40</width>
+                      <width>5</width>
                       <height>20</height>
                      </size>
                     </property>
@@ -3219,9 +3561,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                      </font>
                     </property>
                     <property name="text">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot;
-                    font-size:24pt; text-decoration:
-                    underline;&quot;&gt;Statistics&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt;&quot;&gt;Statistics&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -3233,9 +3573,12 @@ li.checked::marker { content: &quot;\2612&quot;; }
                     <property name="orientation">
                      <enum>Qt::Orientation::Horizontal</enum>
                     </property>
+                    <property name="sizeType">
+                     <enum>QSizePolicy::Policy::Fixed</enum>
+                    </property>
                     <property name="sizeHint" stdset="0">
                      <size>
-                      <width>40</width>
+                      <width>400</width>
                       <height>20</height>
                      </size>
                     </property>
@@ -3245,12 +3588,39 @@ li.checked::marker { content: &quot;\2612&quot;; }
                    <widget class="QPushButton" name="downloadResultsPlotButton">
                     <property name="minimumSize">
                      <size>
-                      <width>120</width>
-                      <height>40</height>
+                      <width>100</width>
+                      <height>100</height>
                      </size>
                     </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>100</width>
+                      <height>100</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">QPushButton {
+    border: none;
+    background-color: transparent;
+    background-image: url(img/disabled/download.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    min-width: 100px;
+    min-height: 100px;
+    border-radius: 50px;
+}
+
+QPushButton:hover {
+    background-color: #7F7F7F;
+}
+
+QPushButton:pressed {
+    background-color: #3F3F3F;
+}
+</string>
+                    </property>
                     <property name="text">
-                     <string>Download</string>
+                     <string/>
                     </property>
                    </widget>
                   </item>
@@ -3258,6 +3628,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
                    <spacer name="horizontalSpacer_8">
                     <property name="orientation">
                      <enum>Qt::Orientation::Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                     <enum>QSizePolicy::Policy::Fixed</enum>
                     </property>
                     <property name="sizeHint" stdset="0">
                      <size>
@@ -3269,6 +3642,12 @@ li.checked::marker { content: &quot;\2612&quot;; }
                   </item>
                   <item>
                    <widget class="QFrame" name="ResultsStatsFilters">
+                    <property name="maximumSize">
+                     <size>
+                      <width>200</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
                     <property name="frameShape">
                      <enum>QFrame::Shape::NoFrame</enum>
                     </property>
