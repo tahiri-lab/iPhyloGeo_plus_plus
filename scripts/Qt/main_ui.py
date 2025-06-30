@@ -533,6 +533,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_9.setSpacing(0)
         self.verticalLayout_9.setObjectName("verticalLayout_9")
         self.textEditFasta = QtWidgets.QTextEdit(parent=self.GenTab2)
+        font = QtGui.QFont()
+        font.setFamily("Courier")
+        self.textEditFasta.setFont(font)
         self.textEditFasta.setObjectName("textEditFasta")
         self.verticalLayout_9.addWidget(self.textEditFasta)
         self.tabWidget.addTab(self.GenTab2, "")
@@ -554,7 +557,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_6.setContentsMargins(20, 20, 10, 20)
         self.horizontalLayout_6.setSpacing(30)
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(35, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
         self.horizontalLayout_6.addItem(spacerItem)
         self.StartSequenceAlignmentButton = QtWidgets.QPushButton(parent=self.horizontalWidget_2)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Minimum)
@@ -583,7 +586,7 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QPushButton:pressed {\n"
-"    background-color: #4F4F4F;\n"
+"    background-color: #3F3F3F;\n"
 "}\n"
 "")
         self.StartSequenceAlignmentButton.setText("")
@@ -617,7 +620,7 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QPushButton:pressed {\n"
-"    background-color: #4F4F4F;\n"
+"    background-color: #3F3F3F;\n"
 "}\n"
 "")
         self.geneticSettingsButton.setText("")
@@ -697,18 +700,21 @@ class Ui_MainWindow(object):
         self.horizontalLayout_7.setSpacing(20)
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
         self.GenStatsTitle = QtWidgets.QLabel(parent=self.genStatsHeader)
-        self.GenStatsTitle.setMaximumSize(QtCore.QSize(700, 16777215))
+        self.GenStatsTitle.setMaximumSize(QtCore.QSize(250, 16777215))
         font = QtGui.QFont()
         font.setPointSize(16)
         self.GenStatsTitle.setFont(font)
+        self.GenStatsTitle.setMidLineWidth(0)
         self.GenStatsTitle.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.GenStatsTitle.setObjectName("GenStatsTitle")
         self.horizontalLayout_7.addWidget(self.GenStatsTitle)
+        spacerItem6 = QtWidgets.QSpacerItem(350, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem6)
         self.verticalLayout_22 = QtWidgets.QVBoxLayout()
         self.verticalLayout_22.setSpacing(0)
         self.verticalLayout_22.setObjectName("verticalLayout_22")
-        spacerItem6 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.verticalLayout_22.addItem(spacerItem6)
+        spacerItem7 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout_22.addItem(spacerItem7)
         self.label_7 = QtWidgets.QLabel(parent=self.genStatsHeader)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Maximum)
         sizePolicy.setHorizontalStretch(0)
@@ -720,9 +726,11 @@ class Ui_MainWindow(object):
         self.referenceComboBox = QtWidgets.QComboBox(parent=self.genStatsHeader)
         self.referenceComboBox.setObjectName("referenceComboBox")
         self.verticalLayout_22.addWidget(self.referenceComboBox)
-        spacerItem7 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.verticalLayout_22.addItem(spacerItem7)
+        spacerItem8 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout_22.addItem(spacerItem8)
         self.horizontalLayout_7.addLayout(self.verticalLayout_22)
+        spacerItem9 = QtWidgets.QSpacerItem(30, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem9)
         self.downloadSimilarityButton = QtWidgets.QPushButton(parent=self.genStatsHeader)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Minimum)
         sizePolicy.setHorizontalStretch(0)
@@ -746,17 +754,17 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QPushButton:pressed {\n"
-"    background-color: #4F4F4F;\n"
+"    background-color: #3F3F3F;\n"
 "}\n"
 "")
         self.downloadSimilarityButton.setText("")
         self.downloadSimilarityButton.setObjectName("downloadSimilarityButton")
         self.horizontalLayout_7.addWidget(self.downloadSimilarityButton)
-        spacerItem8 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_7.addItem(spacerItem8)
+        spacerItem10 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem10)
         self.horizontalLayout_7.setStretch(0, 3)
-        self.horizontalLayout_7.setStretch(1, 1)
         self.horizontalLayout_7.setStretch(2, 1)
+        self.horizontalLayout_7.setStretch(4, 1)
         self.verticalLayout_10.addWidget(self.genStatsHeader)
         self.textEditGenStats_2 = QtWebEngineWidgets.QWebEngineView(parent=self.GenTab4)
         self.textEditGenStats_2.setProperty("url", QtCore.QUrl("about:blank"))
@@ -783,23 +791,35 @@ class Ui_MainWindow(object):
         self.horizontalLayout_9.setContentsMargins(-1, -1, 10, -1)
         self.horizontalLayout_9.setSpacing(20)
         self.horizontalLayout_9.setObjectName("horizontalLayout_9")
-        spacerItem9 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_9.addItem(spacerItem9)
+        self.label_8 = QtWidgets.QLabel(parent=self.horizontalWidget_4)
+        self.label_8.setMaximumSize(QtCore.QSize(250, 16777215))
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        font.setBold(False)
+        font.setKerning(True)
+        self.label_8.setFont(font)
+        self.label_8.setMouseTracking(True)
+        self.label_8.setObjectName("label_8")
+        self.horizontalLayout_9.addWidget(self.label_8)
+        spacerItem11 = QtWidgets.QSpacerItem(350, 20, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_9.addItem(spacerItem11)
         self.verticalLayout_20 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_20.setContentsMargins(-1, -1, 10, -1)
+        self.verticalLayout_20.setContentsMargins(-1, -1, 0, -1)
         self.verticalLayout_20.setSpacing(0)
         self.verticalLayout_20.setObjectName("verticalLayout_20")
-        spacerItem10 = QtWidgets.QSpacerItem(20, 50, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.verticalLayout_20.addItem(spacerItem10)
+        spacerItem12 = QtWidgets.QSpacerItem(20, 50, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout_20.addItem(spacerItem12)
         self.label_6 = QtWidgets.QLabel(parent=self.horizontalWidget_4)
         self.label_6.setObjectName("label_6")
         self.verticalLayout_20.addWidget(self.label_6)
         self.geneticTreescomboBox = QtWidgets.QComboBox(parent=self.horizontalWidget_4)
         self.geneticTreescomboBox.setObjectName("geneticTreescomboBox")
         self.verticalLayout_20.addWidget(self.geneticTreescomboBox)
-        spacerItem11 = QtWidgets.QSpacerItem(20, 50, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.verticalLayout_20.addItem(spacerItem11)
+        spacerItem13 = QtWidgets.QSpacerItem(20, 50, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout_20.addItem(spacerItem13)
         self.horizontalLayout_9.addLayout(self.verticalLayout_20)
+        spacerItem14 = QtWidgets.QSpacerItem(30, 20, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_9.addItem(spacerItem14)
         self.downloadGraphButton = QtWidgets.QPushButton(parent=self.horizontalWidget_4)
         self.downloadGraphButton.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Minimum)
@@ -825,16 +845,16 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QPushButton:pressed {\n"
-"    background-color: #4F4F4F;\n"
+"    background-color: #3F3F3F;\n"
 "}\n"
 "")
         self.downloadGraphButton.setText("")
         self.downloadGraphButton.setObjectName("downloadGraphButton")
         self.horizontalLayout_9.addWidget(self.downloadGraphButton)
-        spacerItem12 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_9.addItem(spacerItem12)
-        self.horizontalLayout_9.setStretch(0, 3)
-        self.horizontalLayout_9.setStretch(2, 1)
+        spacerItem15 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_9.addItem(spacerItem15)
+        self.horizontalLayout_9.setStretch(1, 3)
+        self.horizontalLayout_9.setStretch(4, 1)
         self.verticalLayout_24.addWidget(self.horizontalWidget_4)
         self.GeneticTreeLabel = QtWidgets.QLabel(parent=self.GenTab5)
         self.GeneticTreeLabel.setEnabled(True)
@@ -971,8 +991,8 @@ class Ui_MainWindow(object):
         self.max_correlation_climat.setProperty("value", 1.0)
         self.max_correlation_climat.setObjectName("max_correlation_climat")
         self.horizontalLayout_14.addWidget(self.max_correlation_climat)
-        spacerItem13 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_14.addItem(spacerItem13)
+        spacerItem16 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_14.addItem(spacerItem16)
         self.label = QtWidgets.QLabel(parent=self.climate_data_settings)
         self.label.setObjectName("label")
         self.horizontalLayout_14.addWidget(self.label)
@@ -981,8 +1001,8 @@ class Ui_MainWindow(object):
         self.min_variance_climat.setMaximum(100000.0)
         self.min_variance_climat.setObjectName("min_variance_climat")
         self.horizontalLayout_14.addWidget(self.min_variance_climat)
-        spacerItem14 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_14.addItem(spacerItem14)
+        spacerItem17 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_14.addItem(spacerItem17)
         self.horizontalLayout_14.setStretch(0, 1)
         self.horizontalLayout_14.setStretch(1, 1)
         self.horizontalLayout_14.setStretch(2, 1)
@@ -1007,6 +1027,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_13.setSpacing(0)
         self.verticalLayout_13.setObjectName("verticalLayout_13")
         self.textEditClimData = QtWidgets.QTextBrowser(parent=self.ClimTab2)
+        font = QtGui.QFont()
+        font.setFamily("Courier")
+        self.textEditClimData.setFont(font)
         self.textEditClimData.setObjectName("textEditClimData")
         self.verticalLayout_13.addWidget(self.textEditClimData)
         self.graphicsViewClimData = QtWidgets.QGraphicsView(parent=self.ClimTab2)
@@ -1049,8 +1072,8 @@ class Ui_MainWindow(object):
         self.StatisticsTitle.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.StatisticsTitle.setObjectName("StatisticsTitle")
         self.verticalLayout_15.addWidget(self.StatisticsTitle)
-        spacerItem15 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.verticalLayout_15.addItem(spacerItem15)
+        spacerItem18 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout_15.addItem(spacerItem18)
         self.ClimaticChartSettingsTitle = QtWidgets.QLabel(parent=self.verticalWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Maximum)
         sizePolicy.setHorizontalStretch(0)
@@ -1089,8 +1112,8 @@ class Ui_MainWindow(object):
         self.ClimaticChartSettingsAxisX.setFrame(True)
         self.ClimaticChartSettingsAxisX.setObjectName("ClimaticChartSettingsAxisX")
         self.verticalLayout_15.addWidget(self.ClimaticChartSettingsAxisX)
-        spacerItem16 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.verticalLayout_15.addItem(spacerItem16)
+        spacerItem19 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout_15.addItem(spacerItem19)
         self.ClimaticChartSettingsTextAxisY = QtWidgets.QLabel(parent=self.verticalWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Maximum)
         sizePolicy.setHorizontalStretch(0)
@@ -1112,8 +1135,8 @@ class Ui_MainWindow(object):
         self.ClimaticChartSettingsAxisY.setFrame(True)
         self.ClimaticChartSettingsAxisY.setObjectName("ClimaticChartSettingsAxisY")
         self.verticalLayout_15.addWidget(self.ClimaticChartSettingsAxisY)
-        spacerItem17 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.verticalLayout_15.addItem(spacerItem17)
+        spacerItem20 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout_15.addItem(spacerItem20)
         self.PlotsTypesComboBox = QtWidgets.QLabel(parent=self.verticalWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Maximum)
         sizePolicy.setHorizontalStretch(0)
@@ -1141,13 +1164,13 @@ class Ui_MainWindow(object):
         self.PlotTypesCombobox.addItem("")
         self.PlotTypesCombobox.addItem("")
         self.verticalLayout_15.addWidget(self.PlotTypesCombobox)
-        spacerItem18 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.verticalLayout_15.addItem(spacerItem18)
+        spacerItem21 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout_15.addItem(spacerItem21)
         self.horizontalLayout_8 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_8.setSpacing(0)
         self.horizontalLayout_8.setObjectName("horizontalLayout_8")
-        spacerItem19 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_8.addItem(spacerItem19)
+        spacerItem22 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_8.addItem(spacerItem22)
         self.climatePlotDownloadButton = QtWidgets.QPushButton(parent=self.verticalWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Maximum)
         sizePolicy.setHorizontalStretch(0)
@@ -1171,20 +1194,20 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QPushButton:pressed {\n"
-"    background-color: #4F4F4F;\n"
+"    background-color: #3F3F3F;\n"
 "}\n"
 "")
         self.climatePlotDownloadButton.setText("")
         self.climatePlotDownloadButton.setObjectName("climatePlotDownloadButton")
         self.horizontalLayout_8.addWidget(self.climatePlotDownloadButton)
-        spacerItem20 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_8.addItem(spacerItem20)
+        spacerItem23 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_8.addItem(spacerItem23)
         self.horizontalLayout_8.setStretch(0, 1)
         self.horizontalLayout_8.setStretch(1, 1)
         self.horizontalLayout_8.setStretch(2, 1)
         self.verticalLayout_15.addLayout(self.horizontalLayout_8)
-        spacerItem21 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.verticalLayout_15.addItem(spacerItem21)
+        spacerItem24 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout_15.addItem(spacerItem24)
         self.horizontalLayout_11.addWidget(self.verticalWidget)
         self.climatGraphView = QtWebEngineWidgets.QWebEngineView(parent=self.frameClimStats)
         self.climatGraphView.setProperty("url", QtCore.QUrl("about:blank"))
@@ -1217,8 +1240,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_12 = QtWidgets.QHBoxLayout(self.horizontalWidget)
         self.horizontalLayout_12.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_12.setObjectName("horizontalLayout_12")
-        spacerItem22 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_12.addItem(spacerItem22)
+        spacerItem25 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_12.addItem(spacerItem25)
         self.preferencesButton = QtWidgets.QPushButton(parent=self.horizontalWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Maximum)
         sizePolicy.setHorizontalStretch(0)
@@ -1243,19 +1266,19 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QPushButton:pressed {\n"
-"    background-color: #4F4F4F;\n"
+"    background-color: #3F3F3F;\n"
 "}\n"
 "")
         self.preferencesButton.setText("")
         self.preferencesButton.setObjectName("preferencesButton")
         self.horizontalLayout_12.addWidget(self.preferencesButton)
-        spacerItem23 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_12.addItem(spacerItem23)
+        spacerItem26 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_12.addItem(spacerItem26)
         self.verticalLayout_18 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_18.setContentsMargins(-1, -1, 40, -1)
+        self.verticalLayout_18.setContentsMargins(-1, -1, 0, -1)
         self.verticalLayout_18.setObjectName("verticalLayout_18")
-        spacerItem24 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.verticalLayout_18.addItem(spacerItem24)
+        spacerItem27 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout_18.addItem(spacerItem27)
         self.label_5 = QtWidgets.QLabel(parent=self.horizontalWidget)
         self.label_5.setObjectName("label_5")
         self.verticalLayout_18.addWidget(self.label_5)
@@ -1267,11 +1290,11 @@ class Ui_MainWindow(object):
         self.climaticTreescomboBox.setSizePolicy(sizePolicy)
         self.climaticTreescomboBox.setObjectName("climaticTreescomboBox")
         self.verticalLayout_18.addWidget(self.climaticTreescomboBox)
-        spacerItem25 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.verticalLayout_18.addItem(spacerItem25)
+        spacerItem28 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout_18.addItem(spacerItem28)
         self.horizontalLayout_12.addLayout(self.verticalLayout_18)
-        spacerItem26 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_12.addItem(spacerItem26)
+        spacerItem29 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_12.addItem(spacerItem29)
         self.downloadGraphButton2 = QtWidgets.QPushButton(parent=self.horizontalWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Maximum)
         sizePolicy.setHorizontalStretch(0)
@@ -1296,14 +1319,14 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QPushButton:pressed {\n"
-"    background-color: #4F4F4F;\n"
+"    background-color: #3F3F3F;\n"
 "}\n"
 "")
         self.downloadGraphButton2.setText("")
         self.downloadGraphButton2.setObjectName("downloadGraphButton2")
         self.horizontalLayout_12.addWidget(self.downloadGraphButton2)
-        spacerItem27 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_12.addItem(spacerItem27)
+        spacerItem30 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_12.addItem(spacerItem30)
         self.horizontalLayout_12.setStretch(1, 1)
         self.horizontalLayout_12.setStretch(4, 2)
         self.horizontalLayout_12.setStretch(5, 1)
@@ -1468,8 +1491,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_13.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_13.setSpacing(0)
         self.horizontalLayout_13.setObjectName("horizontalLayout_13")
-        spacerItem28 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_13.addItem(spacerItem28)
+        spacerItem31 = QtWidgets.QSpacerItem(5, 20, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_13.addItem(spacerItem31)
         self.ResultsStatsTitle = QtWidgets.QLabel(parent=self.frameResultsStats)
         font = QtGui.QFont()
         font.setPointSize(16)
@@ -1477,15 +1500,37 @@ class Ui_MainWindow(object):
         self.ResultsStatsTitle.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.ResultsStatsTitle.setObjectName("ResultsStatsTitle")
         self.horizontalLayout_13.addWidget(self.ResultsStatsTitle)
-        spacerItem29 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_13.addItem(spacerItem29)
+        spacerItem32 = QtWidgets.QSpacerItem(400, 20, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_13.addItem(spacerItem32)
         self.downloadResultsPlotButton = QtWidgets.QPushButton(parent=self.frameResultsStats)
-        self.downloadResultsPlotButton.setMinimumSize(QtCore.QSize(120, 40))
+        self.downloadResultsPlotButton.setMinimumSize(QtCore.QSize(100, 100))
+        self.downloadResultsPlotButton.setMaximumSize(QtCore.QSize(100, 100))
+        self.downloadResultsPlotButton.setStyleSheet("QPushButton {\n"
+"    border: none;\n"
+"    background-color: transparent;\n"
+"    background-image: url(img/disabled/download.svg);\n"
+"    background-repeat: no-repeat;\n"
+"    background-position: center;\n"
+"    min-width: 100px;\n"
+"    min-height: 100px;\n"
+"    border-radius: 50px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #7F7F7F;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: #3F3F3F;\n"
+"}\n"
+"")
+        self.downloadResultsPlotButton.setText("")
         self.downloadResultsPlotButton.setObjectName("downloadResultsPlotButton")
         self.horizontalLayout_13.addWidget(self.downloadResultsPlotButton)
-        spacerItem30 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.horizontalLayout_13.addItem(spacerItem30)
+        spacerItem33 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_13.addItem(spacerItem33)
         self.ResultsStatsFilters = QtWidgets.QFrame(parent=self.frameResultsStats)
+        self.ResultsStatsFilters.setMaximumSize(QtCore.QSize(200, 16777215))
         self.ResultsStatsFilters.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
         self.ResultsStatsFilters.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.ResultsStatsFilters.setObjectName("ResultsStatsFilters")
@@ -1525,7 +1570,6 @@ class Ui_MainWindow(object):
         self.horizontalLayout_13.setStretch(0, 2)
         self.horizontalLayout_13.setStretch(1, 2)
         self.horizontalLayout_13.setStretch(2, 1)
-        self.horizontalLayout_13.setStretch(3, 1)
         self.horizontalLayout_13.setStretch(4, 1)
         self.horizontalLayout_13.setStretch(5, 4)
         self.verticalLayout_25.addWidget(self.frameResultsStats)
@@ -1584,7 +1628,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         self.stackedWidget.setCurrentIndex(1)
-        self.tabWidget.setCurrentIndex(4)
+        self.tabWidget.setCurrentIndex(1)
         self.tabWidget2.setCurrentIndex(3)
         self.tabWidgetResult.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -1681,6 +1725,7 @@ class Ui_MainWindow(object):
         self.GenStatsTitle.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:24pt;\">Alignment Chart</span></p></body></html>"))
         self.label_7.setText(_translate("MainWindow", "Reference"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.GenTab4), _translate("MainWindow", "Species Stats"))
+        self.label_8.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:24pt;\">Phylogenetic Tree</span></p></body></html>"))
         self.label_6.setText(_translate("MainWindow", "Reference"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.GenTab5), _translate("MainWindow", "Genetic Tree"))
         self.fileBrowserButtonPage2.setText(_translate("MainWindow", " File Browser"))
@@ -1728,10 +1773,7 @@ class Ui_MainWindow(object):
 "                  font-size:20pt;\n"
 "                  font-weight:600;\">Results</span></p></body></html>"))
         self.tabWidgetResult.setTabText(self.tabWidgetResult.indexOf(self.resultTab), _translate("MainWindow", "Results"))
-        self.ResultsStatsTitle.setText(_translate("MainWindow", "<html><head/><body><p><span style=\"\n"
-"                    font-size:24pt; text-decoration:\n"
-"                    underline;\">Statistics</span></p></body></html>"))
-        self.downloadResultsPlotButton.setText(_translate("MainWindow", "Download"))
+        self.ResultsStatsTitle.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:24pt;\">Statistics</span></p></body></html>"))
         self.ResultsStatsListTitle.setText(_translate("MainWindow", "Condition"))
         self.ResultsStatsListTitle_2.setText(_translate("MainWindow", "trees"))
         self.tabWidgetResult.setTabText(self.tabWidgetResult.indexOf(self.resultStatTab), _translate("MainWindow", "Statistics"))

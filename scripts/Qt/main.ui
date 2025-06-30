@@ -826,7 +826,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="HomePage">
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -1227,7 +1227,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <item>
             <widget class="QTabWidget" name="tabWidget">
              <property name="currentIndex">
-              <number>4</number>
+              <number>2</number>
              </property>
              <widget class="QWidget" name="GenTab1">
               <attribute name="title">
@@ -1310,7 +1310,13 @@ li.checked::marker { content: &quot;\2612&quot;; }
                 <number>0</number>
                </property>
                <item>
-                <widget class="QTextEdit" name="textEditFasta"/>
+                <widget class="QTextEdit" name="textEditFasta">
+                 <property name="font">
+                  <font>
+                   <family>Courier</family>
+                  </font>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
@@ -3447,7 +3453,7 @@ QPushButton:pressed {
            <item>
             <widget class="QTabWidget" name="tabWidgetResult">
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="resultTab">
               <property name="sizePolicy">
