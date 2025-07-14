@@ -33,7 +33,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../../img/other/sherbrooke.png</normaloff>../../img/other/sherbrooke.png</iconset>
+    <normaloff>../../../../../img/other/sherbrooke.png</normaloff>../../../../../img/other/sherbrooke.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="sizePolicy">
@@ -554,7 +554,7 @@
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap>../../img/other/Logo_decoupe.png</pixmap>
+          <pixmap>../../../../../img/other/Logo_decoupe.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -708,7 +708,7 @@
           <iconset>
            <normaloff>:/inactive/result.svg</normaloff>
            <activeon>:/active/result.svg</activeon>
-           <selectedon>
+           <selectedon>../../../../../.designer/backup/
               :/active/result.svg</selectedon>:/inactive/result.svg</iconset>
          </property>
          <property name="iconSize">
@@ -1227,7 +1227,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <item>
             <widget class="QTabWidget" name="tabWidget">
              <property name="currentIndex">
-              <number>2</number>
+              <number>4</number>
              </property>
              <widget class="QWidget" name="GenTab1">
               <attribute name="title">
@@ -1675,10 +1675,26 @@ QPushButton:pressed {
                    <height>250</height>
                   </size>
                  </property>
-                 <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="3,0,1,0,1,0">
+                 <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,3,0,1,0,1,0">
                   <property name="spacing">
                    <number>20</number>
                   </property>
+                  <item>
+                   <spacer name="horizontalSpacer_24">
+                    <property name="orientation">
+                     <enum>Qt::Orientation::Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                     <enum>QSizePolicy::Policy::Fixed</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>20</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
                   <item>
                    <widget class="QLabel" name="GenStatsTitle">
                     <property name="maximumSize">
@@ -1710,7 +1726,7 @@ QPushButton:pressed {
                     </property>
                     <property name="sizeHint" stdset="0">
                      <size>
-                      <width>350</width>
+                      <width>330</width>
                       <height>20</height>
                      </size>
                     </property>
@@ -1879,13 +1895,29 @@ QPushButton:pressed {
                    <height>250</height>
                   </size>
                  </property>
-                 <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="0,3,0,0,1,0">
+                 <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="0,0,3,0,0,1,0">
                   <property name="spacing">
                    <number>20</number>
                   </property>
                   <property name="rightMargin">
                    <number>10</number>
                   </property>
+                  <item>
+                   <spacer name="horizontalSpacer_25">
+                    <property name="orientation">
+                     <enum>Qt::Orientation::Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                     <enum>QSizePolicy::Policy::Fixed</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>20</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
                   <item>
                    <widget class="QLabel" name="label_8">
                     <property name="maximumSize">
@@ -1919,7 +1951,7 @@ QPushButton:pressed {
                     </property>
                     <property name="sizeHint" stdset="0">
                      <size>
-                      <width>350</width>
+                      <width>330</width>
                       <height>20</height>
                      </size>
                     </property>
@@ -2313,7 +2345,7 @@ QPushButton:pressed {
            <item>
             <widget class="QTabWidget" name="tabWidget2">
              <property name="currentIndex">
-              <number>3</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="ClimTab1">
               <attribute name="title">
