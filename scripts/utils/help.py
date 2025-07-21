@@ -66,6 +66,7 @@ class HelpDialog(QDialog):
                 "instructions": [
                     'Click on "Results" then on "Submit" to filter the data according to a specific threshold.',
                     'Click on "Settings" to choose the filter you want to apply. The results are automatically saved in a file called "output.csv".',
+                    'If just the headline is displayed, the selected parameters do not allow to show results. Please change them.',
                 ],
             },
         ]
