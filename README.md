@@ -111,7 +111,7 @@ You can then double click on `start.bat`. If you get errors, you can try to run 
 
 # [Troubleshooting](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/4.-Troubleshooting)
 
-Having issues? Click [here](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/4.-Troubleshooting) to access the Troubleshooting section, where you'll find solutions to common problems.
+Having issues? Click [here](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/4.-Troubleshooting) to access the Troubleshooting section of the wiki, where you will find solutions to common problems.
 
 # [Usage](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/5.-Discover-the-application)
 
