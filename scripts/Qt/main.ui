@@ -1227,7 +1227,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <item>
             <widget class="QTabWidget" name="tabWidget">
              <property name="currentIndex">
-              <number>4</number>
+              <number>2</number>
              </property>
              <widget class="QWidget" name="GenTab1">
               <attribute name="title">
@@ -1354,7 +1354,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                    <height>250</height>
                   </size>
                  </property>
-                 <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,0,2,0,0">
+                 <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,0,0,0,2,0,0">
                   <property name="spacing">
                    <number>30</number>
                   </property>
@@ -1375,9 +1375,12 @@ li.checked::marker { content: &quot;\2612&quot;; }
                     <property name="orientation">
                      <enum>Qt::Orientation::Horizontal</enum>
                     </property>
+                    <property name="sizeType">
+                     <enum>QSizePolicy::Policy::Fixed</enum>
+                    </property>
                     <property name="sizeHint" stdset="0">
                      <size>
-                      <width>35</width>
+                      <width>20</width>
                       <height>20</height>
                      </size>
                     </property>
@@ -1391,10 +1394,16 @@ li.checked::marker { content: &quot;\2612&quot;; }
                       <verstretch>0</verstretch>
                      </sizepolicy>
                     </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>80</width>
+                      <height>80</height>
+                     </size>
+                    </property>
                     <property name="maximumSize">
                      <size>
-                      <width>16777215</width>
-                      <height>70</height>
+                      <width>80</width>
+                      <height>80</height>
                      </size>
                     </property>
                     <property name="font">
@@ -1410,9 +1419,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
     background-image: url(img/disabled/start.svg);
     background-repeat: no-repeat;
     background-position: center;
-    min-width: 100px;
-    min-height: 100px;
-    border-radius: 50px;
+    min-width: 80px;
+    min-height: 80px;
+    border-radius: 40px;
 }
 
 QPushButton:hover {
@@ -1442,6 +1451,32 @@ QPushButton:pressed {
                    </widget>
                   </item>
                   <item>
+                   <spacer name="horizontalSpacer_26">
+                    <property name="orientation">
+                     <enum>Qt::Orientation::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>45</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_9">
+                    <property name="maximumSize">
+                     <size>
+                      <width>260</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt;&quot;&gt;Genetic Sequence &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
                    <spacer name="horizontalSpacer_5">
                     <property name="orientation">
                      <enum>Qt::Orientation::Horizontal</enum>
@@ -1462,10 +1497,16 @@ QPushButton:pressed {
                       <verstretch>0</verstretch>
                      </sizepolicy>
                     </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>80</width>
+                      <height>80</height>
+                     </size>
+                    </property>
                     <property name="maximumSize">
                      <size>
-                      <width>16777215</width>
-                      <height>70</height>
+                      <width>80</width>
+                      <height>80</height>
                      </size>
                     </property>
                     <property name="styleSheet">
@@ -1475,9 +1516,9 @@ QPushButton:pressed {
     background-image: url(img/disabled/setbutton.svg);
     background-repeat: no-repeat;
     background-position: center;
-    min-width: 100px;
-    min-height: 100px;
-    border-radius: 50px;
+    min-width: 80px;
+    min-height: 80px;
+    border-radius: 40px;
 }
 
 QPushButton:hover {
@@ -1804,8 +1845,8 @@ QPushButton:pressed {
                     </property>
                     <property name="maximumSize">
                      <size>
-                      <width>100</width>
-                      <height>100</height>
+                      <width>80</width>
+                      <height>80</height>
                      </size>
                     </property>
                     <property name="styleSheet">
@@ -1815,9 +1856,9 @@ QPushButton:pressed {
     background-image: url(img/disabled/download.svg);
     background-repeat: no-repeat;
     background-position: center;
-    min-width: 100px;
-    min-height: 100px;
-    border-radius: 50px;
+    min-width: 80px;
+    min-height: 80px;
+    border-radius: 40px;
 }
 
 QPushButton:hover {
@@ -2032,14 +2073,14 @@ QPushButton:pressed {
                     </property>
                     <property name="minimumSize">
                      <size>
-                      <width>100</width>
-                      <height>100</height>
+                      <width>80</width>
+                      <height>80</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
-                      <width>100</width>
-                      <height>100</height>
+                      <width>80</width>
+                      <height>80</height>
                      </size>
                     </property>
                     <property name="styleSheet">
@@ -2049,9 +2090,9 @@ QPushButton:pressed {
     background-image: url(img/disabled/download.svg);
     background-repeat: no-repeat;
     background-position: center;
-    min-width: 100px;
-    min-height: 100px;
-    border-radius: 50px;
+    min-width: 80px;
+    min-height: 80px;
+    border-radius: 40px;
 }
 
 QPushButton:hover {
@@ -2345,7 +2386,7 @@ QPushButton:pressed {
            <item>
             <widget class="QTabWidget" name="tabWidget2">
              <property name="currentIndex">
-              <number>1</number>
+              <number>3</number>
              </property>
              <widget class="QWidget" name="ClimTab1">
               <attribute name="title">
@@ -2864,10 +2905,16 @@ li.checked::marker { content: &quot;\2612&quot;; }
                            <verstretch>0</verstretch>
                           </sizepolicy>
                          </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>80</width>
+                           <height>80</height>
+                          </size>
+                         </property>
                          <property name="maximumSize">
                           <size>
-                           <width>10000</width>
-                           <height>16777215</height>
+                           <width>80</width>
+                           <height>80</height>
                           </size>
                          </property>
                          <property name="styleSheet">
@@ -2877,9 +2924,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
     background-image: url(img/disabled/download.svg);
     background-repeat: no-repeat;
     background-position: center;
-    min-width: 100px;
-    min-height: 100px;
-    border-radius: 50px;
+    min-width: 80px;
+    min-height: 80px;
+    border-radius: 40px;
 }
 
 QPushButton:hover {
@@ -3026,14 +3073,14 @@ QPushButton:pressed {
                        </property>
                        <property name="minimumSize">
                         <size>
-                         <width>100</width>
-                         <height>100</height>
+                         <width>80</width>
+                         <height>80</height>
                         </size>
                        </property>
                        <property name="maximumSize">
                         <size>
-                         <width>100</width>
-                         <height>100</height>
+                         <width>80</width>
+                         <height>80</height>
                         </size>
                        </property>
                        <property name="styleSheet">
@@ -3043,9 +3090,9 @@ QPushButton:pressed {
     background-image: url(img/disabled/setbutton.svg);
     background-repeat: no-repeat;
     background-position: center;
-    min-width: 100px;
-    min-height: 100px;
-    border-radius: 50px;
+    min-width: 80px;
+    min-height: 80px;
+    border-radius: 40px;
 }
 
 QPushButton:hover {
@@ -3148,14 +3195,14 @@ QPushButton:pressed {
                        </property>
                        <property name="minimumSize">
                         <size>
-                         <width>100</width>
-                         <height>100</height>
+                         <width>80</width>
+                         <height>80</height>
                         </size>
                        </property>
                        <property name="maximumSize">
                         <size>
-                         <width>100</width>
-                         <height>100</height>
+                         <width>80</width>
+                         <height>80</height>
                         </size>
                        </property>
                        <property name="styleSheet">
@@ -3165,9 +3212,9 @@ QPushButton:pressed {
     background-image: url(img/disabled/download.svg);
     background-repeat: no-repeat;
     background-position: center;
-    min-width: 100px;
-    min-height: 100px;
-    border-radius: 50px;
+    min-width: 80px;
+    min-height: 80px;
+    border-radius: 40px;
 }
 
 QPushButton:hover {
@@ -3485,7 +3532,7 @@ QPushButton:pressed {
            <item>
             <widget class="QTabWidget" name="tabWidgetResult">
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="resultTab">
               <property name="sizePolicy">
@@ -3585,7 +3632,7 @@ QPushButton:pressed {
                     </property>
                     <property name="sizeHint" stdset="0">
                      <size>
-                      <width>5</width>
+                      <width>25</width>
                       <height>20</height>
                      </size>
                     </property>
@@ -3616,7 +3663,7 @@ QPushButton:pressed {
                     </property>
                     <property name="sizeHint" stdset="0">
                      <size>
-                      <width>400</width>
+                      <width>460</width>
                       <height>20</height>
                      </size>
                     </property>
@@ -3626,14 +3673,14 @@ QPushButton:pressed {
                    <widget class="QPushButton" name="downloadResultsPlotButton">
                     <property name="minimumSize">
                      <size>
-                      <width>100</width>
-                      <height>100</height>
+                      <width>80</width>
+                      <height>80</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
-                      <width>100</width>
-                      <height>100</height>
+                      <width>80</width>
+                      <height>80</height>
                      </size>
                     </property>
                     <property name="styleSheet">
@@ -3643,9 +3690,9 @@ QPushButton:pressed {
     background-image: url(img/disabled/download.svg);
     background-repeat: no-repeat;
     background-position: center;
-    min-width: 100px;
-    min-height: 100px;
-    border-radius: 50px;
+    min-width: 80px;
+    min-height: 80px;
+    border-radius: 40px;
 }
 
 QPushButton:hover {
