@@ -90,7 +90,7 @@ pipx install poetry
 
 ### [Download the installer](https://www.ghostscript.com/releases/gsdnld.html)
 
-Download the AGPL Release for your desired OS
+Download the AGPL Release for your desired OS.
 
 ## 4. Install the dependencies
 
