@@ -1,22 +1,24 @@
 # main.spec
 # Generated for a onefile build of main.py including qtmodern and PyQt5
 
+import os
+
 # No code encryption
 block_cipher = None
 
 from PyInstaller.utils.hooks import collect_data_files
 from PyInstaller.building.build_main import Analysis, PYZ, EXE, COLLECT
 
-# Collect data files
 qtmodern_datas = collect_data_files("qtmodern", includes=["**/*.qss"])
 pyqt5_datas = collect_data_files("PyQt5")  # or "PySide2"
+qt_folder = os.path.join(os.path.abspath("."), "Qt")
 
 # Analysis: detect dependencies
 a = Analysis(
     ["main.py"],
     pathex=[],
     binaries=[],
-    datas=qtmodern_datas + pyqt5_datas,
+	datas=qtmodern_datas + pyqt5_datas + [(qt_folder, "Qt")],
     hiddenimports=[
         "qtmodern",
         "qtmodern.styles",
