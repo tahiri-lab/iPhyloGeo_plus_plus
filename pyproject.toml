@@ -13,7 +13,6 @@ dependencies = [
     "bio (>=1.7.1,<2.0.0)",
     "qtpy (>=2.4.3,<3.0.0)",
     "toyplot (>=2.0.0,<3.0.0)",
-    "qtmodern (>=0.2.0,<0.3.0)",
     "aphylogeo (>=1.0.0,<2.0.0)",
     "seaborn (>=0.13.2,<0.14.0)",
     "networkx (>=3.4.2,<4.0.0)",
@@ -22,6 +21,7 @@ dependencies = [
     "pre-commit (>=4.1.0,<5.0.0)",
     "cartopy (>=0.24.1,<0.25.0)",
     "pyside6 (==6.9.0)",
+    "qtmodern (>=0.2.0,<0.3.0)",
 ]
 
 [tool.poetry]

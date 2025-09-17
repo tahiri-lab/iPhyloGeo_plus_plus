@@ -10,7 +10,7 @@ from PyInstaller.utils.hooks import collect_data_files
 from PyInstaller.building.build_main import Analysis, PYZ, EXE, COLLECT
 
 qtmodern_datas = collect_data_files("qtmodern", includes=["**/*.qss"])
-pyqt5_datas = collect_data_files("PyQt5")  # or "PySide2"
+pyqt5_datas = collect_data_files("PyQt5")
 qt_folder = os.path.join(os.path.abspath("."), "Qt")
 
 # Analysis: detect dependencies
