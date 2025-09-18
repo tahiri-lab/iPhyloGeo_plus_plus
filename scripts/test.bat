@@ -1,3 +1,3 @@
 @echo off
-:: /k devrait permettre à la console de rester ouverte après l’exécution
+:: /k leaves the console open after execution
 start cmd /k "dist\main.exe"

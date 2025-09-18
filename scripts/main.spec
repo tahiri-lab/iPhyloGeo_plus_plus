@@ -2,7 +2,6 @@
 
 from PyInstaller.utils.hooks import collect_data_files
 import sys
-import collections.abc
 
 sys.path.append('.')
 

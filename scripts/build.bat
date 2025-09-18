@@ -23,5 +23,5 @@ echo.
 poetry run pyinstaller main.spec --clean
 
 echo.
-echo === Build finished! EXE is in the "dist" folder ===
+echo === Build finished! If it succeeded, the EXE is in the "dist" folder ===
 pause
