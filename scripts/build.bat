@@ -1,13 +1,25 @@
 @echo off
 REM ============================================
-REM Build script for PyInstaller using main.spec
+REM Clean build script for PyInstaller
+REM Uses main.spec and deletes old build/dist
 REM ============================================
+
+echo.
+echo === Cleaning old build and dist folders ===
+echo.
+
+IF EXIST build (
+    rmdir /s /q build
+)
+
+IF EXIST dist (
+    rmdir /s /q dist
+)
 
 echo.
 echo === Building executable with PyInstaller ===
 echo.
 
-REM Activate Poetry environment and run PyInstaller
 poetry run pyinstaller main.spec
 
 echo.
