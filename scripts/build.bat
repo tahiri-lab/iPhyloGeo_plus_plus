@@ -20,7 +20,7 @@ echo.
 echo === Building executable with PyInstaller ===
 echo.
 
-poetry run pyinstaller main.spec
+poetry run pyinstaller main.spec --clean
 
 echo.
 echo === Build finished! EXE is in the "dist" folder ===

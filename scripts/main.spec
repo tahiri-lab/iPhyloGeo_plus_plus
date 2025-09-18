@@ -1,17 +1,24 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+from PyInstaller.utils.hooks import collect_data_files
+
+import sys
+
+sys.path.append('.')
+
+qtmodern_datas = collect_data_files("qtmodern", includes=["**/*.qss"])
+pyqt_datas = collect_data_files("PyQt6")
 
 a = Analysis(
     ['main.py'],
-	pathex=['C:\\Users\\agaco\\Documents\Phylogeo\\iPhyloGeo_plus_plus\\.venv\\Lib\\site-packages', 'C:\\Users\\agaco\\Documents\\Phylogeo\\iPhyloGeo_plus_plus\\scripts'],
-#    pathex=['..\\.venv\\Lib\\site-packages', '.'],
+	pathex=['C:\\Users\\agaco\\Documents\Phylogeo\\iPhyloGeo_plus_plus\\.venv\\Lib\\site-packages'],
     binaries=[],
     datas=[],
     hiddenimports=['event-connector', 'qtmodern', 'qtmodern.styles', 'qtmodern.windows'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=[],
+    excludes=['PySide6'],
     noarchive=False,
     optimize=0,
 )
