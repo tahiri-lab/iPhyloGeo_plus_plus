@@ -3,7 +3,8 @@
 
 a = Analysis(
     ['main.py'],
-    pathex=['..\\.venv\\Lib\\site-packages', '.'],
+	pathex=['C:\\Users\\agaco\\Documents\Phylogeo\\iPhyloGeo_plus_plus\\.venv\\Lib\\site-packages', 'C:\\Users\\agaco\\Documents\\Phylogeo\\iPhyloGeo_plus_plus\\scripts'],
+#    pathex=['..\\.venv\\Lib\\site-packages', '.'],
     binaries=[],
     datas=[],
     hiddenimports=['event-connector', 'qtmodern', 'qtmodern.styles', 'qtmodern.windows'],
