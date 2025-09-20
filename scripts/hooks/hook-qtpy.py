@@ -1,7 +1,4 @@
-hiddenimports = [
-    "PyQt6",
-    "PyQt6.QtCore",
-    "PyQt6.QtGui",
-    "PyQt6.QtWidgets",
-    "PyQt6.QtPrintSupport",
-]
+#hooks/hook-qtpy.py
+from PyInstaller.utils.hooks import collect_submodules
+
+hiddenimports = collect_submodules("qtpy")
