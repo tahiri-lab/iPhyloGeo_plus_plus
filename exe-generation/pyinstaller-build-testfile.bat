@@ -24,7 +24,7 @@ echo.
 
 SET QTWEBENGINE_LOCALES_PATH = "..\.venv\Lib\site-packages\PyQt6\Qt6\translations\qtwebengine_locales"
 poetry env activate
-poetry run pyinstaller main.spec --clean
+poetry run pyinstaller test.spec --clean
 
 echo.
 echo === Build finished! If it succeeded, the EXE is in the "dist" folder ===
