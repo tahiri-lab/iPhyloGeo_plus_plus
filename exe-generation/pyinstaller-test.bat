@@ -1,3 +1,3 @@
 @echo off
 :: /k leaves the console open after execution
-start cmd /k "dist\main\main.exe"
+start cmd /k "..\scripts\dist\main\main.exe"
