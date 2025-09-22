@@ -1,16 +1,19 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+from PyInstaller.utils.hooks import collect_submodules
+
+hiddenimports = collect_submodules("qtpy") + collect_submodules("PyQt6")
 
 a = Analysis(
     ['main.py'],
     pathex=['C:\\Users\\agaco\\Documents\Phylogeo\\iPhyloGeo_plus_plus\\.venv\\Lib\\site-packages'],
     binaries=[],
     datas=[],
-    hiddenimports=["qtmodern", "qtmodern.styles", "qtmodern.windows",
+    hiddenimports= hiddenimports + ["qtmodern", "qtmodern.styles", "qtmodern.windows",
 	"qtpy", "qtpy.QtCore", "qtpy.QtGui", "qtpy.QtWidgets",
 	"PyQt6.QtCore", "PyQt6.QtGui", "PyQt6.QtWidgets",
 	"PyQt6.QtPrintSupport", "PyQt6.QtSvg", "PyQt6.QtOpenGL", "event_connector", "numpy"],
-    hookspath=[],
+    hookspath=["hooks"],
     hooksconfig={},
     runtime_hooks=[],
     excludes=['PySide6'],
