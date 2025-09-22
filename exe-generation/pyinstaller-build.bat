@@ -8,6 +8,8 @@ echo.
 echo === Cleaning old build and dist folders ===
 echo.
 
+cd "..\scripts"
+
 IF EXIST build (
     rmdir /s /q build
 )
