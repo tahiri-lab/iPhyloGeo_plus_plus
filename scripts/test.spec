@@ -3,10 +3,11 @@
 
 a = Analysis(
     ['test.py'],
-    pathex=[],
+#    pathex=['C:\\Users\\agaco\\Documents\\Phylogeo\\iPhyloGeo_plus_plus\\.venv\\Lib\\site-packages'],
+	pathex=[],
     binaries=[],
     datas=[],
-    hiddenimports=["qtpy", "qtpy.QtCore", "qtpy.QtGui", "qtpy.QtWidgets",
+    hiddenimports=["qtpy", "qtpy.QtCore", "qtpy.QtGui", "qtpy.QtWidgets", "PyQt6"
 	"PyQt6.QtCore", "PyQt6.QtGui", "PyQt6.QtWidgets",
 	"PyQt6.QtPrintSupport", "PyQt6.QtSvg", "PyQt6.QtOpenGL", "PyQt6.QtWebEngineWidgets", "qtmodern", "qtmodern.styles", "qtmodern.windows"], #add Qt too?
     hookspath=[],
