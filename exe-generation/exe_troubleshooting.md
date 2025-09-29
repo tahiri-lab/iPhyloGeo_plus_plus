@@ -123,14 +123,16 @@ Since testing with Pyinstaller wasn’t going well, the team decided to try CX-F
 3. Read the trace: it attributed the error to line 27 of `.venv\Lib\site-packages\toytree\utils\src\logger_setup.py`
 4. Located the line in question, in the definition of a function named colorize() (see code snippets)
 5. Edited logger_setup.py to mimic [this fix](https://github.com/chriskiehl/Gooey/issues/879#issuecomment-1586511649)
+6. The new EXE throws a **TypeError**: `Cannot log to objects of type 'NoneType'`
+7. Read the trace: like the previous error, it is linked to the toytree package, as one of the lines in the traceback is `import toytree` (see traceback below). More specifically, the line `set_log_level("WARNING")` in the package’s __init__.py file leads to the same logger_setup.py I edited at step 5. This time, the problem occurs when the logger.add function is called at line 57, as the logger is apparently passed a NoneType object.
+8. Edited toytree’s __init__.py to comment out `set_log_level("WARNING")`
 
+## TODO
 
+1. Come up with a more permanent fix than September 28, step 5
+2. Come up with a more permanent fix than September 28, step 8
 
-
-
-
-
-## Code snippets
+## Code snippets and tracebacks
 
 File created on September 18, step 4
 
@@ -309,4 +311,33 @@ def colorize():
     if tty1 or tty2:
         return True
     return False
+```
+
+Full traceback from September 28, step 7
+
+```
+Traceback (most recent call last):
+  File "path_on_my_machine\iPhyloGeo_plus_plus\.venv\Lib\site-packages\cx_Freeze\initscripts\__startup__.py", line 133, in run
+    module_init.run(f"__main__{name}")
+  File "path_on_my_machine\iPhyloGeo_plus_plus\.venv\Lib\site-packages\cx_Freeze\initscripts\console.py", line 25, in run
+    exec(code, main_globals)
+  File "main.py", line 18, in <module>
+  File "path_on_my_machine\iPhyloGeo_plus_plus\scripts\ui_controllers\__init__.py", line 2, in <module>
+    from .genetics_page_controller import GeneticPageController
+  File "path_on_my_machine\iPhyloGeo_plus_plus\scripts\ui_controllers\genetics_page_controller.py", line 2, in <module>
+    from Genetics.genetics import Genetics
+  File "path_on_my_machine\iPhyloGeo_plus_plus\scripts\Genetics\genetics.py", line 5, in <module>
+    from Genetics.genetics_tree import GeneticTree
+  File "path_on_my_machine\iPhyloGeo_plus_plus\scripts\Genetics\genetics_tree.py", line 4, in <module>
+    from utils.tree_graph import generate_tree, init_tree
+  File "path_on_my_machine\iPhyloGeo_plus_plus\scripts\utils\tree_graph.py", line 9, in <module>
+    import toytree
+  File "path_on_my_machine\iPhyloGeo_plus_plus\.venv\Lib\site-packages\toytree\__init__.py", line 44, in <module>
+    set_log_level("WARNING")
+  File "path_on_my_machine\iPhyloGeo_plus_plus\.venv\Lib\site-packages\toytree\utils\src\logger_setup.py", line 57, in set_log_level
+    idx = logger.add(
+          ^^^^^^^^^^^
+  File "path_on_my_machine\iPhyloGeo_plus_plus\.venv\Lib\site-packages\loguru\_logger.py", line 872, in add
+    raise TypeError("Cannot log to objects of type '%s'" % type(sink).__name__)
+TypeError: Cannot log to objects of type 'NoneType'
 ```
