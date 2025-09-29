@@ -20,8 +20,18 @@ from ui_helpers import create_shadow_effect, get_button_style, style_buttons
 from utils import resources_rc  # noqa: F401  # Import the compiled resource module for resolving image resource path
 from utils.error_dialog import show_error_dialog
 
+def resource_path(relative_path):
+    if getattr(sys, 'frozen', False):
+        base_path = sys._MEIPASS if hasattr(sys, "_MEIPASS") else os.path.dirname(sys.executable)
+    else:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+    
+current_dir = os.path.dirname(__file__)
+
 try:
-    Params.load_from_file("./scripts/utils/params.yaml")
+#   Params.load_from_file("./scripts/utils/params.yaml")
+    Params.load_from_file(resource_path(os.path.join(current_dir, "utils", "params.yaml")))
 except FileNotFoundError:
     Params.validate_and_set_params(Params.PARAMETER_KEYS)
 
@@ -258,8 +268,8 @@ if __name__ == "__main__":
 
     mw = qtmodern.windows.ModernWindow(window)
 
-    if os.path.exists("scripts/utils/params.yaml") is False:
-        shutil.copy("scripts/utils/params_default.yaml", "scripts/utils/params.yaml")
+    if os.path.exists(resource_path(os.path.join(current_dir, "utils", "params.yaml"))) is False:
+        shutil.copy(resource_path(os.path.join(current_dir, "utils", "params_default.yaml")), resource_path(os.path.join(current_dir, "utils", "params.yaml")))
 
     if primary_screen := app.primaryScreen():
         screen_geometry = primary_screen.availableGeometry()

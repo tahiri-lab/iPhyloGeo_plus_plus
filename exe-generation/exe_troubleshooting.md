@@ -126,6 +126,22 @@ Since testing with Pyinstaller wasn’t going well, the team decided to try CX-F
 6. The new EXE throws a **TypeError**: `Cannot log to objects of type 'NoneType'`
 7. Read the trace: like the previous error, it is linked to the toytree package, as one of the lines in the traceback is `import toytree` (see traceback below). More specifically, the line `set_log_level("WARNING")` in the package’s __init__.py file leads to the same logger_setup.py I edited at step 5. This time, the problem occurs when the logger.add function is called at line 57, as the logger is apparently passed a NoneType object.
 8. Edited toytree’s __init__.py to comment out `set_log_level("WARNING")`
+9. The new EXE throws a **FileNotFoundError**: `[Errno 2] No such file or directory: 'scripts/utils/params_default.yaml'`
+10. Confirmed the existence of `scripts\utils\params_default.yaml`
+11. Did some research online but didn’t find a fix
+
+### September 29, 2025
+
+1. Asked ChatGPT for advice
+2. Looked in `\scripts\build\exe.win-amd64-3.11\lib\utils`: params_default.yaml is there
+3. Examined the trace (see tracebacks)
+4. Located the line in main.py that results in the error (line 262): it is within an if that checks if `scripts/utils/params.yaml` exists and if not, copies `scripts/utils/params.yaml` to it
+5. At the beginning of main.py, added ChatGPT’s resource_path function
+6. In main.py, replaced instances of `"./scripts/utils/params.yaml"` and `"scripts/utils.params.yaml"` by `resource_path(os.path.join("utils", "params.yaml"))` and did the equivalent for `params_default.yaml`
+7. Tested running the app without the EXE (using a modified version of start.bat, start_pause.bat, which pauses so I can read the error messages): got a **FileNotFoundError** because it’s looking for a directory called `utils` directly in the project folder as opposed to inside scripts. 
+8. Added this line to main.py: `current_dir = os.path.dirname(__file__)`
+9. Changed each instance of `os.path.join("utils", "some_file")` to `os.path.join(current_dir, "utils", "some_file")`: start.bat now launches iPhyloGeo++ correctly
+10. 
 
 ## TODO
 
@@ -340,4 +356,21 @@ Traceback (most recent call last):
   File "path_on_my_machine\iPhyloGeo_plus_plus\.venv\Lib\site-packages\loguru\_logger.py", line 872, in add
     raise TypeError("Cannot log to objects of type '%s'" % type(sink).__name__)
 TypeError: Cannot log to objects of type 'NoneType'
+```
+
+Full traceback from September 29, step 3
+
+```
+Traceback (most recent call last):
+  File "path_and_project_folder\.venv\Lib\site-packages\cx_Freeze\initscripts\__startup__.py", line 133, in run
+    module_init.run(f"__main__{name}")
+  File "path_and_project_folder\.venv\Lib\site-packages\cx_Freeze\initscripts\console.py", line 25, in run
+    exec(code, main_globals)
+  File "main.py", line 262, in <module>
+  File "C:\Users\agaco\AppData\Local\Programs\Python\Python311\Lib\shutil.py", line 419, in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+  File "C:\Users\agaco\AppData\Local\Programs\Python\Python311\Lib\shutil.py", line 256, in copyfile
+    with open(src, 'rb') as fsrc:
+         ^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'scripts/utils/params_default.yaml'
 ```

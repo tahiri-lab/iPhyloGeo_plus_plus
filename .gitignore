@@ -25,5 +25,6 @@ scripts/dist/main
 scripts/build/test
 scripts/dist/test
 
-#Ignore Python Notebook checkpoints
+#Ignore Jupyter checkpoints
 *checkpoint.ipynb
+*checkpoint.md
