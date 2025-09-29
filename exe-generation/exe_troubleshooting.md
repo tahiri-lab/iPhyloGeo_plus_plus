@@ -141,7 +141,8 @@ Since testing with Pyinstaller wasn’t going well, the team decided to try CX-F
 7. Tested running the app without the EXE (using a modified version of start.bat, start_pause.bat, which pauses so I can read the error messages): got a **FileNotFoundError** because it’s looking for a directory called `utils` directly in the project folder as opposed to inside scripts. 
 8. Added this line to main.py: `current_dir = os.path.dirname(__file__)`
 9. Changed each instance of `os.path.join("utils", "some_file")` to `os.path.join(current_dir, "utils", "some_file")`: start.bat now launches iPhyloGeo++ correctly
-10. 
+10. Still getting a **FileNotFoundError** when looking for the file, this time it’s looking in `lib\library.zip\utils` instead of `lib\utils`
+11. Rewrote the part of main.py that looks for the yaml file (see code snippet)
 
 ## TODO
 
@@ -373,4 +374,20 @@ Traceback (most recent call last):
     with open(src, 'rb') as fsrc:
          ^^^^^^^^^^^^^^^
 FileNotFoundError: [Errno 2] No such file or directory: 'scripts/utils/params_default.yaml'
+```
+
+Code from September 29, step 11
+
+```
+#original version of the if:
+#    if os.path.exists(resource_path(os.path.join(current_dir, "utils", "params.yaml"))) is False:
+#        shutil.copy(resource_path(os.path.join(current_dir, "utils", "params_default.yaml")), resource_path(os.path.join(current_dir, "utils", "params.yaml")))
+#new version that works with a frozen app:
+    if os.path.exists(resource_path(os.path.join(current_dir, "utils", "params.yaml"))) is False:
+        if os.path.exists(resourcepath(os.path.join("..", "utils", "params.yaml")):
+            shutil.copy shutil.copy(resource_path(os.path.join("..", "utils", "params.yaml")), resource_path(os.path.join(current_dir, "utils", "params.yaml")))
+        elif os.path.exists(resource_path(os.path.join(current_dir, "utils", "params_default.yaml")):
+            shutil.copy(resource_path(os.path.join(current_dir, "utils", "params_default.yaml")), resource_path(os.path.join(current_dir, "utils", "params.yaml")))
+        else:
+            shutil.copy(resource_path(os.path.join("..", "utils", "params_default.yaml")), resource_path(os.path.join(current_dir, "utils", "params.yaml")))
 ```
