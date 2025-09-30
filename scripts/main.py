@@ -272,13 +272,15 @@ if __name__ == "__main__":
 #    if os.path.exists(resource_path(os.path.join(current_dir, "utils", "params.yaml"))) is False:
 #        shutil.copy(resource_path(os.path.join(current_dir, "utils", "params_default.yaml")), resource_path(os.path.join(current_dir, "utils", "params.yaml")))
 #new version that works with a frozen app:
+
+    os.makedirs(os.path.dirname(current_dir, "utils", "params.yaml"), exist_ok = True)
     if os.path.exists(resource_path(os.path.join(current_dir, "utils", "params.yaml"))) is False:
-        if os.path.exists(resourcepath(os.path.join("..", "utils", "params.yaml"))):
-            shutil.copy(resource_path(os.path.join("..", "utils", "params.yaml")), resource_path(os.path.join(current_dir, "utils", "params.yaml")))
+        if os.path.exists(resource_path(os.path.join("../..", "utils", "params.yaml"))):
+            shutil.copy(resource_path(os.path.join("../..", "utils", "params.yaml")), resource_path(os.path.join(current_dir, "utils", "params.yaml")))
         elif os.path.exists(resource_path(os.path.join(current_dir, "utils", "params_default.yaml"))):
             shutil.copy(resource_path(os.path.join(current_dir, "utils", "params_default.yaml")), resource_path(os.path.join(current_dir, "utils", "params.yaml")))
         else:
-            shutil.copy(resource_path(os.path.join("..", "utils", "params_default.yaml")), resource_path(os.path.join(current_dir, "utils", "params.yaml")))
+            shutil.copy(resource_path(os.path.join("../..", "utils", "params_default.yaml")), resource_path(os.path.join(current_dir, "utils", "params.yaml")))
 
     if primary_screen := app.primaryScreen():
         screen_geometry = primary_screen.availableGeometry()

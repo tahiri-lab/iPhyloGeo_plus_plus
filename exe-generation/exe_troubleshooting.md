@@ -152,7 +152,10 @@ Since testing with Pyinstaller wasn’t going well, the team decided to try CX-F
 3. Commented out `os.makedirs(os.path.utils(yaml_destination, exist_ok=True))`: it still says the syntax is invalid
 4. Commented out the whole if statement: it still says the syntax is invalid
 5. Commented out the line which defines yaml_destination and instead replaced every occurrence of `yaml_destination` with `resource_path(os.path.join(current_dir, "utils", "params.yaml"))`, uncommenting the other lines: it still acts like the syntax is wrong
-6. Commented out the line that has makedirs in it: the error is still there and I am confused because I was under the impression that I had come back a version of the code that did 
+6. Commented out the line that has makedirs in it: the error is still there and I am confused because I was under the impression that I had come back a version of the code that did lead to an EXE being created
+7. Discarded changes to main.py since the last commit to come back to the state it was in after step 1: getting a **FileNotFoundError** again
+8. In main.py, added `os.makedirs(os.path.dirname(current_dir, "utils", "params.yaml"), exist_ok=True)` before the problematic if: getting an ImportError when trying to generate the EXE
+9. Realized the new line was improperly indented and fixed it
 
 ## TODO
 
