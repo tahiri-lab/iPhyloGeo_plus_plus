@@ -147,6 +147,8 @@ Since testing with Pyinstaller wasn’t going well, the team decided to try CX-F
 
 ### September 30, 2025
 
+#### Troubleshooting EXE generation
+
 1. In main.py, changed `".."` to `"..", ".."` in the if that copies the params.yaml file: I now get another **FileNotFoundError**: `[Errno 2] No such file or directory: 'path_on_my_machine\\iPhyloGeo_plus_plus\\scripts\\build\\exe.win-amd64-3.11\\lib\\library.zip\\utils\\params.yaml'`. It traces back to line 277 of main.py, which is `shutil.copy(resource_path(os.path.join("..", "..", "utils", "params.yaml")), resource_path(os.path.join(current_dir, "utils", "params.yaml")))`. It is within two if statements, the first meaning that the line is only read if `resource_path(os.path.join(current_dir, "utils", "params.yaml"))` doesn’t exist and the second meaning that the line is only read if `resource_path(os.path.join("..", "..", "utils", "params.yaml"))` does exist. I think that the problem is that the directory where it is supposed to put the copy doesn’t exist.
 2. Read [this page](https://sqlpey.com/python/how-to-create-a-destination-path-using-shutil-copy-in-python/) and added `yaml_destination = resource_path(os.path.join(current_dir, "utils", "params.yaml"))` and `os.makedirs(os.path.utils(yaml_destination, exist_ok=True)` before the problematic if in main.py: I get an **ImportError** while trying to build the EXE: `Invalid syntax in main.py`
 3. Commented out `os.makedirs(os.path.utils(yaml_destination, exist_ok=True))`: it still says the syntax is invalid
@@ -155,8 +157,13 @@ Since testing with Pyinstaller wasn’t going well, the team decided to try CX-F
 6. Commented out the line that has makedirs in it: the error is still there and I am confused because I was under the impression that I had come back a version of the code that did lead to an EXE being created
 7. Discarded changes to main.py since the last commit to come back to the state it was in after step 1: getting a **FileNotFoundError** again
 8. In main.py, added `os.makedirs(os.path.dirname(os.path.join(current_dir, "utils", "params.yaml")), exist_ok=True)` before the problematic if: getting an ImportError when trying to generate the EXE
-9. Realized the new line was improperly indented and fixed it
+9. Realized the new line was improperly indented and fixed it: getting a new **FileNotFoundError** when running the EXE: `[WinError 3] Le chemin d’accès spécifié est introuvable: 'C:\\Users\\agaco\\Documents\\Phylogeo\\iPhyloGeo_plus_plus\\scripts\\build\\exe.win-amd64-3.11\\lib\\library.zip\\utils'`
 10. Read about resource paths in frozen apps. [This StackOverflow answer](https://stackoverflow.com/a/56748839/) was of particular interest.
+11. Wrote much better, cleaner code in main.py, replacing resource_path with a new function, find_utils (see code snippet): **it works! the iPhyloGeo window with the GUI is open and functions!**
+
+#### Troubleshooting the EXE
+
+
 
 ## TODO
 
@@ -404,4 +411,24 @@ Code from September 29, step 11
             shutil.copy(resource_path(os.path.join(current_dir, "utils", "params_default.yaml")), resource_path(os.path.join(current_dir, "utils", "params.yaml")))
         else:
             shutil.copy(resource_path(os.path.join("..", "utils", "params_default.yaml")), resource_path(os.path.join(current_dir, "utils", "params.yaml")))
+```
+
+Code from September 30, step 11
+
+```
+def find_utils(filename):
+    if getattr(sys, 'frozen', False):
+        # The application is frozen
+        datadir = os.path.join(os.path.dirname(sys.executable), "lib")
+    else:
+        # The application is not frozen
+        datadir = os.path.dirname(__file__)
+    return os.path.join(datadir, "utils", filename)
+
+# (skipping many lines of code here)
+
+if __name__ = "__main__":
+    # (skipping more lines)
+    if os.path.exists(find_utils("params.yaml")) is False:
+        shutil.copy(find_utils("params_default.yaml"), find_utils("params.yaml"))
 ```

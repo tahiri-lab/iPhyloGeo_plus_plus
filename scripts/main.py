@@ -20,18 +20,18 @@ from ui_helpers import create_shadow_effect, get_button_style, style_buttons
 from utils import resources_rc  # noqa: F401  # Import the compiled resource module for resolving image resource path
 from utils.error_dialog import show_error_dialog
 
-def resource_path(relative_path):
+def find_utils(filename):
     if getattr(sys, 'frozen', False):
-        base_path = sys._MEIPASS if hasattr(sys, "_MEIPASS") else os.path.dirname(sys.executable)
+        # The application is frozen
+        datadir = os.path.join(os.path.dirname(sys.executable), "lib")
     else:
-        base_path = os.path.abspath(".")
-    return os.path.join(base_path, relative_path)
-    
-current_dir = os.path.dirname(__file__)
+        # The application is not frozen
+        datadir = os.path.dirname(__file__)
+    return os.path.join(datadir, "utils", filename)
 
 try:
 #   Params.load_from_file("./scripts/utils/params.yaml")
-    Params.load_from_file(resource_path(os.path.join(current_dir, "utils", "params.yaml")))
+    Params.load_from_file(find_utils("params.yaml"))
 except FileNotFoundError:
     Params.validate_and_set_params(Params.PARAMETER_KEYS)
 
@@ -268,20 +268,9 @@ if __name__ == "__main__":
 
     mw = qtmodern.windows.ModernWindow(window)
 
-#original version of the if:
-#    if os.path.exists(resource_path(os.path.join(current_dir, "utils", "params.yaml"))) is False:
-#        shutil.copy(resource_path(os.path.join(current_dir, "utils", "params_default.yaml")), resource_path(os.path.join(current_dir, "utils", "params.yaml")))
-#new version that works with a frozen app:
-
-    os.makedirs(os.path.dirname(os.path.join(current_dir, "utils", "params.yaml")), exist_ok = True)
-    if os.path.exists(resource_path(os.path.join(current_dir, "utils", "params.yaml"))) is False:
-        if os.path.exists(resource_path(os.path.join("../..", "utils", "params.yaml"))):
-            shutil.copy(resource_path(os.path.join("../..", "utils", "params.yaml")), resource_path(os.path.join(current_dir, "utils", "params.yaml")))
-        elif os.path.exists(resource_path(os.path.join(current_dir, "utils", "params_default.yaml"))):
-            shutil.copy(resource_path(os.path.join(current_dir, "utils", "params_default.yaml")), resource_path(os.path.join(current_dir, "utils", "params.yaml")))
-        else:
-            shutil.copy(resource_path(os.path.join("../..", "utils", "params_default.yaml")), resource_path(os.path.join(current_dir, "utils", "params.yaml")))
-
+    if os.path.exists(find_utils("params.yaml")) is False:
+        shutil.copy(find_utils("params_default.yaml"), find_utils("params.yaml"))
+        
     if primary_screen := app.primaryScreen():
         screen_geometry = primary_screen.availableGeometry()
         center_point = screen_geometry.center()
