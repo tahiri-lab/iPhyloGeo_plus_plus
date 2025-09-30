@@ -161,9 +161,8 @@ Since testing with Pyinstaller wasn’t going well, the team decided to try CX-F
 10. Read about resource paths in frozen apps. [This StackOverflow answer](https://stackoverflow.com/a/56748839/) was of particular interest.
 11. Wrote much better, cleaner code in main.py, replacing resource_path with a new function, find_utils (see code snippet): **it works! the iPhyloGeo window with the GUI is open and functions!**
 
-#### Troubleshooting the EXE
-
-
+#### Testing and troubleshooting the EXE
+1. Copied the contents of the exe.win-amd64-3.11 directory to Windows Sandbox: an error message saying that **VCRUNTIME140.dll was not found** appears when trying to run the EXE
 
 ## TODO
 
