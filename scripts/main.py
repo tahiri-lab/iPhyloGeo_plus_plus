@@ -273,7 +273,7 @@ if __name__ == "__main__":
 #        shutil.copy(resource_path(os.path.join(current_dir, "utils", "params_default.yaml")), resource_path(os.path.join(current_dir, "utils", "params.yaml")))
 #new version that works with a frozen app:
 
-    os.makedirs(os.path.dirname(current_dir, "utils", "params.yaml"), exist_ok = True)
+    os.makedirs(os.path.dirname(os.path.join(current_dir, "utils", "params.yaml")), exist_ok = True)
     if os.path.exists(resource_path(os.path.join(current_dir, "utils", "params.yaml"))) is False:
         if os.path.exists(resource_path(os.path.join("../..", "utils", "params.yaml"))):
             shutil.copy(resource_path(os.path.join("../..", "utils", "params.yaml")), resource_path(os.path.join(current_dir, "utils", "params.yaml")))

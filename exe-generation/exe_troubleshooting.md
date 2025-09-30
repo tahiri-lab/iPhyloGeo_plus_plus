@@ -154,8 +154,9 @@ Since testing with Pyinstaller wasn’t going well, the team decided to try CX-F
 5. Commented out the line which defines yaml_destination and instead replaced every occurrence of `yaml_destination` with `resource_path(os.path.join(current_dir, "utils", "params.yaml"))`, uncommenting the other lines: it still acts like the syntax is wrong
 6. Commented out the line that has makedirs in it: the error is still there and I am confused because I was under the impression that I had come back a version of the code that did lead to an EXE being created
 7. Discarded changes to main.py since the last commit to come back to the state it was in after step 1: getting a **FileNotFoundError** again
-8. In main.py, added `os.makedirs(os.path.dirname(current_dir, "utils", "params.yaml"), exist_ok=True)` before the problematic if: getting an ImportError when trying to generate the EXE
+8. In main.py, added `os.makedirs(os.path.dirname(os.path.join(current_dir, "utils", "params.yaml")), exist_ok=True)` before the problematic if: getting an ImportError when trying to generate the EXE
 9. Realized the new line was improperly indented and fixed it
+10. Read about resource paths in frozen apps. [This StackOverflow answer](https://stackoverflow.com/a/56748839/) was of particular interest.
 
 ## TODO
 
