@@ -28,3 +28,4 @@ scripts/dist/test
 #Ignore Jupyter checkpoints
 *checkpoint.ipynb
 *checkpoint.md
+/scripts/build/exe.win-amd64-3.11
