@@ -142,7 +142,17 @@ Since testing with Pyinstaller wasn’t going well, the team decided to try CX-F
 8. Added this line to main.py: `current_dir = os.path.dirname(__file__)`
 9. Changed each instance of `os.path.join("utils", "some_file")` to `os.path.join(current_dir, "utils", "some_file")`: start.bat now launches iPhyloGeo++ correctly
 10. Still getting a **FileNotFoundError** when looking for the file, this time it’s looking in `lib\library.zip\utils` instead of `lib\utils`
-11. Rewrote the part of main.py that looks for the yaml file (see code snippet)
+11. Rewrote the part of main.py that looks for the yaml file (see code snippet): **EXE generation failed due to a syntax error in main.py**
+12. Reviewed my code, added the missing closing parentheses, removed the extra `shutil.copy ` and corrected the spelling of `resource_path`: got a new **FileNotFoundError**: `No such file or directory: 'path_on_my_machine\\iPhyloGeo_plus_plus\\scripts\\build\\exe.win-amd64-3.11\\..\\utils\\params_default.yaml'`
+
+### September 30, 2025
+
+1. In main.py, changed `".."` to `"..", ".."` in the if that copies the params.yaml file: I now get another **FileNotFoundError**: `[Errno 2] No such file or directory: 'path_on_my_machine\\iPhyloGeo_plus_plus\\scripts\\build\\exe.win-amd64-3.11\\lib\\library.zip\\utils\\params.yaml'`. It traces back to line 277 of main.py, which is `shutil.copy(resource_path(os.path.join("..", "..", "utils", "params.yaml")), resource_path(os.path.join(current_dir, "utils", "params.yaml")))`. It is within two if statements, the first meaning that the line is only read if `resource_path(os.path.join(current_dir, "utils", "params.yaml"))` doesn’t exist and the second meaning that the line is only read if `resource_path(os.path.join("..", "..", "utils", "params.yaml"))` does exist. I think that the problem is that the directory where it is supposed to put the copy doesn’t exist.
+2. Read [this page](https://sqlpey.com/python/how-to-create-a-destination-path-using-shutil-copy-in-python/) and added `yaml_destination = resource_path(os.path.join(current_dir, "utils", "params.yaml"))` and `os.makedirs(os.path.utils(yaml_destination, exist_ok=True)` before the problematic if in main.py: I get an **ImportError** while trying to build the EXE: `Invalid syntax in main.py`
+3. Commented out `os.makedirs(os.path.utils(yaml_destination, exist_ok=True))`: it still says the syntax is invalid
+4. Commented out the whole if statement: it still says the syntax is invalid
+5. Commented out the line which defines yaml_destination and instead replaced every occurrence of `yaml_destination` with `resource_path(os.path.join(current_dir, "utils", "params.yaml"))`, uncommenting the other lines: it still acts like the syntax is wrong
+6. Commented out the line that has makedirs in it: the error is still there and I am confused because I was under the impression that I had come back a version of the code that did 
 
 ## TODO
 
