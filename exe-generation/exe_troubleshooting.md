@@ -175,6 +175,9 @@ Since testing with Pyinstaller wasn’t going well, the team decided to try CX-F
 11. Took find_utils out of main and created a file for it in scripts\utils, frozen_app_functions.py. Adjusted files calling the function: success! However, I noticed that the icons for some of the buttons (like the button to start the sequence alignment analysis) are absent
 12. Looked for the image for the button and found img\disabled\start.svg
 13. Used find_string_in_scripts and located "start.svg" on line 577 of scripts\Qt\main_ui.py. I will need to talk to Nadia about modifying the path to certain resources.
+14. Ran `pip install pyqt6-tools`
+15. Copied scripts\Qt\main.ui to scripts\Qt\frozen_main.ui
+16. Edited setup.py following [this answer on StackOverflow](https://stackoverflow.com/a/2892707/) to include `..\img\disabled\start.svg'` in the include_files build option: it now saves a 
 
 ## TODO
 

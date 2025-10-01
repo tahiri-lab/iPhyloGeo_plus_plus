@@ -2,7 +2,14 @@ from cx_Freeze import setup, Executable
 
 # Dependencies are automatically detected, but it might need
 # fine tuning.
-build_options = {'packages': [], 'excludes': []}
+
+#includefiles = ['..\img\disabled\climatic.svg', '..\img\disabled\climaticData.svg', '..\img\disabled\download.svg', '..\img\disabled\genetic.svg', '..\img\disabled\result.svg',
+#                '..\img\disabled\sequence.svg', '..\img\disabled\setbutton.svg', '..\img\disabled\settings.svg', '..\img\disabled\start.svg', '..\img\disabled\statistics.svg',
+#                '..\img\disabled\submit.svg', '..\img\disabled\tree.svg']
+
+includefiles = ['..\img\disabled\start.svg']
+
+build_options = {'packages': [], 'excludes': [], 'include_files':includefiles}
 
 base = 'gui'
 
