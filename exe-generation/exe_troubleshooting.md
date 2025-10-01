@@ -164,7 +164,8 @@ Since testing with Pyinstaller wasn’t going well, the team decided to try CX-F
 #### Testing and troubleshooting the EXE
 1. Copied the contents of the exe.win-amd64-3.11 directory to Windows Sandbox: an error message saying that **VCRUNTIME140.dll was not found** appears when trying to run the EXE. The issue was added to the KANBAN as a task.
 2. When trying to **provide the EXE with a .fasta file**, an **error** occurs: `type object 'Params' has no attribute get_params`. When trying to **provide the EXE with a .csv file**, the same error occurs.
-
+3. Created a script to search for the string "get_params" in every .py file in the project’s scripts directory, find_string_in_scripts.py: found scripts\Climatic\climatic_grath_settings.py 
+ 
 ## TODO
 
 1. Come up with a more permanent fix than September 28, step 5
