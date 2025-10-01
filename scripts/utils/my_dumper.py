@@ -2,7 +2,7 @@ import os
 
 import yaml
 from aphylogeo.params import Params
-from main import find_utils
+from utils.frozen_app_functions import find_utils
 
 
 class MyDumper(yaml.Dumper):

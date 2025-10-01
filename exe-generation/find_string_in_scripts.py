@@ -13,4 +13,4 @@ def find_string_in_scripts(search_string):
                     except UnicodeDecodeError:
                         print(f"Could not read {file_path} due to encoding issues.")
 
-find_string_in_scripts("update_yaml_param")
+find_string_in_scripts("import find_utils")

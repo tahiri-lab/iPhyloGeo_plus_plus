@@ -19,15 +19,7 @@ from ui_controllers import ClimatePageController, GeneticPageController, ResultP
 from ui_helpers import create_shadow_effect, get_button_style, style_buttons
 from utils import resources_rc  # noqa: F401  # Import the compiled resource module for resolving image resource path
 from utils.error_dialog import show_error_dialog
-
-def find_utils(filename):
-    if getattr(sys, 'frozen', False):
-        # The application is frozen
-        datadir = os.path.join(os.path.dirname(sys.executable), "lib")
-    else:
-        # The application is not frozen
-        datadir = os.path.dirname(__file__)
-    return os.path.join(datadir, "utils", filename)
+from utils.frozen_app_functions import find_utils
 
 try:
     Params.load_from_file("params.yaml")

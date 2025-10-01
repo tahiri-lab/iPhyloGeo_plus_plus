@@ -171,13 +171,9 @@ Since testing with Pyinstaller wasn’t going well, the team decided to try CX-F
 7. Put find_utils back: getting the **error** when **providing the EXE with a .fasta or .csv file** again
 8. Examined the function update_yaml_param from my_dumper.py, which causes the error. It gets passed a file_path. The issue must rest within that path. Used find_string_in_scripts to find all instances of "update_yaml_param" in the project
 9. Adapted the update_yaml_param in the same way I did load_from_file at step 6
-10. For each call of update_yaml_param in the project, removed the path from the second parameter. 5 files had to be modified
-
-
-
-Found in ..\scripts\utils\result_settings_dialog.py (Line 191)
-Found in ..\scripts\utils\result_settings_dialog.py (Line 192)
-Found in ..\scripts\utils\result_settings_dialog.py (Line 193)
+10. For each call of update_yaml_param in the project, removed the path from the second parameter. 5 files had to be modified. Now I get an **ImportError** when trying to launch iPhyloGeo++ using start_and_pause.bat: `ImportError: cannot import name 'ClimatePageController' from partially initialized module 'ui_controllers' (most likely due to a circular import) (path_on_my_machine\iPhyloGeo_plus_plus\scripts\ui_controllers\__init__.py)`
+11. Took find_utils out of main and created a file for it in scripts\utils, frozen_app_functions.py. Adjusted files calling the function: success! However, I noticed that the icons for some of the buttons (like the button to start the sequence alignment analysis) are absent
+12. Looked for the image for the button and found img\disabled\start.svg
 
 ## TODO
 
