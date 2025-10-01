@@ -167,8 +167,9 @@ Since testing with Pyinstaller wasn’t going well, the team decided to try CX-F
 3. Created a script to search for the string "get_params" in every .py file in the project’s scripts directory, find_string_in_scripts.py: found scripts\Climatic\climatic_grath_settings.py line 71 and scripts\utils\my_dumper.py line 84. The first defines the function and the second tries to use it 
 4. Consulted climatic_graph_settings.py. It defines a class named ClimaticGraphSittings, with a method get_params. There is a corresponding file in the EXE’s folder: scripts\build\exe.win-amd64-3.11\lib\Climatic\climatic_graph_settings.pyc
 5. Consulted my_dumper.py. It imports Params from aphylogeo.params, the defines a class named MyDumper along with a function named update_yaml_param which has a parameter named params. The function tries to load the parameters from a yaml file. The line calling `params.get_params()` is within an except statement for when it doesn’t find the yaml file. Therefore I should be able to fix this by adjusting the way the script that calls that function finds the yaml file, much like I did for main.py
-6. I ran find_string_in_scripts on "load_from_file" to find the various lines in the project that I needed to adjust
- 
+6. Ran find_string_in_scripts on "load_from_file" to find the various lines in the project using the load_from_file method: scripts\Climatic\climatic_graph_settings.py line 34 read `def load_from_file(cls, params_file):` I modified the method’s definition (see code snippets) and added `import os` and `import sys` at the beggining of the script. Then, I went down the list of lines in the project calling the method, adjusting each one to only use the name of the script as a parameter, not the path. I edited scripts\Climatic\climatic_preferences_dialog.py line 7, scripts\Climatic\climat_tree.py line 10, scripts\Genetics\genetic_params_dialog.py line 10 and scripts\Qt\main.py line 21: it failed because I forgot to remove the call to the find_utils function in main.py, and deleted the function
+7. Put find_utils back
+
 ## TODO
 
 1. Come up with a more permanent fix than September 28, step 5
@@ -417,7 +418,7 @@ Code from September 29, step 11
             shutil.copy(resource_path(os.path.join("..", "utils", "params_default.yaml")), resource_path(os.path.join(current_dir, "utils", "params.yaml")))
 ```
 
-Code from September 30, step 11
+Code from September 30, step 11 of the first list
 
 ```
 def find_utils(filename):
@@ -436,3 +437,46 @@ if __name__ = "__main__":
     if os.path.exists(find_utils("params.yaml")) is False:
         shutil.copy(find_utils("params_default.yaml"), find_utils("params.yaml"))
 ```
+
+Code from September 30, step 6 of the second list:
+
+```
+#original function
+    def load_from_file(cls, params_file):
+        """
+        Method that loads the parameters from a yaml file.
+
+        args:
+            params_file (str): the path to the yaml file
+        """
+        
+        with open(params_file) as f:
+            params = yaml.load(f, Loader=SafeLoader)
+            cls.validate_and_set_params(params)
+```
+
+```
+#new version
+    def load_from_file(cls, params_file):
+        """
+        Method that loads the parameters from a yaml file.
+
+        args:
+            params_file (str): the name of the yaml file, which must be in the utils directory
+        """
+        if getattr(sys, 'frozen', False):
+            # The application is frozen
+            datadir = os.path.join(os.path.dirname(sys.executable), "lib")
+        else:
+            # The application is not frozen
+            datadir = os.path.dirname(__file__)
+        
+        params_file_with_path = os.path.join(datadir, "utils", params_file)
+        
+        with open(params_file_with_path) as f:
+            params = yaml.load(f, Loader=SafeLoader)
+            cls.validate_and_set_params(params)
+```
+
+
+

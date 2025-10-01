@@ -1,3 +1,5 @@
+import os
+import sys
 import yaml
 from yaml.loader import SafeLoader
 
@@ -36,9 +38,18 @@ class ClimaticGraphSettings:
         Method that loads the parameters from a yaml file.
 
         args:
-            params_file (str): the path to the yaml file
+            params_file (str): the name of the yaml file, which must be in the utils directory (extension included)
         """
-        with open(params_file) as f:
+        if getattr(sys, 'frozen', False):
+            # The application is frozen
+            datadir = os.path.join(os.path.dirname(sys.executable), "lib")
+        else:
+            # The application is not frozen
+            datadir = os.path.dirname(__file__)
+        
+        params_file_with_path = os.path.join(datadir, "utils", params_file)
+        
+        with open(params_file_with_path) as f:
             params = yaml.load(f, Loader=SafeLoader)
             cls.validate_and_set_params(params)
 

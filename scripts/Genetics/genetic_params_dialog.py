@@ -7,7 +7,7 @@ from utils.file_caching import FileCaching
 from utils.my_dumper import update_yaml_param
 
 try:
-    Params.load_from_file("./scripts/utils/params.yaml")
+    Params.load_from_file("params.yaml")
 except FileNotFoundError:
     Params.validate_and_set_params(Params.PARAMETER_KEYS)
 

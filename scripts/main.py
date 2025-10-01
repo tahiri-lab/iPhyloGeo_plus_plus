@@ -30,8 +30,7 @@ def find_utils(filename):
     return os.path.join(datadir, "utils", filename)
 
 try:
-#   Params.load_from_file("./scripts/utils/params.yaml")
-    Params.load_from_file(find_utils("params.yaml"))
+    Params.load_from_file("params.yaml")
 except FileNotFoundError:
     Params.validate_and_set_params(Params.PARAMETER_KEYS)
 

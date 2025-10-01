@@ -4,7 +4,7 @@ from Climatic.climatic_graph_settings import ClimaticGraphSettings
 from utils.my_dumper import update_yaml_param
 
 try:
-    ClimaticGraphSettings.load_from_file("./scripts/utils/ClimaticGraphSettings.yaml")
+    ClimaticGraphSettings.load_from_file("ClimaticGraphSettings.yaml")
 except FileNotFoundError:
     # Use default settings if the file is not found
     pass
