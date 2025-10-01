@@ -154,7 +154,7 @@ class ClimaticPreferencesDialog(QDialog):
 
     def submit(self):
         for property_name, new_value in self.get_preferences().items():
-            update_yaml_param(ClimaticGraphSettings, "scripts/utils/ClimaticGraphSettings.yaml", property_name, new_value)
+            update_yaml_param(ClimaticGraphSettings, "ClimaticGraphSettings.yaml", property_name, new_value)
         self.accept()  # Close the dialog and indicate success
 
 

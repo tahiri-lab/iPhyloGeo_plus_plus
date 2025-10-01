@@ -44,13 +44,13 @@ class Genetics:
             if fullFileName:
                 update_yaml_param(
                     Params,
-                    "scripts/utils/params.yaml",
+                    "params.yaml",
                     "reference_gene_file",
                     os.path.basename(fullFileName),
                 )
                 update_yaml_param(
                     Params,
-                    "scripts/utils/params.yaml",
+                    "params.yaml",
                     "reference_gene_dir",
                     os.path.dirname(fullFileName),
                 )
