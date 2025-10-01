@@ -3,11 +3,12 @@ from cx_Freeze import setup, Executable
 # Dependencies are automatically detected, but it might need
 # fine tuning.
 
-#includefiles = ['..\img\disabled\climatic.svg', '..\img\disabled\climaticData.svg', '..\img\disabled\download.svg', '..\img\disabled\genetic.svg', '..\img\disabled\result.svg',
-#                '..\img\disabled\sequence.svg', '..\img\disabled\setbutton.svg', '..\img\disabled\settings.svg', '..\img\disabled\start.svg', '..\img\disabled\statistics.svg',
-#                '..\img\disabled\submit.svg', '..\img\disabled\tree.svg']
+to_include = ["climatic", "climaticData", "download", "genetic", "result", "sequence", "setbutton", "settings", "start", "statistics", "submit", "tree"]
+includefiles = []
+for image_name in to_include:
+    includefiles.append((f'..\img\disabled\{image_name}.svg', f'lib\img\disabled\{image_name}.svg'))
 
-includefiles = ['..\img\disabled\start.svg']
+#includefiles = [('..\img\disabled\start.svg', 'lib\Qt\img\disabled\start.svg')]
 
 build_options = {'packages': [], 'excludes': [], 'include_files':includefiles}
 

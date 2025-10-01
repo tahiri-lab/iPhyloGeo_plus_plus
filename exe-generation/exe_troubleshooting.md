@@ -172,12 +172,15 @@ Since testing with Pyinstaller wasn’t going well, the team decided to try CX-F
 8. Examined the function update_yaml_param from my_dumper.py, which causes the error. It gets passed a file_path. The issue must rest within that path. Used find_string_in_scripts to find all instances of "update_yaml_param" in the project
 9. Adapted the update_yaml_param in the same way I did load_from_file at step 6
 10. For each call of update_yaml_param in the project, removed the path from the second parameter. 5 files had to be modified. Now I get an **ImportError** when trying to launch iPhyloGeo++ using start_and_pause.bat: `ImportError: cannot import name 'ClimatePageController' from partially initialized module 'ui_controllers' (most likely due to a circular import) (path_on_my_machine\iPhyloGeo_plus_plus\scripts\ui_controllers\__init__.py)`
-11. Took find_utils out of main and created a file for it in scripts\utils, frozen_app_functions.py. Adjusted files calling the function: success! However, I noticed that the icons for some of the buttons (like the button to start the sequence alignment analysis) are absent
+11. Took find_utils out of main and created a file for it in scripts\utils, frozen_app_functions.py. Adjusted files calling the function: success! However, I noticed that the **icons for some** of the **buttons** (like the button to start the sequence alignment analysis) **are absent**
 12. Looked for the image for the button and found img\disabled\start.svg
 13. Used find_string_in_scripts and located "start.svg" on line 577 of scripts\Qt\main_ui.py. I will need to talk to Nadia about modifying the path to certain resources.
 14. Ran `pip install pyqt6-tools`
 15. Copied scripts\Qt\main.ui to scripts\Qt\frozen_main.ui
-16. Edited setup.py following [this answer on StackOverflow](https://stackoverflow.com/a/2892707/) to include `..\img\disabled\start.svg'` in the include_files build option: it now saves a 
+16. Edited setup.py following [this answer on StackOverflow](https://stackoverflow.com/a/2892707/) to include `..\img\disabled\start.svg'` in the include_files build option: it now saves a copy of it in the exe.win-amd64.11 when building the EXE
+17. Changed the include_files to include start.svg as a source, destination tuple so it ends up in a subfolder: `[('..\img\disabled\start.svg'), ('img\disabled\start.svg')]. Now there is an img folder in exe.win-amd64-3.11
+18. Changed the destination in the include_files to `lib\Qt\img\disabled\start.svg`, the directory containing main.ui and main_ui.pyc
+19. Looked up where the Ui_MainWindow class from main_ui.py was instanciated using find_string_in_scripts.py
 
 ## TODO
 
