@@ -164,7 +164,10 @@ Since testing with Pyinstaller wasn’t going well, the team decided to try CX-F
 #### Testing and troubleshooting the EXE
 1. Copied the contents of the exe.win-amd64-3.11 directory to Windows Sandbox: an error message saying that **VCRUNTIME140.dll was not found** appears when trying to run the EXE. The issue was added to the KANBAN as a task.
 2. When trying to **provide the EXE with a .fasta file**, an **error** occurs: `type object 'Params' has no attribute get_params`. When trying to **provide the EXE with a .csv file**, the same error occurs.
-3. Created a script to search for the string "get_params" in every .py file in the project’s scripts directory, find_string_in_scripts.py: found scripts\Climatic\climatic_grath_settings.py 
+3. Created a script to search for the string "get_params" in every .py file in the project’s scripts directory, find_string_in_scripts.py: found scripts\Climatic\climatic_grath_settings.py line 71 and scripts\utils\my_dumper.py line 84. The first defines the function and the second tries to use it 
+4. Consulted climatic_graph_settings.py. It defines a class named ClimaticGraphSittings, with a method get_params. There is a corresponding file in the EXE’s folder: scripts\build\exe.win-amd64-3.11\lib\Climatic\climatic_graph_settings.pyc
+5. Consulted my_dumper.py. It imports Params from aphylogeo.params, the defines a class named MyDumper along with a function named update_yaml_param which has a parameter named params. The function tries to load the parameters from a yaml file. The line calling `params.get_params()` is within an except statement for when it doesn’t find the yaml file. Therefore I should be able to fix this by adjusting the way the script that calls that function finds the yaml file, much like I did for main.py
+6. I ran find_string_in_scripts on "load_from_file" to find the various lines in the project that I needed to adjust
  
 ## TODO
 
