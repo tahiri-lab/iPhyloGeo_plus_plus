@@ -13,4 +13,4 @@ def find_string_in_scripts(search_string):
                     except UnicodeDecodeError:
                         print(f"Could not read {file_path} due to encoding issues.")
 
-find_string_in_scripts("start.svg")
+find_string_in_scripts("Ui_MainWindow")

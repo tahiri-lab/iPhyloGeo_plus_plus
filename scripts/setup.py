@@ -6,7 +6,7 @@ from cx_Freeze import setup, Executable
 to_include = ["climatic", "climaticData", "download", "genetic", "result", "sequence", "setbutton", "settings", "start", "statistics", "submit", "tree"]
 includefiles = []
 for image_name in to_include:
-    includefiles.append((f'..\img\disabled\{image_name}.svg', f'lib\img\disabled\{image_name}.svg'))
+    includefiles.append((f'..\img\disabled\{image_name}.svg', f'img\disabled\{image_name}.svg'))
 
 #includefiles = [('..\img\disabled\start.svg', 'lib\Qt\img\disabled\start.svg')]
 

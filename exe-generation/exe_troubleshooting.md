@@ -180,7 +180,8 @@ Since testing with Pyinstaller wasn’t going well, the team decided to try CX-F
 16. Edited setup.py following [this answer on StackOverflow](https://stackoverflow.com/a/2892707/) to include `..\img\disabled\start.svg'` in the include_files build option: it now saves a copy of it in the exe.win-amd64.11 when building the EXE
 17. Changed the include_files to include start.svg as a source, destination tuple so it ends up in a subfolder: `[('..\img\disabled\start.svg'), ('img\disabled\start.svg')]. Now there is an img folder in exe.win-amd64-3.11
 18. Changed the destination in the include_files to `lib\Qt\img\disabled\start.svg`, the directory containing main.ui and main_ui.pyc
-19. Looked up where the Ui_MainWindow class from main_ui.py was instanciated using find_string_in_scripts.py
+19. Looked up where the Ui_MainWindow class from main_ui.py was instanciated using find_string_in_scripts.py: line 258 of main.py
+20. Put the images in exe.win-amd64-3.11 and ran main.exe from there: it works
 
 ## TODO
 
