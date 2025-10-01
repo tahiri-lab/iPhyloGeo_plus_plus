@@ -2,6 +2,7 @@ import os
 
 import yaml
 from aphylogeo.params import Params
+from main import find_utils
 
 
 class MyDumper(yaml.Dumper):
@@ -73,9 +74,10 @@ def update_yaml_param(params, file_path, property_name, new_value):
         new_value = [element.strip() for element in new_value]
     params.update_from_dict({property_name: new_value})
 
+    yaml_file_with_path = find_utils(file_path)
     # 1. Load existing YAML data
     try:
-        with open(file_path, "r") as yaml_file:
+        with open(yaml_file_with_path, "r") as yaml_file:
             data = yaml.safe_load(yaml_file)  # Use safe_load for security
     except FileNotFoundError:
         if isinstance(params, Params):
@@ -87,7 +89,7 @@ def update_yaml_param(params, file_path, property_name, new_value):
     if property_name in data:
         data[property_name] = new_value
     # 3. Write the updated data back to the file
-    os.makedirs(os.path.dirname(file_path), exist_ok=True)  # Ensure the file exists
+    os.makedirs(os.path.dirname(yaml_file_with_path), exist_ok=True)  # Ensure the file exists
 
-    with open(file_path, "w") as yaml_file:
+    with open(yaml_file_with_path, "w") as yaml_file:
         yaml.dump(data, yaml_file, default_flow_style=None, Dumper=MyDumper, sort_keys=False)

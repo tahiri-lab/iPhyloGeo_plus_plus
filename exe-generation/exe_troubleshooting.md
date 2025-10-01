@@ -167,8 +167,17 @@ Since testing with Pyinstaller wasn’t going well, the team decided to try CX-F
 3. Created a script to search for the string "get_params" in every .py file in the project’s scripts directory, find_string_in_scripts.py: found scripts\Climatic\climatic_grath_settings.py line 71 and scripts\utils\my_dumper.py line 84. The first defines the function and the second tries to use it 
 4. Consulted climatic_graph_settings.py. It defines a class named ClimaticGraphSittings, with a method get_params. There is a corresponding file in the EXE’s folder: scripts\build\exe.win-amd64-3.11\lib\Climatic\climatic_graph_settings.pyc
 5. Consulted my_dumper.py. It imports Params from aphylogeo.params, the defines a class named MyDumper along with a function named update_yaml_param which has a parameter named params. The function tries to load the parameters from a yaml file. The line calling `params.get_params()` is within an except statement for when it doesn’t find the yaml file. Therefore I should be able to fix this by adjusting the way the script that calls that function finds the yaml file, much like I did for main.py
-6. Ran find_string_in_scripts on "load_from_file" to find the various lines in the project using the load_from_file method: scripts\Climatic\climatic_graph_settings.py line 34 read `def load_from_file(cls, params_file):` I modified the method’s definition (see code snippets) and added `import os` and `import sys` at the beggining of the script. Then, I went down the list of lines in the project calling the method, adjusting each one to only use the name of the script as a parameter, not the path. I edited scripts\Climatic\climatic_preferences_dialog.py line 7, scripts\Climatic\climat_tree.py line 10, scripts\Genetics\genetic_params_dialog.py line 10 and scripts\Qt\main.py line 21: it failed because I forgot to remove the call to the find_utils function in main.py, and deleted the function
-7. Put find_utils back
+6. Ran find_string_in_scripts on "load_from_file" to find the various lines in the project using the load_from_file method: scripts\Climatic\climatic_graph_settings.py line 34 read `def load_from_file(cls, params_file):` I modified the method’s definition (see code snippets) and added `import os` and `import sys` at the beggining of the script. Then, I went down the list of lines in the project calling the method, adjusting each one to only use the name of the script as a parameter, not the path. I edited scripts\Climatic\climatic_preferences_dialog.py line 7, scripts\Climatic\climat_tree.py line 10, scripts\Genetics\genetic_params_dialog.py line 10 and scripts\Qt\main.py line 21: it **failed** because I forgot to remove the call to the find_utils function in main.py, and deleted the function
+7. Put find_utils back: getting the **error** when **providing the EXE with a .fasta or .csv file** again
+8. Examined the function update_yaml_param from my_dumper.py, which causes the error. It gets passed a file_path. The issue must rest within that path. Used find_string_in_scripts to find all instances of "update_yaml_param" in the project
+9. Adapted the update_yaml_param in the same way I did load_from_file at step 6
+10. For each call of update_yaml_param in the project, removed the path from the second parameter. 5 files had to be modified
+
+
+
+Found in ..\scripts\utils\result_settings_dialog.py (Line 191)
+Found in ..\scripts\utils\result_settings_dialog.py (Line 192)
+Found in ..\scripts\utils\result_settings_dialog.py (Line 193)
 
 ## TODO
 

@@ -151,7 +151,7 @@ class ParamDialog(QDialog):
             "method_similarity": str(self.method_similarity_input.currentIndex() + 1),
         }
         for property_name, new_value in self.params.items():
-            update_yaml_param(Params, "scripts/utils/params.yaml", property_name, new_value)
+            update_yaml_param(Params, "params.yaml", property_name, new_value)
         FileCaching.clear_cache()
         self.accept()  # Close the dialog and indicate success
 

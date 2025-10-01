@@ -2,6 +2,7 @@ import os
 import sys
 import yaml
 from yaml.loader import SafeLoader
+from main import find_utils
 
 
 class ClimaticGraphSettings:
@@ -40,14 +41,8 @@ class ClimaticGraphSettings:
         args:
             params_file (str): the name of the yaml file, which must be in the utils directory (extension included)
         """
-        if getattr(sys, 'frozen', False):
-            # The application is frozen
-            datadir = os.path.join(os.path.dirname(sys.executable), "lib")
-        else:
-            # The application is not frozen
-            datadir = os.path.dirname(__file__)
         
-        params_file_with_path = os.path.join(datadir, "utils", params_file)
+        params_file_with_path = find_utils(params_file)
         
         with open(params_file_with_path) as f:
             params = yaml.load(f, Loader=SafeLoader)
