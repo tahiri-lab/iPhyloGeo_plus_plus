@@ -2,7 +2,7 @@ import os
 import sys
 import yaml
 from yaml.loader import SafeLoader
-from main import find_utils
+from utils.frozen_app_functions import find_utils
 
 
 class ClimaticGraphSettings:

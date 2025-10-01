@@ -174,6 +174,7 @@ Since testing with Pyinstaller wasn’t going well, the team decided to try CX-F
 10. For each call of update_yaml_param in the project, removed the path from the second parameter. 5 files had to be modified. Now I get an **ImportError** when trying to launch iPhyloGeo++ using start_and_pause.bat: `ImportError: cannot import name 'ClimatePageController' from partially initialized module 'ui_controllers' (most likely due to a circular import) (path_on_my_machine\iPhyloGeo_plus_plus\scripts\ui_controllers\__init__.py)`
 11. Took find_utils out of main and created a file for it in scripts\utils, frozen_app_functions.py. Adjusted files calling the function: success! However, I noticed that the icons for some of the buttons (like the button to start the sequence alignment analysis) are absent
 12. Looked for the image for the button and found img\disabled\start.svg
+13. Used find_string_in_scripts and located "start.svg" on line 577 of scripts\Qt\main_ui.py. I will need to talk to Nadia about modifying the path to certain resources.
 
 ## TODO
 
