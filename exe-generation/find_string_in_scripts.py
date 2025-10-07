@@ -1,3 +1,10 @@
+# This script asks the user for a string and prints every line of code in the scripts folder containing that string.
+# It makes troubleshooting easier as EXE errors may be unclear.
+# Example:
+# - User inputs "frozen_app_functions"
+# - The program prints a line for each occurence of "frozen_app_functions", like so:
+#   "Found in ..\scripts\main.py (Line 22): from utils.frozen_app_functions import find_utils"
+
 import os
 
 def find_string_in_scripts(search_string):
@@ -13,4 +20,5 @@ def find_string_in_scripts(search_string):
                     except UnicodeDecodeError:
                         print(f"Could not read {file_path} due to encoding issues.")
 
-find_string_in_scripts("Ui_MainWindow")
+print("Input the string to search for, then press the ENTER key.")
+find_string_in_scripts(input())

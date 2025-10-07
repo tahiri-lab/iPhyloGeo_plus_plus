@@ -8,9 +8,6 @@
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 
-#added the two following lines to test something with the EXE
-import os
-print("Current Directory:", os.path.abspath(os.curdir))
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
