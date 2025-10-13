@@ -9,7 +9,7 @@ includefiles = []
 for image_name in to_include:
     includefiles.append((f'..\img\disabled\{image_name}.svg', f'img\disabled\{image_name}.svg'))
 
-build_options = {'packages': [], 'excludes': [], 'include_files':includefiles, 'optimize':2}
+build_options = {'packages': [], 'excludes': [], 'include_files':includefiles, 'optimize':1}
 
 base = 'gui'
 
