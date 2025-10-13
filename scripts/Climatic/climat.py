@@ -33,7 +33,7 @@ class Climat:
             )
 
             if fullFilePath:
-                update_yaml_param(Params, "scripts/utils/params.yaml", "file_name", fullFilePath)
+                update_yaml_param(Params, "params.yaml", "file_name", fullFilePath)
                 
                 self.data = pd.read_csv(fullFilePath)
                 columns = self.data.columns.tolist()
@@ -47,8 +47,8 @@ class Climat:
                     raise ValueError("The data has not enough columns. Either change the csv file or adjust the filters.")
 
                 clim_data_names = columns[1:]
-                update_yaml_param(Params, "scripts/utils/params.yaml", "names", columns)
-                update_yaml_param(Params, "scripts/utils/params.yaml", "data_names", clim_data_names)
+                update_yaml_param(Params, "params.yaml", "names", columns)
+                update_yaml_param(Params, "params.yaml", "data_names", clim_data_names)
 
                 self.climaticTree.climaticTrees = utils.climaticPipeline(self.data)
                 self.main.climaticTreeButtonPage2.setEnabled(True)

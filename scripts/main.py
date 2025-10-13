@@ -1,5 +1,8 @@
 import sys
 import shutil
+import os
+
+os.environ["QT_API"] = "pyqt6"
 
 import qtmodern.styles
 import qtmodern.windows
@@ -16,12 +19,12 @@ from ui_controllers import ClimatePageController, GeneticPageController, ResultP
 from ui_helpers import create_shadow_effect, get_button_style, style_buttons
 from utils import resources_rc  # noqa: F401  # Import the compiled resource module for resolving image resource path
 from utils.error_dialog import show_error_dialog
+from utils.frozen_app_functions import find_utils
 
 try:
-    Params.load_from_file("./scripts/utils/params.yaml")
+    Params.load_from_file("params.yaml")
 except FileNotFoundError:
     Params.validate_and_set_params(Params.PARAMETER_KEYS)
-
 
 class UiMainWindow(main_ui.Ui_MainWindow, QtWidgets.QMainWindow):
     def __init__(self):
@@ -256,9 +259,9 @@ if __name__ == "__main__":
 
     mw = qtmodern.windows.ModernWindow(window)
 
-    if os.path.exists("scripts/utils/params.yaml") is False:
-        shutil.copy("scripts/utils/params_default.yaml", "scripts/utils/params.yaml")
-
+    if os.path.exists(find_utils("params.yaml")) is False:
+        shutil.copy(find_utils("params_default.yaml"), find_utils("params.yaml"))
+        
     if primary_screen := app.primaryScreen():
         screen_geometry = primary_screen.availableGeometry()
         center_point = screen_geometry.center()

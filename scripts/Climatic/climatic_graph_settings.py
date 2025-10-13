@@ -1,5 +1,8 @@
+import os
+import sys
 import yaml
 from yaml.loader import SafeLoader
+from utils.frozen_app_functions import find_utils
 
 
 class ClimaticGraphSettings:
@@ -36,9 +39,12 @@ class ClimaticGraphSettings:
         Method that loads the parameters from a yaml file.
 
         args:
-            params_file (str): the path to the yaml file
+            params_file (str): the name of the yaml file, which must be in the utils directory (extension included)
         """
-        with open(params_file) as f:
+        
+        params_file_with_path = find_utils(params_file)
+        
+        with open(params_file_with_path) as f:
             params = yaml.load(f, Loader=SafeLoader)
             cls.validate_and_set_params(params)
 

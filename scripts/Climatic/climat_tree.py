@@ -7,7 +7,7 @@ from utils.download_file import download_file_local, download_file_temporary_PIO
 from utils.error_dialog import show_error_dialog
 
 try:
-    ClimaticGraphSettings.load_from_file("./scripts/utils/ClimaticGraphSettings.yaml")
+    ClimaticGraphSettings.load_from_file("ClimaticGraphSettings.yaml")
 except FileNotFoundError:
     # Use default settings if the file is not found
     pass

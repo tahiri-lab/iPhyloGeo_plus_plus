@@ -18,7 +18,7 @@ from utils import resources_rc  # noqa: F401  # Import the compiled resource mod
 from utils.error_dialog import show_error_dialog
 
 try:
-    Params.load_from_file("./scripts/utils/params.yaml")
+    Params.load_from_file("params.yaml")
 except FileNotFoundError:
     Params.validate_and_set_params(Params.PARAMETER_KEYS)
 

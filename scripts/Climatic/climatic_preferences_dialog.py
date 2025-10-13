@@ -4,7 +4,7 @@ from Climatic.climatic_graph_settings import ClimaticGraphSettings
 from utils.my_dumper import update_yaml_param
 
 try:
-    ClimaticGraphSettings.load_from_file("./scripts/utils/ClimaticGraphSettings.yaml")
+    ClimaticGraphSettings.load_from_file("ClimaticGraphSettings.yaml")
 except FileNotFoundError:
     # Use default settings if the file is not found
     pass
@@ -154,7 +154,7 @@ class ClimaticPreferencesDialog(QDialog):
 
     def submit(self):
         for property_name, new_value in self.get_preferences().items():
-            update_yaml_param(ClimaticGraphSettings, "scripts/utils/ClimaticGraphSettings.yaml", property_name, new_value)
+            update_yaml_param(ClimaticGraphSettings, "ClimaticGraphSettings.yaml", property_name, new_value)
         self.accept()  # Close the dialog and indicate success
 
 

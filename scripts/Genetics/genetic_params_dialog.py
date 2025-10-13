@@ -7,7 +7,7 @@ from utils.file_caching import FileCaching
 from utils.my_dumper import update_yaml_param
 
 try:
-    Params.load_from_file("./scripts/utils/params.yaml")
+    Params.load_from_file("params.yaml")
 except FileNotFoundError:
     Params.validate_and_set_params(Params.PARAMETER_KEYS)
 
@@ -151,7 +151,7 @@ class ParamDialog(QDialog):
             "method_similarity": str(self.method_similarity_input.currentIndex() + 1),
         }
         for property_name, new_value in self.params.items():
-            update_yaml_param(Params, "scripts/utils/params.yaml", property_name, new_value)
+            update_yaml_param(Params, "params.yaml", property_name, new_value)
         FileCaching.clear_cache()
         self.accept()  # Close the dialog and indicate success
 
