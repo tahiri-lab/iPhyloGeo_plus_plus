@@ -46,6 +46,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 Source: "C:\Users\agaco\Documents\Phylogeo\iPhyloGeo_plus_plus\scripts\build\exe.win-amd64-3.11\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\agaco\Documents\Phylogeo\iPhyloGeo_plus_plus\scripts\build\exe.win-amd64-3.11\frozen_application_license.txt"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\agaco\Documents\Phylogeo\iPhyloGeo_plus_plus\exe-generation\gs10060w64.exe"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "C:\Users\agaco\Documents\Phylogeo\iPhyloGeo_plus_plus\scripts\build\exe.win-amd64-3.11\python3.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\agaco\Documents\Phylogeo\iPhyloGeo_plus_plus\scripts\build\exe.win-amd64-3.11\python311.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\agaco\Documents\Phylogeo\iPhyloGeo_plus_plus\scripts\build\exe.win-amd64-3.11\img\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
@@ -58,5 +59,6 @@ Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
 [Run]
+Filename: "{tmp}\gs10060w64.exe"; Description: "Install Ghostscript (Artifex Software)"; Flags: postinstall skipifsilent
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 

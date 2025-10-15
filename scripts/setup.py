@@ -11,7 +11,7 @@ for image_name in to_include:
 
 build_options = {'packages': [], 'excludes': [], 'include_files':includefiles, 'optimize':1}
 
-base = 'gui'
+base = 'Win32GUI'
 
 executables = [
     Executable('main.py', base=base, target_name='iPhyloGeo_plus_plus.exe')
