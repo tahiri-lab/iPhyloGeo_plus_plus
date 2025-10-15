@@ -33,7 +33,7 @@ LicenseFile=C:\Users\agaco\Documents\Phylogeo\iPhyloGeo_plus_plus\exe-generation
 ; Remove the following line to run in administrative install mode (install for all users).
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
-OutputBaseFilename=mysetup
+OutputBaseFilename=iPhyloGeo_plus_plus_installer
 SolidCompression=yes
 WizardStyle=modern
 
