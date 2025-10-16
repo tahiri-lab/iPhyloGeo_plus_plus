@@ -25,6 +25,28 @@
 11. Further researched [how Windows handles DLLs](https://learn.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order)
 12. Researched [DLLs](https://learn.microsoft.com/en-ca/troubleshoot/windows-client/setup-upgrade-and-drivers/dynamic-link-library)
 13. Created a [Stack Overflow question](https://stackoverflow.com/questions/79791613/cx-freeze-fatal-error-unable-to-change-dll-search-path) to ask for help
+14. Checked the EXE’s folder: there is nothing there that isn’t included in the .iss `[Files]` section
+15. Rebuilt the frozen app because I remember a warning from cx_Freeze at the end. Found the warning, which listed multiple possible missing dependencies.
+
+Missing dependencies:
+? LIBPQ.dll
+? MIMAPI64.dll
+? OCI.dll
+? Qt63DQuickScene3D.dll
+? Qt6VirtualKeyboardQml.dll
+? WINSPOOL.DRV
+? api-ms-win-core-heap-l2-1-0.dll
+? api-ms-win-core-libraryloader-l1-2-0.dll
+? api-ms-win-core-libraryloader-l1-2-1.dll
+? api-ms-win-core-path-l1-1-0.dll
+? api-ms-win-core-realtime-l1-1-1.dll
+? api-ms-win-core-winrt-l1-1-0.dll
+? api-ms-win-core-winrt-string-l1-1-0.dll
+? api-ms-win-power-base-l1-1-0.dll
+? api-ms-win-shcore-scaling-l1-1-1.dll
+? bthprops.cpl
+? fbclient.dll
+This is not necessarily a problem - the dependencies may not be needed on this platform.
 
 
 HT create an installer
