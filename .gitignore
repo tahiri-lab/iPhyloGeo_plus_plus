@@ -29,3 +29,4 @@ scripts/dist/test
 *checkpoint.ipynb
 *checkpoint.md
 /scripts/build/exe.win-amd64-3.11
+/scripts/build/bdist.win-amd64

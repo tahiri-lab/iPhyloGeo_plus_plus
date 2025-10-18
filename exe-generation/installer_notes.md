@@ -53,6 +53,13 @@ New strategy: manually performing the steps I expect the installer to perform, o
 New strategy: creating an MSI installer using cx_Freeze itself
 
 1. Edited setup.py to add a bdist_msi_options with a randomly generated GUID as an upgrade code and set the initial_target_dir to `rf'[ProgramFilesFolder]\tahirilab\{app_name}'`
+2. In the build .bat script, replaced `poetry run python setup.py build` with `poetry run python setup.py bdist_msi`
+3. Ran the build .bat script
+4. Launched Windows Sandbox
+5. Copied the Ghostscript installer to Windows Sandbox
+6. Ran the Ghostscript install
+7. Looked at the results of the build: **ValueError**: `upgrade-code must be in valid GUID format`. The upgrade code was a 128-bit one, `'3216444d-fd6f-4b0a-a7e6-3b8b33ac5e5'`, so only HEX notation and dashes; it doesn’t have brackets.
+8. Changed the upgrade code to `'{3216444d-fd6f-4b0a-a7e6-3b8b33ac5e54}'` (added curly brackets)
 
 I still need to create an installer that will bundle the Ghostscript installer
 

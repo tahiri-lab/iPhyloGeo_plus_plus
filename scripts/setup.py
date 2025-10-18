@@ -3,12 +3,15 @@ from cx_Freeze import setup, Executable
 # Dependencies are automatically detected, but it might need
 # fine tuning.
 
+dev_name = "tahirilab"
+
 app_name = "iPhyloGeo++"
 
 # Generate a MSI installer
 bdist_msi_options = {
-    'upgrade_code': '3216444d-fd6f-4b0a-a7e6-3b8b33ac5e54', # this is a randomly generated GUID; do not modify it so future versions of iPhyloGeo++ are recognized as the same app
-    'initial_target_dir': rf'[ProgramFilesFolder]\tahirilab\{app_name}'
+    'upgrade_code': '{3216444d-fd6f-4b0a-a7e6-3b8b33ac5e54}', # this is a randomly generated GUID; do not modify it so future versions of iPhyloGeo++ are recognized as the same app
+    'add_to_path': False,
+    'initial_target_dir': r'[ProgramFilesFolder]\%s\%s' % (dev_name, app_name),
     }
 
 # Ensure icons from the img\disabled directory are included.
