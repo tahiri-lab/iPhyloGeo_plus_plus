@@ -13,7 +13,7 @@
 
 		<Chain>
 
-			<ExePackage Id="ghostscript"
+			<ExePackage Id="ghostscript" Permanent="yes"
 				SourceFile="gs10060w64.exe">
 			</ExePackage>
 

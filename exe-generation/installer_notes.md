@@ -78,9 +78,22 @@ I decided to first follow a tutorial to familiarize myself with WiX: [https://do
 1. Created exe-generation\bundled_installer_files to store the necessary files to create a bundled Installer
 2. Created exe-generation\bundled_installer_files\iPhyloGeo++.wixproj, a simple file indicating the SDK to use
 3. Created exe-generation\bundled_installer_files\Package.wxs, with the contents of the first code snippet from [this Stack Overflow answer](https://stackoverflow.com/a/42102377/8814975)
+4. Edited Package.wxs, setting the Bundle Name to "iPhyloGeo++ and Ghostscript", the UpgradeCode to the one from the setup.py, the LicenceUrl to [https://opensource.org/license/MIT], the SourceFile of the MSI to "iPhyloGeo++-1.0-win64.msi" and the SourceFile for the EXE to "gs10060w64.exe". Also made up package ids (text).
+5. Moved the Ghostscript installer to the bundled_installer_files directory
+6. Copied the contents of bundled_installer_files to scripts\dist
+7. Opened a terminal from scripts\dist and ran `dotnet build`: got a **WIX0199 error**: Incorect namespace.
+8. Swapped the url in line 1 of Package.wxs with "http://wixtoolset.org/schemas/v4/wxs"
+9. Tried the build again: got two **errors**: **WIX0200** and **WIX0414**
+10. Examined the details of error WIX0414: it says that the ExePackage element is missing a 'DetectCondition' attribute or a 'ArpEntry' child element because the 'Permanent' attribute is not specified
+11. Added the Permanent attribute to the tag, set to "yes"
+12. Examined the details of error WIX0200: "The BootstrapperApplicationRef element contains an unhandled extension element 'WixStandardBootstrapperApplication'. Please ensure that the extension for elements in the 'http://schemas.microsoft.com/wix/BalExtension' namespace has been provided". Decided to go for a more recent version found [here](https://docs.firegiant.com/wix/tools/burn/wixstdba/)
+
 
 
 
 HT create an installer that bundles Ghostscript
 1. If you don’t already have it, get the [.NET SDK](https://dotnet.microsoft.com/en-us/download)
 2. Build the project’s EXE and MSI using exe-generation\BUILDwMSI_frozenapp.bat
+3. Download the latest Ghostscript Windows installer and put it in the exe-generation\bundled_installer_files folder
+4. Adjust the Package file with the name of the Ghostscript installer if necessary
+3. (bundled package .bat script)
