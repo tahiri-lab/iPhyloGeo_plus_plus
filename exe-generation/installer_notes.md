@@ -59,9 +59,12 @@ New strategy: creating an MSI installer using cx_Freeze itself
 5. Copied the Ghostscript installer to Windows Sandbox
 6. Ran the Ghostscript install
 7. Looked at the results of the build: **ValueError**: `upgrade-code must be in valid GUID format`. The upgrade code was a 128-bit one, `'3216444d-fd6f-4b0a-a7e6-3b8b33ac5e5'`, so only HEX notation and dashes; it doesn’t have brackets.
-8. Changed the upgrade code to `'{3216444d-fd6f-4b0a-a7e6-3b8b33ac5e54}'` (added curly brackets)
+8. Changed the upgrade code to `'{3216444d-fd6f-4b0a-a7e6-3b8b33ac5e54}'` (added curly brackets) and ran the build again
+9. Copied the MSI to Windows Sandbox
+10. Ran the MSI in Windows Sandbox
+11. Launched the app: **success**
 
-I still need to create an installer that will bundle the Ghostscript installer
+I still need to create an installer that will bundle the Ghostscript installer, and add a shortcut to the start menu
 
 
 Very useful: [https://ggottemo.com/blog/CxFreeze]
