@@ -9,7 +9,7 @@
 5. In the .iss, added `Source: "C:\Users\agaco\Documents\Phylogeo\iPhyloGeo_plus_plus\exe-generation\gs10060w64.exe"; DestDir: "{tmp}"; Flags: ignoreversion` to `[Files]`
 6. In the .iss, at the very start of `[Run]`, added `Filename: "{tmp}\gs10060w64.exe"; Description: "Install Ghostscript (Artifex Software)"; Flags: postinstall skipifsilent`
 
-## Octobre 15, 2025
+## October 15, 2025
 
 1. Created an installer an rand it (chose to install only for the active user, and not to install Ghostscript since I already had it installed)
 2. When trying to launch the freshly installed iPhyloGeo++, I get a **cx_Freeze fatal error**: `failed to get the Python codec of the filesystem encoding`
@@ -28,6 +28,38 @@
 14. Checked the EXE’s folder: there is nothing there that isn’t included in the .iss `[Files]` section
 15. Rebuilt the frozen app because I remember a warning from cx_Freeze at the end. Found the warning, which listed multiple possible missing dependencies.
 
+## October 16, 2025
+
+1. Searched my entire hard drive for the first possible missing dependency on the list, libpq.dll. It doesn’t exist in the project or its venv, but I do have several different versions. If needed, there is one in `C:\Users\myusername\anaconda3\pkgs\libpq-12.17-h906ac69_0\Library\bin\libpq.dll`
+
+## October 17, 2025
+
+New strategy: manually performing the steps I expect the installer to perform, on Windows Sandbox.
+
+1. Created a ZIP archive of the exe.win-amd64-3.11 directory
+2. Renamed the archive to iPhyloGeo_plus_plus
+3. Copied both the iPhyloGeo_plus_plus.zip and the Ghostscript installer to Windows Sandbox
+4. Unpacked the archive in C:\Program Files\iPhyloGeo_plus_plus in Windows Sandbox
+5. Installed Ghostscript in Windows Sandbox
+6. Ran iPhyloGeo_plus_plus.exe in Windows Sandbox: **it works!**
+7. Reset Windows Sandbox
+8. Copied my app’s installer to Windows Sandbox
+9. Ran the installer, choosing a system-wide install and running the Ghostscript install
+10. Ran the app: **cx_Freeze Fatal Error**: "Unable to change DLL search path"
+11. Reset Windows Sandbox and copied the installer to it
+11. Ran the installer, choosing a user install and running the Ghostscript install
+12. Ran the app: **cx_Freeze Fatal Error**"Unable to change DLL search path"
+
+New strategy: creating an MSI installer using cx_Freeze itself
+
+1. Edited setup.py to add a bdist_msi_options with a randomly generated GUID as an upgrade code and set the initial_target_dir to `rf'[ProgramFilesFolder]\tahirilab\{app_name}'`
+
+I still need to create an installer that will bundle the Ghostscript installer
+
+
+Very useful: [https://ggottemo.com/blog/CxFreeze]
+
+```
 Missing dependencies:
 ? LIBPQ.dll
 ? MIMAPI64.dll
@@ -47,12 +79,16 @@ Missing dependencies:
 ? bthprops.cpl
 ? fbclient.dll
 This is not necessarily a problem - the dependencies may not be needed on this platform.
+```
 
 
-HT create an installer
+HT create an installer (Inno Setup)
 1. Install Inno Setup
 2. Download the latest 64-bit Windows version of Ghostscript
 https://www.ghostscript.com/releases/gsdnld.html
 3. Open iPhyloGeo_plus_plus.iss in Inno Setup
 4. In the `[Files]` section, replace the iPhyloGeo_plus_plus directory’s path with the correct path to it on your machine
 5. In the `[Files]` section, replace the path to the Ghostscript installer (second line in `[Files]`) with the correct path to it on your machine
+
+HT create an installer (cx_Freeze)
+It’s automatic when running the build.
