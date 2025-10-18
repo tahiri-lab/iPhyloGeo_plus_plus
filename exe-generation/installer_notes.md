@@ -64,41 +64,23 @@ New strategy: creating an MSI installer using cx_Freeze itself
 10. Ran the MSI in Windows Sandbox
 11. Launched the app: **success**
 
-I still need to create an installer that will bundle the Ghostscript installer, and add a shortcut to the start menu
-
+I still need to create an installer that will bundle the Ghostscript installer, and add a shortcut to the start menu.
 
 Very useful: [https://ggottemo.com/blog/CxFreeze]
 
-```
-Missing dependencies:
-? LIBPQ.dll
-? MIMAPI64.dll
-? OCI.dll
-? Qt63DQuickScene3D.dll
-? Qt6VirtualKeyboardQml.dll
-? WINSPOOL.DRV
-? api-ms-win-core-heap-l2-1-0.dll
-? api-ms-win-core-libraryloader-l1-2-0.dll
-? api-ms-win-core-libraryloader-l1-2-1.dll
-? api-ms-win-core-path-l1-1-0.dll
-? api-ms-win-core-realtime-l1-1-1.dll
-? api-ms-win-core-winrt-l1-1-0.dll
-? api-ms-win-core-winrt-string-l1-1-0.dll
-? api-ms-win-power-base-l1-1-0.dll
-? api-ms-win-shcore-scaling-l1-1-1.dll
-? bthprops.cpl
-? fbclient.dll
-This is not necessarily a problem - the dependencies may not be needed on this platform.
-```
+## October 18, 2025
+
+1. Downloaded the .NET 9.0 SDK installer in order to get the WiX toolset from Microsoft.
+2. Installed the .NET SDK
+
+I decided to first follow a tutorial to familiarize myself with WiX: [https://docs.firegiant.com/quick-start/] Then, I got into actually creating a bundled installer for iPhyloGeo++ and Ghostscript
+
+1. Created exe-generation\bundled_installer_files to store the necessary files to create a bundled Installer
+2. Created exe-generation\bundled_installer_files\iPhyloGeo++.wixproj, a simple file indicating the SDK to use
+3. Created exe-generation\bundled_installer_files\Package.wxs, with the contents of the first code snippet from [this Stack Overflow answer](https://stackoverflow.com/a/42102377/8814975)
 
 
-HT create an installer (Inno Setup)
-1. Install Inno Setup
-2. Download the latest 64-bit Windows version of Ghostscript
-https://www.ghostscript.com/releases/gsdnld.html
-3. Open iPhyloGeo_plus_plus.iss in Inno Setup
-4. In the `[Files]` section, replace the iPhyloGeo_plus_plus directory’s path with the correct path to it on your machine
-5. In the `[Files]` section, replace the path to the Ghostscript installer (second line in `[Files]`) with the correct path to it on your machine
 
-HT create an installer (cx_Freeze)
-It’s automatic when running the build.
+HT create an installer that bundles Ghostscript
+1. If you don’t already have it, get the [.NET SDK](https://dotnet.microsoft.com/en-us/download)
+2. Build the project’s EXE and MSI using exe-generation\BUILDwMSI_frozenapp.bat
