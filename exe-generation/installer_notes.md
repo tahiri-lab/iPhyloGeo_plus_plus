@@ -101,6 +101,30 @@ I decided to first follow a tutorial to familiarize myself with WiX: [https://do
 5. Used Window + R to run `MsiExec`: I have Windows ® Installer version 5.0.26100.5074, which is not the most recent version
 6. Downloaded Windows 11, version 25H2
 7. Installed Windows 11, version 25H2
+8. Went back to scripts\dist, deleted the subfolders and ran `dotnet build`: same error message as before the update
+9. Checked Windows Installer version: still 5.0.26100.5074
+10. Checked Windows Update settings. The only optional updates it offers to install are drivers for my hardware
+11. It doesn’t appear that there is a more recent version of Windows Installer I can install [https://learn.microsoft.com/en-ca/windows/win32/msi/windows-installer-redistributables]
+12. Researched the error 'This installation package cannot be installed by the Windows Installer service. You must install a Windows service pack that contains a newer version of the Windows Installer service'
+13. Ran in command line as administrator: `msiexec.exe /unregister` then `msiexec.exe /regserver`
+14. Determined that the error message being incorrect was likely linked to me disabling errors in WiX. Commented out the lines added at step 2. I am now back to getting Error Wix0350 and, now that I’m reading it, the error message still makes no sense.
+15. Restarted my machine
+16. Downloaded the Ghostscript installer again
+17. Commented out the EXE install from the Package.wxs file to make sure the issue is in fact with Ghostscript: same error, so it’s my installer (created with cx_Freeze) it doesn’t like
+18. Reread the Package.wxs file and noted that I came up with the "ExePackage Id" values without following any rules as I was lacking information. Maybe there is a specific way to come up with IDs and my failure to follow it resulted in the issue?
+19. Found a definition [here](https://docs.firegiant.com/wix3/xsd/wix/exepackage/): "Identifier for this package, for ordering and cross-referencing. The default is the Name attribute modified to be suitable as an identifier (i.e. invalid characters are replaced with underscores)." The id is a string. The documentation does not specify which characters are considered valid. The values I came up with only contained letters and underscores.
+20. In Package.wxs, put the EXE install back in and commented out the MSI install instead: the error still occured
+21. Drafted a Stackoverflow question in case Inno Setup fails to solve this
+
+I decided to try Inno Setup instead.
+
+1. Started from the code snippet from [this Stack Overflow answer](https://stackoverflow.com/a/15746747/8814975) as a .iss
+2. In the .iss, edited the files section to contain the actual names of the EXE and MSI
+3. In the .iss, changed the first line in the `[Run]` section to `Filename: "{tmp}\gs10060w64.exe"; Description: "Install Ghostscript (Artifex Software)"; Flags: skipifsilent`
+4. In the .iss, edited the last line to contain the name of the MSI
+5. Ran the build
+6. Launched Windows Sandbox and copied mysetup.exe to it
+7. In Windows Sandbox, ran mysetup.exe
 
 
 Add ArpEntry for Ghostscript
@@ -113,8 +137,6 @@ Add iPhyloGeo++ to start menu
 
 
 HT create an installer that bundles Ghostscript
-1. If you don’t already have it, get the [.NET SDK](https://dotnet.microsoft.com/en-us/download)
-2. Build the project’s EXE and MSI using exe-generation\BUILDwMSI_frozenapp.bat
-3. Download the latest Ghostscript Windows installer and put it in the exe-generation\bundled_installer_files folder
-4. Adjust the Package file with the name of the Ghostscript installer if necessary
-3. (bundled package .bat script)
+1. If you don’t have it, download 
+2. Download the latest version of Ghostscript’s installer and save it in exe-generation
+3. Run the build in Inno Setup
