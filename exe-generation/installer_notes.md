@@ -124,19 +124,18 @@ I decided to try Inno Setup instead.
 4. In the .iss, edited the last line to contain the name of the MSI
 5. Ran the build
 6. Launched Windows Sandbox and copied mysetup.exe to it
-7. In Windows Sandbox, ran mysetup.exe
+7. In Windows Sandbox, ran mysetup.exe: it unpacked both installers correctly, then ran the Ghostscript installer, then ran the iPhyloGeo++ installer, as expected
 
 
-Add ArpEntry for Ghostscript
-
-    C:\Users\agaco\Documents\Phylogeo\iPhyloGeo_plus_plus\scripts\dist\Package.wxs(9): error WIX0200: The BootstrapperApplication element contains an unhandled extension element 'WixStandardBootstrapperApplication'. Please ensure that the extension for elements in the 'http://schemas.microsoft.com/wix/BalExtension' namespace has been provided.
-    C:\Users\agaco\Documents\Phylogeo\iPhyloGeo_plus_plus\scripts\dist\Package.wxs(8): error WIX0044: The BootstrapperApplication element's Name or SourceFile attribute was not found; one of these is required.
-    C:\Users\agaco\Documents\Phylogeo\iPhyloGeo_plus_plus\scripts\dist\Package.wxs(16): warning WIX1161: The ExePackage/@DetectCondition attribute or child element ArpEntry is recommended so the package is only installed when absent.
-	
-Add iPhyloGeo++ to start menu
+TODO
+- Add to instructions/documentation "Add iPhyloGeo++ to start menu after install"
+- Edit the .iss (name the editor of the bundled installer, name the bundled installer’s file, delete both unpacked installers after use)
+- Edit the setup.py to create an installer that adds a shortcut on the Desktop
 
 
 HT create an installer that bundles Ghostscript
-1. If you don’t have it, download 
-2. Download the latest version of Ghostscript’s installer and save it in exe-generation
-3. Run the build in Inno Setup
+1. If you don’t have it, download Inno Setup
+2. If you haven’t built the MSI, build it
+3. Download the latest version of Ghostscript’s installer and save it in exe-generation\bundled_installer_files
+4. Run the build in Inno Setup
+(find the result in Output)
