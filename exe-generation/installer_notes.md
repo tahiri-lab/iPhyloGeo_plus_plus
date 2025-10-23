@@ -87,8 +87,28 @@ I decided to first follow a tutorial to familiarize myself with WiX: [https://do
 10. Examined the details of error WIX0414: it says that the ExePackage element is missing a 'DetectCondition' attribute or a 'ArpEntry' child element because the 'Permanent' attribute is not specified
 11. Added the Permanent attribute to the tag, set to "yes"
 12. Examined the details of error WIX0200: "The BootstrapperApplicationRef element contains an unhandled extension element 'WixStandardBootstrapperApplication'. Please ensure that the extension for elements in the 'http://schemas.microsoft.com/wix/BalExtension' namespace has been provided". Decided to go for a more recent version found [here](https://docs.firegiant.com/wix/tools/burn/wixstdba/)
+13. Tried the build again: WIX0200 still happens, whith a similar message as before. I also get a WIX0044 error: "The BootstrapperApplication element's Name or SourceFile attribute was not found; one of these is required."
+14. Commented out the BootstrapperApplication element from Package.wxs
+15. Tried the build again: **error WIX0350**: "The package being validated requires a higher version of Windows Installer than is installed on this machine. Validation cannot continue."
+16. Researched the error and only found unanswered questions on GitHub and StackOverflow
+
+## October 23, 2025
+
+1. Read [https://docs.firegiant.com/wix/tools/validation/]
+2. In iPhyloGeo++.wixproj, added a `PropertyGroup` tag containing a `SuppressValidation` tag with contents `true`
+3. In the dist folder, ran `dotnet build`. It displayed 17 warnings but encountered no error
+4. There was a new installer in bin\Debug, but it was extremely small (20 KB). Trying to run it triggered an **error message** saying I had to **install a Windows service pack containing a more recent version of Windows Installer**.
+5. Used Window + R to run `MsiExec`: I have Windows ® Installer version 5.0.26100.5074, which is not the most recent version
+6. Downloaded Windows 11, version 25H2
 
 
+Add ArpEntry for Ghostscript
+
+    C:\Users\agaco\Documents\Phylogeo\iPhyloGeo_plus_plus\scripts\dist\Package.wxs(9): error WIX0200: The BootstrapperApplication element contains an unhandled extension element 'WixStandardBootstrapperApplication'. Please ensure that the extension for elements in the 'http://schemas.microsoft.com/wix/BalExtension' namespace has been provided.
+    C:\Users\agaco\Documents\Phylogeo\iPhyloGeo_plus_plus\scripts\dist\Package.wxs(8): error WIX0044: The BootstrapperApplication element's Name or SourceFile attribute was not found; one of these is required.
+    C:\Users\agaco\Documents\Phylogeo\iPhyloGeo_plus_plus\scripts\dist\Package.wxs(16): warning WIX1161: The ExePackage/@DetectCondition attribute or child element ArpEntry is recommended so the package is only installed when absent.
+	
+Add iPhyloGeo++ to start menu
 
 
 HT create an installer that bundles Ghostscript

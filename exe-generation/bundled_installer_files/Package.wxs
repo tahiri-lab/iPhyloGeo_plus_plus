@@ -4,12 +4,14 @@
     <Bundle Name="iPhyloGeo++ and Ghostscript"
         Version="1.0"
         UpgradeCode="3216444d-fd6f-4b0a-a7e6-3b8b33ac5e54">
-
-		<BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.HyperlinkLicense">
-			<bal:WixStandardBootstrapperApplication
-				LicenseUrl="https://opensource.org/license/MIT"
-				ShowVersion="yes"/>
-		</BootstrapperApplicationRef>
+		
+		<!--
+		<BootstrapperApplication>
+            <bal:WixStandardBootstrapperApplication
+                LicenseUrl="https://opensource.org/license/MIT"
+                Theme="hyperlinkLicense" />
+        </BootstrapperApplication>
+		-->
 
 		<Chain>
 
@@ -20,7 +22,6 @@
 			<MsiPackage Id="iPhyloGeo_plus_plus"
 				SourceFile="iPhyloGeo++-1.0-win64.msi">
 			</MsiPackage>
-
 
 		</Chain>
     </Bundle>

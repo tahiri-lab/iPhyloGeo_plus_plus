@@ -1,2 +1,5 @@
 <Project Sdk="WixToolset.Sdk/6.0.0">
+	<PropertyGroup>
+		<SuppressValidation>true</SuppressValidation>
+	</PropertyGroup>
 </Project>
