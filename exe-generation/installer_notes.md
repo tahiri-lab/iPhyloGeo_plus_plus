@@ -100,6 +100,7 @@ I decided to first follow a tutorial to familiarize myself with WiX: [https://do
 4. There was a new installer in bin\Debug, but it was extremely small (20 KB). Trying to run it triggered an **error message** saying I had to **install a Windows service pack containing a more recent version of Windows Installer**.
 5. Used Window + R to run `MsiExec`: I have Windows ® Installer version 5.0.26100.5074, which is not the most recent version
 6. Downloaded Windows 11, version 25H2
+7. Installed Windows 11, version 25H2
 
 
 Add ArpEntry for Ghostscript
