@@ -118,7 +118,7 @@ I decided to first follow a tutorial to familiarize myself with WiX: [https://do
 
 I decided to try Inno Setup instead.
 
-1. Started from the code snippet from [this Stack Overflow answer](https://stackoverflow.com/a/15746747/8814975) as a .iss
+1. Started from the code snippet from [this Stack Overflow answer](https://stackoverflow.com/a/15746747/) as a .iss
 2. In the .iss, edited the files section to contain the actual names of the EXE and MSI
 3. In the .iss, changed the first line in the `[Run]` section to `Filename: "{tmp}\gs10060w64.exe"; Description: "Install Ghostscript (Artifex Software)"; Flags: skipifsilent`
 4. In the .iss, edited the last line to contain the name of the MSI
@@ -126,16 +126,14 @@ I decided to try Inno Setup instead.
 6. Launched Windows Sandbox and copied mysetup.exe to it
 7. In Windows Sandbox, ran mysetup.exe: it unpacked both installers correctly, then ran the Ghostscript installer, then ran the iPhyloGeo++ installer, as expected
 
+I later asked a friend who didn’t have Python or Ghostscript installed to test the bundled installer on his Windows 11 machine. He succeeded and was able to use iPhyloGeo++.
+
+## October 25
+
+1. Consulted [this StackOverflow answer](https://stackoverflow.com/a/15736406/) and [this table](https://learn.microsoft.com/en-us/windows/win32/msi/property-reference#system-folder-properties)
+2. In scripts\setup.py, set shortcut_name to `app_name` and shortcut_dir to `"StartMenuFolder"` so that iPhyloGeo++ is added to the user’s start menu by the iPhyloGeo++ installer
+3. Ran the build (with MSI)
+
 
 TODO
-- Add to instructions/documentation "Add iPhyloGeo++ to start menu after install"
 - Edit the .iss (name the editor of the bundled installer, name the bundled installer’s file, delete both unpacked installers after use)
-- Edit the setup.py to create an installer that adds a shortcut on the Desktop
-
-
-HT create an installer that bundles Ghostscript
-1. If you don’t have it, download Inno Setup
-2. If you haven’t built the MSI, build it
-3. Download the latest version of Ghostscript’s installer and save it in exe-generation\bundled_installer_files
-4. Run the build in Inno Setup
-(find the result in Output)

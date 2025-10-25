@@ -25,7 +25,7 @@ build_options = {'packages': [], 'excludes': [], 'include_files':includefiles, '
 base = 'Win32GUI'
 
 executables = [
-    Executable('main.py', base=base, target_name= f'{app_name}.exe')
+    Executable('main.py', base=base, target_name= f'{app_name}.exe', shortcut_name=app_name, shortcut_dir="StartMenuFolder")
 ]
 
 setup(name=app_name,
