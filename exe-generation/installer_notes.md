@@ -133,7 +133,9 @@ I later asked a friend who didn’t have Python or Ghostscript installed to test
 1. Consulted [this StackOverflow answer](https://stackoverflow.com/a/15736406/) and [this table](https://learn.microsoft.com/en-us/windows/win32/msi/property-reference#system-folder-properties)
 2. In scripts\setup.py, set shortcut_name to `app_name` and shortcut_dir to `"StartMenuFolder"` so that iPhyloGeo++ is added to the user’s start menu by the iPhyloGeo++ installer
 3. Ran the build (with MSI)
+4. In the .iss file’s Setup section, set the OutputBaseFilename variable in order to give a specific name to the generated installer
+5. Built the bundled installer
 
+TODO 
 
-TODO
-- Edit the .iss (name the editor of the bundled installer, name the bundled installer’s file, delete both unpacked installers after use)
+Check if I need to add a license (ask Nadia)
