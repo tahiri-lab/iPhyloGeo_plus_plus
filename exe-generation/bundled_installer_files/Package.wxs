@@ -14,7 +14,6 @@
 		-->
 
 		<Chain>
-
 			<ExePackage Id="ghostscript" Permanent="yes"
 				SourceFile="gs10060w64.exe">
 			</ExePackage>
@@ -22,7 +21,7 @@
 			<MsiPackage Id="iPhyloGeo_plus_plus"
 				SourceFile="iPhyloGeo++-1.0-win64.msi">
 			</MsiPackage>
-
+			
 		</Chain>
     </Bundle>
  </Wix>

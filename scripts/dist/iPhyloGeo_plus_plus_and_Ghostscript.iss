@@ -1,6 +1,14 @@
+#define MyAppPublisher "tahirilab"
+#define MyAppURL "https://github.com/tahiri-lab/iPhyloGeo_plus_plus"
+#define MyAppExeName "iPhyloGeo_plus_plus.exe"
+
 [Setup]
 AppName=iPhyloGeo++ and Ghostscript
 AppVersion=1.0
+AppPublisher={#MyAppPublisher}
+AppPublisherURL={#MyAppURL}
+AppSupportURL={#MyAppURL}
+AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\tahirilab\iPhyloGeo_plus_plus_and_Ghostscript
 DefaultGroupName=iPhyloGeo++ and Ghostscript Group
 Uninstallable=no

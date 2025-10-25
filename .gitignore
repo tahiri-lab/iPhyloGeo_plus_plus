@@ -30,3 +30,4 @@ scripts/dist/test
 *checkpoint.md
 /scripts/build/exe.win-amd64-3.11
 /scripts/build/bdist.win-amd64
+scripts/dist/Output/mysetup.exe
