@@ -12,6 +12,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\tahirilab\{#MyAppName}
 DefaultGroupName=iPhyloGeo++ and Ghostscript Group
+LicenseFile=..\..\exe-generation\license.txt
 Uninstallable=no
 CreateAppDir=no
 OutputBaseFilename=iPhyloGeo++andGhostscript_bundledinstaller

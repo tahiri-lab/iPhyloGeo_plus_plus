@@ -32,4 +32,5 @@ setup(name=app_name,
       version = '1.0',
       description = 'Multi-platform Application for Analyzing Phylogenetic Trees with Climatic Parameters',
       options = {'bdist_msi': bdist_msi_options, 'build_exe': build_options},
-      executables = executables)
+      executables = executables,
+      licence_file='..\exe-generation\license.txt')
