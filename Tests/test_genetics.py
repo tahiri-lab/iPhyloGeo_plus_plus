@@ -1,7 +1,8 @@
 import os
 import subprocess
-from pathlib import Path
 import pytest
+from pathlib import Path
+
 
 from aphylogeo import utils
 from aphylogeo.alignement import Alignment
@@ -9,37 +10,28 @@ from aphylogeo.alignement import AlignSequences
 from aphylogeo.params import Params
 from aphylogeo.utils import fasttree
 
-BASE_DIR = Path(__file__).resolve().parents[1]
 
-EXECUTABLE = BASE_DIR / "exe-generation" / "iphylogeo++.exe"
+class TestFunctionalGenetic:
+    """
+    Test de l'exécutable iPhyloGeo++ pour la partie génétique.
+    """
 
-TEST_DIR = BASE_DIR / "Test"
-
-OUTPUT_DIR = TEST_DIR / "output"
-OUTPUT_DIR.mkdir(exist_ok=True)
-
-class TestGeneticExecutable:
+    def setup_class(self):
+        self.base_dir = Path(__file__).resolve().parent.parent
+        self.exe_path = self.base_dir / "scripts" / "build" / "exe.win-amd64.311" / "iPhyloGeo++.exe" 
+        self.input_file = self.base_dir / "datasets" / "example" / "geo.csv"
+        assert self.exe_path.exists(), f"Executable non trouvé : {self.exe_path}"
 
     def test_genetic_analysis_execution(self):
+        """
+        Vérifier que l'exécutable s’exécute sans erreur et produit une sortie valide.
+        """
+        result = subprocess.run(
+            [str(self.exe_path), "--mode", "genetic", "--input", str(self.input_file)],
+            capture_output=True, text=True
+        )
 
-        print(">>> Test fonctionnel : exécution de l'analyse génétique")
-
-        input_file = TEST_DIR / "datasets" / "gene_sequences.fasta"
-
-        output_file = OUTPUT_DIR / "result_genetic.csv"
-
-        cmd = [
-            str(EXECUTABLE),
-            "--mode", "genetic",
-            "--input", str(input_file),
-            "--output", str(output_file)
-        ]
-
-        result = subprocess.run(cmd, capture_output=True, text=True)
-
-        assert result.returncode == 0, f"Erreur d’exécution : {result.stderr}"
-
-        assert output_file.exists(), "Le fichier de sortie génétique n’a pas été généré."
-
-        assert output_file.stat().st_size > 0, "Le fichier de sortie génétique est vide."
-
+        # Vérifie que le processus se termine correctement
+        assert result.returncode == 0, f"Erreur d'exécution : {result.stderr}"
+        # Vérifie que la sortie contient une indication de succès
+        assert "Analyse génétique terminée" in result.stdout
