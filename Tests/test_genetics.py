@@ -31,7 +31,7 @@ class TestFunctionalGenetic:
             capture_output=True, text=True
         )
 
-        # Vérifie que le processus se termine correctement
+        # Vérifier que le processus se termine correctement
         assert result.returncode == 0, f"Erreur d'exécution : {result.stderr}"
-        # Vérifie que la sortie contient une indication de succès
+        # Vérifier que la sortie contient une indication de succès
         assert "Analyse génétique terminée" in result.stdout
