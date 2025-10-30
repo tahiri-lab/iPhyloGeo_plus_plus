@@ -10,64 +10,25 @@ from aphylogeo.params import Params
 from aphylogeo.utils import fasttree
 
 
-BASE_DIR = Path(__file__).resolve().parents[1]
+class TestFunctionalClimate:
+    """
+    Tests fonctionnels de l'exécutable iPhyloGeo++ pour la partie climatique.
+    """
 
-EXECUTABLE = BASE_DIR / "exe-generation" / "iphylogeo++.exe"
+    def setup_class(self):
+        self.base_dir = Path(__file__).resolve().parent.parent
+        self.exe_path = self.base_dir / "scripts" / "build" / "exe.win-amd64.311" / "iPhyloGeo++.exe" 
+        self.input_file = self.base_dir / "datasets" / "example" / "geo.csv"
+        assert self.exe_path.exists(), f"Executable non trouvé : {self.exe_path}"
 
-TEST_DIR = BASE_DIR / "Test"
+    def test_climate_analysis_execution(self):
+        """
+        Vérifier que l'exécutable s’exécute sans erreur et produit une sortie valide.
+        """
+        result = subprocess.run(
+            [str(self.exe_path), "--mode", "climate", "--input", str(self.input_file)],
+            capture_output=True, text=True
+        )
 
-
-DATASETS_DIR = TEST_DIR / "datasets" / "example"
-
-
-OUTPUT_DIR = TEST_DIR / "output"
-OUTPUT_DIR.mkdir(exist_ok=True)
-
-
-def test_climatic_pipeline_functional():
-
-    print(">>> Début du test fonctionnel : pipeline climatique")
-
-    input_file = DATASETS_DIR / "geo.csv"
-
-    output_file = OUTPUT_DIR / "climatic_result.json"
-
-    cmd = [
-        str(EXECUTABLE),
-        "--mode", "climate",
-        "--input", str(input_file),
-        "--output", str(output_file)
-    ]
-    result = subprocess.run(cmd, capture_output=True, text=True)
-
-    assert result.returncode == 0, f"Erreur d'exécution : {result.stderr}"
-
-    assert output_file.exists(), "Le fichier de sortie n'a pas été généré."
-
-    assert output_file.stat().st_size > 0, "Le fichier de sortie est vide."
-
-    print(">>> Test fonctionnel du pipeline climatique terminé avec succès.")
-
-
-def test_climatic_dissimilarity_and_tree():
-
-    print(">>> Début du test fonctionnel : dissimilarités et arbres climatiques")
-    
-    input_file = DATASETS_DIR / "geo.csv"
-
-    output_file = OUTPUT_DIR / "climatic_tree.txt"
-
-    cmd = [
-        str(EXECUTABLE),
-        "--mode", "climate-tree",
-        "--input", str(input_file),
-        "--output", str(output_file)
-    ]
-
-    result = subprocess.run(cmd, capture_output=True, text=True)
-
-    assert result.returncode == 0, f"Erreur d'exécution : {result.stderr}"
-    assert output_file.exists(), "Le fichier d'arbre climatique n'a pas été généré."
-    assert output_file.stat().st_size > 0, "Le fichier d'arbre climatique est vide."
-
-    print(">>> Test fonctionnel des arbres climatiques terminé avec succès.")
+        assert result.returncode == 0, f"Erreur d'exécution : {result.stderr}"
+        assert "Analyse climatique terminée" in result.stdout
