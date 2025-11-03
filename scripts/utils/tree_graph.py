@@ -6,6 +6,15 @@ from typing import cast
 import numpy as np
 import toyplot.color
 import toyplot.png
+
+# Patch for importing toytree within a frozen app
+if not hasattr(sys.stderr, 'isatty'):
+    sys.stderr.isatty = lambda: False
+if not hasattr(sys.stdout, 'isatty'):
+    sys.stdout.isatty = lambda: False
+if not hasattr(sys.stdin, 'isatty'):
+    sys.stdin.isatty = lambda: False
+
 import toytree
 from aphylogeo.params import Params
 from numpy.typing import ArrayLike
