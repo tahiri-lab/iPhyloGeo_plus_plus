@@ -71,37 +71,17 @@ Last resort, I’ll edit the BUILD and BUILDwMSI scripts to edit the files withi
 4. Asked Claude (LLM) for advice on how to do that. It suggested creating if statements checking if the attribute "isatty" exists for sys.stderr, sys.stdout and sys.stdin, and, when it doesn’t, setting it to `lambda: False`.
 5. Used my exe-generation find_string_in_scripts.py and found that only scripts\utils\tree_graph.py imports toytree
 6. Added Claude’s suggested patch to tree_graph.py
+7. Ran the build: the EXE still throws the **AttributeError**, now on the patch’s first line
+8. Asked Claude to ask something to the patch to account for this
+9. Applied Claude’s new patch
+10. Ran the build: success!
 
-
-Traceback (most recent call last):
-  File "C:\Users\agaco\Documents\Phylogeo\iPhyloGeo_plus_plus\.venv\Lib\site-packages\cx_Freeze\initscripts\__startup__.py", line 133, in run
-    module_init.run(f"__main__{name}")
-  File "C:\Users\agaco\Documents\Phylogeo\iPhyloGeo_plus_plus\.venv\Lib\site-packages\cx_Freeze\initscripts\console.py", line 25, in run
-    exec(code, main_globals)
-  File "main.py", line 18, in <module>
-  File "C:\Users\agaco\Documents\Phylogeo\iPhyloGeo_plus_plus\scripts\ui_controllers\__init__.py", line 2, in <module>
-    from .genetics_page_controller import GeneticPageController
-  File "C:\Users\agaco\Documents\Phylogeo\iPhyloGeo_plus_plus\scripts\ui_controllers\genetics_page_controller.py", line 2, in <module>
-    from Genetics.genetics import Genetics
-  File "C:\Users\agaco\Documents\Phylogeo\iPhyloGeo_plus_plus\scripts\Genetics\genetics.py", line 5, in <module>
-    from Genetics.genetics_tree import GeneticTree
-  File "C:\Users\agaco\Documents\Phylogeo\iPhyloGeo_plus_plus\scripts\Genetics\genetics_tree.py", line 4, in <module>
-    from utils.tree_graph import generate_tree, init_tree
-  File "C:\Users\agaco\Documents\Phylogeo\iPhyloGeo_plus_plus\scripts\utils\tree_graph.py", line 9, in <module>
-    import toytree
-  File "C:\Users\agaco\Documents\Phylogeo\iPhyloGeo_plus_plus\.venv\Lib\site-packages\toytree\__init__.py", line 44, in <module>
-    set_log_level("WARNING")
-  File "C:\Users\agaco\Documents\Phylogeo\iPhyloGeo_plus_plus\.venv\Lib\site-packages\toytree\utils\src\logger_setup.py", line 57, in set_log_level
-    colorize=colorize(),
 
 
 TODO
 
-* Check if a more recent version of toytree would work
 * Remove the license from setup.py since it doesn’t work and the option is not recognized
-* If unable to fix the toytree issue, consider editing the build script to have IT edit the logger_setup.py and init.
-* Consider checking how (this project)[https://github.com/dmnfarrell/snipgenie/tree/master], which has a setup.py and uses toytree, did things
-* Make a declaration for AI use on october 11th (Claude Sonnet 4.5)
+* Make a declaration for AI use on october 11th (Claude Sonnet 4.5) [https://claude.ai/share/492447c6-c91d-40f2-ba96-48dff6b21b6f]
 
 
 ## Original notes about the workarounds

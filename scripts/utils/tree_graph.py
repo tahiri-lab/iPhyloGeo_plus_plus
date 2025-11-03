@@ -8,6 +8,15 @@ import toyplot.color
 import toyplot.png
 
 # Patch for importing toytree within a frozen app
+import io
+import sys
+# Replace stdio streams for frozen GUI app
+if sys.stderr is None:
+    sys.stderr = io.StringIO()
+if sys.stdout is None:
+    sys.stdout = io.StringIO()
+if sys.stdin is None:
+    sys.stdin = io.StringIO()
 if not hasattr(sys.stderr, 'isatty'):
     sys.stderr.isatty = lambda: False
 if not hasattr(sys.stdout, 'isatty'):
