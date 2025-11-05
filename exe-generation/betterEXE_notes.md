@@ -1,13 +1,23 @@
-# Going back on temporary fixes
+# Improving the EXE
+
+## Tasks
+
+### Going back on temporary fixes
 
 When troubleshooting EXE generation, I employed two workarounds:
 
 1. I edited logger_setup.py to mimic [this fix](https://github.com/chriskiehl/Gooey/issues/879#issuecomment-1586511649)
 2. I edited toytree’s __init__.py to comment out `set_log_level("WARNING")`
 
-Both workarounds are related to toytree and neither looks like a good long term solution.
+Both workarounds are related to toytree and neither looks like a good long term solution. The second one was a workaround for the first one not fully working.
 
-# November 3, 2025
+### Making the app faster
+
+The app is somewhat slow, both in its original version and its frozen one.
+
+## Work
+
+### November 3, 2025
 
 First, I had to get back to the initial issue.
 
@@ -76,13 +86,26 @@ Last resort, I’ll edit the BUILD and BUILDwMSI scripts to edit the files withi
 9. Applied Claude’s new patch
 10. Ran the build: success!
 
+This is good. Now, I’d like to move on to making the app faster. First, I’ll need to decide how to keep track of how fast the app is.
+
+Did some reading:
+* (Introduction to Windows Application Performance)[https://learn.microsoft.com/en-us/windows/apps/performance/introduction]
+* (Windows app performance and fundamentals overview)[https://learn.microsoft.com/en-us/windows/apps/performance/]
+* (Choosing among Visual Studio Performance Profiler, Windows Performance Toolkit, and PerfView)[https://learn.microsoft.com/en-us/windows/apps/performance/choose-between-tools]
+
+My priorities are the following:
+* Minimize the time between launching the app and getting the UI
+* Reduce CPU and memory usage
+
+### November 5, 2025
+
 
 
 TODO
 
+* Install Visual Studio and Visual Studio Performance Profiler
 * Remove the license from setup.py since it doesn’t work and the option is not recognized
-* Make a declaration for AI use on october 11th (Claude Sonnet 4.5) [https://claude.ai/share/492447c6-c91d-40f2-ba96-48dff6b21b6f]
-
+* Make a declaration for AI use on November 3rd (Claude Sonnet 4.5) [https://claude.ai/share/492447c6-c91d-40f2-ba96-48dff6b21b6f]
 
 ## Original notes about the workarounds
 
