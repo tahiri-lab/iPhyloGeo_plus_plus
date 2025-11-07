@@ -16,7 +16,6 @@ Usage:
         from aphylogeo import utils
 """
 
-
 import sys
 
 
@@ -74,12 +73,10 @@ def _patched_build_class(func, name, *bases, **kwargs):
 
 
 # Store the original __build_class__ function
-# __builtins__ can be a module or dict depending on context
-import builtins
-_original_build_class = builtins.__build_class__
+_original_build_class = __builtins__.__build_class__
 
 # Replace it with our patched version
-builtins.__build_class__ = _patched_build_class
+__builtins__.__build_class__ = _patched_build_class
 
 
 # Flag to indicate the patch has been applied
@@ -93,8 +90,7 @@ def is_patch_active():
     Returns:
         bool: True if the patch has been applied
     """
-    import builtins
-    return builtins.__build_class__ == _patched_build_class
+    return __builtins__.__build_class__ == _patched_build_class
 
 
 def get_patch_info():
