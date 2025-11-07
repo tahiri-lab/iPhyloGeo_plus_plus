@@ -104,21 +104,17 @@ Did some more reading, this time focused on optimizing and benchmarking Python c
 * (4 Ways to Benchmark Python Code)[https://superfastpython.com/benchmark-python-code/]
 * (Profiling in Python: How to Find Performance Bottlenecks)[https://realpython.com/python-profiling/]
 
+1. Created start-optimized.bat, an alternative to start.bat that uses Python’s optimize mode.
+2. In scripts\setup.py, set optimize to 2 instead of 1
+3. Ran the frozen app build
+4. Ran the EXE: it throws a **TypeError**: `unsupported operand type(s) for %: 'NoneType' and 'str'`
+5. Read the traceback: the ete3 module is trying to set a docstring (optimize being set to 2 disables docstrings) for an evolutionary model
+6. Asked Claude for a patch
+7. Went back to the traceback to determine where the patch should be applied: aphylogeo.utils imports ete3, so the patch should be applied before importing aphylogeo.utils
+8. Used exe-generation\find_string_in_scripts.py to locate the relevant imports: scripts\result.py line 2, scripts\worker.py line 4 and scripts\Climatic\climat.py line 6
 
 
-TODO
+Notes
 
-* Install Visual Studio and Visual Studio Performance Profiler
-* Remove the license from setup.py since it doesn’t work and the option is not recognized
-* Make a declaration for AI use on November 3rd (Claude Sonnet 4.5) [https://claude.ai/share/492447c6-c91d-40f2-ba96-48dff6b21b6f]
-
-## Original notes about the workarounds
-
-1. Ran `poetry run python setup.py build` in the scripts folder
-2. When running the generated EXE, an **AttributeError** is thrown: `'NoneType object has no attribute 'isatty'`
-3. Read the trace: it attributed the error to line 27 of `.venv\Lib\site-packages\toytree\utils\src\logger_setup.py`
-4. Located the line in question, in the definition of a function named colorize() (see code snippets)
-5. Edited logger_setup.py to mimic [this fix](https://github.com/chriskiehl/Gooey/issues/879#issuecomment-1586511649)
-6. The new EXE throws a **TypeError**: `Cannot log to objects of type 'NoneType'`
-7. Read the trace: like the previous error, it is linked to the toytree package, as one of the lines in the traceback is `import toytree` (see traceback below). More specifically, the line `set_log_level("WARNING")` in the package’s `__init__.py` file leads to the same logger_setup.py I edited at step 5. This time, the problem occurs when the logger.add function is called at line 57, as the logger is apparently passed a NoneType object.
-8. Edited toytree’s `__init__.py` to comment out `set_log_level("WARNING")`
+* Remove the license from setup.py since it doesn’t work and the option is not recognized -> (actually, it was working as intended), it was just mispelled)
+* Declare Claude use on November 7th
