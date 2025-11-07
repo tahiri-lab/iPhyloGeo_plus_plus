@@ -102,6 +102,7 @@ My priorities are the following:
 Did some more reading, this time focused on optimizing and benchmarking Python code:
 * (Python Benchmarking: Unleashing the Power of Performance Analysis)[https://coderivers.org/blog/python-benchmark/]
 * (4 Ways to Benchmark Python Code)[https://superfastpython.com/benchmark-python-code/]
+* (Profiling in Python: How to Find Performance Bottlenecks)[https://realpython.com/python-profiling/]
 
 
 
