@@ -51,8 +51,8 @@ def _patched_build_class(func, name, *bases, **kwargs):
     Replacement for __build_class__ that injects our protective metaclass.
     
     This function is called internally by Python whenever a class is defined.
-    We intercept it to create a compatible metaclass that inherits from any
-    existing metaclasses while adding our __doc__ protection.
+    We intercept it to add our DocstringProtectedType metaclass to classes
+    that don't already specify a metaclass.
     
     Args:
         func: Function containing the class body
@@ -63,28 +63,12 @@ def _patched_build_class(func, name, *bases, **kwargs):
     Returns:
         The constructed class object
     """
-    # Determine the metaclass to use
-    explicit_metaclass = kwargs.get('metaclass')
-    
-    # Collect metaclasses from base classes
-    base_metaclasses = [type(base) for base in bases if isinstance(base, type)]
-    
-    # Determine the most derived metaclass
-    if explicit_metaclass:
-        base_metas = base_metaclasses
-    else:
-        base_metas = base_metaclasses if base_metaclasses else [type]
-        explicit_metaclass = base_metas[0] if base_metas else type
-    
-    # If we need protection and the metaclass isn't already protected
-    if explicit_metaclass != DocstringProtectedType and not issubclass(explicit_metaclass, DocstringProtectedType):
-        # Create a new metaclass that combines the existing one with our protection
-        protected_metaclass = type(
-            f'Protected{explicit_metaclass.__name__}',
-            (DocstringProtectedType, explicit_metaclass),
-            {}
-        )
-        kwargs['metaclass'] = protected_metaclass
+    # Only inject our metaclass if none is specified
+    # This respects existing metaclasses while protecting others
+    if 'metaclass' not in kwargs and not any(
+        isinstance(base, type) and base != type for base in bases
+    ):
+        kwargs['metaclass'] = DocstringProtectedType
     
     return _original_build_class(func, name, *bases, **kwargs)
 
