@@ -1,7 +1,6 @@
 from pathlib import Path
 from typing import Dict, cast
 
-import utils.oo_patch
 from aphylogeo import utils
 from aphylogeo.alignement import AlignSequences
 from aphylogeo.genetic_trees import GeneticTrees
