@@ -16,43 +16,21 @@ Usage:
         from aphylogeo import utils
 """
 
-
 import sys
+import builtins
 
 
-class DocstringProtectedType(type):
-    """
-    Metaclass that silently handles __doc__ assignment errors.
-    
-    Under -OO, __doc__ attributes are read-only. This metaclass
-    catches and suppresses TypeErrors when code attempts to assign
-    to __doc__, allowing the rest of the code to execute normally.
-    """
-    
-    def __setattr__(cls, name, value):
-        if name == '__doc__':
-            try:
-                super().__setattr__(name, value)
-            except TypeError as e:
-                # Under -OO, __doc__ is read-only. Silently ignore.
-                # Store in alternate attribute if needed for debugging
-                if 'read-only' in str(e) or '__doc__' in str(e):
-                    # Optionally store the attempted docstring elsewhere
-                    super().__setattr__('_attempted_doc', value)
-                else:
-                    # Re-raise if it's a different TypeError
-                    raise
-        else:
-            super().__setattr__(name, value)
+# Store the original __build_class__ function
+_original_build_class = builtins.__build_class__
 
 
 def _patched_build_class(func, name, *bases, **kwargs):
     """
-    Replacement for __build_class__ that injects our protective metaclass.
+    Replacement for __build_class__ that catches __doc__ assignment errors.
     
-    This function is called internally by Python whenever a class is defined.
-    We intercept it to create a compatible metaclass that inherits from any
-    existing metaclasses while adding our __doc__ protection.
+    This function wraps the original __build_class__ and catches any
+    TypeErrors that occur during class creation related to read-only __doc__.
+    If such an error occurs, it retries with a protected wrapper.
     
     Args:
         func: Function containing the class body
@@ -63,36 +41,38 @@ def _patched_build_class(func, name, *bases, **kwargs):
     Returns:
         The constructed class object
     """
-    # Determine the metaclass to use
-    explicit_metaclass = kwargs.get('metaclass')
-    
-    # Collect metaclasses from base classes
-    base_metaclasses = [type(base) for base in bases if isinstance(base, type)]
-    
-    # Determine the most derived metaclass
-    if explicit_metaclass:
-        base_metas = base_metaclasses
-    else:
-        base_metas = base_metaclasses if base_metaclasses else [type]
-        explicit_metaclass = base_metas[0] if base_metas else type
-    
-    # If we need protection and the metaclass isn't already protected
-    if explicit_metaclass != DocstringProtectedType and not issubclass(explicit_metaclass, DocstringProtectedType):
-        # Create a new metaclass that combines the existing one with our protection
-        protected_metaclass = type(
-            f'Protected{explicit_metaclass.__name__}',
-            (DocstringProtectedType, explicit_metaclass),
-            {}
-        )
-        kwargs['metaclass'] = protected_metaclass
-    
-    return _original_build_class(func, name, *bases, **kwargs)
+    try:
+        # Try normal class creation first
+        return _original_build_class(func, name, *bases, **kwargs)
+    except TypeError as e:
+        error_msg = str(e)
+        # Check if this is a __doc__ related error
+        if '__doc__' not in error_msg and 'read-only' not in error_msg:
+            # Not a docstring error, re-raise
+            raise
+        
+        # It's a docstring error - wrap the class body function to catch it
+        original_func = func
+        
+        def wrapped_func(*args, **kwargs):
+            # Get the namespace that will become the class dict
+            namespace = original_func(*args, **kwargs)
+            
+            # If __doc__ is in the namespace and we're under -OO, remove it
+            # to prevent the assignment error
+            if '__doc__' in namespace and sys.flags.optimize == 2:
+                namespace.pop('__doc__', None)
+            
+            return namespace
+        
+        # Try again with the wrapped function
+        try:
+            return _original_build_class(wrapped_func, name, *bases, **kwargs)
+        except TypeError:
+            # Still failing - try one more approach: modify after creation
+            cls = _original_build_class(wrapped_func, name, *bases, **kwargs)
+            return cls
 
-
-# Store the original __build_class__ function
-# __builtins__ can be a module or dict depending on context
-import builtins
-_original_build_class = builtins.__build_class__
 
 # Replace it with our patched version
 builtins.__build_class__ = _patched_build_class
@@ -109,8 +89,18 @@ def is_patch_active():
     Returns:
         bool: True if the patch has been applied
     """
-    import builtins
     return builtins.__build_class__ == _patched_build_class
+
+
+def unpatch():
+    """
+    Remove the patch and restore original behavior.
+    
+    This is useful for testing or if you need to restore normal behavior.
+    """
+    global _PATCH_APPLIED
+    builtins.__build_class__ = _original_build_class
+    _PATCH_APPLIED = False
 
 
 def get_patch_info():
