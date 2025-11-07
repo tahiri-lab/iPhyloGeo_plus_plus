@@ -3,6 +3,7 @@ import folium
 
 import pandas as pd
 import numpy as np
+import utils.oo_patch
 from aphylogeo import utils
 from aphylogeo.params import Params
 from Climatic.climat_tree import ClimaticTree
