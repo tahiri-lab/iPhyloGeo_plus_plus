@@ -97,7 +97,11 @@ My priorities are the following:
 * Minimize the time between launching the app and getting the UI
 * Reduce CPU and memory usage
 
-### November 5, 2025
+### November 7, 2025
+
+Did some more reading, this time focused on optimizing and benchmarking Python code:
+* (Python Benchmarking: Unleashing the Power of Performance Analysis)[https://coderivers.org/blog/python-benchmark/]
+* (4 Ways to Benchmark Python Code)[https://superfastpython.com/benchmark-python-code/]
 
 
 
