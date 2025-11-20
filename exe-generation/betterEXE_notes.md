@@ -119,6 +119,17 @@ Did some more reading, this time focused on optimizing and benchmarking Python c
 13. Updated the patch and tried the live app: it threw a **TypeError**: `metaclass conflict: the metaclass of a derived class must be a (non-strict) subclass of the metaclasses of all its bases`
 14. Worked further with Claude before determining that the -OO option was not worth it and optimizing the app as well as aphylogeo would be a better use of my time
 
-Notes
+### November 19, 2025
 
-* Remove the license from setup.py since it doesn’t work and the option is not recognized -> (actually, it was working as intended), it was just mispelled)
+Working on making aPhyloGeo faster instead.
+
+1. In aphylogeo\tests, ran both `pytest .\test_climatic.py` and `pytest .\test_genetic.py`. Both ran. One **test failed**: `FAILED test_genetic.py::TestGenetic::test_filterResults - assert "Phylogeny(rooted=True)\n    Clade()\n        Clade(branch_length=0.0, name='OL989074')\n        Clade(bran...`
+2. Ran it again: same result, so one of the tests fails on Python 3.12, I’ll be forced to use Python 3.11 until Khady fixes it.
+3. Set up the poetry venv
+4. Ran `poetry run pytest .\test_climatic.py` and `poetry run pytest .\test_genetic.py` and the same test failed again, which is definitely not meant to happen
+5. Created a new unit test file with only the problematic test in it, test_investigation.py, and ran pytest: same result
+6. Ran it from the main project directory: `poetry run pytest tests\test_investigation.py`: same result
+7. Realized the environment still used Python 3.12 and changed it to Python 3.11
+8. Located my install: C:\Users\agaco\AppData\Local\Programs\Python\Python311
+9. Ran `poetry env use C:\Users\agaco\AppData\Local\Programs\Python\Python311\python.exe`, then `poetry install`, then ran the tests again: it still failed
+10. Something is wrong, venv not working properly, `poetry install` fails, will come back to it when I have more energy
