@@ -1,3 +1,7 @@
+# Use Case Testing
+
+## 1. Use Cases
+
 ### **1.1. Home Button**
 **Action:** Click the **Home** button.  
 **Expected Result:** The home dashboard loads successfully.
@@ -97,7 +101,6 @@
 **Action:** Toggle the **Light Mode** button.  
 **Expected Result:**  
 - The application switches successfully between light and dark themes.  
-
 
 ---
 
