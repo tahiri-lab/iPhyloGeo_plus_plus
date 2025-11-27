@@ -14,8 +14,14 @@
 **Action:** Click the **Genetics** button.  
 **Expected Result:** The Genetics module opens and all available options are displayed.
 
-**Action:** Click the **File Browser** button.  
+**Action:** Click the **File Browser** button. 
+**Action:** brows to this location **iPhyloGeo_plus_plus/datasets** and select  **Fasta File**.
 **Expected Result:** A window opens allowing you to select a FASTA file to upload the genetic data.
+
+**Action:** Click the **setting** button to run the life. 
+**Action:** you can use the default seetings or change them **(ex.: "Select the following settings: * Bootstrap Threshold: 0; Window Size: 20 (...)**.
+**Expected Result:** see video down below.
+![Genetics](https://github.com/user-attachments/assets/6187329c-506b-4a9a-8285-7c83143ab751)
 
 **Action:** Click the **Sequence Alignment** button on the top menu or **Alignment** on the left panel.  
 **Expected Result:** The *Play Sequence* button and the *Settings* button appear.
