@@ -9,6 +9,7 @@
 ---
 
 ### **1.2. Genetics Button**  
+
 ![image](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/readme-pic/Genetic-Button.png)
 
 **Action:** Click the **Genetics** button.  
