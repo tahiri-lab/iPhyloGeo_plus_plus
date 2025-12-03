@@ -102,19 +102,21 @@
 
 **Action:** Click the **Help** button.  
 **Expected Result:** The help/documentation window opens correctly.
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/help_popup.png" alt="Help window" width="350"/>
 
 ---
 
 ### **1.6. Light Mode Button**
-**Action:** Toggle the **Light Mode** button.  
+**Action:** Toggle the **Light Mode** button. (moon/sun button)
 **Expected Result:**  
 - The application switches successfully between light and dark themes.  
-
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/darkmode.png" alt="Dark mode" width="200"/> <img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/lightmode.png" alt="Light mode" width="200"/>
 ---
 
 ### **1.7. Clear Button**
 **Action:** Click the **Clear** button.  
 **Expected Result:** All displayed data and information are deleted/reset.
+
 
 ---
 
