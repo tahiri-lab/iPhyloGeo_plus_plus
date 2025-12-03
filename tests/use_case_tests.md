@@ -109,8 +109,8 @@
 
 ### **1.6. Light Mode Button**
 **Action:** Toggle the **Light Mode** button. (moon/sun button)
-**Expected Result:**  
-The application switches successfully between light and dark themes.
+
+**Expected Result:** The application switches successfully between light and dark themes.
  
 <img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/darkmode.png" alt="Dark mode" width="200"/> <img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/lightmode.png" alt="Light mode" width="200"/>
 ---
