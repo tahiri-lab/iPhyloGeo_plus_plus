@@ -15,7 +15,7 @@
 **Action:** Click the **Genetics** button.  
 **Expected Result:** The Genetics module opens and all available options are displayed.
 
-**Action:** Click the **File Browser** button. 
+**Action:** Click the **File Browser** button.
 **Expected Result:** A window opens allowing you to select a FASTA file to upload the genetic data.
 
 **Action:** brows to this location **iPhyloGeo_plus_plus/datasets** and select  **Fasta File**.
