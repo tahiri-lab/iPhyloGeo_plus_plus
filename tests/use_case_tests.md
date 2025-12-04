@@ -67,13 +67,13 @@ If you only installed the Windows executable, download them from GitHub: [csv](h
 * Tree Type: FastTree application
 * Rate Similarity: 90
 * Method Similarity: Hamming distance
-**Expected Results:** The user is able to select the above settings.
+**Expected Result:** The user is able to select the above settings.
 
 **Action:** Click the **Save Settings** button.
-**Expected Results:** The popup window disappears.
+**Expected Result:** The popup window disappears.
 
 **Action**: Click the **Play** button.
-**Expected Results:** A console window and a loading dialog box may appear. Then, the genetic sequences are displayed as in the image below. Note that the first colomn of the sequence (to the immediate right of the species labels) should contain only instances of T (black letter T on a red background) and the last column of the sequence should contain both T (red background) and C (yellow background)
+**Expected Result:** A console window and a loading dialog box may appear. Then, the genetic sequences are displayed as in the image below. Note that the first colomn of the sequence (to the immediate right of the species labels) should contain only instances of T (black letter T on a red background) and the last column of the sequence should contain both T (red background) and C (yellow background)
 
 <img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/sequencepos1.png" alt="A sequence alignment for Helicobacter pylori, starting from position 1" width="500"/>
 
@@ -84,7 +84,7 @@ If you only installed the Windows executable, download them from GitHub: [csv](h
 **Expected Result:** The columns have changed positions. The first and last displayed column now contain C (yellow background).
 
 **Action**: Click the **Statistics** button on the left.
-**Expected Results**: The title Alignment Chart is displayed, with a dropdown menu titled "Reference", a green Download button and a graph titled "Sequence Similarity Plot" matching the image below. It may take a few seconds for the dropdown menu to populate and the graph to appear.
+**Expected Result**: The title Alignment Chart is displayed, with a dropdown menu titled "Reference", a green Download button and a graph titled "Sequence Similarity Plot" matching the image below. It may take a few seconds for the dropdown menu to populate and the graph to appear.
 
 <img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/seqsimplot.png" alt="A sequence similarity plot for Helicobacter pylori" width="500"/>
 
@@ -151,7 +151,18 @@ If you only installed the Windows executable, download them from GitHub: [csv](h
 
 ---
 
-### **1.4. Results Button**  
+### **1.4. Results Button**
+
+#### Setup
+
+Click the **Genetic** button, then the **File Browser** button. Provide **simplot.fasta**.
+
+Click the **Alignment**, button, then the **Play** button. Wait for the sequences to be displayed.
+
+Click the **Climatic** button, then the **File Browser** button. Provide **simplot.csv**.
+
+#### Test
+
 ![image](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/readme-pic/Result-Button.png)
 
 **Action:** Click the **Results** button.  
