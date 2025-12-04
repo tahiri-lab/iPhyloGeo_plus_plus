@@ -21,49 +21,98 @@ If you only installed the Windows executable, download them from GitHub: [csv](h
 **Action:** Click the **Home** button.  
 **Expected Result:** The home screen loads successfully. The title "Welcome to iPhyloGeo", the subtitle "Thank you for downloading our software", the main text "Here is your guide..." and the copyright mentions are displayed.
 
-<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/home_page.png" alt="Home screen" width="350"/>
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/home_page.png" alt="Home screen" width="500"/>
 
 ---
 
-### **1.2. Genetic Button**
+### **1.2. Genetic Analysis**
 
 ![image](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/readme-pic/Genetic-Button.png)
 
 **Action:** Click the **Genetic** button.  
 **Expected Result:** The Genetic **Get Started** screen is displayed. On the left, the **File Browser** and **Clear** buttons are active while others are greyed out.
 
-<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/genetic_screen.png" alt="Home screen" width="350"/>
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/genetic_screen.png" alt="Home screen" width="500"/>
 
 **Action:** Click the **File Browser** button.
 **Expected Result:** A window opens allowing you to select a FASTA file to upload the genetic data.
 
-**Action:** brows to this location **iPhyloGeo_plus_plus/datasets** and select  **Fasta File**.
+**Action:** Browse to and select **simplot.fasta**.
+**Expected Result:** The file selection window closes and the contents of the file are displayed. Generic text is displayed in green and genetic sequences are displayed in green (A), blue (C), red (G) and black (T). A small scrollbar appears on the right.
 
-**Action:** Click the **setting** button to run the life. 
-**Action:** you can use the default seetings or change them **(ex.: "Select the following settings: * Bootstrap Threshold: 0; Window Size: 20 (...)**.
-**Expected Result:** see video down below.
-![Genetics](https://github.com/user-attachments/assets/6187329c-506b-4a9a-8285-7c83143ab751)
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/fasta.png" alt="Fasta File displayed within iPhyloGeo++" width="500"/>
 
-**Action:** Click the **Sequence Alignment** button on the top menu or **Alignment** on the left panel.  
-**Expected Result:** The *Play Sequence* button and the *Settings* button appear.
+**Action:** Click the scrollbar on the right and bring it to the bottom.
+**Expected Result:** The text scrolls all the way down. The last/bottom genetic sequence displayed is identified as "HPU63231 Helicobacter pylori".
 
-**Action:** Click the **Play Sequence** button.  
-**Expected Result:** The *Statistics* and *Genetic Tree* options become unlocked and available.
+**Action:** Click the **Sequence Alignment** tab.
+**Expected Result:** A blank screen with the title "Genetic Sequence" and two green buttons, a "Play" button and a "Settings" (gear icon) button, is displayed.
 
-**Action:** Click the **Settings** button.  
-**Expected Result:** All available settings options are displayed for modification.
+**Action:** Click the **Fasta file** tab.
+**Expected Result:** The genetic sequences are displayed once again. The scrollbar on the right is still at the bottom.
 
-**Action:** Click the **Statistics** button.  
-**Expected Result:**  
-- Statistical outputs are generated and displayed.  
-- Selecting items from the dropdown list displays the correct data.  
-- Clicking the **Download** button opens the download window successfully.
+**Action:** Click the **Alignment** button on the left.
+**Expected Result:** A blank screen with the title "Genetic Sequence" and two green buttons, a "Play" button and a "Settings" (gear icon) button, is displayed.
+
+**Action:** Click the green **Settings** (gear icon) button.
+**Expected Result:** A popup window titled "Parameter Dialog" appears.
+
+**Action:** Select the following settings:
+* Bootstrap Threshold: **0**
+* Window Size: **35**
+* Step Size: 100
+* Bootstrap Amount: 100
+* Alignment Method: MUSCLE
+* Fit Method: WiderFit by elongating with Gap (starAlignment)
+* Tree Type: FastTree application
+* Rate Similarity: 90
+* Method Similarity: Hamming distance
+**Expected Results:** The user is able to select the above settings.
+
+**Action:** Click the **Save Settings** button.
+**Expected Results:** The popup window disappears.
+
+**Action**: Click the **Play** button.
+**Expected Results:** A console window and a loading dialog box may appear. Then, the genetic sequences are displayed as in the image below. Note that the first colomn of the sequence (to the immediate right of the species labels) should contain only instances of T (black letter T on a red background) and the last column of the sequence should contain both T (red background) and C (yellow background)
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/sequencepos1.png" alt="A sequence alignment for Helicobacter pylori, starting from position 1" width="500"/>
+
+**Action**: At the bottom, enter 50 as the new window size: select the **Window size** selector, delete "35", input "50" and press the return key.
+**Expected Result:** More columns are displayed, with the first and last column only containing T (red background).
+
+**Action**: At the bottom, press the up arrow on the **Starting position** selector.
+**Expected Result:** The columns have changed positions. The first and last displayed column now contain C (yellow background).
+
+**Action**: Click the **Statistics** button on the left.
+**Expected Results**: The title Alignment Chart is displayed, with a dropdown menu titled "Reference", a green Download button and a graph titled "Sequence Similarity Plot" matching the image below. It may take a few seconds for the dropdown menu to populate and the graph to appear.
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/seqsimplot.png" alt="A sequence similarity plot for Helicobacter pylori" width="500"/>
+
+**Action:** Hover over coordinates (10, 1) on the graph.
+**Expected Result:** Hover displays of multiple different colors will appear (their number will depend on display size). The one at the top will read "Sequence: HPU63239 Helicobacter pylori" on the first line and "Similarity: 1.00" on the second line. On the horizontal axis, the value 10 will be highlighted.
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/seqsimplot10-1.png" alt="A sequence similarity plot for Helicobacter pylori" width="500"/>
+
+**Action:** Select another value in the **Reference** dropdown menu.
+**Expected Result:** The graph will be updated.
+
+**Action:** Click the **Download** button.
+**Expected Result:** A window will appear to allow the user to select a directory and file name to save the graph.
+
+**Action:** Provide a directory and PNG file name of your choice.
+**Expected Result:** The graph is saved in the location you provided. It matches the colors and values of the graph displayed in iPhyloGeo++ (note that it may not have the same dimensions).
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/seqsimplot_comparison.png" alt="A sequence similarity plot for Helicobacter pylori" width="700"/>
 
 **Action:** Click the **Genetic Tree** button.  
-**Expected Result:**  
-- The genetic tree is generated and displayed successfully.  
-- Selecting items from the dropdown list updates the displayed tree or data.  
-- Clicking the **Download** button opens the download window successfully.
+**Expected Result:** A console window may appear and disappear. Then, the title "Phylogenetic Tree", a Reference dropdown menu, a green Download button and a phylogenetic tree matching the image below should be displayed.
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/0nt19nt.png" alt="A phylogenetic tree for Helicobacter pylori" width="500"/>
+
+**Action:** In the **Reference** dropdown menu, select "40 nt 59 nt". 
+**Expected Result:** The displayed phylogenetic tree will be updated to match the image below.
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/40nt59nt.png" alt="A phylogenetic tree for Helicobacter pylori" width="500"/>
 
 ---
 
@@ -132,10 +181,6 @@ If you only installed the Windows executable, download them from GitHub: [csv](h
  
 <img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/darkmode.png" alt="Dark mode" width="200"/> <img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/lightmode.png" alt="Light mode" width="200"/>
 ---
-
-### **1.7. Clear Button**
-**Action:** Click the **Clear** button.  
-**Expected Result:** All displayed data and information are deleted/reset.
 
 
 ---
