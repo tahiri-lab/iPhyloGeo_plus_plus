@@ -1,19 +1,38 @@
 # Use Case Testing
 
+## Setup
+
+### Install or Update iPhyloGeo++
+
+Make sure you have the latest version of iPhyloGeo++ installed. Follow the appropriate install guide if necessary: [Windows](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/3.2-Installation-(Windows)) [macOS](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/3.1-Installation-(MAC)) [Linux](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/3.3-Installation-(Linux)
+
+### Get the Dataset
+
+If you installed the entire project by cloning the repository or copying the entire source code, you already have **simplot.csv** and **simplot.fasta**. They are located in the **datasets** folder.
+
+If you only installed the Windows executable, download them from GitHub: [csv](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/datasets/simplot.csv) [fasta](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/datasets/simplot.fasta)
+
 ## 1. Use Cases
 
 ### **1.1. Home Button**
+**Action:** Click the **Climatic** button (thermometer icon).
+**Expected Result:** The home screen is replaced by the Climatic **Get Started** screen.
+
 **Action:** Click the **Home** button.  
-**Expected Result:** The home dashboard loads successfully.
+**Expected Result:** The home screen loads successfully. The title "Welcome to iPhyloGeo", the subtitle "Thank you for downloading our software", the main text "Here is your guide..." and the copyright mentions are displayed.
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/home_page.png" alt="Home screen" width="350"/>
 
 ---
 
-### **1.2. Genetics Button**  
+### **1.2. Genetic Button**
 
 ![image](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/readme-pic/Genetic-Button.png)
 
-**Action:** Click the **Genetics** button.  
-**Expected Result:** The Genetics module opens and all available options are displayed.
+**Action:** Click the **Genetic** button.  
+**Expected Result:** The Genetic **Get Started** screen is displayed. On the left, the **File Browser** and **Clear** buttons are active while others are greyed out.
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/genetic_screen.png" alt="Home screen" width="350"/>
 
 **Action:** Click the **File Browser** button.
 **Expected Result:** A window opens allowing you to select a FASTA file to upload the genetic data.
