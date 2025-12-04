@@ -97,9 +97,9 @@ If you only installed the Windows executable, download them from GitHub: [csv](h
 **Expected Result:** The graph will be updated.
 
 **Action:** Click the **Download** button.
-**Expected Result:** A window will appear to allow the user to select a directory and file name to save the graph.
+**Expected Result:** A window appears to allow the user to select a directory and file name to save the graph.
 
-**Action:** Provide a directory and PNG file name of your choice.
+**Action:** Provide a directory and PNG file name of your choice. Save the file.
 **Expected Result:** The graph is saved in the location you provided. It matches the colors and values of the graph displayed in iPhyloGeo++ (note that it may not have the same dimensions).
 
 <img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/seqsimplot_comparison.png" alt="A sequence similarity plot for Helicobacter pylori" width="700"/>
@@ -151,7 +151,7 @@ If you only installed the Windows executable, download them from GitHub: [csv](h
 
 ---
 
-### **1.4. Results Button**
+### **1.4. Results Map**
 
 #### Setup
 
@@ -165,14 +165,24 @@ Click the **Climatic** button, then the **File Browser** button. Provide **simpl
 
 ![image](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/readme-pic/Result-Button.png)
 
-**Action:** Click the **Results** button.  
-**Expected Result:**  
-- The Results view is displayed.  
-- This menu **only** displays results (no uploads or processing actions).
+**Action:** Click the **Results** button (immediately to the left of the Help button).  
+**Expected Result:** A blank screen with the title "Results" is displayed.
 
-**Action:** Click the **Results** button once both datasets have been uploaded.  
-**Expected Result:**  
-- The Results section becomes accessible only when both genetic and climatic data are available.
+**Action:** Click the **Statistics** tab (between Results and Map).
+**Expected Result:** On the left are displayed the title "Statistics" and a phylogenetic tree. On the right are displayed a green Download button, dropdown menus titled "Condition" and "trees" and a graph for the selected condition.
+
+TODO include a screenshot of the expected result
+
+**Action:** Click the **Map** tab.
+**Expected Result:** A loading bar appears. Then, a graph with a phylogenetic tree on the left and species coordinates on the right appears.
+
+TODO include a screenshot of the expected result
+
+**Action:** Click the **Save** button.
+**Expected Result:** A window appears to allow the user to select a directory and file name to save the graph.
+
+**Action:** Provide a directory and PNG file name of your choice. Save the file.
+**Expected Result:** The graph is saved in the location you provided. It matches the colors and values of the graph displayed in iPhyloGeo++ (note that it may not have the same dimensions).
 
 ---
 
