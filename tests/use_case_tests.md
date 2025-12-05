@@ -151,7 +151,7 @@ If you only installed the Windows executable, download them from GitHub: [csv](h
 
 ---
 
-### **1.4. Results Map**
+### **1.4. Results Section**
 
 #### Setup
 
@@ -168,21 +168,53 @@ Click the **Climatic** button, then the **File Browser** button. Provide **simpl
 **Action:** Click the **Results** button (immediately to the left of the Help button).  
 **Expected Result:** A blank screen with the title "Results" is displayed.
 
-**Action:** Click the **Statistics** tab (between Results and Map).
-**Expected Result:** On the left are displayed the title "Statistics" and a phylogenetic tree. On the right are displayed a green Download button, dropdown menus titled "Condition" and "trees" and a graph for the selected condition.
+**Action:** Click the **Settings** button.
+**Expected Result:** A dialog box titled Parameters appears, like on the image below. It contains three dropdown menus (Calculus method, Bootstrap threshold and Metric threshold). At the bottom are three buttons: Reset, OK and Cancel.
 
-TODO include a screenshot of the expected result
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/results_params.png" alt="Parameters dialog box" width="500"/>
+
+**Action:** Set the **Calculus method** to "Robinson and Foulds", the **Bootstrap threshold** to 5 and the **Metric threshold** to 90, then click **OK**.
+**Expected Result:** The dialog box disappears.
+
+**Action:** Click the **Settings** button.
+**Expected Result:** The dialog box reappears, with values "Robinson and Foulds", 5 and 90 displayed.
+
+**Action:** Click the **Reset** button.
+**Expected Result:** The selected values remain "Robinson and Foulds", 5 and 90.
+
+**Action**: Set the **Bootstrap threshold** to 10, then click the **Reset** button.
+**Expected Result:** The Boostrap threshold is set back to 5.
+
+**Action**: Set the **Bootstrap threshold** to 10, then click the **Cancel** button.
+**Expected Result:** The dialog box disappears.
+
+**Action:** Click the **Settings** button.
+**Expected Result:** The dialog box reappears, with values "Robinson and Foulds", 5 and 90 displayed.
+
+**Action:** Set the **Calculus method** to "Least square", the **Bootstrap threshold** to 180 and the **Metric threshold** to 60, then click **OK**.
+**Expected Result:** The dialog box disappears.
+
+**Action:** Click the **Statistics** tab (between Results and Map).
+**Expected Result:** On the left are displayed the title "Statistics" and a phylogenetic tree. On the right are displayed a green Download button, dropdown menus titled "Condition" and "trees" and a graph for the selected condition (in this case, the graph will be empty), matching the image below.
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/statistics.png" alt="Statistics screen" width="500"/>
+
+**Action:** Set "ALLSKY_SFC_SW_DWN" as the Condition and "40 nt 59 nt" as the trees value.
+**Expected Result:** The graph on the left will update, matching the image below.
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/statistics40nt59nt.png" alt="Statistics screen" width="500"/>
 
 **Action:** Click the **Map** tab.
-**Expected Result:** A loading bar appears. Then, a graph with a phylogenetic tree on the left and species coordinates on the right appears.
+**Expected Result:** A loading bar may appear. Then, a graph with a phylogenetic tree on the left and species coordinates on the right appears, matching the image below.
 
-TODO include a screenshot of the expected result
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/map.png" alt="Map screen" width="500"/>
 
 **Action:** Click the **Save** button.
-**Expected Result:** A window appears to allow the user to select a directory and file name to save the graph.
+**Expected Result:** A screen with a list of headers is displayed, matching the image below. The results are saved in the project’s scrips/results directory.
 
-**Action:** Provide a directory and PNG file name of your choice. Save the file.
-**Expected Result:** The graph is saved in the location you provided. It matches the colors and values of the graph displayed in iPhyloGeo++ (note that it may not have the same dimensions).
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/save.png" alt="Save screen" width="500"/>
+
+TODO specify how to verify the contents of the results folder.
 
 ---
 
@@ -192,7 +224,7 @@ TODO include a screenshot of the expected result
 **Action:** Click the **Help** button.  
 **Expected Result:** The help/documentation window opens correctly.
 
-<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/help_popup.png" alt="Help window" width="350"/>
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/help_popup.png" alt="Help window" width="500"/>
 
 ---
 
