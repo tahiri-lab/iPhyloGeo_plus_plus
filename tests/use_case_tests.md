@@ -156,6 +156,7 @@ If you only installed the Windows executable, download them from GitHub: [csv](h
 <img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/climatic_tree_prefs.png" alt="A preferences window" width="150"/>
 
 **Action:** Select "black" as the Label color, "blue" as the Edge color, "Hierarchical Horizontal" as the Layout Option, and "Tree View" as the View type. Of the 4 checkboxes, check "Use leaf names" and leave the three others unchecked. Click **Save**.
+**Expected Result:** The Preferences window disappears. The tree may be updated.
 
 **Action:** Select "T2M" as the **Variable to plot**.
 **Expected Result:** The climatic tree is updated to match the screenshot below.
@@ -166,6 +167,9 @@ If you only installed the Windows executable, download them from GitHub: [csv](h
 **Expected Result:** A popup window titled Preferences is displayed.
 
 **Action:** Set the Edge color to "green" and check "Show branch lengths", then click **Save**.
+**Expected Result:** The Preferences window disappears. The tree may be updated.
+
+**Action:** Select "TLAT" as the **Variable to plot**.
 **Expected Result:** The climatic tree is updated to match the screenshot below.
 
 <img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/green_climatic_tree.png" alt="A climatic tree" width="500"/>
