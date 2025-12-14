@@ -120,25 +120,55 @@ If you only installed the Windows executable, download them from GitHub: [csv](h
 ![image](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/readme-pic/Climatic-Button.png)
 
 **Action:** Click the **Climate** button.  
-**Expected Result:** The Climate module opens and all available options are displayed.
-
-**Action:** Click the **Get Started** button.  
-**Expected Result:** You are able to change values in the dropdown list.
+**Expected Result:** The Climate module opens and all available options are displayed. **Max Correlation** is set to 1,000 and **Min Variance** to 0,0000.
 
 **Action:** Click the **File Browser** button.  
 **Expected Result:** A window opens allowing you to select a CSV file to upload the climatic data.
 
+**Action:** Browse to and select **simplot.csv**.
+**Expected Result:** The contents of the file are displayed in the form of a two-dimensional table with 8 columns, with a map underneath, as in the image below.
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/climatic_data.png" alt="A table and a map representing climatic data" width="500"/>
+
+**Action:** If you have a mouse, turn the scroll wheel forward. If you have a trackpad, make the zoom-in gesture (typically moving two fingers away from each other).
+**Expected Result:** The map zooms in, showing further detail.
+
+**Action:** If you have a mouse, turn the scroll wheel backward. If you have a trackpad, make the zoom-out gesture (typically moving two fingers away towards each other).
+**Expected Result:** The map zooms out, showing the markers closer to each other.
+
+**Action:** Click the scrollbar on the right of the table and bring it to the bottom.
+**Expected Result:** The last line of the lable should be displayed. The item on the bottom right of the table should be 60.39.
+
 **Action:** Click the **Statistics** button on the left panel.  
-**Expected Result:** Climate-related statistics are displayed.
+**Expected Result:** On the left, the title "Statistics" is displayed, with the subtitle "Generate your graph", three dropdown menus, "Insert X axis data", "Insert Y axis data" and "Choose plot type", and a green save button. On the right, a graph is displayed.
 
-**Action:** Click the **Climatic Data** button on the top menu.  
-**Expected Result:** All climatic data are displayed.
+**Action:** Select ALLSKY_SFC_SW_DWN for the X axis, QV2M for the Y axis and Scatter plot for the plot type.
+**Expected Result:** The graph displayed matches the image below.
 
-**Action:** Select an option from the **dropdown list**.  
-**Expected Result:** The corresponding data are displayed successfully.
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/climatic_data.png" alt="A table and a map representing climatic data" width="300"/>
 
 **Action:** Click the **Climatic Tree** button on the top menu or the left panel.  
-**Expected Result:** The climatic tree is generated and displayed.
+**Expected Result:** A climatic tree is displayed (it may take a few seconds), with a Gear/Settings button at the top left and a Save button at the top right. A "Variable to plot" dropdown menu is displayed to the right of the gear icon.
+
+**Action:** Click the **Gear/Settings** button.
+**Expected Result:** A popup window titled Preferences and matching the screenshot below is displayed.
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/climatic_tree_prefs.png" alt="A preferences window" width="150"/>
+
+**Action:** Select "black" as the Label color, "blue" as the Edge color, "Hierarchical Horizontal" as the Layout Option, and "Tree View" as the View type. Of the 4 checkboxes, check "Use leaf names" and leave the three others unchecked. Click **Save**.
+
+**Action:** Select "T2M" as the **Variable to plot**.
+**Expected Result:** The climatic tree is updated to match the screenshot below.
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/climatic_tree.png" alt="A climatic tree" width="500"/>
+
+**Action:** Click the **Gear/Settings** button.
+**Expected Result:** A popup window titled Preferences is displayed.
+
+**Action:** Set the Edge color to "green" and check "Show branch lengths", then click **Save**.
+**Expected Result:** The climatic tree is updated to match the screenshot below.
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/green_climatic_tree.png" alt="A climatic tree" width="500"/>
 
 **Action:** Click the **Download** button.  
 **Expected Result:** A download window opens successfully.
