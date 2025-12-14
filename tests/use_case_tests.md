@@ -145,7 +145,7 @@ If you only installed the Windows executable, download them from GitHub: [csv](h
 **Action:** Select ALLSKY_SFC_SW_DWN for the X axis, QV2M for the Y axis and Scatter plot for the plot type.
 **Expected Result:** The graph displayed matches the image below.
 
-<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/climatic_data.png" alt="A table and a map representing climatic data" width="300"/>
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/climate_stats.png" alt="The Statistics tab of the Climate section" width="300"/>
 
 **Action:** Click the **Climatic Tree** button on the top menu or the left panel.  
 **Expected Result:** A climatic tree is displayed (it may take a few seconds), with a Gear/Settings button at the top left and a Save button at the top right. A "Variable to plot" dropdown menu is displayed to the right of the gear icon.
