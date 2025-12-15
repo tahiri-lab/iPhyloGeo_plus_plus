@@ -174,14 +174,14 @@ If you only installed the Windows executable, download them from GitHub: [csv](h
 
 <img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/green_climatic_tree.png" alt="A climatic tree" width="500"/>
 
-**Action:** Click the **Download** button.  
-**Expected Result:** A download window opens successfully.
+**Action:** Click the **Save** button.  
+**Expected Result:** A window titled "Savet Plot As" appears, allowing the user to select a location and file name to save the climatic tree as a PNG.
 
-**Action:** Click the **dropdown list** under the Climatic Tree section.  
-**Expected Result:** The corresponding data load correctly.
+**Action:** Provide a file name and location, then click **Save**.
+**Expected Result:** The "Save Plot As" window disappears.
 
-**Action:** Click the **Settings** button under the Climatic Tree section.  
-**Expected Result:** All available settings options are displayed for modification.
+**Action:** Open the PNG file and compare it to the tree in iPhyloGeo++.
+**Expected Result:** The trees should be identical.
 
 ---
 
@@ -236,7 +236,7 @@ Click the **Climatic** button, then the **File Browser** button. Provide **simpl
 **Action:** Set "ALLSKY_SFC_SW_DWN" as the Condition and "40 nt 59 nt" as the trees value.
 **Expected Result:** The graph on the left will update, matching the image below.
 
-<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/statistics40nt59nt.png" alt="Statistics screen" width="500"/>
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/statistics_40nt59nt.png" alt="Statistics screen" width="500"/>
 
 **Action:** Click the **Map** tab.
 **Expected Result:** A loading bar may appear. Then, a graph with a phylogenetic tree on the left and species coordinates on the right appears, matching the image below.
