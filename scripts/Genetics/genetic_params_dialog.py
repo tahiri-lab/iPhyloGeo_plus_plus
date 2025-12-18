@@ -28,12 +28,6 @@ class ParamDialog(QDialog):
         self.bootstrap_threshold_input.setValidator(QIntValidator(0, 10000))  # Adjust range as necessary
         layout.addRow(self.bootstrap_threshold_label, self.bootstrap_threshold_input)
 
-        # Window size
-        self.window_size_label = QLabel("Window Size:")
-        self.window_size_input = QLineEdit(str(Params.window_size))
-        self.window_size_input.setValidator(QIntValidator(1, 10000))  # Adjust range as necessary
-        layout.addRow(self.window_size_label, self.window_size_input)
-
         # Step size
         self.step_size_label = QLabel("Step Size:")
         self.step_size_input = QLineEdit(str(Params.step_size))
@@ -141,7 +135,6 @@ class ParamDialog(QDialog):
     def submit(self):
         self.params = {
             "bootstrap_threshold": int(self.bootstrap_threshold_input.text()),
-            "window_size": int(self.window_size_input.text()),
             "step_size": int(self.step_size_input.text()),
             "bootstrap_amount": int(self.bootstrap_amount_input.text()),
             "alignment_method": str(self.alignment_method_input.currentIndex() + 1),
