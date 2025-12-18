@@ -8,9 +8,9 @@ Make sure you have the latest version of iPhyloGeo++ installed. Follow the appro
 
 ### Get the Dataset
 
-If you installed the entire project by cloning the repository or copying the entire source code, you already have **simplot.csv** and **simplot.fasta**. They are located in the **datasets** folder.
+If you installed the entire project by cloning the repository or copying the entire source code, you already have **geo_with_loc.csv**, **simplot.csv**, **simplot.fasta** and **small_seq.fasta** They are located in the **datasets** folder.
 
-If you only installed the Windows executable, download them from GitHub: [csv](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/datasets/simplot.csv) [fasta](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/datasets/simplot.fasta)
+If you only installed the Windows executable, download them from [this folder](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/datasets/) 
 
 ## 1. Use Cases
 
@@ -175,7 +175,7 @@ If you only installed the Windows executable, download them from GitHub: [csv](h
 <img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/green_climatic_tree.png" alt="A climatic tree" width="500"/>
 
 **Action:** Click the **Save** button.  
-**Expected Result:** A window titled "Savet Plot As" appears, allowing the user to select a location and file name to save the climatic tree as a PNG.
+**Expected Result:** A window titled "Save Plot As" appears, allowing the user to select a location and file name to save the climatic tree as a PNG.
 
 **Action:** Provide a file name and location, then click **Save**.
 **Expected Result:** The "Save Plot As" window disappears.
@@ -244,11 +244,9 @@ Click the **Climatic** button, then the **File Browser** button. Provide **simpl
 <img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/map.png" alt="Map screen" width="500"/>
 
 **Action:** Click the **Save** button.
-**Expected Result:** A screen with a list of headers is displayed, matching the image below. The results are saved in the project’s scrips/results directory.
+**Expected Result:** A screen with a list of headers is displayed, matching the image below. The results are saved as scrips/results/output.csv.
 
 <img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/save.png" alt="Save screen" width="500"/>
-
-TODO specify how to verify the contents of the results folder.
 
 ---
 
