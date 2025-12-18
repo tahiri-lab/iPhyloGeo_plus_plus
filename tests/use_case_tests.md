@@ -296,7 +296,7 @@ If you only installed the Windows executable, download them from [this folder](h
 <img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/map.png" alt="Map screen" width="500"/>
 
 **Action:** Click the **Save** button.
-**Expected Result:** Table is displayed. The results are saved as scripts/results/output.csv.
+**Expected Result:** A table is displayed. The results are saved as scripts/results/output.csv.
 
 ---
 
