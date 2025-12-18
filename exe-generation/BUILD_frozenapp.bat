@@ -25,5 +25,5 @@ echo.
 poetry run python setup.py build
 
 echo.
-echo === Build finished! If it succeeded, the EXE is in the "build\exe.win-amd64-3.11" folder ===
+echo === Build finished! If it succeeded, the EXE is in the "build\exe.win-amd64-3.12" folder ===
 pause
