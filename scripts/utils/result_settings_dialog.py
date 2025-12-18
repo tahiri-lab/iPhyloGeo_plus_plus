@@ -193,7 +193,7 @@ class ResultSettingsDialog(QDialog):
         update_yaml_param(Params, "params.yaml", "dist_threshold", metric_threshold)
 
     def resetValues(self):
-        self.comboBox_metrics.setProperty("value", Params.distance_method)
+        self.comboBox_metrics.setCurrentIndex(int(Params.distance_method))
         self.spinBox_metricThreshold.setProperty("value", Params.dist_threshold)
         self.spinBox_bootstrap.setProperty("value", Params.bootstrap_threshold)
 
