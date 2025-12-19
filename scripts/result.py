@@ -45,7 +45,7 @@ class Result:
         try:
             utils.filterResults(self.main.climatePage.climat.climaticTree.climaticTrees, self.main.geneticsPage.genetics.geneticAlignment.geneticTrees, df)
         except Exception:
-            show_error_dialog("The data given is not correct, make sure that you loaded the correct files in the previous steps.")
+            show_error_dialog("No results could be obtained for this combination of settings and input files.")
             return
         df_results = pd.read_csv("./results/output.csv")
         df_results["Name of species"] = df_results["Name of species"].str.replace("_", " ")
