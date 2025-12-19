@@ -5,6 +5,7 @@ from PyQt6.QtGui import QIntValidator
 from PyQt6.QtWidgets import QApplication, QComboBox, QDialog, QFormLayout, QLabel, QLineEdit, QPushButton
 from utils.file_caching import FileCaching
 from utils.my_dumper import update_yaml_param
+from utils.error_dialog import show_error_dialog
 
 try:
     Params.load_from_file("params.yaml")
@@ -133,6 +134,13 @@ class ParamDialog(QDialog):
         self.show()
 
     def submit(self):
+        # temporary fix for CLUSTALW not working and causing crashes, see
+        # https://github.com/tahiri-lab/iPhyloGeo_plus_plus/issues/30 to learn how it was crashing the app, or
+        # https://github.com/tahiri-lab/iPhyloGeo_plus_plus/issues/32 to contribute to a permanent fix
+        if (self.alignment_method_input.currentIndex() == 2):
+            show_error_dialog("CLUSTALW is unavailable in the current version of iPhyloGeo++. Please pick a different alignment method.")
+            return
+        # end of the temporary fix
         self.params = {
             "bootstrap_threshold": int(self.bootstrap_threshold_input.text()),
             "step_size": int(self.step_size_input.text()),
