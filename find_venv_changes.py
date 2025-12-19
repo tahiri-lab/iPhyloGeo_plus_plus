@@ -3,7 +3,7 @@ import time
 from datetime import datetime
 
 # The script will look for changes after this timestamp
-datetime_str = "2025-12-19 12:03:00"
+datetime_str = "2025-12-19 12:08:00"
 
 datetime_obj = datetime.strptime(datetime_str, "%Y-%m-%d %H:%M:%S")
 check_ti = datetime_obj.timestamp()
@@ -23,4 +23,10 @@ def print_if_later(path, check_ti):
         was created at {c_ti} and was "
               f"last modified at {m_ti}")
 
-print_if_later(".venv/.gitignore", check_ti)
+
+for root, _, files in os.walk(".venv"):
+    for file in files:
+        file_path = os.path.join(root, file)
+        print_if_later(file_path, check_ti)
+
+#print_if_later(".venv/.gitignore", check_ti)
