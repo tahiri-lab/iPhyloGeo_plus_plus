@@ -116,7 +116,7 @@ If you only installed the Windows executable, download them from [this folder](h
 
 ---
 
-### **1.3. Climate Button**  
+### **1.3. Climate Section**  
 ![image](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/readme-pic/Climatic-Button.png)
 
 **Action:** Click the **Climate** button.  
