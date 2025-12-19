@@ -49,7 +49,7 @@ If you only installed the Windows executable, download them from [this folder](h
 * Bootstrap Threshold: **0**
 * Step Size: **100**
 * Bootstrap Amount: **100**
-* Alignment Method: **CLUSTALW**
+* Alignment Method: **MUSCLE**
 * Fit Method: **Narrow-fit prevent elongation with gap when possible**
 * Tree Type: **FastTree application**
 * Rate Similarity: **90**
@@ -59,10 +59,95 @@ If you only installed the Windows executable, download them from [this folder](h
 **Action:** Click the **Save Settings** button.
 **Expected Result:** The popup window disappears.
 
-**Action**: Click the **Play** button.
-**Expected Result:** A console window and a loading dialog box may appear. Then, the genetic sequences are displayed as in the image below. Note that the first colomn of the sequence (to the immediate right of the species labels) should contain only instances of T (black letter T on a red background) and the last column of the sequence should contain both T (red background) and C (yellow background)
+**Action:** Click the **Play** button.
+**Expected Result:** A console window and a loading dialog box may appear. Then, the genetic sequences are displayed.
 
-TODO complete the test and add screenshots of the results once [issue 30](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/issues/30) is fixed.
+**Action:** Set the **Window size** to 35 and the **Starting position** to 1.
+**Expected Results:** If the settings have been changed, the display will update. The result should match the image below:
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/cumacea_alignment.png" alt="Genetic sequence alignment for Cumacea" width="500"/>
+
+### **1.2 Climatic Analysis**
+
+![image](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/readme-pic/Climatic-Button.png)
+
+**Action:** Click the **Climate** button.  
+**Expected Result:** The Climatic **Get Started** screen is displayed. On the left, the **File Browser** and **Clear** buttons are active while others are greyed out.
+
+**Action:** Set the Max Correlation to 1,0000 and the Min Variance to 0,0000.
+**Expected Result:** You are able to set the Max Correlation and Min Variance values.
+
+**Action:** Click the **File Browser** button.  
+**Expected Result:** A window opens allowing you to select a CSV file to upload the climatic data.
+
+**Action:** Browse to and select **cumacea.csv**.
+**Expected Result:** The contents of the file are displayed in the form of a two-dimensional table with 8 columns, with a map underneath, as in the image below.
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/cumacea_table_map.png" alt="A table and a map representing climatic data" width="500"/>
+
+**Action:** Click the **Statistics** button on the left panel.
+**Expected Result:** On the left, the title "Statistics" is displayed, with the subtitle "Generate your graph", three dropdown menus, "Insert X axis data", "Insert Y axis data" and "Choose plot type", and a green save button. On the right, a graph is displayed (it may take several seconds to load)
+
+**Action:** Select Correlation as the plot type.
+**Expected Result:** The Insert X axis data and Insert Y axis data dropdown menus are disabled. The graph displayed matches the image below.
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/correlation.png" alt="A correlation map" width="500"/>
+
+**Action:** Click the **Climatic Tree** button on the top menu or the left panel.  
+**Expected Result:** A climatic tree is displayed (it may take a few seconds), with a Gear/Settings button at the top left and a Save button at the top right. A "Variable to plot" dropdown menu is displayed to the right of the gear icon.
+
+**Action:** Click the **Gear/Settings** button.
+**Expected Result:** A popup window titled Preferences and matching the screenshot below is displayed.
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/climatic_tree_prefs.png" alt="A preferences window" width="150"/>
+
+**Action:** Select "black" as the Label color, "blue" as the Edge color, "Hierarchical Horizontal" as the Layout Option, and "Tree View" as the View type. Of the 4 checkboxes, check "Use leaf names" and leave the three others unchecked. Click **Save**.
+**Expected Result:** The Preferences window disappears. The tree may be updated.
+
+**Action:** Select "O2-saturation_ground" as the **Variable to plot**.
+**Expected Result:** The climatic tree is updated to match the screenshot below.
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/o2tree.png" alt="A climatic tree" width="500"/>
+
+### **1.4. Results Section**
+
+#### Test 1.4.1
+
+**Setup:**
+- Click the **Genetic** button, then the **File Browser** button. Provide **small_seq.fasta**.
+- Click the **Alignment**, button, then the **Play** button. Wait for the sequences to be displayed.
+- Click the **Climatic** button, then the **File Browser** button. Provide **geo_with_loc.csv**.
+
+**Test:**
+
+![image](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/readme-pic/Result-Button.png)
+
+**Action:** Click the **Results** button (immediately to the left of the Help button).  
+**Expected Result:** A blank screen with the title "Results" is displayed.
+
+**Action:** Click the **Settings** button.
+**Expected Result:** A dialog box titled Parameters appears, like on the image below. It contains three dropdown menus (Calculus method, Bootstrap threshold and Metric threshold). At the bottom are three buttons: Reset, OK and Cancel.
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/results_params.png" alt="Parameters dialog box" width="500"/>
+
+**Action:** Set the **Calculus method** to "Robinson and Foulds", the **Bootstrap threshold** to 0 and the **Metric threshold** to 50, then click **OK**.
+**Expected Result:** The dialog box disappears.
+
+**Action:** Click the **Statistics** button on the left panel.
+**Expected Result:** On the left are displayed the title "Statistics" and a phylogenetic tree. On the right are displayed a green Download button, dropdown menus titled "Condition" and "trees" and a graph for the selected condition.
+
+**Action:** Click the **Map** tab.
+**Expected Result:** A loading bar may appear. Then, a graph with a phylogenetic tree on the left and species coordinates on the right appears, matching the image below.
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/geoeuclidmap.png" alt="Map screen" width="500"/>
+
+**Action:** Click the **Save** button.
+**Expected Result:** A screen with a table is displayed. The results are saved as scripts/results/output.csv
+
+**Action:** Open scripts/results/output.csv using spreadsheet software.
+**Expected Result:** The file’s contents should match the table in iPhyloGeo++.
+
+TODO simplot and The_37
 
 ## 2. External Documentation
 
