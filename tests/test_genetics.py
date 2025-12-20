@@ -18,7 +18,7 @@ class TestFunctionalGenetic:
 
     def setup_class(self):
         self.base_dir = Path(__file__).resolve().parent.parent
-        self.exe_path = self.base_dir / "scripts" / "build" / "exe.win-amd64.311" / "iPhyloGeo++.exe" 
+        self.exe_path = self.base_dir / "scripts" / "build" / "exe.win-amd64.312" / "iPhyloGeo++.exe" 
         self.input_file = self.base_dir / "datasets" / "example" / "geo.csv"
         assert self.exe_path.exists(), f"Executable non trouvé : {self.exe_path}"
 
