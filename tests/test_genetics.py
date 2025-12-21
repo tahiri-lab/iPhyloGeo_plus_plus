@@ -35,4 +35,4 @@ class TestFunctionalGenetic:
         )
 
         # Checking that the process completed
-        assert result.returncode == 0, f"Execution error {result.stderr}"
+        assert result.returncode == 0, f"Execution error: return code {result.returncode} {result.stderr}"
