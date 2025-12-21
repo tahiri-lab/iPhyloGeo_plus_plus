@@ -15,7 +15,7 @@ from aphylogeo.utils import fasttree
 
 class TestFunctionalClimate:
     """
-    Tests fonctionnels de l'exécutable iPhyloGeo++ pour la partie climatique.
+    Testing the genetics section of iPhyloGeo++’s Windows executable.
     """
 
     def setup_class(self):
@@ -26,7 +26,7 @@ class TestFunctionalClimate:
 
     def test_climate_analysis_execution(self):
         """
-        Vérifier que l'exécutable s’exécute sans erreur et produit une sortie valide.
+        Checks that the executable can be run and produces a valid exit code.
         """
         result = subprocess.run(
             [str(self.exe_path), "--mode", "climate", "--input", str(self.input_file)],
