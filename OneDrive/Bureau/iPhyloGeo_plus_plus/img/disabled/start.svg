@@ -1,0 +1,7 @@
+<svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+  <!-- Cercle intérieur (juste le contour) -->
+  <circle cx="40" cy="40" r="36" fill="none" stroke="#009900" stroke-width="8" />
+  
+  <!-- Icône triangle (juste le contour) -->
+  <polygon points="32,24 32,56 56,40" fill="none" stroke="#009900" stroke-width="7.2" stroke-linejoin="round" />
+</svg>

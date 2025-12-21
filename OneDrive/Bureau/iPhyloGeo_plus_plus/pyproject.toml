@@ -1,0 +1,87 @@
+[project]
+name = "iPhyloGeo"
+requires-python = ">=3.10,<3.14"
+version = "1.0.0"
+dependencies = [
+    "pyqt6 (>=6.8.1)",
+    "numpy (==1.26.4)",
+    "pandas (>=2.2.3,<3.0.0)",
+    "plotly (>=6.0.0,<7.0.0)",
+    "pyqt6-webengine-qt6 (>=6.8.2,<7.0.0)",
+    "pyqt6-webengine (>=6.8.0,<7.0.0)",
+    "folium (>=0.19.4,<0.20.0)",
+    "bio (>=1.7.1,<2.0.0)",
+    "qtpy (>=2.4.3,<3.0.0)",
+    "toyplot (>=2.0.0,<3.0.0)",
+    "aphylogeo (>=1.0.0,<2.0.0)",
+    "seaborn (>=0.13.2,<0.14.0)",
+    "networkx (>=3.4.2,<4.0.0)",
+    "toytree (>=3.0.10,<4.0.0)",
+    "kaleido (==0.2.1)",
+    "pre-commit (>=4.1.0,<5.0.0)",
+    "cartopy (>=0.24.1,<0.25.0)",
+    "qtmodern (>=0.2.0,<0.3.0)",
+    "biopython (==1.85)",
+    "cx-freeze (>=8.4.1,<9.0.0)",
+    "pyside6 (>=6.10.1,<7.0.0)",
+]
+
+[tool.poetry]
+package-mode = false
+
+[tool.poetry.group.dev.dependencies]
+black = "^25.1.0"
+isort = "^6.0.0"
+ruff = "^0.9.7"
+
+[tool.ruff]
+line-length = 150
+select = ["E", "F", "W", "C", "N", "B", "Q", "A"]
+ignore = [
+    "E501",  # Ignore line length errors
+    "F401",  # Ignore unused imports
+    "N806",  # Ignore variable in function should be lowercase
+    "N802",  # Ignore function name should be lowercase
+    "N801",  # Ignore class name should be uppercase
+    "N803",  # Ignore argument name should be lowercase
+    "B007",  # Ignore loop control variable not used within loop body
+    "C901",  # Ignore function is too complex
+    "C408",  # Ignore unnecessary `dict` call
+]
+target-version = "py39"
+
+[tool.ruff.lint.per-file-ignores]
+"**/event_connector.py" = ["N815"]
+
+[tool.black]
+line-length = 150
+target-version = ['py39']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \\.git
+  | \\.hg
+  | \\.mypy_cache
+  | \\.tox
+  | \\.venv
+  | \\.idea
+  | \\iPhyloGeo_env
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 150
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+
+[tool.pyright]
+strictParameterNoneValue = false
+reportOptionalMemberAccess = false

@@ -1,0 +1,28 @@
+# Ignore compiled bytecode files
+**/__pycache__/*
+
+# Ignore virtual environment directory
+.venv
+venv/
+iPhyloGeo_env/
+iPhyloGeo++_env/
+iPhyloGeo_plus_plus_env/
+
+# Ignore results directory
+results/*
+
+# Ignore user config file
+scripts/utils/params.yaml
+scripts/utils/ClimaticGraphSettings.yaml
+
+scripts/Qt/__pycache__/loading_ui.cpython-310.pyc
+
+scripts/Qt/__pycache__/main_ui.cpython-310.pyc
+
+#Ignore build and dist (they are only used during EXE and MSI generation)
+/scripts/build/
+scripts/dist/
+
+#Ignore Jupyter checkpoints
+*checkpoint.ipynb
+*checkpoint.md

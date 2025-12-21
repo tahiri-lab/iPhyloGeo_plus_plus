@@ -1,0 +1,94 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+!define RECTANGLE class
+
+' Define the QtWidgets.QMainWindow class
+RECTANGLE QtWidgets.QMainWindow {
+}
+
+!pragma useIntermediatePackages false
+
+' Define the iPhylogeo_plus_plus.scripts.UiMainWindow class with its methods
+RECTANGLE iPhylogeo_plus_plus.scripts.UiMainWindow {
+    +populateMap(lat, long)
+    +showHomePage()
+    +showGenDatPage()
+    +showClimDatPage()
+    +showResultsPage()
+    +showSequencePage()
+    +showFilteredResults()
+    +toggleDarkMode()
+    +clearGen()
+    +clearClim()
+    +clearResult()
+    +clearResultStat()
+}
+
+' Define the QtWidgets.QDialog class
+RECTANGLE QtWidgets.QDialog {
+}
+
+' Define the iPhylogeo_plus_plus.scripts.utils.PreferenceDialog.PreferencesDialog class with its methods
+RECTANGLE iPhylogeo_plus_plus.scripts.utils.PreferenceDialog.PreferencesDialog {
+    +setup_ui()
+    +update_preferences(preferences: dict)
+    +get_preferences() : dict
+}
+
+' Define the iPhylogeo_plus_plus.scripts.utils.help.UiHowToUse class with its methods
+RECTANGLE iPhylogeo_plus_plus.scripts.utils.help.UiHowToUse {
+    +initUI()
+}
+
+' Define the iPhylogeo_plus_plus.scripts.utils.settings.Settings class with its methods
+RECTANGLE iPhylogeo_plus_plus.scripts.utils.settings.Settings {
+    +setupUi(Dialog: QDialog)
+    +saveData()
+    +resetValues()
+    +apply_styles(Dialog: QDialog)
+}
+
+' Define the iPhylogeo_plus_plus.scripts.utils.genetic_params_dialog.ParamDialog class with its methods
+RECTANGLE iPhylogeo_plus_plus.scripts.utils.genetic_params_dialog.ParamDialog {
+    +initUI()
+    +submit()
+}
+
+' Define the QtWidgets.QLabel class
+RECTANGLE QtWidgets.QLabel {
+}
+
+' Define the iPhylogeo_plus_plus.scripts.utils.settings.HoverLabel class with its methods
+RECTANGLE iPhylogeo_plus_plus.scripts.utils.settings.HoverLabel {
+    +enterEvent(event: QEvent)
+    +leaveEvent(event: QEvent)
+}
+
+' Define the aphylogeo.params.Params class with its methods
+RECTANGLE aphylogeo.params.Params {
+    +PARAMETER_KEYS: dict
+    +load_from_file(params_file: str)
+    +load_default_param()
+    +update_from_dict(params_content: dict)
+    +validate_and_set_params(params_dict: dict)
+}
+
+' Define generalization relationships
+QtWidgets.QMainWindow <|-- UiMainWindow
+QtWidgets.QDialog <|-- ParamDialog
+QtWidgets.QDialog <|-[thickness=2]- PreferencesDialog
+QtWidgets.QMainWindow <|-- UiHowToUse
+QtWidgets.QLabel <|-- HoverLabel
+
+' Define dependency relationships
+UiMainWindow ..> ParamDialog: <<call>>
+UiMainWindow ..> PreferencesDialog: <<call>>
+UiMainWindow ..> UiHowToUse: <<call>>
+UiMainWindow ..> Settings : <<use>>
+Settings ..> HoverLabel : <<use>>
+Settings ..> Params : <<use>>
+Settings .up.> QtWidgets.QDialog : <<use>>
+QtWidgets.QEvent <.. HoverLabel : <<use>>
+
+@enduml
