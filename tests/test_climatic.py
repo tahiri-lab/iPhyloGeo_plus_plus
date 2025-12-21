@@ -1,3 +1,6 @@
+# This basic test of the iPhyloGeo++ executable must be performed on a Windows machine after running
+# either exe-generation\BUILD_frozenapp.bat or exe-generation\BUILDwMSI_frozenapp.
+
 import os
 import subprocess
 from pathlib import Path
