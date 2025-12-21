@@ -20,7 +20,7 @@ If you installed the entire project by cloning the repository or copying the ent
 
 If you only installed the Windows executable, download them from [this folder](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/datasets/) 
 
-## Tests
+## 1 Tests
 
 ### **1.1 Genetic Analysis**
 
@@ -29,7 +29,7 @@ If you only installed the Windows executable, download them from [this folder](h
 **Action:** Click the **Genetic** button.  
 **Expected Result:** The Genetic **Get Started** screen is displayed. On the left, the **File Browser** and **Clear** buttons are active while others are greyed out.
 
-<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/genetic_screen.png" alt="Home screen" width="500"/>
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/genetic_screen.png" alt="Genetic Get Started screen" width="500"/>
 
 **Action:** Click the **File Browser** button.
 **Expected Result:** A window opens allowing you to select a FASTA file to upload the genetic data.
@@ -68,6 +68,8 @@ If you only installed the Windows executable, download them from [this folder](h
 <img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/cumacea_alignment.png" alt="Genetic sequence alignment for Cumacea" width="500"/>
 
 ### **1.2 Climatic Analysis**
+
+#### Test 1.2.1
 
 ![image](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/readme-pic/Climatic-Button.png)
 
@@ -109,9 +111,49 @@ If you only installed the Windows executable, download them from [this folder](h
 
 <img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/o2tree.png" alt="A climatic tree" width="500"/>
 
-### **1.4. Results Section**
+#### Test 1.2.2
 
-#### Test 1.4.1
+![image](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/readme-pic/Climatic-Button.png)
+
+**Action:** Click the **Climate** button.  
+**Expected Result:** The Climatic **Get Started** screen is displayed. On the left, the **File Browser** and **Clear** buttons are active while others are greyed out.
+
+**Action:** Set the Max Correlation to 0,8000 and the Min Variance to 0,0001.
+**Expected Result:** You are able to set the Max Correlation and Min Variance values.
+
+**Action:** Click the **File Browser** button.  
+**Expected Result:** A window opens allowing you to select a CSV file to upload the climatic data.
+
+**Action:** Browse to and select **The_37_climate.csv**.
+**Expected Result:** The contents of the file are displayed in the form of a two-dimensional table with 6 columns, with a map underneath, as in the image below.
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/37climatic_data.png" alt="A table and a map representing climatic data" width="500"/>
+
+**Action:** Click the **Statistics** button on the left panel.
+**Expected Result:** On the left, the title "Statistics" is displayed, with the subtitle "Generate your graph", three dropdown menus, "Insert X axis data", "Insert Y axis data" and "Choose plot type", and a green save button. On the right, a graph is displayed (it may take several seconds to load)
+
+**Action:** Select PRECTOTCORR for the X axis, ALLSKY_SFC_SW_DWN for the X axis and Scatter Plot as the plot type.
+**Expected Result:** The graph displayed matches the image below.
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/37climatic_stats.png" alt="A scatter plot from the Climatic section" width="500"/>
+
+**Action:** Click the **Climatic Tree** button on the top menu or the left panel.  
+**Expected Result:** A climatic tree is displayed (it may take a few seconds), with a Gear/Settings button at the top left and a Save button at the top right. A "Variable to plot" dropdown menu is displayed to the right of the gear icon.
+
+**Action:** Click the **Gear/Settings** button.
+**Expected Result:** A popup window titled Preferences is displayed.
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/climatic_tree_prefs.png" alt="A preferences window" width="150"/>
+
+**Action:** Select "black" as the Label color, "red" as the Edge color, "Radial" as the Layout Option, and "Tree View" as the View type. Check the three first checkboxes, leaving Show branch lengths unchecked. Click **Save**.
+**Expected Result:** The Preferences window disappears. The tree may be updated.
+
+**Action:** Select "T2M" as the **Variable to plot**.
+**Expected Result:** The climatic tree is updated to match the screenshot below.
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/37climatic_tree.png" alt="A climatic tree" width="500"/>
+
+### **1.3 Results Section**
 
 **Setup:**
 - Click the **Genetic** button, then the **File Browser** button. Provide **small_seq.fasta**.
@@ -147,9 +189,21 @@ If you only installed the Windows executable, download them from [this folder](h
 **Action:** Open scripts/results/output.csv using spreadsheet software.
 **Expected Result:** The file’s contents should match the table in iPhyloGeo++.
 
-TODO simplot and The_37
+### **1.4 Full Pipeline**
 
-## 2. External Documentation
+Tests 1.4.1, 1.4.2 and 1.4.3 should be performed in succession as 1.4.1 and 1.4.2 are the setup for 1.4.3.
+
+#### 1.4.1 Climatic Section
+
+TODO
+
+#### 1.4.2 Genetic Section
+
+TODO
+
+TODO simplot
+
+## 2 External Documentation
 
 Additional test references are available on GitHub:
 
