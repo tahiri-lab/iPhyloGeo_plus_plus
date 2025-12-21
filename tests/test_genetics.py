@@ -23,7 +23,7 @@ class TestFunctionalGenetic:
         self.base_dir = Path(__file__).resolve().parent.parent
         self.exe_path = self.base_dir / "scripts" / "build" / "exe.win-amd64-3.12" / "iPhyloGeo++.exe" 
         self.input_file = self.base_dir / "datasets" / "small_seq.fasta"
-        assert self.exe_path.exists(), f"Executable not found : {self.exe_path}"
+        assert self.exe_path.exists(), f"Executable not found: {self.exe_path}"
 
     def test_genetic_analysis_execution(self):
         """

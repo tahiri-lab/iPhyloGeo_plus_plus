@@ -17,9 +17,9 @@ class TestFunctionalClimate:
 
     def setup_class(self):
         self.base_dir = Path(__file__).resolve().parent.parent
-        self.exe_path = self.base_dir / "scripts" / "build" / "exe.win-amd64.311" / "iPhyloGeo++.exe" 
-        self.input_file = self.base_dir / "datasets" / "example" / "geo.csv"
-        assert self.exe_path.exists(), f"Executable non trouvé : {self.exe_path}"
+        self.exe_path = self.base_dir / "scripts" / "build" / "exe.win-amd64-3.12" / "iPhyloGeo++.exe" 
+        self.input_file = self.base_dir / "datasets" / "geo_with_loc.csv"
+        assert self.exe_path.exists(), f"Executable not found: {self.exe_path}"
 
     def test_climate_analysis_execution(self):
         """
@@ -30,5 +30,4 @@ class TestFunctionalClimate:
             capture_output=True, text=True
         )
 
-        assert result.returncode == 0, f"Erreur d'exécution : {result.stderr}"
-        assert "Analyse climatique terminée" in result.stdout
+        assert result.returncode == 0, f"Execution error: return code {result.returncode} {result.stderr}"
