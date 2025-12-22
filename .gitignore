@@ -20,7 +20,7 @@ scripts/Qt/__pycache__/loading_ui.cpython-310.pyc
 scripts/Qt/__pycache__/main_ui.cpython-310.pyc
 
 #Ignore build and dist (they are only used during EXE and MSI generation)
-/scripts/build/
+scripts/build/
 scripts/dist/
 
 #Ignore Jupyter checkpoints

@@ -4,13 +4,13 @@
 
 ### Install or Update iPhyloGeo++
 
-Make sure you have the latest version of iPhyloGeo++ installed. Follow the appropriate install guide if necessary: [Windows](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/3.2-Installation-(Windows)) [macOS](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/3.1-Installation-(MAC)) [Linux](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/3.3-Installation-(Linux)
+Make sure you have the latest version of iPhyloGeo++ installed. Follow the appropriate install guide if necessary: [Windows](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/3.2-Installation-(Windows)) [macOS](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/3.1-Installation-(MAC)) [Linux](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/wiki/3.3-Installation-(Linux))
 
 ### Get the Dataset
 
-If you installed the entire project by cloning the repository or copying the entire source code, you already have **simplot.csv** and **simplot.fasta**. They are located in the **datasets** folder.
+If you installed the entire project by cloning the repository or copying the entire source code, you already have **geo_with_loc.csv**, **simplot.csv**, **simplot.fasta** and **small_seq.fasta** They are located in the **datasets** folder.
 
-If you only installed the Windows executable, download them from GitHub: [csv](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/datasets/simplot.csv) [fasta](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/datasets/simplot.fasta)
+If you only installed the Windows executable, download them from [this folder](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/datasets/) 
 
 ## 1. Use Cases
 
@@ -116,7 +116,7 @@ If you only installed the Windows executable, download them from GitHub: [csv](h
 
 ---
 
-### **1.3. Climate Button**  
+### **1.3. Climate Section**  
 ![image](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/readme-pic/Climatic-Button.png)
 
 **Action:** Click the **Climate** button.  
@@ -175,7 +175,7 @@ If you only installed the Windows executable, download them from GitHub: [csv](h
 <img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/green_climatic_tree.png" alt="A climatic tree" width="500"/>
 
 **Action:** Click the **Save** button.  
-**Expected Result:** A window titled "Savet Plot As" appears, allowing the user to select a location and file name to save the climatic tree as a PNG.
+**Expected Result:** A window titled "Save Plot As" appears, allowing the user to select a location and file name to save the climatic tree as a PNG.
 
 **Action:** Provide a file name and location, then click **Save**.
 **Expected Result:** The "Save Plot As" window disappears.
@@ -187,15 +187,67 @@ If you only installed the Windows executable, download them from GitHub: [csv](h
 
 ### **1.4. Results Section**
 
-#### Setup
+#### Test 1.4.1
 
-Click the **Genetic** button, then the **File Browser** button. Provide **simplot.fasta**.
+**Setup:**
+- Click the **Genetic** button, then the **File Browser** button. Provide **small_seq.fasta**.
+- Click the **Alignment**, button, then the **Play** button. Wait for the sequences to be displayed.
+- Click the **Climatic** button, then the **File Browser** button. Provide **geo_with_loc.csv**.
 
-Click the **Alignment**, button, then the **Play** button. Wait for the sequences to be displayed.
+![image](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/readme-pic/Result-Button.png)
 
-Click the **Climatic** button, then the **File Browser** button. Provide **simplot.csv**.
+**Action:** Click the **Results** button (immediately to the left of the Help button).  
+**Expected Result:** A blank screen with the title "Results" is displayed.
 
-#### Test
+**Action:** Click the **Settings** button.
+**Expected Result:** A dialog box titled Parameters appears, like on the image below. It contains three dropdown menus (Calculus method, Bootstrap threshold and Metric threshold). At the bottom are three buttons: Reset, OK and Cancel.
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/results_params.png" alt="Parameters dialog box" width="500"/>
+
+**Action:** Set the **Calculus method** to "Least square", the **Bootstrap threshold** to 0 and the **Metric threshold** to 60, then click **OK**.
+**Expected Result:** The dialog box disappears.
+
+**Action:** Click the **Settings** button.
+**Expected Result:** The dialog box reappears, with values "Least square", 0 and 60 displayed.
+
+**Action:** Click the **Cancel** button.
+**Expected Result:** The dialog box disappears.
+
+**Action:** Click the **Statistics** tab (between Results and Map).
+**Expected Result:** On the left are displayed the title "Statistics" and a phylogenetic tree. On the right are displayed a green Download button, dropdown menus titled "Condition" and "trees" and a graph for the selected condition.
+
+**Action:** Set "WS10M" as the Condition and "540 nt 559 nt" as the trees value.
+**Expected Result:** The graph and tree will update, matching the image below.
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/smallseqresults.png" alt="Statistics screen" width="500"/>
+
+**Action:** Click the **Map** tab.
+**Expected Result:** A loading bar may appear. Then, a graph with a phylogenetic tree on the left and species coordinates on the right appears, matching the image below.
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/geomap.png" alt="Map screen" width="500"/>
+
+**Action:** Click the **Settings** button.
+**Expected Result:** The dialog box reappears, with values "Least square", 0 and 60 displayed.
+
+**Action:** Set the **Calculus method** to "Euclidean distance", then click **OK**.
+**Expected Result:** The tree displayed will update, now matching the image below (note how the four lowest powers are all linked together).
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/geoeuclidmap.png" alt="Map screen" width="500"/>
+
+**Action:** Click the **Save** button.
+**Expected Result:** A screen with a table is displayed, matching the image below. The results are saved as scripts/results/output.csv.
+
+<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/results_table.png" alt="Results table" width="500"/>
+
+**Action:** Open scripts/results/output.csv using spreadsheet software.
+**Expected Result:** The file’s contents should match the table in iPhyloGeo++.
+
+#### Test 1.4.2
+
+**Setup:**
+- Click the **Genetic** button, then the **File Browser** button. Provide **simplot.fasta**.
+- Click the **Alignment**, button, then the **Play** button. Wait for the sequences to be displayed.
+- Click the **Climatic** button, then the **File Browser** button. Provide **simplot.csv**.
 
 ![image](https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/readme-pic/Result-Button.png)
 
@@ -244,11 +296,7 @@ Click the **Climatic** button, then the **File Browser** button. Provide **simpl
 <img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/map.png" alt="Map screen" width="500"/>
 
 **Action:** Click the **Save** button.
-**Expected Result:** A screen with a list of headers is displayed, matching the image below. The results are saved in the project’s scrips/results directory.
-
-<img src="https://github.com/tahiri-lab/iPhyloGeo_plus_plus/blob/main/img/usecase-pic/save.png" alt="Save screen" width="500"/>
-
-TODO specify how to verify the contents of the results folder.
+**Expected Result:** A table is displayed. The results are saved as scripts/results/output.csv.
 
 ---
 
