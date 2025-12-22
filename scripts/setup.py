@@ -14,11 +14,14 @@ bdist_msi_options = {
     'initial_target_dir': r'[ProgramFilesFolder]\%s\%s' % (dev_name, app_name),
     }
 
-# Ensure icons from the img\disabled directory are included.
-to_include = ["climatic", "climaticData", "download", "genetic", "result", "sequence", "setbutton", "settings", "start", "statistics", "submit", "tree"]
+# Ensure icons from the img\disabled and img\other directories are included.
+to_include_disabled = ["climatic", "climaticData", "download", "genetic", "result", "sequence", "setbutton", "settings", "start", "statistics", "submit", "tree"]
+to_include_other = ["bootstrap", "calculus", "final", "metric"]
 includefiles = []
-for image_name in to_include:
+for image_name in to_include_disabled:
     includefiles.append((f'..\img\disabled\{image_name}.svg', f'img\disabled\{image_name}.svg'))
+for image_name in to_include_other:
+    includefiles.append((f'..\img\other\{image_name}.png', f'img\other\{image_name}.png'))
 
 build_options = {'packages': ['ete3', 'seaborn', 'matplotlib', 'numpy'], 'excludes': [], 'include_files':includefiles, 'optimize':1}
 
