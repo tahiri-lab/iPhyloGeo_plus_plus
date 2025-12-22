@@ -1,8 +1,0 @@
-{
-  "python.analysis.autoImportCompletions": true,
-  "[python]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "charliermarsh.ruff"
-  },
-  "isort.args": ["--profile", "black", "--line-length", "150"]
-}

@@ -1,3 +1,0 @@
-from .climate_page_controller import ClimatePageController
-from .genetics_page_controller import GeneticPageController
-from .result_page_controller import ResultPageController
