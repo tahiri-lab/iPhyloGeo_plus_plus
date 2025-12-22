@@ -20,7 +20,7 @@ includefiles = []
 for image_name in to_include:
     includefiles.append((f'..\img\disabled\{image_name}.svg', f'img\disabled\{image_name}.svg'))
 
-build_options = {'packages': [], 'excludes': [], 'include_files':includefiles, 'optimize':1}
+build_options = {'packages': ['ete3', 'seaborn', 'matplotlib', 'numpy'], 'excludes': [], 'include_files':includefiles, 'optimize':1}
 
 base = 'Win32GUI'
 
