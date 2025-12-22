@@ -15,15 +15,12 @@ bdist_msi_options = {
     }
 
 # Ensure icons from the img\disabled directory are included.
-to_include_disabled = ["climatic", "climaticData", "download", "genetic", "result", "sequence", "setbutton", "settings", "start", "statistics", "submit", "tree"]
-to_include_other = ["bootstrap", "calculus", "final", "metric"]
+to_include = ["climatic", "climaticData", "download", "genetic", "result", "sequence", "setbutton", "settings", "start", "statistics", "submit", "tree"]
 includefiles = []
-for image_name in to_include_disabled:
+for image_name in to_include:
     includefiles.append((f'..\img\disabled\{image_name}.svg', f'img\disabled\{image_name}.svg'))
-for image_name in to_include_other:
-    includefiles.append((f'..\img\other\{image_name}.png', f'img\other\{image_name}.png'))
 
-build_options = {'packages': [], 'excludes': [], 'include_files':includefiles, 'optimize':1}
+build_options = {'packages': ['ete3', 'seaborn', 'matplotlib', 'numpy'], 'excludes': [], 'include_files':includefiles, 'optimize':1}
 
 base = 'Win32GUI'
 
